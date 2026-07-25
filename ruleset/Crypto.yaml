@@ -1,0 +1,6 @@
+# NAME: CryptoWeb
+# AUTHOR: self-maintained
+# PURPOSE: Minimal routing for selected crypto trading web applications.
+payload:
+  - DOMAIN-SUFFIX,gmgn.ai
+  - DOMAIN-SUFFIX,axiom.trade

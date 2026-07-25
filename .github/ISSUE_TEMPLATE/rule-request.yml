@@ -1,0 +1,54 @@
+name: Rule request / 规则请求
+description: Propose a mainland or international game routing rule / 建议大陆或国际游戏分流规则
+title: "[Rule] "
+labels:
+  - rule-request
+body:
+  - type: input
+    id: game
+    attributes:
+      label: Game or company / 游戏或公司
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: Proposed rule / 建议规则
+      placeholder: DOMAIN-SUFFIX,example.cn
+    validations:
+      required: true
+  - type: dropdown
+    id: route
+    attributes:
+      label: Intended route / 目标分流
+      options:
+        - Mainland DIRECT / 中国大陆直连
+        - International proxy / 国际服代理
+    validations:
+      required: true
+  - type: input
+    id: evidence
+    attributes:
+      label: Official evidence URL / 官方证据 URL
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: Runtime observation / 运行时观察
+      description: Startup, login, update, match, DNS/SNI, IP/ASN, client region / 启动、登录、更新、对局、DNS/SNI、IP/ASN、客户端区服
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: Shared-domain and international risk / 共享域名与国际服风险
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy / 隐私
+      options:
+        - label: I removed credentials, account identifiers, signed URLs, and personal traffic data. / 我已移除凭证、账号标识、签名 URL 和个人流量数据。
+          required: true

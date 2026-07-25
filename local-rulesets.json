@@ -1,0 +1,14 @@
+{
+  "CryptoWeb": {
+    "path": "ruleset/Crypto.yaml",
+    "behavior": "classical"
+  },
+  "ChinaGaming": {
+    "path": "ruleset/ChinaGaming.yaml",
+    "behavior": "classical"
+  },
+  "InternationalGaming": {
+    "path": "ruleset/InternationalGaming.yaml",
+    "behavior": "classical"
+  }
+}

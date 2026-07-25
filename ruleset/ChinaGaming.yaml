@@ -1,0 +1,122 @@
+# NAME: ChinaGaming
+# AUTHOR: self-maintained
+# PURPOSE: High-priority DIRECT rules for mainland China game services.
+# AUDIT: research/ChinaGaming-audit.md
+payload:
+  # Tencent / WeGame / Delta Force mainland
+  - DOMAIN-SUFFIX,df.qq.com
+  - DOMAIN-SUFFIX,repo.df.qq.com
+  - DOMAIN-SUFFIX,game.qq.com
+  - DOMAIN-SUFFIX,wegame.com
+  - DOMAIN-SUFFIX,wegame.com.cn
+  - DOMAIN,game.gtimg.cn
+  - DOMAIN-SUFFIX,wegame.gtimg.com
+
+  # NetEase mainland games and distribution
+  - DOMAIN-SUFFIX,game.163.com
+  - DOMAIN-SUFFIX,n.163.com
+  - DOMAIN-SUFFIX,xyq.163.com
+  - DOMAIN-SUFFIX,id5.163.com
+  - DOMAIN-SUFFIX,party.163.com
+  - DOMAIN-SUFFIX,yjwujian.cn
+  - DOMAIN-SUFFIX,gdl.netease.com
+  - DOMAIN-SUFFIX,gph.netease.com
+  - DOMAIN-SUFFIX,res.netease.com
+  - DOMAIN-SUFFIX,adl.netease.com
+  - DOMAIN-SUFFIX,aigame.netease.com
+
+  # miHoYo mainland only
+  - DOMAIN-SUFFIX,mihoyo.com
+  - DOMAIN-SUFFIX,mhystatic.com
+  - DOMAIN-SUFFIX,miyoushe.com
+  - DOMAIN-SUFFIX,yuanshen.com
+  - DOMAIN-SUFFIX,bh3.com
+  - DOMAIN-SUFFIX,bhsr.com
+  - DOMAIN-SUFFIX,juequling.com
+  - DOMAIN-SUFFIX,mihoyocloud.com
+  - DOMAIN-SUFFIX,mhyurl.cn
+  - DOMAIN,fastcdn.hoyoverse.com
+
+  # Perfect World / Valve China / Kingsoft-Seasun
+  - DOMAIN-SUFFIX,dota2.com.cn
+  - DOMAIN-SUFFIX,csgo.com.cn
+  - DOMAIN-SUFFIX,pwesports.cn
+  - DOMAIN-SUFFIX,arcgames.cn
+  - DOMAIN-SUFFIX,wanmei.com
+  - DOMAIN-SUFFIX,xoyo.com
+  - DOMAIN-SUFFIX,xoyocdn.com
+  - DOMAIN-SUFFIX,seasungames.cn
+
+  # Narrow Steam/Valve China endpoints. Intentionally excludes the broad
+  # steamcontent.com, steamserver.net and steamusercontent.com suffixes.
+  - DOMAIN,csgo.wmsj.cn
+  - DOMAIN,dota2.wmsj.cn
+  - DOMAIN,dl.steam.clngaa.com
+  - DOMAIN,dl.steam.ksyna.com
+  - DOMAIN,st.dl.bscstorage.net
+  - DOMAIN,st.dl.eccdnx.com
+  - DOMAIN,st.dl.pinyuncloud.com
+  - DOMAIN,steampipe.steamcontent.tnkjmec.com
+  - DOMAIN,steampowered.com.8686c.com
+  - DOMAIN,steamstatic.com.8686c.com
+  - DOMAIN,wmsjsteam.com
+  - DOMAIN,xz.pphimalayanrt.com
+  - DOMAIN-SUFFIX,steamchina.com
+
+  # ByteDance/Nuverse and Lilith mainland
+  - DOMAIN-SUFFIX,nvsgames.cn
+  - DOMAIN-SUFFIX,lilith.com
+  - DOMAIN-SUFFIX,lilithgame.com
+  - DOMAIN-SUFFIX,lilithgames.com
+  - DOMAIN-SUFFIX,lilithcdn.com
+
+  # Kuro mainland
+  - DOMAIN-SUFFIX,kurogame.com
+  - DOMAIN-SUFFIX,kurogames.com
+  - DOMAIN-SUFFIX,aki-game.com
+  - DOMAIN-SUFFIX,aki-game.net
+  - DOMAIN-SUFFIX,aki-game2.com
+  - DOMAIN-SUFFIX,aki-game2.net
+
+  # Hypergryph mainland
+  - DOMAIN-SUFFIX,hypergryph.com
+  - DOMAIN-SUFFIX,hypergryph.net
+  - DOMAIN-SUFFIX,hycdn.com
+  - DOMAIN-SUFFIX,hycdn.cn
+  - DOMAIN-SUFFIX,skland.com
+
+  # PaperGames mainland
+  - DOMAIN-SUFFIX,papegames.com
+  - DOMAIN-SUFFIX,papegames.cn
+  - DOMAIN-SUFFIX,nuanpaper.com
+
+  # Bilibili games / Yoozoo / 37 / 4399
+  - DOMAIN-SUFFIX,game.bilibili.com
+  - DOMAIN-SUFFIX,biligame.com
+  - DOMAIN-SUFFIX,bilibiligame.com
+  - DOMAIN-SUFFIX,youzu.com
+  - DOMAIN-SUFFIX,37.com
+  - DOMAIN-SUFFIX,37wan.net
+  - DOMAIN-SUFFIX,37wanimg.com
+  - DOMAIN-SUFFIX,wanyouxi7.com
+  - DOMAIN-SUFFIX,4399.cn
+  - DOMAIN-SUFFIX,4399.com
+  - DOMAIN-SUFFIX,my4399.com
+  - DOMAIN-SUFFIX,3839.com
+  - DOMAIN-SUFFIX,yxhimg.com
+
+  # Mainland game platforms and compliance APIs
+  - DOMAIN-SUFFIX,taptap.cn
+  - DOMAIN-SUFFIX,tapapis.cn
+  - DOMAIN,poster-api.xd.cn
+  - DOMAIN-SUFFIX,9game.cn
+  - DOMAIN-SUFFIX,gamecenter.vivo.com.cn
+  - DOMAIN-SUFFIX,swsdl.vivo.com.cn
+  - DOMAIN,api.wlc.nppa.gov.cn
+  - DOMAIN,api2.wlc.nppa.gov.cn
+
+  # Other clearly mainland game services
+  - DOMAIN-SUFFIX,leagueoflegends.cn
+  - DOMAIN-SUFFIX,lpl.com.cn
+  - DOMAIN-SUFFIX,yostar.cn
+  - DOMAIN-SUFFIX,bluearchive-cn.com

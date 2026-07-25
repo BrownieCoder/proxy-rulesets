@@ -1,0 +1,50 @@
+rules:
+  - RULE-SET,Privacy,REJECT
+  - RULE-SET,Hijacking,🚫 Hijacking
+  # Exact mainland override required by the HoYoverse international suffix below.
+  - DOMAIN,fastcdn.hoyoverse.com,DIRECT
+  - RULE-SET,InternationalGaming,🧭 Final
+  - RULE-SET,ChinaGaming,DIRECT
+  - RULE-SET,Apple,🍎 Apple
+  - DOMAIN-SUFFIX,tidal.com,DIRECT
+  - DOMAIN-SUFFIX,identity.apple.com,Proxy
+  - DOMAIN-SUFFIX,akadns.net,Proxy
+  - DOMAIN-SUFFIX,push.apple.com,Proxy
+  - DOMAIN-SUFFIX,apple.com.edgekey.net,Proxy
+  - RULE-SET,PayPal,💳 Payment
+  - RULE-SET,Stripe,💳 Payment
+  - RULE-SET,Crypto,🪙 Crypto
+  - RULE-SET,CryptoWeb,🪙 Crypto
+  - RULE-SET,Telegram,✈️ Telegram
+  - RULE-SET,Twitter,🕊️ Twitter
+  - RULE-SET,Discord,👾 Discord
+  - RULE-SET,YouTube,📼 YouTube
+  - RULE-SET,Bilibili,📺 Bilibili
+  - RULE-SET,TikTok,🎵 Tiktok
+  - RULE-SET,Disney,🏰 Disney
+  - RULE-SET,Netflix,🎞️ Netflix
+  # Safe mainland Steam endpoints already match ChinaGaming above. Keep the
+  # broader upstream SteamCN suffixes in the user's Steam policy.
+  - RULE-SET,SteamCN,🕹️ Steam
+  - RULE-SET,Steam,🕹️ Steam
+  - RULE-SET,OpenAI,🤖 OpenAI
+  - RULE-SET,Gemini,🤖 OpenAI
+  - RULE-SET,Claude,🧠 Claude
+  - DOMAIN,api.anthropic.com,🧠 Claude
+  - DOMAIN,mcp-proxy.anthropic.com,🧠 Claude
+  - DOMAIN,platform.claude.com,🧠 Claude
+  - DOMAIN-SUFFIX,anthropic.com,🧠 Claude
+  - DOMAIN-SUFFIX,claude.ai,🧠 Claude
+  - DOMAIN-SUFFIX,claude.com,🧠 Claude
+  - DOMAIN-SUFFIX,claudeusercontent.com,🧠 Claude
+  - DOMAIN-SUFFIX,modelcontextprotocol.io,🧠 Claude
+  - DOMAIN-SUFFIX,clau.de,🧠 Claude
+  - DOMAIN-SUFFIX,datadoghq.com,🧠 Claude
+  - RULE-SET,Google,🔎 Google
+  - RULE-SET,Microsoft,🪟 Microsoft
+  - RULE-SET,GlobalMedia,🛰️ International-Global
+  # Raw-IP/UDP game servers cannot be covered by domain scraping.
+  - GEOIP,CN,DIRECT,no-resolve
+  - RULE-SET,ChinaMax,🇨🇳 China-Global
+  - RULE-SET,Lan,DIRECT
+  - MATCH,🧭 Final

@@ -1,0 +1,35 @@
+# NAME: InternationalGaming
+# AUTHOR: self-maintained
+# PURPOSE: Keep known international game services on the final US/proxy route.
+# AUDIT: research/ChinaGaming-audit.md
+payload:
+  # HoYoverse international (fastcdn.hoyoverse.com is overridden by ChinaGaming)
+  - DOMAIN-SUFFIX,hoyoverse.com
+  - DOMAIN-SUFFIX,hoyolab.com
+  - DOMAIN-SUFFIX,genshinimpact.com
+  - DOMAIN-SUFFIX,honkaiimpact3.com
+  - DOMAIN-SUFFIX,honkaistarrail.com
+  - DOMAIN-SUFFIX,zenlesszonezero.com
+  - DOMAIN-SUFFIX,starrails.com
+  - DOMAIN-SUFFIX,hoyo.link
+
+  # International publishing and game services
+  - DOMAIN-SUFFIX,kurogames-global.com
+  - DOMAIN-SUFFIX,infoldgames.com
+  - DOMAIN-SUFFIX,gryphline.com
+  - DOMAIN-SUFFIX,nvsgames.com
+  - DOMAIN-SUFFIX,farlightgames.com
+  - DOMAIN-SUFFIX,marvelsnap.com
+  - DOMAIN-SUFFIX,narakathegame.com
+  - DOMAIN-SUFFIX,amazingseasun.com
+  - DOMAIN-SUFFIX,seasungames.com
+  - DOMAIN-SUFFIX,bilibili.tv
+  - DOMAIN,global.yoozoo.com
+  - DOMAIN,singapore.yoozoo.com
+  - DOMAIN,japan.yoozoo.com
+  - DOMAIN-SUFFIX,37games.com
+
+  # SDK endpoints explicitly documented as overseas/global
+  - DOMAIN-SUFFIX,tapapis.com
+  - DOMAIN,voice-intl.gmertc.com
+  - DOMAIN,sg.global.gme.qcloud.com

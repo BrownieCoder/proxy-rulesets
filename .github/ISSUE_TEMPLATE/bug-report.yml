@@ -1,0 +1,40 @@
+name: Routing bug / 分流问题
+description: Report an incorrect or broken route / 报告错误或失效分流
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: input
+    id: client
+    attributes:
+      label: Client and version / 客户端及版本
+      placeholder: Mihomo 1.x
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: Matched rule / 命中规则
+    validations:
+      required: true
+  - type: input
+    id: expected
+    attributes:
+      label: Expected policy / 预期策略
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted evidence and reproduction / 脱敏证据及复现步骤
+    validations:
+      required: true
+  - type: checkboxes
+    id: validation
+    attributes:
+      label: Checks / 检查
+      options:
+        - label: The merged configuration passes `mihomo -t`. / 合并配置已通过 `mihomo -t`。
+          required: true
+        - label: Logs and screenshots contain no secrets or personal data. / 日志和截图不含秘密或个人数据。
+          required: true

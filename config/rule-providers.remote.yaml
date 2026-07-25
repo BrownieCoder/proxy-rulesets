@@ -1,0 +1,164 @@
+# Public provider URLs for BrownieCoder/proxy-rulesets.
+rule-providers:
+  Privacy:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Privacy_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Privacy_No_Resolve.yaml
+  Hijacking:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Hijacking_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Hijacking_No_Resolve.yaml
+  Apple:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Apple_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Apple_No_Resolve.yaml
+  PayPal:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/PayPal_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/PayPal_No_Resolve.yaml
+  Stripe:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Stripe_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Stripe_No_Resolve.yaml
+  Crypto:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Crypto_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Crypto_No_Resolve.yaml
+  Telegram:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Telegram_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Telegram_No_Resolve.yaml
+  Twitter:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Twitter_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Twitter_No_Resolve.yaml
+  Discord:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Discord_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Discord_No_Resolve.yaml
+  YouTube:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/YouTube_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/YouTube_No_Resolve.yaml
+  Bilibili:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Bilibili_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Bilibili_No_Resolve.yaml
+  TikTok:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TikTok_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/TikTok_No_Resolve.yaml
+  Disney:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Disney_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Disney_No_Resolve.yaml
+  Netflix:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Netflix_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Netflix_No_Resolve.yaml
+  SteamCN:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SteamCN_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/SteamCN_No_Resolve.yaml
+  Steam:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Steam_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Steam_No_Resolve.yaml
+  OpenAI:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/OpenAI_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/OpenAI_No_Resolve.yaml
+  Claude:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Claude_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Claude_No_Resolve.yaml
+  Gemini:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Gemini_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Gemini_No_Resolve.yaml
+  Google:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Google_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Google_No_Resolve.yaml
+  Microsoft:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Microsoft_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Microsoft_No_Resolve.yaml
+  GlobalMedia:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/GlobalMedia_Classical_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/GlobalMedia_Classical_No_Resolve.yaml
+  ChinaMax:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaMax_Classical_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/ChinaMax_Classical_No_Resolve.yaml
+  Lan:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Lan_No_Resolve.yaml
+    interval: 86400
+    path: ./ruleset-cache/Lan_No_Resolve.yaml
+  CryptoWeb:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Crypto.yaml
+    interval: 86400
+    path: ./ruleset-cache/Crypto.yaml
+  ChinaGaming:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaGaming.yaml
+    interval: 86400
+    path: ./ruleset-cache/ChinaGaming.yaml
+  InternationalGaming:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/InternationalGaming.yaml
+    interval: 86400
+    path: ./ruleset-cache/InternationalGaming.yaml
