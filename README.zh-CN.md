@@ -1,10 +1,26 @@
 # Proxy Rulesets
 
+<p align="center">
+  <img src="assets/social-preview.png" alt="Proxy Rulesets — 中国直连，全球智能分流" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml"><img alt="每日同步" src="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="GPL-2.0 许可证" src="https://img.shields.io/badge/license-GPL--2.0-blue.svg"></a>
+  <img alt="中国大陆游戏规则" src="https://img.shields.io/badge/ChinaGaming-93%20rules-e5484d">
+  <img alt="国际服保护规则" src="https://img.shields.io/badge/InternationalGaming-25%20safeguards-19a7e0">
+  <a href="https://github.com/BrownieCoder/proxy-rulesets/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/BrownieCoder/proxy-rulesets?style=flat"></a>
+</p>
+
+<p align="center"><strong>为 Clash Meta / Mihomo 提供经过审计的中国大陆游戏分流：本地低延迟直连、国际服保护、可复核证据。</strong></p>
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 这是一个自维护的 Clash/Mihomo ruleset 镜像，并包含经过证据审计的中国大陆游戏分流层。
 
 仓库直接保存并校验规则快照，不只依赖第三方 URL。同时，它把中国大陆游戏服务和国际服拆开：大陆流量优先走 `DIRECT`，国际游戏流量继续交给美国节点或其他代理策略。
+
+适合正在搜索 **Mihomo rule-provider**、**Clash Meta 规则集**、**中国大陆 DIRECT 分流**，以及腾讯 WeGame、三角洲行动、网易游戏、米哈游、蒸汽平台、TapTap 等国服低延迟方案的用户。
 
 ## 主要特性
 
@@ -72,6 +88,7 @@ Steam 采用更窄的处理方式：已确认的中国下载节点进入 `ChinaG
 - `scripts/validate.py`：离线完整性与配置校验
 - `config/`：本地/远程 provider 模板及有序规则示例
 - `research/`：可追溯事实来源的分流审计
+- `assets/`：仓库视觉素材和 1280×640 社交预览图
 
 ## 更新
 
@@ -103,3 +120,5 @@ GitHub Actions 每天检查一次，只有内容确实变化时才提交。发�
 镜像文件仍归各自上游作者所有，可能带有额外声明或来源特定条款。再分发前请阅读 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 和 `sources.json`。本项目与 Mihomo、Clash、各游戏公司及上游规则项目均无隶属或背书关系。
 
 本项目不提供任何保证。使用者应自行核实当地法律、上游条款和实际分流结果。
+
+如果这个项目帮你减少了延迟或排错时间，欢迎点一个 Star，让更多需要“国服直连、国际服代理”的用户找到它。

@@ -11,7 +11,9 @@
 - [ ] Run `git diff --check`.
 - [ ] Test the merged Mihomo configuration with `mihomo -t -f`.
 - [ ] Enable GitHub Actions read/write workflow permission.
-- [ ] Add repository topics such as `mihomo`, `clash`, `ruleset`, `china`, and `gaming`.
+- [ ] Upload `assets/social-preview.png` under **Settings → Social preview**.
+- [ ] Set the repository description to: `Audited Clash/Mihomo rule providers for mainland China gaming: China DIRECT, international safeguards, atomic mirrors, and daily updates.`
+- [ ] Add topics: `mihomo`, `clash-meta`, `clash-rules`, `rule-provider`, `ruleset`, `china`, `gaming`, `game-routing`, `proxy`, `direct`, `geosite`, `openclash`.
 
 ---
 
@@ -24,4 +26,6 @@
 - [ ] 运行 `git diff --check`。
 - [ ] 使用 `mihomo -t -f` 检查合并后的配置。
 - [ ] 启用 GitHub Actions 的读写权限。
-- [ ] 添加 `mihomo`、`clash`、`ruleset`、`china`、`gaming` 等仓库主题。
+- [ ] 在 **Settings → Social preview** 上传 `assets/social-preview.png`。
+- [ ] 仓库描述设为：`Audited Clash/Mihomo rule providers for mainland China gaming: China DIRECT, international safeguards, atomic mirrors, and daily updates.`
+- [ ] 添加 topics：`mihomo`、`clash-meta`、`clash-rules`、`rule-provider`、`ruleset`、`china`、`gaming`、`game-routing`、`proxy`、`direct`、`geosite`、`openclash`。

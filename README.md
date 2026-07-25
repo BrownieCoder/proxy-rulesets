@@ -1,10 +1,26 @@
 # Proxy Rulesets
 
+<p align="center">
+  <img src="assets/social-preview.png" alt="Proxy Rulesets — China Direct, Global Smart Routing" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml"><img alt="Daily sync" src="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="GPL-2.0 license" src="https://img.shields.io/badge/license-GPL--2.0-blue.svg"></a>
+  <img alt="Mainland game rules" src="https://img.shields.io/badge/ChinaGaming-93%20rules-e5484d">
+  <img alt="International safeguards" src="https://img.shields.io/badge/InternationalGaming-25%20safeguards-19a7e0">
+  <a href="https://github.com/BrownieCoder/proxy-rulesets/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/BrownieCoder/proxy-rulesets?style=flat"></a>
+</p>
+
+<p align="center"><strong>Audited mainland China game routing for Clash Meta / Mihomo—fast local DIRECT paths, protected international services, reproducible evidence.</strong></p>
+
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 A self-maintained Clash/Mihomo ruleset mirror with an audited routing layer for mainland China gaming traffic.
 
 The repository stores validated snapshots instead of relying only on upstream URLs. It also separates mainland game services from international game services so a proxy configuration can keep mainland traffic on `DIRECT` while sending international traffic to a US or other proxy node.
+
+Built for users searching for reliable **Mihomo rule providers**, **Clash Meta rulesets**, **China DIRECT routing**, and low-latency mainland access for **WeGame, Delta Force, NetEase Games, miHoYo, Steam China, TapTap**, and other major Chinese game platforms.
 
 ## Highlights
 
@@ -72,6 +88,7 @@ See the full audit in [English](research/ChinaGaming-audit.en.md) or [Chinese](r
 - `scripts/validate.py` — offline integrity and configuration validation
 - `config/` — local and remote provider templates plus ordered example rules
 - `research/` — fact-traceable routing audit
+- `assets/` — repository artwork and the 1280×640 social preview
 
 ## Updating
 
@@ -103,3 +120,5 @@ Project-authored code, documentation, and locally maintained rules are released 
 Mirrored files remain attributable to their respective upstream authors and may carry additional notices or source-specific terms. Review [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and `sources.json` before redistribution. This project is not affiliated with Mihomo, Clash, any game publisher, or any upstream ruleset project.
 
 Provided without warranty. You are responsible for checking local law, upstream terms, and routing behavior before use.
+
+If this project saves you latency or debugging time, consider starring it so more mainland/international dual-route users can find it.

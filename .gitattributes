@@ -1,0 +1,4 @@
+# Keep generated rule snapshots from dominating GitHub language statistics.
+ruleset/*.yaml linguist-generated=true
+sources.lock.json linguist-generated=true
+config/rule-providers.*.yaml linguist-generated=true
