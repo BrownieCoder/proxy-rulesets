@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = {
     "README.md",
-    "README.zh-CN.md",
+    "README.en.md",
     "LICENSE",
     "CONTRIBUTING.md",
     "SECURITY.md",

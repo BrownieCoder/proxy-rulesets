@@ -1,96 +1,96 @@
 # Proxy Rulesets
 
 <p align="center">
-  <img src="assets/social-preview.png" alt="Proxy Rulesets — China Direct, Global Smart Routing" width="100%">
+  <img src="assets/social-preview.png" alt="Proxy Rulesets — 中国直连，全球智能分流" width="100%">
 </p>
 
 <p align="center">
-  <a href="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml"><img alt="Daily sync" src="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml/badge.svg"></a>
-  <a href="LICENSE"><img alt="GPL-2.0 license" src="https://img.shields.io/badge/license-GPL--2.0-blue.svg"></a>
-  <img alt="Mainland game rules" src="https://img.shields.io/badge/ChinaGaming-93%20rules-e5484d">
-  <img alt="International safeguards" src="https://img.shields.io/badge/InternationalGaming-25%20safeguards-19a7e0">
+  <a href="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml"><img alt="每日同步" src="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="GPL-2.0 许可证" src="https://img.shields.io/badge/license-GPL--2.0-blue.svg"></a>
+  <img alt="中国大陆游戏规则" src="https://img.shields.io/badge/ChinaGaming-93%20rules-e5484d">
+  <img alt="国际服保护规则" src="https://img.shields.io/badge/InternationalGaming-25%20safeguards-19a7e0">
   <a href="https://github.com/BrownieCoder/proxy-rulesets/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/BrownieCoder/proxy-rulesets?style=flat"></a>
 </p>
 
-<p align="center"><strong>Audited mainland China game routing for Clash Meta / Mihomo—fast local DIRECT paths, protected international services, reproducible evidence.</strong></p>
+<p align="center"><strong>为 Clash Meta / Mihomo 提供经过审计的中国大陆游戏分流：本地低延迟直连、国际服保护、可复核证据。</strong></p>
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[简体中文](README.md) | [English](README.en.md)
 
-A self-maintained Clash/Mihomo ruleset mirror with an audited routing layer for mainland China gaming traffic.
+这是一个自维护的 Clash/Mihomo ruleset 镜像，并包含经过证据审计的中国大陆游戏分流层。
 
-The repository stores validated snapshots instead of relying only on upstream URLs. It also separates mainland game services from international game services so a proxy configuration can keep mainland traffic on `DIRECT` while sending international traffic to a US or other proxy node.
+仓库直接保存并校验规则快照，不只依赖第三方 URL。同时，它把中国大陆游戏服务和国际服拆开：大陆流量优先走 `DIRECT`，国际游戏流量继续交给美国节点或其他代理策略。
 
-Built for users searching for reliable **Mihomo rule providers**, **Clash Meta rulesets**, **China DIRECT routing**, and low-latency mainland access for **WeGame, Delta Force, NetEase Games, miHoYo, Steam China, TapTap**, and other major Chinese game platforms.
+适合正在搜索 **Mihomo rule-provider**、**Clash Meta 规则集**、**中国大陆 DIRECT 分流**，以及腾讯 WeGame、三角洲行动、网易游戏、米哈游、蒸汽平台、TapTap 等国服低延迟方案的用户。
 
-## Highlights
+## 主要特性
 
-- 24 mirrored and checksum-locked upstream rulesets
-- 3 locally maintained rulesets, including `ChinaGaming` and `InternationalGaming`
-- 93 high-priority mainland game rules
-- 25 international-game safeguards
-- Atomic synchronization: existing snapshots stay untouched unless every download validates
-- Daily GitHub Actions updates
-- Offline validation of files, checksums, provider references, duplicates, and routing priority
-- Evidence-backed audit covering Tencent/WeGame/Delta Force, NetEase, miHoYo, Perfect World, Seasun, Lilith, Nuverse, Kuro, Hypergryph, PaperGames, Bilibili Games, TapTap, 4399, and others
+- 24 份带 SHA-256 锁定的上游镜像
+- 3 份自维护规则，包括 `ChinaGaming` 与 `InternationalGaming`
+- 93 条高优先级中国大陆游戏规则
+- 25 条国际游戏保护规则
+- 原子同步：只有全部下载并校验成功后才替换现有快照
+- GitHub Actions 每日自动检查更新
+- 离线检查文件、校验和、provider 引用、重复规则和规则优先级
+- 审计覆盖腾讯/WeGame/三角洲行动、网易、米哈游、完美世界、西山居、莉莉丝、朝夕光年、库洛、鹰角、叠纸、Bilibili 游戏、TapTap、4399 等
 
-## Routing model
+## 分流模型
 
 ```text
-security/reject rules
+安全与拒绝规则
         ↓
-known international games → final proxy / US node
+已确认的国际游戏 → 最终代理 / 美国节点
         ↓
-mainland China games      → DIRECT
+中国大陆游戏     → DIRECT
         ↓
-other service rules
+其他服务规则
         ↓
-known international media
+已确认的国际媒体
         ↓
-GEOIP CN                  → DIRECT
+GEOIP CN          → DIRECT
         ↓
-ChinaMax / LAN / final
+ChinaMax / LAN / Final
 ```
 
-Mihomo uses first-match routing, so order is part of the design. Keep `InternationalGaming` before `ChinaGaming`, and keep both before broader providers such as Bilibili, Steam, GlobalMedia, and ChinaMax.
+Mihomo 采用从上到下首条匹配，因此顺序本身就是设计的一部分。`InternationalGaming` 必须位于 `ChinaGaming` 之前，两者都应位于 Bilibili、Steam、GlobalMedia、ChinaMax 等宽泛 provider 之前。
 
-The exact host `fastcdn.hoyoverse.com` is intentionally set to `DIRECT` before the broader HoYoverse international rule because it is used by a mainland miHoYo page.
+`fastcdn.hoyoverse.com` 是一个有意保留的精确例外：它被米哈游国服页面使用，所以先设为 `DIRECT`，再匹配 HoYoverse 国际服后缀。
 
-## Quick start
+## 快速开始
 
-Use the remote provider template after publishing this repository:
+仓库发布后使用远程 provider 模板：
 
-1. Merge the `rule-providers` mapping from [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) into your Mihomo configuration.
-2. Merge the ordered rules from [`config/rules.yaml`](config/rules.yaml).
-3. Replace policy names such as `🧭 Final`, `🕹️ Steam`, and `🇨🇳 China-Global` with policy groups that exist in your configuration.
-4. Run `mihomo -t -f your-config.yaml` before activating the configuration.
+1. 将 [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) 中的 `rule-providers` 合并进 Mihomo 配置。
+2. 按顺序合并 [`config/rules.yaml`](config/rules.yaml)。
+3. 将 `🧭 Final`、`🕹️ Steam`、`🇨🇳 China-Global` 等策略名替换为你配置中真实存在的策略组。
+4. 启用前运行 `mihomo -t -f your-config.yaml`。
 
-For a same-directory checkout, use [`config/rule-providers.local.yaml`](config/rule-providers.local.yaml).
+如果配置和仓库位于同一目录，可使用 [`config/rule-providers.local.yaml`](config/rule-providers.local.yaml)。
 
-## Mainland gaming safeguards
+## 中国大陆游戏保护
 
-[`ruleset/ChinaGaming.yaml`](ruleset/ChinaGaming.yaml) prioritizes mainland game websites, authentication, launchers, updates, and verified CDN endpoints.
+[`ruleset/ChinaGaming.yaml`](ruleset/ChinaGaming.yaml) 优先匹配中国大陆游戏的官网、登录、启动器、更新与已确认 CDN。
 
-[`ruleset/InternationalGaming.yaml`](ruleset/InternationalGaming.yaml) protects international services that broad China lists may otherwise classify as domestic, including HoYoverse international domains and selected global publishing/SDK endpoints.
+[`ruleset/InternationalGaming.yaml`](ruleset/InternationalGaming.yaml) 保护可能被宽泛中国规则误判为国内的国际服务，包括 HoYoverse 国际域名和部分海外发行/SDK 端点。
 
-The configuration includes `GEOIP,CN,DIRECT,no-resolve` after GlobalMedia and before ChinaMax. This catches raw-IP/UDP mainland game servers without triggering additional DNS resolution or overriding known international-media rules.
+配置在 GlobalMedia 之后、ChinaMax 之前加入 `GEOIP,CN,DIRECT,no-resolve`，用来兜底直接使用中国大陆 IP/UDP 的对局服务器，同时避免额外 DNS 解析，也不会抢在已知国际媒体规则之前。
 
-Steam is intentionally narrower: verified mainland Steam/Valve download endpoints are in `ChinaGaming`, while the upstream `SteamCN` provider remains on the Steam policy because it also contains broad global suffixes such as `steamcontent.com`.
+Steam 采用更窄的处理方式：已确认的中国下载节点进入 `ChinaGaming`；上游 `SteamCN` 仍走 Steam 策略，因为其中同时包含 `steamcontent.com` 等全球共享后缀。
 
-See the full audit in [English](research/ChinaGaming-audit.en.md) or [Chinese](research/ChinaGaming-audit.md).
+完整审计见[中文版](research/ChinaGaming-audit.md)或[英文版](research/ChinaGaming-audit.en.md)。
 
-## Repository layout
+## 仓库结构
 
-- `ruleset/` — committed ruleset snapshots
-- `sources.json` — mirrored upstream URLs and destination paths
-- `sources.lock.json` — synchronization metadata and SHA-256 checksums
-- `local-rulesets.json` — locally maintained rulesets
-- `scripts/sync.py` — atomic downloader, normalizer, and provider generator
-- `scripts/validate.py` — offline integrity and configuration validation
-- `config/` — local and remote provider templates plus ordered example rules
-- `research/` — fact-traceable routing audit
-- `assets/` — repository artwork and the 1280×640 social preview
+- `ruleset/`：已提交的 ruleset 快照
+- `sources.json`：镜像来源 URL 与目标路径
+- `sources.lock.json`：同步信息和 SHA-256
+- `local-rulesets.json`：自维护 ruleset 清单
+- `scripts/sync.py`：原子下载、格式转换和 provider 生成
+- `scripts/validate.py`：离线完整性与配置校验
+- `config/`：本地/远程 provider 模板及有序规则示例
+- `research/`：可追溯事实来源的分流审计
+- `assets/`：仓库视觉素材和 1280×640 社交预览图
 
-## Updating
+## 更新
 
 ```bash
 python3 scripts/sync.py
@@ -99,26 +99,26 @@ python3 scripts/public_check.py
 git diff --stat
 ```
 
-The sync process downloads and validates every mirrored source before replacing any committed snapshot. A failure leaves the last known-good files intact.
+同步程序会先下载并验证所有镜像来源，再替换已提交快照。任何一个来源失败，最后一份可用快照都不会被破坏。
 
-GitHub Actions checks upstream sources daily and commits only material changes. Enable **Settings → Actions → General → Workflow permissions → Read and write permissions** after publishing.
+GitHub Actions 每天检查一次，只有内容确实变化时才提交。发布后需要在 **Settings → Actions → General → Workflow permissions** 中启用 **Read and write permissions**。
 
-## Accuracy and limitations
+## 准确性与限制
 
-Routing data changes. Game clients may connect through raw IPs, shared cloud infrastructure, dynamic UDP endpoints, or hostnames delivered only at runtime. The rules cover verified public endpoints and include a mainland GeoIP fallback, but they cannot guarantee every game session or region.
+游戏客户端可能直接连接 IP、共享云基础设施、动态 UDP 节点，或只在运行时下发主机名。本仓库覆盖经过验证的公开端点，并提供大陆 GeoIP 兜底，但不能承诺每个游戏、区服和网络环境都完整命中。
 
-For high-confidence additions, capture DNS/SNI/connection logs during a mainland client flow—cold start, login, update, and one match—and submit evidence with the proposed rule.
+高置信新增规则应来自中国大陆客户端的“冷启动 → 登录 → 更新 → 一局对战”链路，并附带 DNS、SNI 或连接日志证据。
 
-## Contributing
+## 贡献
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md). New rules should identify the mainland or international boundary, include authoritative evidence, and explain the risk of matching a shared root domain.
+参见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。新增规则应说明大陆/国际边界，提供权威证据，并分析整根域名是否会误伤共享或海外服务。
 
-## License and third-party material
+## 许可与第三方内容
 
-Project-authored code, documentation, and locally maintained rules are released under the [GNU General Public License v2.0](LICENSE).
+本项目自行编写的代码、文档和自维护规则采用 [GNU GPL v2.0](LICENSE)。
 
-Mirrored files remain attributable to their respective upstream authors and may carry additional notices or source-specific terms. Review [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and `sources.json` before redistribution. This project is not affiliated with Mihomo, Clash, any game publisher, or any upstream ruleset project.
+镜像文件仍归各自上游作者所有，可能带有额外声明或来源特定条款。再分发前请阅读 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 和 `sources.json`。本项目与 Mihomo、Clash、各游戏公司及上游规则项目均无隶属或背书关系。
 
-Provided without warranty. You are responsible for checking local law, upstream terms, and routing behavior before use.
+本项目不提供任何保证。使用者应自行核实当地法律、上游条款和实际分流结果。
 
-If this project saves you latency or debugging time, consider starring it so more mainland/international dual-route users can find it.
+如果这个项目帮你减少了延迟或排错时间，欢迎点一个 Star，让更多需要“国服直连、国际服代理”的用户找到它。
