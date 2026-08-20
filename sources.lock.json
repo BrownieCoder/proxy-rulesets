@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-08-18T02:42:32+00:00",
+  "synced_at": "2026-08-20T02:43:06+00:00",
   "rulesets": {
     "Privacy": {
       "path": "ruleset/Privacy_No_Resolve.yaml",
@@ -22,8 +22,8 @@
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml",
       "bytes": 57219,
-      "sha256": "e17be86d9d99a80d265f34575660b059b19e94d7202b05ad2c2becb2920c7590",
-      "upstream_sha256": "e17be86d9d99a80d265f34575660b059b19e94d7202b05ad2c2becb2920c7590"
+      "sha256": "d117f8b7aa65c86ebdd721daec531ba16aa5d71ff3cee52f368305937330a214",
+      "upstream_sha256": "d117f8b7aa65c86ebdd721daec531ba16aa5d71ff3cee52f368305937330a214"
     },
     "PayPal": {
       "path": "ruleset/PayPal_No_Resolve.yaml",
@@ -181,9 +181,9 @@
       "path": "ruleset/ChinaMax_Classical_No_Resolve.yaml",
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
-      "bytes": 3913033,
-      "sha256": "fc2ae4d42ddea6cb561b7c78bcc51929e2fc09322b508d9019444c1a821d7abf",
-      "upstream_sha256": "fc2ae4d42ddea6cb561b7c78bcc51929e2fc09322b508d9019444c1a821d7abf"
+      "bytes": 3913109,
+      "sha256": "e2002595ec1c8fe7dd9632e6f0b6680e0a2979912f3716d80483786909f94641",
+      "upstream_sha256": "e2002595ec1c8fe7dd9632e6f0b6680e0a2979912f3716d80483786909f94641"
     },
     "Lan": {
       "path": "ruleset/Lan_No_Resolve.yaml",
