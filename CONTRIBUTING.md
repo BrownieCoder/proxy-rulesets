@@ -34,8 +34,13 @@ Notes:
 
 ```bash
 python3 scripts/validate.py
+python3 scripts/public_check.py
 git diff --check
 ```
+
+When changing a rule target, update `config/proxy-groups.yaml` in the same pull
+request. The template must remain generic: never add a real node, subscription
+URL, credential, account identifier, or private endpoint.
 
 If a mirrored source changes, run `python3 scripts/sync.py` first. Do not manually edit files managed by `sources.json`.
 
@@ -73,7 +78,12 @@ If a mirrored source changes, run `python3 scripts/sync.py` first. Do not manual
 
 ```bash
 python3 scripts/validate.py
+python3 scripts/public_check.py
 git diff --check
 ```
+
+修改规则目标策略时，必须在同一个 Pull Request 中同步更新
+`config/proxy-groups.yaml`。该模板必须保持通用：不得加入真实节点、订阅 URL、凭证、
+账号标识或私有端点。
 
 镜像来源变化时先运行 `python3 scripts/sync.py`。不要手动修改由 `sources.json` 管理的文件。

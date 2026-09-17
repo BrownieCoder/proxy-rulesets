@@ -31,6 +31,7 @@ Built for users searching for reliable **Mihomo rule providers**, **Clash Meta r
 - Atomic synchronization: existing snapshots stay untouched unless every download validates
 - Daily GitHub Actions updates
 - Offline validation of files, checksums, provider references, duplicates, and routing priority
+- A generic policy-group template covering every rule target without bundling nodes or subscriptions
 - Evidence-backed audit covering Tencent/WeGame/Delta Force, NetEase, miHoYo, Perfect World, Seasun, Lilith, Nuverse, Kuro, Hypergryph, PaperGames, Bilibili Games, TapTap, 4399, and others
 
 ## Routing model
@@ -38,7 +39,7 @@ Built for users searching for reliable **Mihomo rule providers**, **Clash Meta r
 ```text
 security/reject rules
         ↓
-known international games → final proxy / US node
+known international games → 🎮 International Gaming (proxy exits only)
         ↓
 mainland China games      → DIRECT
         ↓
@@ -59,12 +60,23 @@ The exact host `fastcdn.hoyoverse.com` is intentionally set to `DIRECT` before t
 
 Use the remote provider template after publishing this repository:
 
-1. Merge the `rule-providers` mapping from [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) into your Mihomo configuration.
-2. Merge the ordered rules from [`config/rules.yaml`](config/rules.yaml).
-3. Replace policy names such as `🧭 Final`, `🕹️ Steam`, and `🇨🇳 China-Global` with policy groups that exist in your configuration.
-4. Run `mihomo -t -f your-config.yaml` before activating the configuration.
+1. Define nodes or `proxy-providers` in your private configuration. Never commit subscriptions, node addresses, or credentials to this repository.
+2. Merge `proxy-groups` from [`config/proxy-groups.yaml`](config/proxy-groups.yaml).
+3. Merge `rule-providers` from [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml).
+4. Merge the ordered rules from [`config/rules.yaml`](config/rules.yaml).
+5. If you do not use this repository's policy-group template, replace every policy name with one defined in your configuration.
+6. Run `mihomo -t -f your-config.yaml` before activating the configuration.
 
 For a same-directory checkout, use [`config/rule-providers.local.yaml`](config/rule-providers.local.yaml).
+
+## Policy-group design
+
+[`config/proxy-groups.yaml`](config/proxy-groups.yaml) is a mergeable fragment, not a complete DNS, TUN, or node configuration. It uses Mihomo's `include-all` field to discover nodes and proxy-provider entries already defined by the user.
+
+- `🎮 国际游戏` intentionally has no `DIRECT` option, preventing known international-game domains from falling back to the user's real exit.
+- `ChinaGaming` remains fixed to `DIRECT` to preserve the low-latency mainland-routing contract.
+- `♊ Gemini` can be routed independently, but its provider contains `apis.google.com` and broad keywords that may capture some non-Gemini Google traffic.
+- `⚡ 自动选择` and `🇺🇸 美国节点` send health checks to `www.gstatic.com/generate_204`. Empty automatic groups fail closed to `REJECT` instead of silently using `DIRECT`.
 
 ## Mainland gaming safeguards
 
@@ -84,6 +96,7 @@ See the full audit in [English](research/ChinaGaming-audit.en.md) or [Chinese](r
 - `sources.json` — mirrored upstream URLs and destination paths
 - `sources.lock.json` — synchronization metadata and SHA-256 checksums
 - `local-rulesets.json` — locally maintained rulesets
+- `config/proxy-groups.yaml` — policy-group template without private nodes
 - `scripts/sync.py` — atomic downloader, normalizer, and provider generator
 - `scripts/validate.py` — offline integrity and configuration validation
 - `config/` — local and remote provider templates plus ordered example rules
@@ -120,5 +133,9 @@ Project-authored code, documentation, and locally maintained rules are released 
 Mirrored files remain attributable to their respective upstream authors and may carry additional notices or source-specific terms. Review [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and `sources.json` before redistribution. This project is not affiliated with Mihomo, Clash, any game publisher, or any upstream ruleset project.
 
 Provided without warranty. You are responsible for checking local law, upstream terms, and routing behavior before use.
+
+## Credits
+
+Some general-purpose rule snapshots originate from [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script). Thanks to its authors and contributors. Source URLs, checksums, and license notices are recorded in [`sources.json`](sources.json), [`sources.lock.json`](sources.lock.json), and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). This credit does not imply upstream endorsement.
 
 If this project saves you latency or debugging time, consider starring it so more mainland/international dual-route users can find it.

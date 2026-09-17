@@ -18,6 +18,7 @@ REQUIRED = {
     "SECURITY.md",
     "THIRD_PARTY_NOTICES.md",
     "PUBLICATION_CHECKLIST.md",
+    "config/proxy-groups.yaml",
     "research/ChinaGaming-audit.md",
     "research/ChinaGaming-audit.en.md",
 }

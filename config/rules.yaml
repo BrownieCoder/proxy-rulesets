@@ -3,14 +3,10 @@ rules:
   - RULE-SET,Hijacking,🚫 Hijacking
   # Exact mainland override required by the HoYoverse international suffix below.
   - DOMAIN,fastcdn.hoyoverse.com,DIRECT
-  - RULE-SET,InternationalGaming,🧭 Final
+  - RULE-SET,InternationalGaming,🎮 国际游戏
   - RULE-SET,ChinaGaming,DIRECT
   - RULE-SET,Apple,🍎 Apple
   - DOMAIN-SUFFIX,tidal.com,DIRECT
-  - DOMAIN-SUFFIX,identity.apple.com,Proxy
-  - DOMAIN-SUFFIX,akadns.net,Proxy
-  - DOMAIN-SUFFIX,push.apple.com,Proxy
-  - DOMAIN-SUFFIX,apple.com.edgekey.net,Proxy
   - RULE-SET,PayPal,💳 Payment
   - RULE-SET,Stripe,💳 Payment
   - RULE-SET,Crypto,🪙 Crypto
@@ -28,7 +24,9 @@ rules:
   - RULE-SET,SteamCN,🕹️ Steam
   - RULE-SET,Steam,🕹️ Steam
   - RULE-SET,OpenAI,🤖 OpenAI
-  - RULE-SET,Gemini,🤖 OpenAI
+  # Gemini remains separate because its regional availability can differ from OpenAI.
+  # The provider also contains broad Google API/keyword rules; review before overriding.
+  - RULE-SET,Gemini,♊ Gemini
   - RULE-SET,Claude,🧠 Claude
   - DOMAIN,api.anthropic.com,🧠 Claude
   - DOMAIN,mcp-proxy.anthropic.com,🧠 Claude

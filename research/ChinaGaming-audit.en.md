@@ -6,11 +6,11 @@ Audit date: 2026-07-26
 
 ## Goal and outcome
 
-The goal is to send verified mainland China game websites, authentication, launchers, updates, and identifiable CDN traffic through `DIRECT`, while keeping international game services on the final US/proxy route.
+The goal is to send verified mainland China game websites, authentication, launchers, updates, and identifiable CDN traffic through `DIRECT`, while keeping international game services on a dedicated proxy-only policy.
 
 The resulting model has three layers:
 
-1. `InternationalGaming → final proxy`: protect known international services first.
+1. `InternationalGaming → 🎮 国际游戏`: protect known international services first; the policy group deliberately offers no `DIRECT` option.
 2. `ChinaGaming → DIRECT`: match mainland game services.
 3. `GEOIP,CN → DIRECT`: cover raw-IP and UDP endpoints located in mainland China.
 

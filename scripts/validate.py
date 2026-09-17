@@ -13,6 +13,80 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).parent))
 from sync import validate  # noqa: E402
 
+BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
+
+
+def parse_policy_groups() -> tuple[set[str], dict[str, list[str]]]:
+    """Read the project-owned policy-group template without a YAML dependency."""
+    text = (ROOT / "config" / "proxy-groups.yaml").read_text(encoding="utf-8")
+    names: set[str] = set()
+    members: dict[str, list[str]] = {}
+    current: str | None = None
+    in_proxies = False
+
+    for line in text.splitlines():
+        name_match = re.match(r'^  - name: "([^"]+)"\s*$', line)
+        if name_match:
+            current = name_match.group(1)
+            if current in names:
+                raise ValueError(f"proxy-groups.yaml defines duplicate group: {current}")
+            names.add(current)
+            members[current] = []
+            in_proxies = False
+            continue
+        if current is None:
+            continue
+        if re.match(r"^    proxies:\s*$", line):
+            in_proxies = True
+            continue
+        if in_proxies:
+            member_match = re.match(r'^      - (?:"([^"]+)"|([^#\s][^#]*?))\s*$', line)
+            if member_match:
+                member = (member_match.group(1) or member_match.group(2)).strip()
+                members[current].append(member)
+            elif line.strip() and not line.lstrip().startswith("#"):
+                in_proxies = False
+
+    if not names:
+        raise ValueError("proxy-groups.yaml defines no policy groups")
+    referenced = {member for values in members.values() for member in values}
+    missing = referenced - names - BUILTIN_POLICIES
+    if missing:
+        raise ValueError(f"proxy-groups.yaml references undefined groups: {missing}")
+
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(name: str) -> None:
+        if name in visiting:
+            raise ValueError(f"proxy-groups.yaml contains a group cycle at: {name}")
+        if name in visited:
+            return
+        visiting.add(name)
+        for member in members[name]:
+            if member in names:
+                visit(member)
+        visiting.remove(name)
+        visited.add(name)
+
+    for name in names:
+        visit(name)
+    return names, members
+
+
+def parse_rule_targets(text: str) -> set[str]:
+    targets: set[str] = set()
+    for line in text.splitlines():
+        match = re.match(r"^\s*-\s*([^#].*)$", line)
+        if not match:
+            continue
+        fields = [field.strip() for field in match.group(1).split(",")]
+        if fields[0] == "MATCH" and len(fields) >= 2:
+            targets.add(fields[1])
+        elif len(fields) >= 3:
+            targets.add(fields[2])
+    return targets
+
 
 def validate_config_references(provider_names: set[str]) -> None:
     provider_pattern = re.compile(r"^  ([A-Za-z0-9_-]+):$", re.MULTILINE)
@@ -35,7 +109,7 @@ def validate_config_references(provider_names: set[str]) -> None:
         )
 
     ordered_markers = (
-        "RULE-SET,InternationalGaming,🧭 Final",
+        "RULE-SET,InternationalGaming,🎮 国际游戏",
         "RULE-SET,ChinaGaming,DIRECT",
         "RULE-SET,Bilibili,📺 Bilibili",
         "RULE-SET,SteamCN,🕹️ Steam",
@@ -50,6 +124,33 @@ def validate_config_references(provider_names: set[str]) -> None:
     geoip_position = rules_text.index("GEOIP,CN,DIRECT,no-resolve")
     if not positions[-2] < geoip_position < positions[-1]:
         raise ValueError("GEOIP CN fallback must be after GlobalMedia and before ChinaMax")
+
+    gemini_position = rules_text.index("RULE-SET,Gemini,♊ Gemini")
+    google_position = rules_text.index("RULE-SET,Google,🔎 Google")
+    if gemini_position > google_position:
+        raise ValueError("Gemini must be matched before the broader Google provider")
+
+    group_names, group_members = parse_policy_groups()
+    custom_targets = parse_rule_targets(rules_text) - BUILTIN_POLICIES
+    missing_groups = custom_targets - group_names
+    if missing_groups:
+        raise ValueError(
+            f"rules.yaml references undefined policy groups: {missing_groups}"
+        )
+    def reaches_direct(name: str, seen: set[str] | None = None) -> bool:
+        seen = set() if seen is None else seen
+        if name in seen:
+            return False
+        seen.add(name)
+        for member in group_members[name]:
+            if member == "DIRECT":
+                return True
+            if member in group_members and reaches_direct(member, seen):
+                return True
+        return False
+
+    if reaches_direct("🎮 国际游戏"):
+        raise ValueError("🎮 国际游戏 must not offer DIRECT, including transitively")
 
 
 def main() -> int:

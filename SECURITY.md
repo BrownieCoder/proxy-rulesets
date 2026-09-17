@@ -15,6 +15,12 @@ Include the affected file, commit, impact, and a safe reproduction. Do not inclu
 
 Ruleset correctness reports that do not expose sensitive information may use a normal issue.
 
+The public policy-group template must never contain subscription URLs, proxy node
+addresses, credentials, account identifiers, or private endpoints. Its automatic
+groups perform health checks against `www.gstatic.com/generate_204`. Keep
+international-game policies fail-closed; adding `DIRECT` can expose the user's
+real network exit and defeat the international-service safeguard.
+
 ## 简体中文
 
 本项目包含分流数据和更新自动化，不运营代理服务，也不收集用户流量。
@@ -29,3 +35,7 @@ Ruleset correctness reports that do not expose sensitive information may use a n
 报告应包含受影响文件、提交、影响和安全的复现方法。不要发送真实凭证或未脱敏用户流量。
 
 不涉及敏感信息的普通规则准确性问题可以使用公开 Issue。
+
+公开策略组模板中不得出现订阅 URL、代理节点地址、凭证、账号标识或私有端点。自动策略组会请求
+`www.gstatic.com/generate_204` 进行健康检查。国际游戏策略应保持失败关闭；加入 `DIRECT`
+可能暴露用户的真实网络出口，并使国际服保护失效。

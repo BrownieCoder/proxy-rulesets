@@ -31,6 +31,7 @@
 - 原子同步：只有全部下载并校验成功后才替换现有快照
 - GitHub Actions 每日自动检查更新
 - 离线检查文件、校验和、provider 引用、重复规则和规则优先级
+- 完整覆盖规则目标的通用策略组模板，不内置节点或订阅
 - 审计覆盖腾讯/WeGame/三角洲行动、网易、米哈游、完美世界、西山居、莉莉丝、朝夕光年、库洛、鹰角、叠纸、Bilibili 游戏、TapTap、4399 等
 
 ## 分流模型
@@ -38,7 +39,7 @@
 ```text
 安全与拒绝规则
         ↓
-已确认的国际游戏 → 最终代理 / 美国节点
+已确认的国际游戏 → 🎮 国际游戏（仅代理出口）
         ↓
 中国大陆游戏     → DIRECT
         ↓
@@ -59,12 +60,23 @@ Mihomo 采用从上到下首条匹配，因此顺序本身就是设计的一部�
 
 仓库发布后使用远程 provider 模板：
 
-1. 将 [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) 中的 `rule-providers` 合并进 Mihomo 配置。
-2. 按顺序合并 [`config/rules.yaml`](config/rules.yaml)。
-3. 将 `🧭 Final`、`🕹️ Steam`、`🇨🇳 China-Global` 等策略名替换为你配置中真实存在的策略组。
-4. 启用前运行 `mihomo -t -f your-config.yaml`。
+1. 先在你的私有配置中定义节点或 `proxy-providers`；不要把订阅、节点地址或凭证提交到本仓库。
+2. 将 [`config/proxy-groups.yaml`](config/proxy-groups.yaml) 中的 `proxy-groups` 合并进配置。
+3. 将 [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) 中的 `rule-providers` 合并进配置。
+4. 按顺序合并 [`config/rules.yaml`](config/rules.yaml)。
+5. 如果不使用本仓库的策略组模板，请把规则中的策略名替换为你配置中真实存在的策略组。
+6. 启用前运行 `mihomo -t -f your-config.yaml`。
 
 如果配置和仓库位于同一目录，可使用 [`config/rule-providers.local.yaml`](config/rule-providers.local.yaml)。
+
+## 策略组设计
+
+[`config/proxy-groups.yaml`](config/proxy-groups.yaml) 是可合并的通用片段，不是含 DNS、TUN 和节点的完整配置。它使用 Mihomo 的 `include-all` 接入你已定义的节点与 proxy provider。
+
+- `🎮 国际游戏` 不提供 `DIRECT`，避免已确认的国际服域名回退为真实出口。
+- `ChinaGaming` 仍固定走 `DIRECT`，保持国服低延迟语义。
+- `♊ Gemini` 可独立选区；但其 provider 含 `apis.google.com` 和若干较宽关键词，可能承接少量非 Gemini 的 Google 流量。
+- `⚡ 自动选择` 与 `🇺🇸 美国节点` 会请求 `www.gstatic.com/generate_204` 进行健康检查；空组会失败关闭为 `REJECT`，而不会静默直连。
 
 ## 中国大陆游戏保护
 
@@ -84,6 +96,7 @@ Steam 采用更窄的处理方式：已确认的中国下载节点进入 `ChinaG
 - `sources.json`：镜像来源 URL 与目标路径
 - `sources.lock.json`：同步信息和 SHA-256
 - `local-rulesets.json`：自维护 ruleset 清单
+- `config/proxy-groups.yaml`：不含私有节点的策略组模板
 - `scripts/sync.py`：原子下载、格式转换和 provider 生成
 - `scripts/validate.py`：离线完整性与配置校验
 - `config/`：本地/远程 provider 模板及有序规则示例
@@ -120,5 +133,9 @@ GitHub Actions 每天检查一次，只有内容确实变化时才提交。发�
 镜像文件仍归各自上游作者所有，可能带有额外声明或来源特定条款。再分发前请阅读 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 和 `sources.json`。本项目与 Mihomo、Clash、各游戏公司及上游规则项目均无隶属或背书关系。
 
 本项目不提供任何保证。使用者应自行核实当地法律、上游条款和实际分流结果。
+
+## 致谢
+
+部分通用规则快照来自 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)。感谢原项目作者与贡献者的工作；来源、校验和与许可说明见 [`sources.json`](sources.json)、[`sources.lock.json`](sources.lock.json) 和 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。致谢不代表原作者为本项目背书。
 
 如果这个项目帮你减少了延迟或排错时间，欢迎点一个 Star，让更多需要“国服直连、国际服代理”的用户找到它。

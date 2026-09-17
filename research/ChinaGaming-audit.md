@@ -10,7 +10,7 @@
 
 最终采用两层规则：
 
-1. `InternationalGaming → 🧭 Final`：先保护已确认的国际服域名。
+1. `InternationalGaming → 🎮 国际游戏`：先保护已确认的国际服域名，且该策略组不提供 `DIRECT`。
 2. `ChinaGaming → DIRECT`：再匹配大陆游戏服务。
 3. `GEOIP,CN → DIRECT`：为直接使用中国大陆 IP 的对局/UDP 节点兜底。
 
