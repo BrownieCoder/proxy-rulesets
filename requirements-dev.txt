@@ -1,0 +1,2 @@
+# Only for independent YAML parsing in tests; production generator is stdlib-only.
+PyYAML>=6.0.2,<7

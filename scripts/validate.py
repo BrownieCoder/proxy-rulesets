@@ -181,6 +181,8 @@ def main() -> int:
         if len(rules) != len(set(rules)):
             raise ValueError(f"{name}: local ruleset contains duplicate entries")
     validate_config_references(set(sources) | set(local_sources))
+    from generate_install_assets import generate
+    generate(ROOT)
     validate_siri_ai()
     print(
         f"Validated {len(sources)} mirrored rulesets/checksums "
