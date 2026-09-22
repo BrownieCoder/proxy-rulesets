@@ -28,7 +28,6 @@ jobs:
           python3 scripts/validate.py
           python3 scripts/public_check.py
           python3 -m unittest discover -s tests
-          node --test tests/install_ui.test.cjs
       - name: Commit changed snapshots
         run: |
           if git diff --quiet; then
@@ -40,6 +39,6 @@ jobs:
           git add ruleset sources.lock.json \
             config/rule-providers.local.yaml \
             config/rule-providers.remote.yaml \
-            modules services install README.md
+            services catalog/index.json catalog/assets.lock.json README.md
           git commit -m "chore: sync upstream rulesets"
           git push

@@ -178,11 +178,6 @@
       "matchesLocal": true
     },
     {
-      "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/modules/privacy.module",
-      "kind": "module",
-      "status": 404
-    },
-    {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Hijacking_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
@@ -202,11 +197,7 @@
       "status": 200,
       "sha256": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c",
       "matchesLocal": true
-    },
-    {
-      "url": "https://browniecoder.github.io/proxy-rulesets/install/",
-      "kind": "site",
-      "status": 404
     }
-  ]
+  ],
+  "scope": "Public rule URLs only; prior results for the retired installation feature removed. Original GET timestamp retained."
 }

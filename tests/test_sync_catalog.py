@@ -23,11 +23,11 @@ class Response(io.BytesIO):
         return self.url
 
 
-class SyncInstall(unittest.TestCase):
+class SyncCatalog(unittest.TestCase):
     def run_sync(self, invalid):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            for directory in ('ruleset', 'catalog', 'docs', 'rules', 'research', 'config', 'modules', 'services', 'install'):
+            for directory in ('ruleset', 'catalog', 'docs', 'rules', 'research', 'config', 'services'):
                 shutil.copytree(ROOT / directory, root / directory)
             for name in ('README.md', 'sources.json', 'local-rulesets.json', 'sources.lock.json'):
                 shutil.copyfile(ROOT / name, root / name)
@@ -49,9 +49,9 @@ class SyncInstall(unittest.TestCase):
                 self.assertEqual(before, after, 'failed candidate must not modify any live asset')
             else:
                 self.assertEqual(result, 0, errors.getvalue())
-                self.assertNotEqual(before['modules/privacy.module'], after['modules/privacy.module'])
+                self.assertNotEqual(before['catalog/assets.lock.json'], after['catalog/assets.lock.json'])
                 self.assertNotEqual(before['sources.lock.json'], after['sources.lock.json'])
-                from generate_install_assets import generate
+                from generate_catalog import generate
                 with contextlib.redirect_stdout(io.StringIO()):
                     generate(root)
 

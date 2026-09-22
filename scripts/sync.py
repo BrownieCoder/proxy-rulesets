@@ -133,7 +133,7 @@ def main() -> int:
 
         # Assemble a public-only candidate tree. Validate all derived formats
         # before replacing any current snapshot, lock, provider or install asset.
-        for directory in ("catalog", "docs", "rules"):
+        for directory in ("catalog", "rules"):
             shutil.copytree(ROOT / directory, stage / directory)
         for relative in ("README.md", "sources.json", "local-rulesets.json",
                          "config/rules.yaml", "research/SiriAI-audit.json"):
@@ -145,7 +145,7 @@ def main() -> int:
             target = stage / source["path"]
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / source["path"], target)
-        from generate_install_assets import build
+        from generate_catalog import build
         outputs = build(stage)
         for relative, content in outputs.items():
             target = stage / relative

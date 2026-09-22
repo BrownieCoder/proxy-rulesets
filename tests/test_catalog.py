@@ -1,4 +1,4 @@
-"""Independent syntax/semantic checks and fail-closed regressions for installation."""
+"""Independent syntax/semantic checks and fail-closed regressions for the GitHub service catalog."""
 import copy
 import json
 import re
@@ -7,20 +7,20 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import urlparse, unquote
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-import generate_install_assets as gen
+import generate_catalog as gen
 
 
-class InstallAssets(unittest.TestCase):
+class ServiceCatalog(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.output = gen.build(ROOT)
-        cls.catalog = json.loads(cls.output['install/catalog.json'])
+        cls.catalog = json.loads(cls.output['catalog/index.json'])
 
     def test_all_yaml_parses_and_provider_metadata_matches(self):
         manifests = {**gen.load(ROOT, 'sources.json'), **gen.load(ROOT, 'local-rulesets.json')}
@@ -42,50 +42,37 @@ class InstallAssets(unittest.TestCase):
                 if expected_type == 'http':
                     self.assertEqual(record['url'].split('/main/')[1], manifests[name]['path'])
 
-    def test_module_has_only_rules_and_exact_ordered_semantics(self):
-        module = self.output['modules/privacy.module']
-        active = [l for l in module.splitlines() if l and not l.startswith('#')]
-        self.assertEqual([l for l in active if l.startswith('[')], ['[Rule]'])
-        source = yaml.safe_load((ROOT / 'ruleset/Privacy_No_Resolve.yaml').read_text())['payload']
-        decoded = []
-        for line in active[1:]:
-            fields = line.split(',')
-            self.assertEqual(fields[2], 'REJECT')
-            decoded.append(','.join(fields[:2] + fields[3:]))
-        self.assertEqual(decoded, source)
-        self.assertEqual(len(decoded), len(set(decoded)))
-        self.assertGreater(len(decoded), 0)
-        for forbidden in ('[MITM]', '[Rewrite]', '[Script]', '[Proxy]', '[General]', 'FINAL,', 'MATCH,'):
-            self.assertNotIn(forbidden, module)
-        self.assertIn('# AUTHOR: blackmatrix7', module)
-
-    def test_catalog_paths_and_url_encoding(self):
-        seen = set()
+    def test_each_service_has_a_github_page_and_copyable_exact_url(self):
+        providers = {**gen.load(ROOT, 'sources.json'), **gen.load(ROOT, 'local-rulesets.json')}
+        self.assertEqual({s['provider'] for s in self.catalog['services']}, set(providers))
         for service in self.catalog['services']:
-            self.assertNotIn(service['id'], seen)
-            seen.add(service['id'])
-            self.assertIn('services/' + service['id'] + '.md', self.output)
+            page = self.output[service['page']]
+            self.assertIn('```text\n' + service['rawUrl'] + '\n```', page)
+            url = urlparse(service['rawUrl'])
+            self.assertEqual(url.netloc, 'raw.githubusercontent.com')
+            self.assertEqual(url.path, f"/{self.catalog['repository']}/{self.catalog['branch']}/{service['path']}")
             self.assertTrue((ROOT / service['path']).is_file())
-            self.assertEqual(service['rawUrl'].split('/main/')[1], service['path'])
-            if service['module']:
-                m = service['module']
-                self.assertIn(m['path'], self.output)
-                parsed = urlparse(m['schemeUrl'])
-                self.assertEqual((parsed.scheme, parsed.netloc), ('shadowrocket', 'install'))
-                self.assertEqual(parse_qs(parsed.query), {'module': [m['rawUrl']]})
-            else:
-                self.assertTrue(service['moduleReason'])
-        self.assertEqual(len(seen), 28)
-        special = 'https://example.org/a b.module?name=中文&version=1'
-        self.assertEqual(parse_qs(urlparse(gen.shadowrocket_url(special)).query), {'module': [special]})
+            self.assertIn(service['page'] + '#规则地址', self.output['README.md'])
+            self.assertNotIn('module', service)
+            self.assertNotIn('schemeUrl', service)
+        self.assertNotIn('clients', self.catalog)
+        self.assertNotIn('siteUrl', self.catalog)
 
-    def test_unverified_policies_not_flattened(self):
-        modules = [s['provider'] for s in self.catalog['services'] if s['module']]
-        self.assertEqual(modules, ['Privacy'])
-        for provider in ('ChinaGaming', 'InternationalGaming', 'SiriAI', 'Apple', 'OpenAI', 'Claude', 'Gemini', 'Lan'):
-            self.assertIsNone(next(s for s in self.catalog['services'] if s['provider'] == provider)['module'])
+    def test_existing_policy_and_scope_notes_are_preserved(self):
+        _, targets = gen.routing(ROOT)
+        for service in self.catalog['services']:
+            self.assertEqual(service['policy'], targets[service['provider']])
         claude = next(s for s in self.catalog['services'] if s['provider'] == 'Claude')
         self.assertIn('10 条补充', claude['warning'])
+        self.assertEqual(next(s for s in self.catalog['services'] if s['provider'] == 'Privacy')['policy'], 'REJECT')
+        self.assertEqual(next(s for s in self.catalog['services'] if s['provider'] == 'ChinaGaming')['policy'], 'DIRECT')
+
+    def test_retired_web_and_client_paths_are_absent(self):
+        for path in ('install', 'modules', 'docs/clients', 'catalog/clients.json', 'catalog/publication.json'):
+            self.assertFalse((ROOT / path).exists(), path)
+        self.assertFalse(list((ROOT / 'services').glob('*.html')))
+        for path, text in self.output.items():
+            self.assertNotRegex(text, r'shadowrocket://|clash://|clash-verge://|mihomo://|github\.io')
 
     def test_invalid_syntax_domains_duplicates_fail_closed(self):
         for rule in ('DOMAIN,a..com', 'DOMAIN,*.example.com', 'DOMAIN,-bad.com', 'DOMAIN,ok.com,PROXY',
@@ -94,10 +81,6 @@ class InstallAssets(unittest.TestCase):
                 gen.read_rules('payload:\n  - ' + rule + '\n')
         with self.assertRaises(ValueError):
             gen.read_rules('payload:\n  - DOMAIN,example.com\n  - DOMAIN,example.com\n')
-        with self.assertRaises(ValueError):
-            gen.module_reason('Privacy', 'PROXY', ['DOMAIN,example.com'])
-        with self.assertRaises(ValueError):
-            gen.module_reason('Privacy', 'REJECT', ['PROCESS-NAME,example'])
 
     def test_missing_provider_and_duplicate_metadata_rejected(self):
         original = gen.load
@@ -111,28 +94,33 @@ class InstallAssets(unittest.TestCase):
     def test_changed_or_missing_artifact_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            with patch.object(gen, 'build', return_value={'modules/a.module': '[Rule]\nDOMAIN,example.com,REJECT\n'}):
+            with patch.object(gen, 'build', return_value={'services/example.md': '# Example\n'}):
                 with self.assertRaises(ValueError):
                     gen.generate(root)
-                (root / 'modules').mkdir()
-                (root / 'modules/a.module').write_text('[Rule]\nDOMAIN,example.com,DIRECT\n')
+                (root / 'services').mkdir()
+                (root / 'services/example.md').write_text('# Wrong service\n')
                 with self.assertRaises(ValueError):
                     gen.generate(root)
 
-    def test_generated_markdown_relative_links_resolve(self):
-        files = {**self.output}
+    def test_document_links_and_fragments_resolve(self):
+        files = {p: t for p, t in self.output.items() if p.endswith('.md')}
         files.update({str(p.relative_to(ROOT)): p.read_text() for p in (ROOT / 'docs').rglob('*.md')})
         files['README.en.md'] = (ROOT / 'README.en.md').read_text()
         for path, text in files.items():
-            if not path.endswith('.md'):
-                continue
             for target in re.findall(r'\[[^\]]*\]\(([^)]+)\)', text):
-                if '://' in target or target.startswith('#'):
+                if '://' in target:
                     continue
-                target = target.split('#')[0]
-                resolved = (ROOT / path).parent / target
+                target_path, _, fragment = target.partition('#')
+                resolved = ((ROOT / path).parent / target_path).resolve() if target_path else (ROOT / path)
+                relative = str(resolved.relative_to(ROOT))
                 with self.subTest(path=path, target=target):
-                    self.assertTrue(resolved.is_file() or str(resolved.resolve().relative_to(ROOT)) in self.output)
+                    self.assertTrue(resolved.is_file() or relative in self.output)
+                    if fragment:
+                        content = self.output.get(relative) or resolved.read_text()
+                        headings = re.findall(r'^#{1,6} (.+)$', content, re.M)
+                        anchors = {re.sub(r'[^\w\- ]', '', h.lower()).replace(' ', '-') for h in headings}
+                        self.assertIn(unquote(fragment), anchors)
+
 
 
 if __name__ == '__main__':

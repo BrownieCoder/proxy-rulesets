@@ -24,7 +24,7 @@
     "category": "AI",
     "description": "Claude 的上游基础规则。",
     "policyLabel": "按已有 Claude 策略选择出口",
-    "warning": "此文件仅 3 条；完整方案在有序路由中还有 10 条补充。不能把复制此文件当作完整 Claude 配置。"
+    "warning": "此文件是上游基础清单；完整方案在有序路由中还有 10 条补充。不能把复制此文件当作完整 Claude 配置。"
   },
   {
     "id": "gemini",
@@ -222,7 +222,7 @@
     "category": "安全与基础",
     "description": "拦截现有上游隐私追踪清单中的连接。",
     "policyLabel": "拒绝连接",
-    "warning": "可能阻止依赖这些域名的网站功能；模块高于主配置，关闭模块即可撤销本模块。"
+    "warning": "可能阻止依赖这些域名的网站功能；只拦截清单内匹配的连接。"
   },
   {
     "id": "hijacking",
@@ -231,7 +231,7 @@
     "category": "安全与基础",
     "description": "现有上游劫持防护清单。",
     "policyLabel": "默认拒绝，可选直连",
-    "warning": "原方案允许手动选择直连，不能简化为固定拒绝模块。"
+    "warning": "原方案默认拒绝，也允许选择直连；保留这一策略选择。"
   },
   {
     "id": "china-max",
@@ -249,6 +249,6 @@
     "category": "安全与基础",
     "description": "现有局域网和保留地址规则。",
     "policyLabel": "直连",
-    "warning": "原方案位于 ChinaMax 之后；不可提升为覆盖前面规则的直连模块。"
+    "warning": "原方案位于 ChinaMax 之后；保留位置，避免覆盖前面的规则。"
   }
 ]
