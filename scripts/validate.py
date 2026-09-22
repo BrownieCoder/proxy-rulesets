@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).parent))
 from sync import validate  # noqa: E402
+from siri_ai import validate as validate_siri_ai  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
 
@@ -180,6 +181,7 @@ def main() -> int:
         if len(rules) != len(set(rules)):
             raise ValueError(f"{name}: local ruleset contains duplicate entries")
     validate_config_references(set(sources) | set(local_sources))
+    validate_siri_ai()
     print(
         f"Validated {len(sources)} mirrored rulesets/checksums "
         f"and {len(local_sources)} local rulesets."

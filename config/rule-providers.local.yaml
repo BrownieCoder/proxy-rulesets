@@ -108,3 +108,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/InternationalGaming.yaml
+  SiriAI:
+    type: file
+    behavior: classical
+    path: ./ruleset/SiriAI.yaml

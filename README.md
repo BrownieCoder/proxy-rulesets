@@ -25,7 +25,7 @@
 ## 主要特性
 
 - 24 份带 SHA-256 锁定的上游镜像
-- 3 份自维护规则，包括 `ChinaGaming` 与 `InternationalGaming`
+- 4 份自维护规则，包括 `ChinaGaming` 与 `InternationalGaming`
 - 93 条高优先级中国大陆游戏规则
 - 25 条国际游戏保护规则
 - 原子同步：只有全部下载并校验成功后才替换现有快照
@@ -77,6 +77,21 @@ Mihomo 采用从上到下首条匹配，因此顺序本身就是设计的一部�
 - `ChinaGaming` 仍固定走 `DIRECT`，保持国服低延迟语义。
 - `♊ Gemini` 可独立选区；但其 provider 含 `apis.google.com` 和若干较宽关键词，可能承接少量非 Gemini 的 Google 流量。
 - `⚡ 自动选择` 与 `🇺🇸 美国节点` 会请求 `www.gstatic.com/generate_204` 进行健康检查；空组会失败关闭为 `REJECT`，而不会静默直连。
+
+## Siri / Apple Intelligence 分流
+
+`SiriAI` 是独立的 5 个精确主机规则，覆盖官方说明的 Siri/听写、Private Cloud Compute 与 Apple Intelligence 扩展。目标复用 `🤖 AI 服务`，在 `ChinaGaming` 之后、`Apple` 之前匹配，安全和游戏优先级不变。请在客户端选择该组的实际出口；它也允许 DIRECT，组名本身不保证代理或地区。
+
+`guzzoni.apple.com` 会同时改变普通 Siri/听写的出口。其余没有命中这 5 个精确主机的 Apple 流量继续使用既有规则。没有包含整个 Apple、Cloudflare、Private Relay、共享搜索、地图或商店下载域。
+
+规则只决定出口，不能改变设备、销售地区、Apple Account、语言、rollout 等资格。它不是完整 Apple Intelligence 主机清单，也不是 Apple 要求代理的声明。PCC/扩展涉及 TCP/UDP；Mihomo 遇到不支持 UDP 的节点可能继续向后匹配，必须现场检查实际出口。无需 MITM、CA 或私人订阅。
+
+- [逐条域名审计及证据](research/SiriAI-audit.json)
+- [架构、first-match 与实施方案](research/SiriAI-plan.md)
+- [维护及双仓库一致性](research/SiriAI-maintenance.md)
+- 官方资格：[Apple 智能](https://support.apple.com/zh-cn/121115)、[Siri AI Beta](https://support.apple.com/zh-cn/148218)（核验：2026-09-22；两者条件不同）
+
+新增远程 SiriAI URL 只有本分支由维护者另行发布后才生效；尚未发布时请使用本地 provider 与本地规则文件。
 
 ## 中国大陆游戏保护
 

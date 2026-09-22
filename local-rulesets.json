@@ -10,5 +10,9 @@
   "InternationalGaming": {
     "path": "ruleset/InternationalGaming.yaml",
     "behavior": "classical"
+  },
+  "SiriAI": {
+    "path": "ruleset/SiriAI.yaml",
+    "behavior": "classical"
   }
 }

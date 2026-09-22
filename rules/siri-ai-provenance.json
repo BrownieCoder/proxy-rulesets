@@ -1,0 +1,62 @@
+[
+  {
+    "domain": "apple-relay.apple.com",
+    "source": "https://support.apple.com/en-us/101555",
+    "evidence_type": "Apple official",
+    "user_provided_status": "user-provided, verified",
+    "verified_date": "2026-09-22",
+    "first_observed": null,
+    "purpose": "Apple Intelligence 扩展",
+    "confidence": "高：官方用途；代理必要性和完整覆盖尚未实测",
+    "notes": "官方列出精确主机；只使用 DOMAIN。核验日不是首次流量观察日。未解密或抓取私人流量。",
+    "target_policy": "🤖 AI 服务"
+  },
+  {
+    "domain": "apple-relay.cloudflare.com",
+    "source": "https://support.apple.com/en-us/101555",
+    "evidence_type": "Apple official",
+    "user_provided_status": "user-provided, verified",
+    "verified_date": "2026-09-22",
+    "first_observed": null,
+    "purpose": "Private Cloud Compute",
+    "confidence": "高：官方用途；代理必要性和完整覆盖尚未实测",
+    "notes": "官方列出精确主机；只使用 DOMAIN。核验日不是首次流量观察日。未解密或抓取私人流量。",
+    "target_policy": "🤖 AI 服务"
+  },
+  {
+    "domain": "apple-relay.fastly-edge.com",
+    "source": "https://support.apple.com/en-us/101555",
+    "evidence_type": "Apple official",
+    "user_provided_status": "user-provided, verified",
+    "verified_date": "2026-09-22",
+    "first_observed": null,
+    "purpose": "Private Cloud Compute",
+    "confidence": "高：官方用途；代理必要性和完整覆盖尚未实测",
+    "notes": "官方列出精确主机；只使用 DOMAIN。核验日不是首次流量观察日。未解密或抓取私人流量。",
+    "target_policy": "🤖 AI 服务"
+  },
+  {
+    "domain": "cp4.cloudflare.com",
+    "source": "https://support.apple.com/en-us/101555",
+    "evidence_type": "Apple official",
+    "user_provided_status": "user-provided, verified",
+    "verified_date": "2026-09-22",
+    "first_observed": null,
+    "purpose": "Private Cloud Compute",
+    "confidence": "高：官方用途；代理必要性和完整覆盖尚未实测",
+    "notes": "官方列出精确主机；只使用 DOMAIN。核验日不是首次流量观察日。未解密或抓取私人流量。",
+    "target_policy": "🤖 AI 服务"
+  },
+  {
+    "domain": "guzzoni.apple.com",
+    "source": "https://support.apple.com/en-us/101555",
+    "evidence_type": "Apple official",
+    "user_provided_status": "user-provided, verified",
+    "verified_date": "2026-09-22",
+    "first_observed": null,
+    "purpose": "Siri 与听写请求（包含普通 Siri，并非 Siri AI 专用）",
+    "confidence": "高：官方用途；代理必要性和完整覆盖尚未实测",
+    "notes": "官方列出精确主机；只使用 DOMAIN。核验日不是首次流量观察日。未解密或抓取私人流量。",
+    "target_policy": "🤖 AI 服务"
+  }
+]

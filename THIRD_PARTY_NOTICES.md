@@ -25,3 +25,7 @@ Game names, company names, service names, and trademarks belong to their respect
 在上游提供文件头的情况下，本仓库会原样保留。`sources.lock.json` 记录来源 URL、最终 URL、文件大小、上游 SHA-256、规范化后 SHA-256 和同步时间。
 
 游戏、公司、服务名称及商标归各自权利人所有。本仓库仅为兼容分流而进行识别，不代表任何隶属或背书关系。
+
+## SiriAI 来源
+
+新增 SiriAI 为依 Apple 官方公开主机事实重新编制的精确规则，逐条证据在 rules/siri-ai-provenance.json。用户提供的社区截图仅作为研究线索，未转载图像、署名标识或整份社区配置。Apple 官方资料仅引用链接，不将其正文重新许可为 GPL；相关商标与文档权利仍属 Apple。
