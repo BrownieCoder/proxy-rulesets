@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="为常用 AI、游戏、影音和网络服务选择公开分流规则，按客户端查看导入方式与手动配置教程。">
+  <title>规则安装助手 · Proxy Rulesets</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="catalog.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#service-search">跳到服务选择</a>
+  <header class="site-header shell">
+    <a class="brand" href="./" aria-label="Proxy Rulesets 首页">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Proxy Rulesets<span class="brand-caption">公共规则 · 安装助手</span></span>
+    </a>
+    <a id="repository-link" class="quiet-link" href="https://github.com/BrownieCoder/proxy-rulesets" target="_blank" rel="noopener noreferrer">在 GitHub 查看 <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> 按服务选择，按客户端接入</p>
+        <h1 id="page-title">给常用服务，<br>一条合适的路线。</h1>
+        <p class="intro-copy">先找你要用的服务，再选客户端。能直接导入的，一键打开；需要手动配置的，跟着步骤完成。</p>
+      </div>
+      <aside class="intro-note">
+        <span class="note-symbol" aria-hidden="true">↗</span>
+        <p class="note-title">已有可用代理？<br>从这里接入分流规则。</p>
+        <p>本仓库提供公开规则，不提供节点或订阅。规则决定流量走向，不能保证服务解锁或账号资格。</p>
+      </aside>
+    </section>
+
+    <div id="publication-note" class="publication-note" role="note" hidden></div>
+    <div id="catalog-error" class="catalog-error" role="alert" hidden>服务目录没有加载成功。请确认 catalog.js 与本页放在同一目录，再重新打开页面。</div>
+    <noscript><p class="catalog-error">安装助手需要 JavaScript。你也可以在 <a href="https://github.com/BrownieCoder/proxy-rulesets">GitHub 仓库</a>中查看公开规则和客户端教程。</p></noscript>
+
+    <div id="installer" class="workspace" hidden>
+      <section class="catalog" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div class="step-heading"><span class="step-number">1</span><h2 id="catalog-title">选一个服务</h2></div>
+          <span id="service-count" class="small-muted"></span>
+        </div>
+        <div class="search-field">
+          <span aria-hidden="true">⌕</span>
+          <label class="sr-only" for="service-search">搜索服务名称</label>
+          <input id="service-search" type="search" placeholder="搜索服务，如 ChatGPT、Siri、游戏…" autocomplete="off" spellcheck="false">
+          <kbd aria-hidden="true">/</kbd>
+        </div>
+        <div id="category-filters" class="category-filters" role="group" aria-label="筛选服务分类"></div>
+        <p id="search-result" class="sr-only" role="status"></p>
+        <div id="service-list" class="service-list" role="group" aria-label="服务列表"></div>
+        <div id="empty-state" class="empty-state" hidden><strong>没有找到这个服务</strong><p>试试服务的英文名，或清除搜索查看全部规则。</p><button id="clear-search" class="text-button" type="button">清除搜索和筛选 <span aria-hidden="true">→</span></button></div>
+        <p class="catalog-footnote">可随时切换服务。每条规则的来源和限制都可查看。</p>
+      </section>
+
+      <aside class="setup-panel" aria-label="所选服务的安装方式">
+        <div class="selected-service">
+          <span class="eyebrow">当前选择</span>
+          <div class="selected-title-row"><h2 id="selected-name"></h2><span id="selected-category" class="category-label"></span></div>
+          <p id="selected-description"></p>
+          <div class="selected-meta"><span id="selected-policy"></span><span id="selected-count"></span></div>
+          <p id="service-warning" class="service-warning" hidden></p>
+        </div>
+
+        <section class="client-section" aria-labelledby="client-title">
+          <div class="step-heading"><span class="step-number">2</span><h2 id="client-title">选择你的客户端</h2></div>
+          <div id="client-list" class="client-list" role="group" aria-labelledby="client-title"></div>
+          <p id="client-summary" class="client-summary">选择正在使用的客户端，查看对应接入方式。</p>
+        </section>
+
+        <section id="install-section" class="install-section" aria-labelledby="install-title" hidden>
+          <div class="section-heading"><div class="step-heading"><span class="step-number">3</span><h2 id="install-title">接入规则</h2></div><span id="install-badge" class="install-badge"></span></div>
+          <p id="install-explanation" class="install-explanation"></p>
+          <div id="format-warning" class="format-warning" role="note"></div>
+          <div id="install-actions" class="install-actions"></div>
+          <div id="copy-fallback" class="copy-fallback" hidden>
+            <label for="copy-url">浏览器未允许自动复制，请选中下方完整链接并复制：</label>
+            <textarea id="copy-url" rows="3" readonly spellcheck="false"></textarea>
+          </div>
+          <details id="fallback-details" class="fallback-details" open>
+            <summary id="fallback-title">手动配置，只需这三步</summary>
+            <ol id="fallback-steps"></ol>
+          </details>
+          <div id="resource-links" class="resource-links"></div>
+        </section>
+        <div id="choose-client-note" class="choose-client-note"><span aria-hidden="true">↑</span> 选好客户端，就能看到下一步。</div>
+        <div class="panel-footer">无需登录 <span aria-hidden="true">·</span> 无需上传配置 <span aria-hidden="true">·</span> 无追踪</div>
+      </aside>
+    </div>
+
+    <section class="help-strip" aria-label="使用前了解">
+      <div><span class="help-icon" aria-hidden="true">↳</span><h2>规则不是订阅</h2><p>你需要已有可用的节点或订阅。只添加规则，不会自动获得代理连接。</p></div>
+      <div><span class="help-icon" aria-hidden="true">≡</span><h2>顺序影响结果</h2><p>先命中的规则先生效。请遵循教程中的顺序，尤其是安全、游戏和 Apple 规则。</p></div>
+      <div><span class="help-icon" aria-hidden="true">✓</span><h2>装好后，再检查一次</h2><p>在客户端连接记录中确认实际命中的规则和出口；服务可用性仍取决于你的网络与账号。</p></div>
+    </section>
+  </main>
+  <footer class="site-footer shell"><span>Proxy Rulesets<span class="footer-separator"> / </span>公开、可检查的分流规则</span><span>安装前备份现有配置</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

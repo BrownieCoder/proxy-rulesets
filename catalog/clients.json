@@ -1,0 +1,67 @@
+[
+  {
+    "id": "shadowrocket",
+    "name": "Shadowrocket",
+    "platform": "iPhone / iPad",
+    "mode": "module",
+    "summary": "依据社区手册生成隐私拦截模块，条目与拒绝目标一致；跨客户端命中未真机验证，模块尚未发布。其他服务请手动配置。",
+    "fallback": [
+      "先看对应服务教程，确认是否提供已发布模块。",
+      "有模块时打开「配置 → 当前配置 → 模块 → 添加模块」。",
+      "粘贴模块地址并启用；没有模块则按教程手动配置。"
+    ],
+    "guideUrl": "../docs/clients/shadowrocket.md"
+  },
+  {
+    "id": "clashx-meta",
+    "name": "ClashX.Meta",
+    "platform": "macOS",
+    "mode": "manual",
+    "summary": "复制的是规则地址，不能粘贴到远程配置入口。完整配置导入会切换，同名可能替换；不自动合并。",
+    "fallback": [
+      "复制下方规则地址。",
+      "打开教程，在当前配置的规则集合位置填写地址。",
+      "关联已有策略并核对顺序，检查配置后启用。"
+    ],
+    "guideUrl": "../docs/clients/mihomo.md#clashxmeta"
+  },
+  {
+    "id": "clash-verge",
+    "name": "Clash Verge Rev",
+    "platform": "Windows / macOS / Linux",
+    "mode": "manual",
+    "summary": "规则地址不是订阅地址。完整配置导入一般新增配置；没有当前配置时可能启用；不自动合并规则。",
+    "fallback": [
+      "复制下方规则地址。",
+      "打开教程，在当前配置的覆写中添加规则集合。",
+      "关联已有策略并核对顺序，检查配置后启用。"
+    ],
+    "guideUrl": "../docs/clients/mihomo.md#clash-verge-rev"
+  },
+  {
+    "id": "clash-party",
+    "name": "Clash Party · 原 Mihomo Party",
+    "platform": "Windows / macOS / Linux",
+    "mode": "manual",
+    "summary": "规则地址不是订阅地址。v2.0.3 完整配置导入通常新增；无当前配置时启用；不自动合并规则。",
+    "fallback": [
+      "复制下方规则地址。",
+      "打开教程，在目标配置的覆写中添加规则集合。",
+      "关联已有策略并核对顺序，检查配置后启用。"
+    ],
+    "guideUrl": "../docs/clients/mihomo.md#clash-party"
+  },
+  {
+    "id": "mihomo",
+    "name": "其他 Mihomo 客户端",
+    "platform": "按具体 App 确认",
+    "mode": "manual",
+    "summary": "Mihomo 是内核。各 App 的编辑入口不同，没有通用的规则一键导入链接。",
+    "fallback": [
+      "复制下方规则地址。",
+      "打开通用教程，将规则集合接入当前配置。",
+      "关联已有策略并核对顺序，检查配置后启用。"
+    ],
+    "guideUrl": "../docs/clients/mihomo.md"
+  }
+]

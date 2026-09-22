@@ -1,156 +1,110 @@
 # Proxy Rulesets
 
-<p align="center">
-  <img src="assets/social-preview.png" alt="Proxy Rulesets — 中国直连，全球智能分流" width="100%">
-</p>
+常用 AI、Apple、游戏和网络服务分流规则。已经有自己的代理节点？**选服务，再选客户端。**
 
-<p align="center">
-  <a href="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml"><img alt="每日同步" src="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml/badge.svg"></a>
-  <a href="LICENSE"><img alt="GPL-2.0 许可证" src="https://img.shields.io/badge/license-GPL--2.0-blue.svg"></a>
-  <img alt="中国大陆游戏规则" src="https://img.shields.io/badge/ChinaGaming-93%20rules-e5484d">
-  <img alt="国际服保护规则" src="https://img.shields.io/badge/InternationalGaming-25%20safeguards-19a7e0">
-  <a href="https://github.com/BrownieCoder/proxy-rulesets/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/BrownieCoder/proxy-rulesets?style=flat"></a>
-</p>
+[选择服务](#选择服务) · [客户端怎么选](#客户端怎么选) · [常见问题](#常见问题) · [English](README.en.md)
 
-<p align="center"><strong>为 Clash Meta / Mihomo 提供经过审计的中国大陆游戏分流：本地低延迟直连、国际服保护、可复核证据。</strong></p>
+> 安装中心已准备好静态页面，尚未公开上线。本地检出本改造分支后，可打开 `install/index.html`；主分支下载包须待合入后才包含此目录。当前请使用下面的服务教程和现有规则地址。
 
-[简体中文](README.md) | [English](README.en.md)
+## 选择服务
 
-这是一个自维护的 Clash/Mihomo ruleset 镜像，并包含经过证据审计的中国大陆游戏分流层。
+下表的“规则地址”可右键或长按复制链接；安装中心提供真正的复制按钮，不必寻找 GitHub 的 Raw 按钮。**这些地址是 Mihomo 规则文件，不是节点订阅，也不能直接粘贴到 Shadowrocket 的模块入口。**
 
-仓库直接保存并校验规则快照，不只依赖第三方 URL。同时，它把中国大陆游戏服务和国际服拆开：大陆流量优先走 `DIRECT`，国际游戏流量继续交给美国节点或其他代理策略。
+只有能够保持原有分流选择、且地址已发布核验的模块，才显示“一键导入”。AI、Apple、游戏等当前需要手动配置；不会把它们全部改成固定代理。
 
-适合正在搜索 **Mihomo rule-provider**、**Clash Meta 规则集**、**中国大陆 DIRECT 分流**，以及腾讯 WeGame、三角洲行动、网易游戏、米哈游、蒸汽平台、TapTap 等国服低延迟方案的用户。
+<!-- INSTALL-TABLE:START -->
+### AI
 
-## 主要特性
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [Siri AI / Apple Intelligence](services/siri-ai.md) | Siri、听写、云端计算与 AI 扩展的 5 个精确主机。 按已有 AI 策略选择出口 | [手动教程](services/siri-ai.md#shadowrocket) | [教程](services/siri-ai.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SiriAI.yaml) | [查看](ruleset/SiriAI.yaml) |
+| [ChatGPT / OpenAI](services/openai.md) | ChatGPT、OpenAI 与相关连接服务。 按已有 OpenAI 策略选择出口 | [手动教程](services/openai.md#shadowrocket) | [教程](services/openai.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/OpenAI_No_Resolve.yaml) | [查看](ruleset/OpenAI_No_Resolve.yaml) |
+| [Claude](services/claude.md) | Claude 的上游基础规则。 按已有 Claude 策略选择出口 | [手动教程](services/claude.md#shadowrocket) | [教程](services/claude.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Claude_No_Resolve.yaml) | [查看](ruleset/Claude_No_Resolve.yaml) |
+| [Gemini](services/gemini.md) | Gemini 与相关 Google AI 服务。 按已有 Gemini 策略选择出口 | [手动教程](services/gemini.md#shadowrocket) | [教程](services/gemini.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Gemini_No_Resolve.yaml) | [查看](ruleset/Gemini_No_Resolve.yaml) |
 
-- 24 份带 SHA-256 锁定的上游镜像
-- 4 份自维护规则，包括 `ChinaGaming` 与 `InternationalGaming`
-- 93 条高优先级中国大陆游戏规则
-- 25 条国际游戏保护规则
-- 原子同步：只有全部下载并校验成功后才替换现有快照
-- GitHub Actions 每日自动检查更新
-- 离线检查文件、校验和、provider 引用、重复规则和规则优先级
-- 完整覆盖规则目标的通用策略组模板，不内置节点或订阅
-- 审计覆盖腾讯/WeGame/三角洲行动、网易、米哈游、完美世界、西山居、莉莉丝、朝夕光年、库洛、鹰角、叠纸、Bilibili 游戏、TapTap、4399 等
+### 游戏
 
-## 分流模型
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [国际游戏](services/international-gaming.md) | 保护已确认的国际服、发行与游戏 SDK。 只选代理出口 | [手动教程](services/international-gaming.md#shadowrocket) | [教程](services/international-gaming.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/InternationalGaming.yaml) | [查看](ruleset/InternationalGaming.yaml) |
+| [中国游戏](services/china-gaming.md) | 已确认的国服官网、登录、更新和下载服务。 直连 | [手动教程](services/china-gaming.md#shadowrocket) | [教程](services/china-gaming.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaGaming.yaml) | [查看](ruleset/ChinaGaming.yaml) |
+| [Steam](services/steam.md) | Steam 商店、社区与相关全球服务。 按已有 Steam 策略选择出口 | [手动教程](services/steam.md#shadowrocket) | [教程](services/steam.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Steam_No_Resolve.yaml) | [查看](ruleset/Steam_No_Resolve.yaml) |
+| [Steam 下载与蒸汽平台](services/steam-cn.md) | 上游 SteamCN 下载相关规则。 按已有 Steam 策略选择出口 | [手动教程](services/steam-cn.md#shadowrocket) | [教程](services/steam-cn.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SteamCN_No_Resolve.yaml) | [查看](ruleset/SteamCN_No_Resolve.yaml) |
 
-```text
-安全与拒绝规则
-        ↓
-已确认的国际游戏 → 🎮 国际游戏（仅代理出口）
-        ↓
-中国大陆游戏     → DIRECT
-        ↓
-其他服务规则
-        ↓
-已确认的国际媒体
-        ↓
-GEOIP CN          → DIRECT
-        ↓
-ChinaMax / LAN / Final
-```
+### Apple 与网络
 
-Mihomo 采用从上到下首条匹配，因此顺序本身就是设计的一部分。`InternationalGaming` 必须位于 `ChinaGaming` 之前，两者都应位于 Bilibili、Steam、GlobalMedia、ChinaMax 等宽泛 provider 之前。
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [Apple 服务](services/apple.md) | Apple 通用网络服务。 默认直连，可选代理 | [手动教程](services/apple.md#shadowrocket) | [教程](services/apple.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Apple_No_Resolve.yaml) | [查看](ruleset/Apple_No_Resolve.yaml) |
+| [Google](services/google.md) | Google 通用网络服务。 沿用已有 Google 策略 | [手动教程](services/google.md#shadowrocket) | [教程](services/google.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Google_No_Resolve.yaml) | [查看](ruleset/Google_No_Resolve.yaml) |
+| [Microsoft](services/microsoft.md) | Microsoft 通用网络服务。 沿用已有 Microsoft 策略 | [手动教程](services/microsoft.md#shadowrocket) | [教程](services/microsoft.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Microsoft_No_Resolve.yaml) | [查看](ruleset/Microsoft_No_Resolve.yaml) |
 
-`fastcdn.hoyoverse.com` 是一个有意保留的精确例外：它被米哈游国服页面使用，所以先设为 `DIRECT`，再匹配 HoYoverse 国际服后缀。
+### 影音
 
-## 快速开始
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [YouTube](services/youtube.md) | YouTube 视频及相关资源。 按已有国际媒体策略选择出口 | [手动教程](services/youtube.md#shadowrocket) | [教程](services/youtube.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/YouTube_No_Resolve.yaml) | [查看](ruleset/YouTube_No_Resolve.yaml) |
+| [哔哩哔哩](services/bilibili.md) | 哔哩哔哩服务。 默认直连，可选代理 | [手动教程](services/bilibili.md#shadowrocket) | [教程](services/bilibili.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Bilibili_No_Resolve.yaml) | [查看](ruleset/Bilibili_No_Resolve.yaml) |
+| [TikTok](services/tiktok.md) | TikTok 内容及相关网络服务。 按已有国际媒体策略选择出口 | [手动教程](services/tiktok.md#shadowrocket) | [教程](services/tiktok.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TikTok_No_Resolve.yaml) | [查看](ruleset/TikTok_No_Resolve.yaml) |
+| [Disney+](services/disney.md) | Disney+ 及相关媒体资源。 按已有国际媒体策略选择出口 | [手动教程](services/disney.md#shadowrocket) | [教程](services/disney.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Disney_No_Resolve.yaml) | [查看](ruleset/Disney_No_Resolve.yaml) |
+| [Netflix](services/netflix.md) | Netflix 内容及相关资源。 按已有国际媒体策略选择出口 | [手动教程](services/netflix.md#shadowrocket) | [教程](services/netflix.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Netflix_No_Resolve.yaml) | [查看](ruleset/Netflix_No_Resolve.yaml) |
+| [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 按已有国际媒体策略选择出口 | [手动教程](services/global-media.md#shadowrocket) | [教程](services/global-media.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/GlobalMedia_Classical_No_Resolve.yaml) | [查看](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
 
-仓库发布后使用远程 provider 模板：
+### 社交
 
-1. 先在你的私有配置中定义节点或 `proxy-providers`；不要把订阅、节点地址或凭证提交到本仓库。
-2. 将 [`config/proxy-groups.yaml`](config/proxy-groups.yaml) 中的 `proxy-groups` 合并进配置。
-3. 将 [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) 中的 `rule-providers` 合并进配置。
-4. 按顺序合并 [`config/rules.yaml`](config/rules.yaml)。
-5. 如果不使用本仓库的策略组模板，请把规则中的策略名替换为你配置中真实存在的策略组。
-6. 启用前运行 `mihomo -t -f your-config.yaml`。
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [Telegram](services/telegram.md) | Telegram 网络连接与资源。 沿用已有 Telegram 策略 | [手动教程](services/telegram.md#shadowrocket) | [教程](services/telegram.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Telegram_No_Resolve.yaml) | [查看](ruleset/Telegram_No_Resolve.yaml) |
+| [X / Twitter](services/twitter.md) | X / Twitter 服务及媒体资源。 沿用已有 Twitter 策略 | [手动教程](services/twitter.md#shadowrocket) | [教程](services/twitter.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Twitter_No_Resolve.yaml) | [查看](ruleset/Twitter_No_Resolve.yaml) |
+| [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 沿用已有 Discord 策略 | [手动教程](services/discord.md#shadowrocket) | [教程](services/discord.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Discord_No_Resolve.yaml) | [查看](ruleset/Discord_No_Resolve.yaml) |
 
-如果配置和仓库位于同一目录，可使用 [`config/rule-providers.local.yaml`](config/rule-providers.local.yaml)。
+### 支付与其他
 
-## 策略组设计
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [PayPal](services/paypal.md) | PayPal 网络服务。 按已有支付策略选择出口 | [手动教程](services/paypal.md#shadowrocket) | [教程](services/paypal.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/PayPal_No_Resolve.yaml) | [查看](ruleset/PayPal_No_Resolve.yaml) |
+| [Stripe](services/stripe.md) | 含 stripe 关键词的网络请求。 按已有支付策略选择出口 | [手动教程](services/stripe.md#shadowrocket) | [教程](services/stripe.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Stripe_No_Resolve.yaml) | [查看](ruleset/Stripe_No_Resolve.yaml) |
+| [加密资产服务](services/crypto.md) | 上游加密资产服务集合。 按已有 Crypto 策略选择出口 | [手动教程](services/crypto.md#shadowrocket) | [教程](services/crypto.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Crypto_No_Resolve.yaml) | [查看](ruleset/Crypto_No_Resolve.yaml) |
+| [加密资产网页补充](services/crypto-web.md) | 本地维护的加密资产网页补充。 按已有 Crypto 策略选择出口 | [手动教程](services/crypto-web.md#shadowrocket) | [教程](services/crypto-web.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Crypto.yaml) | [查看](ruleset/Crypto.yaml) |
 
-[`config/proxy-groups.yaml`](config/proxy-groups.yaml) 是可合并的通用片段，不是含 DNS、TUN 和节点的完整配置。它使用 Mihomo 的 `include-all` 接入你已定义的节点与 proxy provider。
+### 安全与基础
 
-- `🎮 国际游戏` 不提供 `DIRECT`，避免已确认的国际服域名回退为真实出口。
-- `ChinaGaming` 仍固定走 `DIRECT`，保持国服低延迟语义。
-- `♊ Gemini` 可独立选区；但其 provider 含 `apis.google.com` 和若干较宽关键词，可能承接少量非 Gemini 的 Google 流量。
-- `⚡ 自动选择` 与 `🇺🇸 美国节点` 会请求 `www.gstatic.com/generate_204` 进行健康检查；空组会失败关闭为 `REJECT`，而不会静默直连。
+| 服务 | 作用与推荐 | Shadowrocket | ClashX.Meta | Clash Verge Rev / Mihomo | 原始规则 |
+| --- | --- | --- | --- | --- | --- |
+| [隐私拦截](services/privacy.md) | 拦截现有上游隐私追踪清单中的连接。 拒绝连接 | [模块待发布](services/privacy.md#shadowrocket) | [教程](services/privacy.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Privacy_No_Resolve.yaml) | [查看](ruleset/Privacy_No_Resolve.yaml) |
+| [劫持拦截](services/hijacking.md) | 现有上游劫持防护清单。 默认拒绝，可选直连 | [手动教程](services/hijacking.md#shadowrocket) | [教程](services/hijacking.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Hijacking_No_Resolve.yaml) | [查看](ruleset/Hijacking_No_Resolve.yaml) |
+| [中国网络](services/china-max.md) | 上游中国网络综合集合。 默认直连，可选代理 | [手动教程](services/china-max.md#shadowrocket) | [教程](services/china-max.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaMax_Classical_No_Resolve.yaml) | [查看](ruleset/ChinaMax_Classical_No_Resolve.yaml) |
+| [本地网络](services/lan.md) | 现有局域网和保留地址规则。 直连 | [手动教程](services/lan.md#shadowrocket) | [教程](services/lan.md#clash--mihomo) | [规则地址](https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Lan_No_Resolve.yaml) | [查看](ruleset/Lan_No_Resolve.yaml) |
+<!-- INSTALL-TABLE:END -->
 
-## Siri / Apple Intelligence 分流
+## 客户端怎么选
 
-`SiriAI` 是独立的 5 个精确主机规则，覆盖官方说明的 Siri/听写、Private Cloud Compute 与 Apple Intelligence 扩展。目标复用 `🤖 AI 服务`，在 `ChinaGaming` 之后、`Apple` 之前匹配，安全和游戏优先级不变。请在客户端选择该组的实际出口；它也允许 DIRECT，组名本身不保证代理或地区。
+| 客户端 | 推荐方式 | 一键 | 会不会影响现有配置 |
+| --- | --- | --- | --- |
+| Shadowrocket（iPhone 小火箭） | [模块与手动教程](docs/clients/shadowrocket.md) | 仅隐私拦截模块已生成，待发布；其他需手动 | 模块不替换节点或主配置，但其规则优先；关闭模块可撤销 |
+| ClashX.Meta（macOS） | [将规则接入现有配置](docs/clients/mihomo.md) | 单个规则集不支持 | 完整配置导入会切换配置，同名远程配置可能被替换；不会自动合并规则 |
+| Clash Verge Rev（Windows/macOS/Linux） | [复制规则地址、手动接入](docs/clients/mihomo.md) | 单个规则集不支持 | 完整配置通常新增；没有当前配置时可能自动启用；不会自动合并规则 |
+| Clash Party（原 Mihomo Party） | [复制规则地址、手动接入](docs/clients/mihomo.md) | 单个规则集不支持 | v2.0.3 通常新增，无当前配置时启用；开发版简易模式另有行为；不会自动合并 |
+| 其他 Mihomo 客户端 | [查看通用教程](docs/clients/mihomo.md) | 未统一验证 | Mihomo 是内核，具体操作取决于 App |
 
-`guzzoni.apple.com` 会同时改变普通 Siri/听写的出口。其余没有命中这 5 个精确主机的 Apple 流量继续使用既有规则。没有包含整个 Apple、Cloudflare、Private Relay、共享搜索、地图或商店下载域。
+能力依据和核验版本见[客户端研究](docs/maintainer/client-capabilities.md)。以上没有把“打开 App”当作“成功安装”，未声称做过真机测试。
 
-规则只决定出口，不能改变设备、销售地区、Apple Account、语言、rollout 等资格。它不是完整 Apple Intelligence 主机清单，也不是 Apple 要求代理的声明。PCC/扩展涉及 TCP/UDP；Mihomo 遇到不支持 UDP 的节点可能继续向后匹配，必须现场检查实际出口。无需 MITM、CA 或私人订阅。
+## 常见问题
 
-- [逐条域名审计及证据](research/SiriAI-audit.json)
-- [架构、first-match 与实施方案](research/SiriAI-plan.md)
-- [维护及双仓库一致性](research/SiriAI-maintenance.md)
-- 官方资格：[Apple 智能](https://support.apple.com/zh-cn/121115)、[Siri AI Beta](https://support.apple.com/zh-cn/148218)（核验：2026-09-22；两者条件不同）
+**为什么 ChatGPT 没有一键模块？** 原方案允许你选出口；直接改成固定代理会丢掉选择，还可能让模块越过拦截规则。这里保留原行为，给出手动入口。
 
-新增远程 SiriAI URL 只有本分支由维护者另行发布后才生效；尚未发布时请使用本地 provider 与本地规则文件。
+**会覆盖节点吗？** 规则文件没有节点或订阅。隐私模块不替换主配置；手动编辑会改变所编辑的配置，先备份。不要把规则地址当作完整配置导入。ClashX.Meta 的完整配置同名导入存在替换风险。
 
-## 中国大陆游戏保护
+**没有自动打开怎么办？** 支持模块时：复制已发布模块地址 → 打开小火箭的「配置 → 当前配置 → 模块 → 添加模块」→ 粘贴地址并启用。当前模块尚未发布，请等待发布或按[本地验证教程](docs/clients/shadowrocket.md)操作。其他客户端从服务页进入对应教程。
 
-[`ruleset/ChinaGaming.yaml`](ruleset/ChinaGaming.yaml) 优先匹配中国大陆游戏的官网、登录、启动器、更新与已确认 CDN。
+**Siri AI 规则能解锁 Apple 智能吗？** 不能。它只选择网络出口，不改变设备、账号、销售地区和语言资格，也不保证完整覆盖。5 个主机还包括普通 Siri/听写。
 
-[`ruleset/InternationalGaming.yaml`](ruleset/InternationalGaming.yaml) 保护可能被宽泛中国规则误判为国内的国际服务，包括 HoYoverse 国际域名和部分海外发行/SDK 端点。
+**规则不起作用？** 确认正在使用你编辑的配置，再检查规则顺序和实际出口。Mihomo 从上往下使用第一条匹配规则；安全拦截、国际游戏、中国游戏，以及 Siri AI / Apple、Gemini / Google 的先后顺序都要保留。
 
-配置在 GlobalMedia 之后、ChinaMax 之前加入 `GEOIP,CN,DIRECT,no-resolve`，用来兜底直接使用中国大陆 IP/UDP 的对局服务器，同时避免额外 DNS 解析，也不会抢在已知国际媒体规则之前。
+## 安全与高级入口
 
-Steam 采用更窄的处理方式：已确认的中国下载节点进入 `ChinaGaming`；上游 `SteamCN` 仍走 Steam 策略，因为其中同时包含 `steamcontent.com` 等全球共享后缀。
+本站不收集访问分析，不需要账号，不读取私人配置；公开文件不含节点、订阅或凭证。不需要 MITM、证书或解密。报告问题请只给脱敏信息，不要上传完整配置。
 
-完整审计见[中文版](research/ChinaGaming-audit.md)或[英文版](research/ChinaGaming-audit.en.md)。
+[高级配置](docs/advanced.md) · [维护指南](docs/maintainer/README.md) · [贡献](CONTRIBUTING.md) · [安全反馈](SECURITY.md)
 
-## 仓库结构
-
-- `ruleset/`：已提交的 ruleset 快照
-- `sources.json`：镜像来源 URL 与目标路径
-- `sources.lock.json`：同步信息和 SHA-256
-- `local-rulesets.json`：自维护 ruleset 清单
-- `config/proxy-groups.yaml`：不含私有节点的策略组模板
-- `scripts/sync.py`：原子下载、格式转换和 provider 生成
-- `scripts/validate.py`：离线完整性与配置校验
-- `config/`：本地/远程 provider 模板及有序规则示例
-- `research/`：可追溯事实来源的分流审计
-- `assets/`：仓库视觉素材和 1280×640 社交预览图
-
-## 更新
-
-```bash
-python3 scripts/sync.py
-python3 scripts/validate.py
-python3 scripts/public_check.py
-git diff --stat
-```
-
-同步程序会先下载并验证所有镜像来源，再替换已提交快照。任何一个来源失败，最后一份可用快照都不会被破坏。
-
-GitHub Actions 每天检查一次，只有内容确实变化时才提交。发布后需要在 **Settings → Actions → General → Workflow permissions** 中启用 **Read and write permissions**。
-
-## 准确性与限制
-
-游戏客户端可能直接连接 IP、共享云基础设施、动态 UDP 节点，或只在运行时下发主机名。本仓库覆盖经过验证的公开端点，并提供大陆 GeoIP 兜底，但不能承诺每个游戏、区服和网络环境都完整命中。
-
-高置信新增规则应来自中国大陆客户端的“冷启动 → 登录 → 更新 → 一局对战”链路，并附带 DNS、SNI 或连接日志证据。
-
-## 贡献
-
-参见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。新增规则应说明大陆/国际边界，提供权威证据，并分析整根域名是否会误伤共享或海外服务。
-
-## 许可与第三方内容
-
-本项目自行编写的代码、文档和自维护规则采用 [GNU GPL v2.0](LICENSE)。
-
-镜像文件仍归各自上游作者所有，可能带有额外声明或来源特定条款。再分发前请阅读 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 和 `sources.json`。本项目与 Mihomo、Clash、各游戏公司及上游规则项目均无隶属或背书关系。
-
-本项目不提供任何保证。使用者应自行核实当地法律、上游条款和实际分流结果。
-
-## 致谢
-
-部分通用规则快照来自 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)。感谢原项目作者与贡献者的工作；来源、校验和与许可说明见 [`sources.json`](sources.json)、[`sources.lock.json`](sources.lock.json) 和 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。致谢不代表原作者为本项目背书。
-
-如果这个项目帮你减少了延迟或排错时间，欢迎点一个 Star，让更多需要“国服直连、国际服代理”的用户找到它。
+项目自编内容采用 [GPL-2.0](LICENSE)。上游镜像及衍生模块保留来源和署名，使用前请阅读[第三方声明](THIRD_PARTY_NOTICES.md)。本项目与相关客户端、服务及上游作者无隶属或背书关系。

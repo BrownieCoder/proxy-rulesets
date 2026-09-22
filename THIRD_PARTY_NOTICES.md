@@ -29,3 +29,9 @@ Game names, company names, service names, and trademarks belong to their respect
 ## SiriAI 来源
 
 新增 SiriAI 为依 Apple 官方公开主机事实重新编制的精确规则，逐条证据在 rules/siri-ai-provenance.json。用户提供的社区截图仅作为研究线索，未转载图像、署名标识或整份社区配置。Apple 官方资料仅引用链接，不将其正文重新许可为 GPL；相关商标与文档权利仍属 Apple。
+
+## Generated install formats / 生成安装格式
+
+`modules/privacy.module` is mechanically derived from the existing Privacy snapshot without changing its ordered match rules. It retains upstream header comments and source/hash references. The upstream ownership, GPL-2.0 identification and additional usage/disclaimer statements above also apply to derived formats; generation does not establish new ownership or endorsement.
+
+`modules/privacy.module` 从现有 Privacy 快照机械生成，保留匹配规则的顺序、上游文件头、来源与散列。上述上游归属、GPL-2.0 标识及额外使用/免责声明同样适用于衍生格式；转换格式不改变版权归属，也不代表背书。
