@@ -1,0 +1,10 @@
+# 由 scripts/siri_ai.py --write 生成；请修改 canonical，勿手改。
+# 来源：rules/siri-ai-domains.txt；许可证：GPL-2.0-only。
+# canonical-sha256: 197ca6a518470f909e2a67a42f5ea2a9438ef68071ec80692f7a1b48f184c105
+# 仅决定出口，不保证资格、完整覆盖或服务可用。
+payload:
+  - DOMAIN,apple-relay.apple.com
+  - DOMAIN,apple-relay.cloudflare.com
+  - DOMAIN,apple-relay.fastly-edge.com
+  - DOMAIN,cp4.cloudflare.com
+  - DOMAIN,guzzoni.apple.com

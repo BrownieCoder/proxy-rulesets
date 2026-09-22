@@ -5,6 +5,8 @@ rules:
   - DOMAIN,fastcdn.hoyoverse.com,DIRECT
   - RULE-SET,InternationalGaming,🎮 国际游戏
   - RULE-SET,ChinaGaming,DIRECT
+  # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
+  - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
   - DOMAIN-SUFFIX,tidal.com,DIRECT
   - RULE-SET,PayPal,💳 Payment

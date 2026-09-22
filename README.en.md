@@ -25,7 +25,7 @@ Built for users searching for reliable **Mihomo rule providers**, **Clash Meta r
 ## Highlights
 
 - 24 mirrored and checksum-locked upstream rulesets
-- 3 locally maintained rulesets, including `ChinaGaming` and `InternationalGaming`
+- 4 locally maintained rulesets, including `ChinaGaming` and `InternationalGaming`
 - 93 high-priority mainland game rules
 - 25 international-game safeguards
 - Atomic synchronization: existing snapshots stay untouched unless every download validates
@@ -139,3 +139,7 @@ Provided without warranty. You are responsible for checking local law, upstream 
 Some general-purpose rule snapshots originate from [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script). Thanks to its authors and contributors. Source URLs, checksums, and license notices are recorded in [`sources.json`](sources.json), [`sources.lock.json`](sources.lock.json), and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). This credit does not imply upstream endorsement.
 
 If this project saves you latency or debugging time, consider starring it so more mainland/international dual-route users can find it.
+
+## Siri / Apple Intelligence
+
+The independent SiriAI provider contains five exact hosts, targets the existing AI group, and precedes Apple after ChinaGaming. Ordinary Siri/dictation on guzzoni.apple.com also follows that group. This is a narrow routing choice, not eligibility unlock or complete feature coverage. See the [Chinese audit and maintenance guide](research/SiriAI-maintenance.md). New remote URLs work only after separate publication; use local providers meanwhile.
