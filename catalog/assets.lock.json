@@ -41,8 +41,8 @@
       "ruleCount": 17
     },
     "ruleset/Apple_No_Resolve.yaml": {
-      "sha256": "fb6e35aefb3a52dd331f7d2ee1bd74d9f159b0ccd6fd8b89a21d9c74187155d8",
-      "rulesSha256": "174d0a38befe6ec274f69933275aa86037be81cc96c4fe45f61e8ac098827204",
+      "sha256": "482744ca58ac3d36c7035dfa275a3417a4e3767a23b983d63a3861a4c1b8154c",
+      "rulesSha256": "7b3d2405fed28f6858444af13c4eba00c0f329f1e8294b317d49bf11442c26d6",
       "ruleCount": 1593
     },
     "ruleset/Google_No_Resolve.yaml": {
@@ -131,9 +131,9 @@
       "ruleCount": 228
     },
     "ruleset/ChinaMax_Classical_No_Resolve.yaml": {
-      "sha256": "86be376b4343248c10860f4e350eabcebbe1684458c765c790025ebe664be736",
-      "rulesSha256": "51e24375ce1020202ac5c57ff9c73570915c1399993fbfc37bd801ca02184a28",
-      "ruleCount": 123815
+      "sha256": "71aff44bef223158712dddffe5508748a8005b49ecfc8c86ed7287afb38302de",
+      "rulesSha256": "6d336edb7db9b85935ad2c699ed58789126b2da0eca2d2f91117faf61af00966",
+      "ruleCount": 123822
     },
     "ruleset/Lan_No_Resolve.yaml": {
       "sha256": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c",
@@ -171,8 +171,8 @@
     "services/crypto-web.md": "7b35deb280cf4e585cbacaa5a7c99625d7bdbc25cb702fc91cea713355cbbbcc",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
-    "services/china-max.md": "dbc60e79b3fa4a769226a5d94815611e9404b640e494bb168498a1885525e50f",
+    "services/china-max.md": "3bfa866d690939cbe28a7c2bd1ecff1cb45d5029abab38912715ab39b9f0d514",
     "services/lan.md": "98647d09f37f07044c545f40b788a0acdda2cdbd6f62e265b1ed4f7274e9ccde",
-    "catalog/index.json": "dc9093fca892f29dfdb915664dfbade181eaf593e5f2fe0a24690bc47b1e4a53"
+    "catalog/index.json": "40788a31a1d59c3e07ea0f5f01ac5378a569840249a34e59eba870dda2537591"
   }
 }

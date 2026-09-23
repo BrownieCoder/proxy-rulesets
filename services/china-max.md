@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/China
 
 ## 作用与范围
 
-推荐：**默认直连，可选代理**。现有规则目标：`🇨🇳 China-Global`。共 **123815 条**规则。
+推荐：**默认直连，可选代理**。现有规则目标：`🇨🇳 China-Global`。共 **123822 条**规则。
 
 范围很广，必须放在安全、游戏、具体服务与国际媒体之后。
 
