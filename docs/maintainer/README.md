@@ -18,7 +18,7 @@ python3 -m unittest discover -s tests
 git diff --check
 ```
 
-测试依赖见 `requirements-dev.txt`；生成器仅使用 Python 标准库。上述生成和验证不下载上游、不访问私人配置。
+测试依赖固定为 PyYAML 6.0.2，并在 `requirements-dev.txt` 记录 PyPI wheel 的 SHA-256；使用 `python3 -m pip install --require-hashes -r requirements-dev.txt` 安装，依赖升级时须重新审查版本和散列。生成器仅使用 Python 标准库。上述生成和验证不下载上游、不访问私人配置。
 
 只有明确需要同步时才运行 `python3 scripts/sync.py`。同步先在候选目录完成全部格式和目录验证，再替换现有资产；校验失败时保留旧文件。候选目录也检查遗留服务页；服务改名后须先审查旧页的移除。规则解析只接受单行字面量和一致缩进，不接受 YAML 转义、嵌入引号或映射值，避免生成结果与 YAML 语义不同。GitHub Actions 沿用已有权限，并一同保存更新后的目录文件。
 
