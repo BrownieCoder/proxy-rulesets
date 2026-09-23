@@ -1,156 +1,102 @@
 # Proxy Rulesets
 
-<p align="center">
-  <img src="assets/social-preview.png" alt="Proxy Rulesets — 中国直连，全球智能分流" width="100%">
-</p>
+常用 AI、Apple、游戏和网络服务的公开分流规则。
 
-<p align="center">
-  <a href="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml"><img alt="每日同步" src="https://github.com/BrownieCoder/proxy-rulesets/actions/workflows/sync.yml/badge.svg"></a>
-  <a href="LICENSE"><img alt="GPL-2.0 许可证" src="https://img.shields.io/badge/license-GPL--2.0-blue.svg"></a>
-  <img alt="中国大陆游戏规则" src="https://img.shields.io/badge/ChinaGaming-93%20rules-e5484d">
-  <img alt="国际服保护规则" src="https://img.shields.io/badge/InternationalGaming-25%20safeguards-19a7e0">
-  <a href="https://github.com/BrownieCoder/proxy-rulesets/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/BrownieCoder/proxy-rulesets?style=flat"></a>
-</p>
+**选服务 → 查看说明 → 复制规则地址。全部在这个 GitHub 仓库里完成。**
 
-<p align="center"><strong>为 Clash Meta / Mihomo 提供经过审计的中国大陆游戏分流：本地低延迟直连、国际服保护、可复核证据。</strong></p>
+[服务目录](#服务目录) · [怎么获取](#怎么获取) · [常见问题](#常见问题) · [English](README.en.md)
 
-[简体中文](README.md) | [English](README.en.md)
+## 服务目录
 
-这是一个自维护的 Clash/Mihomo ruleset 镜像，并包含经过证据审计的中国大陆游戏分流层。
+点击服务名称查看作用和影响范围；点击「获取地址」进入可复制的地址代码块，点击「查看规则」直接阅读文件。
 
-仓库直接保存并校验规则快照，不只依赖第三方 URL。同时，它把中国大陆游戏服务和国际服拆开：大陆流量优先走 `DIRECT`，国际游戏流量继续交给美国节点或其他代理策略。
+<!-- SERVICE-CATALOG:START -->
+[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [社交](#社交) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
 
-适合正在搜索 **Mihomo rule-provider**、**Clash Meta 规则集**、**中国大陆 DIRECT 分流**，以及腾讯 WeGame、三角洲行动、网易游戏、米哈游、蒸汽平台、TapTap 等国服低延迟方案的用户。
+### AI
 
-## 主要特性
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [Siri AI / Apple Intelligence](services/siri-ai.md) | Siri、听写、云端计算与 AI 扩展的 5 个精确主机。 | [获取地址](services/siri-ai.md#规则地址) · [查看规则](ruleset/SiriAI.yaml) |
+| [ChatGPT / OpenAI](services/openai.md) | ChatGPT、OpenAI 与相关连接服务。 | [获取地址](services/openai.md#规则地址) · [查看规则](ruleset/OpenAI_No_Resolve.yaml) |
+| [Claude](services/claude.md) | Claude 的上游基础规则。 | [获取地址](services/claude.md#规则地址) · [查看规则](ruleset/Claude_No_Resolve.yaml) |
+| [Gemini](services/gemini.md) | Gemini 与相关 Google AI 服务。 | [获取地址](services/gemini.md#规则地址) · [查看规则](ruleset/Gemini_No_Resolve.yaml) |
 
-- 24 份带 SHA-256 锁定的上游镜像
-- 4 份自维护规则，包括 `ChinaGaming` 与 `InternationalGaming`
-- 93 条高优先级中国大陆游戏规则
-- 25 条国际游戏保护规则
-- 原子同步：只有全部下载并校验成功后才替换现有快照
-- GitHub Actions 每日自动检查更新
-- 离线检查文件、校验和、provider 引用、重复规则和规则优先级
-- 完整覆盖规则目标的通用策略组模板，不内置节点或订阅
-- 审计覆盖腾讯/WeGame/三角洲行动、网易、米哈游、完美世界、西山居、莉莉丝、朝夕光年、库洛、鹰角、叠纸、Bilibili 游戏、TapTap、4399 等
+### 游戏
 
-## 分流模型
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [国际游戏](services/international-gaming.md) | 保护已确认的国际服、发行与游戏 SDK。 | [获取地址](services/international-gaming.md#规则地址) · [查看规则](ruleset/InternationalGaming.yaml) |
+| [中国游戏](services/china-gaming.md) | 已确认的国服官网、登录、更新和下载服务。 | [获取地址](services/china-gaming.md#规则地址) · [查看规则](ruleset/ChinaGaming.yaml) |
+| [Steam](services/steam.md) | Steam 商店、社区与相关全球服务。 | [获取地址](services/steam.md#规则地址) · [查看规则](ruleset/Steam_No_Resolve.yaml) |
+| [Steam 下载与蒸汽平台](services/steam-cn.md) | 上游 SteamCN 下载相关规则。 | [获取地址](services/steam-cn.md#规则地址) · [查看规则](ruleset/SteamCN_No_Resolve.yaml) |
 
-```text
-安全与拒绝规则
-        ↓
-已确认的国际游戏 → 🎮 国际游戏（仅代理出口）
-        ↓
-中国大陆游戏     → DIRECT
-        ↓
-其他服务规则
-        ↓
-已确认的国际媒体
-        ↓
-GEOIP CN          → DIRECT
-        ↓
-ChinaMax / LAN / Final
-```
+### Apple 与网络
 
-Mihomo 采用从上到下首条匹配，因此顺序本身就是设计的一部分。`InternationalGaming` 必须位于 `ChinaGaming` 之前，两者都应位于 Bilibili、Steam、GlobalMedia、ChinaMax 等宽泛 provider 之前。
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [Apple 服务](services/apple.md) | Apple 通用网络服务。 | [获取地址](services/apple.md#规则地址) · [查看规则](ruleset/Apple_No_Resolve.yaml) |
+| [Google](services/google.md) | Google 通用网络服务。 | [获取地址](services/google.md#规则地址) · [查看规则](ruleset/Google_No_Resolve.yaml) |
+| [Microsoft](services/microsoft.md) | Microsoft 通用网络服务。 | [获取地址](services/microsoft.md#规则地址) · [查看规则](ruleset/Microsoft_No_Resolve.yaml) |
 
-`fastcdn.hoyoverse.com` 是一个有意保留的精确例外：它被米哈游国服页面使用，所以先设为 `DIRECT`，再匹配 HoYoverse 国际服后缀。
+### 影音
 
-## 快速开始
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [YouTube](services/youtube.md) | YouTube 视频及相关资源。 | [获取地址](services/youtube.md#规则地址) · [查看规则](ruleset/YouTube_No_Resolve.yaml) |
+| [哔哩哔哩](services/bilibili.md) | 哔哩哔哩服务。 | [获取地址](services/bilibili.md#规则地址) · [查看规则](ruleset/Bilibili_No_Resolve.yaml) |
+| [TikTok](services/tiktok.md) | TikTok 内容及相关网络服务。 | [获取地址](services/tiktok.md#规则地址) · [查看规则](ruleset/TikTok_No_Resolve.yaml) |
+| [Disney+](services/disney.md) | Disney+ 及相关媒体资源。 | [获取地址](services/disney.md#规则地址) · [查看规则](ruleset/Disney_No_Resolve.yaml) |
+| [Netflix](services/netflix.md) | Netflix 内容及相关资源。 | [获取地址](services/netflix.md#规则地址) · [查看规则](ruleset/Netflix_No_Resolve.yaml) |
+| [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 | [获取地址](services/global-media.md#规则地址) · [查看规则](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
 
-仓库发布后使用远程 provider 模板：
+### 社交
 
-1. 先在你的私有配置中定义节点或 `proxy-providers`；不要把订阅、节点地址或凭证提交到本仓库。
-2. 将 [`config/proxy-groups.yaml`](config/proxy-groups.yaml) 中的 `proxy-groups` 合并进配置。
-3. 将 [`config/rule-providers.remote.yaml`](config/rule-providers.remote.yaml) 中的 `rule-providers` 合并进配置。
-4. 按顺序合并 [`config/rules.yaml`](config/rules.yaml)。
-5. 如果不使用本仓库的策略组模板，请把规则中的策略名替换为你配置中真实存在的策略组。
-6. 启用前运行 `mihomo -t -f your-config.yaml`。
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [Telegram](services/telegram.md) | Telegram 网络连接与资源。 | [获取地址](services/telegram.md#规则地址) · [查看规则](ruleset/Telegram_No_Resolve.yaml) |
+| [X / Twitter](services/twitter.md) | X / Twitter 服务及媒体资源。 | [获取地址](services/twitter.md#规则地址) · [查看规则](ruleset/Twitter_No_Resolve.yaml) |
+| [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 | [获取地址](services/discord.md#规则地址) · [查看规则](ruleset/Discord_No_Resolve.yaml) |
 
-如果配置和仓库位于同一目录，可使用 [`config/rule-providers.local.yaml`](config/rule-providers.local.yaml)。
+### 支付与其他
 
-## 策略组设计
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [PayPal](services/paypal.md) | PayPal 网络服务。 | [获取地址](services/paypal.md#规则地址) · [查看规则](ruleset/PayPal_No_Resolve.yaml) |
+| [Stripe](services/stripe.md) | 含 stripe 关键词的网络请求。 | [获取地址](services/stripe.md#规则地址) · [查看规则](ruleset/Stripe_No_Resolve.yaml) |
+| [加密资产服务](services/crypto.md) | 上游加密资产服务集合。 | [获取地址](services/crypto.md#规则地址) · [查看规则](ruleset/Crypto_No_Resolve.yaml) |
+| [加密资产网页补充](services/crypto-web.md) | 本地维护的加密资产网页补充。 | [获取地址](services/crypto-web.md#规则地址) · [查看规则](ruleset/Crypto.yaml) |
 
-[`config/proxy-groups.yaml`](config/proxy-groups.yaml) 是可合并的通用片段，不是含 DNS、TUN 和节点的完整配置。它使用 Mihomo 的 `include-all` 接入你已定义的节点与 proxy provider。
+### 安全与基础
 
-- `🎮 国际游戏` 不提供 `DIRECT`，避免已确认的国际服域名回退为真实出口。
-- `ChinaGaming` 仍固定走 `DIRECT`，保持国服低延迟语义。
-- `♊ Gemini` 可独立选区；但其 provider 含 `apis.google.com` 和若干较宽关键词，可能承接少量非 Gemini 的 Google 流量。
-- `⚡ 自动选择` 与 `🇺🇸 美国节点` 会请求 `www.gstatic.com/generate_204` 进行健康检查；空组会失败关闭为 `REJECT`，而不会静默直连。
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [隐私拦截](services/privacy.md) | 拦截现有上游隐私追踪清单中的连接。 | [获取地址](services/privacy.md#规则地址) · [查看规则](ruleset/Privacy_No_Resolve.yaml) |
+| [劫持拦截](services/hijacking.md) | 现有上游劫持防护清单。 | [获取地址](services/hijacking.md#规则地址) · [查看规则](ruleset/Hijacking_No_Resolve.yaml) |
+| [中国网络](services/china-max.md) | 上游中国网络综合集合。 | [获取地址](services/china-max.md#规则地址) · [查看规则](ruleset/ChinaMax_Classical_No_Resolve.yaml) |
+| [本地网络](services/lan.md) | 现有局域网和保留地址规则。 | [获取地址](services/lan.md#规则地址) · [查看规则](ruleset/Lan_No_Resolve.yaml) |
+<!-- SERVICE-CATALOG:END -->
 
-## Siri / Apple Intelligence 分流
+## 怎么获取
 
-`SiriAI` 是独立的 5 个精确主机规则，覆盖官方说明的 Siri/听写、Private Cloud Compute 与 Apple Intelligence 扩展。目标复用 `🤖 AI 服务`，在 `ChinaGaming` 之后、`Apple` 之前匹配，安全和游戏优先级不变。请在客户端选择该组的实际出口；它也允许 DIRECT，组名本身不保证代理或地区。
+1. 在上面的目录中找到服务，也可用浏览器页内搜索查找 ChatGPT、Siri 等名称。
+2. 打开服务说明，复制「规则地址」下的整行 URL。
+3. 需要文件内容时，点击「查看规则」在 GitHub 阅读，或打开服务页的原始文件链接保存。
 
-`guzzoni.apple.com` 会同时改变普通 Siri/听写的出口。其余没有命中这 5 个精确主机的 Apple 流量继续使用既有规则。没有包含整个 Apple、Cloudflare、Private Relay、共享搜索、地图或商店下载域。
+复制链接和下载文件都不会修改现有配置。这里提供的是规则，不是节点订阅或完整配置。
 
-规则只决定出口，不能改变设备、销售地区、Apple Account、语言、rollout 等资格。它不是完整 Apple Intelligence 主机清单，也不是 Apple 要求代理的声明。PCC/扩展涉及 TCP/UDP；Mihomo 遇到不支持 UDP 的节点可能继续向后匹配，必须现场检查实际出口。无需 MITM、CA 或私人订阅。
+## 常见问题
 
-- [逐条域名审计及证据](research/SiriAI-audit.json)
-- [架构、first-match 与实施方案](research/SiriAI-plan.md)
-- [维护及双仓库一致性](research/SiriAI-maintenance.md)
-- 官方资格：[Apple 智能](https://support.apple.com/zh-cn/121115)、[Siri AI Beta](https://support.apple.com/zh-cn/148218)（核验：2026-09-22；两者条件不同）
+**如何选择？** 只取你需要的服务规则即可。推荐出口和范围限制写在每个服务页里；原有直连、拒绝和可选策略保持区分。
 
-新增远程 SiriAI URL 只有本分支由维护者另行发布后才生效；尚未发布时请使用本地 provider 与本地规则文件。
+**组合规则时要注意什么？** 规则从上往下匹配，先命中的先生效。保留安全拦截优先、国际游戏先于中国游戏，以及 Siri AI 在 Apple 前、Gemini 在 Google 前。完整顺序见[有序规则](config/rules.yaml)。
 
-## 中国大陆游戏保护
+**Siri AI 能解锁 Apple 智能吗？** 不能。它只选择网络出口，不改变设备、账号、销售地区或语言资格，也不保证完整覆盖；还可能影响普通 Siri/听写。
 
-[`ruleset/ChinaGaming.yaml`](ruleset/ChinaGaming.yaml) 优先匹配中国大陆游戏的官网、登录、启动器、更新与已确认 CDN。
+**地址打不开怎么办？** 回到服务页点击「查看规则文件」确认内容，或从原始文件链接保存。网络问题仍未解决时，请提交脱敏问题，不要上传私人配置。
 
-[`ruleset/InternationalGaming.yaml`](ruleset/InternationalGaming.yaml) 保护可能被宽泛中国规则误判为国内的国际服务，包括 HoYoverse 国际域名和部分海外发行/SDK 端点。
+## 更多说明
 
-配置在 GlobalMedia 之后、ChinaMax 之前加入 `GEOIP,CN,DIRECT,no-resolve`，用来兜底直接使用中国大陆 IP/UDP 的对局服务器，同时避免额外 DNS 解析，也不会抢在已知国际媒体规则之前。
+[高级配置参考](docs/advanced.md) · [维护指南](docs/maintainer/README.md) · [贡献](CONTRIBUTING.md) · [安全反馈](SECURITY.md)
 
-Steam 采用更窄的处理方式：已确认的中国下载节点进入 `ChinaGaming`；上游 `SteamCN` 仍走 Steam 策略，因为其中同时包含 `steamcontent.com` 等全球共享后缀。
-
-完整审计见[中文版](research/ChinaGaming-audit.md)或[英文版](research/ChinaGaming-audit.en.md)。
-
-## 仓库结构
-
-- `ruleset/`：已提交的 ruleset 快照
-- `sources.json`：镜像来源 URL 与目标路径
-- `sources.lock.json`：同步信息和 SHA-256
-- `local-rulesets.json`：自维护 ruleset 清单
-- `config/proxy-groups.yaml`：不含私有节点的策略组模板
-- `scripts/sync.py`：原子下载、格式转换和 provider 生成
-- `scripts/validate.py`：离线完整性与配置校验
-- `config/`：本地/远程 provider 模板及有序规则示例
-- `research/`：可追溯事实来源的分流审计
-- `assets/`：仓库视觉素材和 1280×640 社交预览图
-
-## 更新
-
-```bash
-python3 scripts/sync.py
-python3 scripts/validate.py
-python3 scripts/public_check.py
-git diff --stat
-```
-
-同步程序会先下载并验证所有镜像来源，再替换已提交快照。任何一个来源失败，最后一份可用快照都不会被破坏。
-
-GitHub Actions 每天检查一次，只有内容确实变化时才提交。发布后需要在 **Settings → Actions → General → Workflow permissions** 中启用 **Read and write permissions**。
-
-## 准确性与限制
-
-游戏客户端可能直接连接 IP、共享云基础设施、动态 UDP 节点，或只在运行时下发主机名。本仓库覆盖经过验证的公开端点，并提供大陆 GeoIP 兜底，但不能承诺每个游戏、区服和网络环境都完整命中。
-
-高置信新增规则应来自中国大陆客户端的“冷启动 → 登录 → 更新 → 一局对战”链路，并附带 DNS、SNI 或连接日志证据。
-
-## 贡献
-
-参见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。新增规则应说明大陆/国际边界，提供权威证据，并分析整根域名是否会误伤共享或海外服务。
-
-## 许可与第三方内容
-
-本项目自行编写的代码、文档和自维护规则采用 [GNU GPL v2.0](LICENSE)。
-
-镜像文件仍归各自上游作者所有，可能带有额外声明或来源特定条款。再分发前请阅读 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 和 `sources.json`。本项目与 Mihomo、Clash、各游戏公司及上游规则项目均无隶属或背书关系。
-
-本项目不提供任何保证。使用者应自行核实当地法律、上游条款和实际分流结果。
-
-## 致谢
-
-部分通用规则快照来自 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)。感谢原项目作者与贡献者的工作；来源、校验和与许可说明见 [`sources.json`](sources.json)、[`sources.lock.json`](sources.lock.json) 和 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。致谢不代表原作者为本项目背书。
-
-如果这个项目帮你减少了延迟或排错时间，欢迎点一个 Star，让更多需要“国服直连、国际服代理”的用户找到它。
+公开文件不含节点、订阅或凭证，不收集用户流量。项目自编内容采用 [GPL-2.0](LICENSE)；上游规则保留[来源、署名和许可](THIRD_PARTY_NOTICES.md)。

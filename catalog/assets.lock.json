@@ -1,0 +1,178 @@
+{
+  "sources": {
+    "ruleset/SiriAI.yaml": {
+      "sha256": "2e5e7f3bfc3edabb4a30f0443ea05848f11b80dc7bb3e26057ded4711ff674ef",
+      "rulesSha256": "7d98641b099023e975feb6d01d44d8b3cb0d32251b960602fa3cae7795a59e6b",
+      "ruleCount": 5
+    },
+    "ruleset/OpenAI_No_Resolve.yaml": {
+      "sha256": "d4893f63ae867c410592ea902dc9a344a1959b94c37a1b36d34b547dee25bd14",
+      "rulesSha256": "413c11ed079810aab35b7776fc54c53a9575eb1e6abffa7cf541b3c7e50d9bd8",
+      "ruleCount": 35
+    },
+    "ruleset/Claude_No_Resolve.yaml": {
+      "sha256": "ef21df39005b17dbd84aa65a47162b36fb5e72754cd32384146474ed488df482",
+      "rulesSha256": "e22906098a08537bca78fe642e8dcf401700595c436d131bfdbb9f446c58e19b",
+      "ruleCount": 3
+    },
+    "ruleset/Gemini_No_Resolve.yaml": {
+      "sha256": "d76e9822f72a69860b7d3086db61bbbef53014c57e3dc12472150c62a4f6434b",
+      "rulesSha256": "605702efe5aec5edb07d1c03174a10157bdd2e9dc4e67fa01e7ad3bd80bd4633",
+      "ruleCount": 13
+    },
+    "ruleset/InternationalGaming.yaml": {
+      "sha256": "2bda659eb48af57f32a42d1e3b35dca11eab9885279a198d961582418b1452c4",
+      "rulesSha256": "363883fb8b1f2082eea1f1bd1adf5ebb03bccf8814b29db8897bbef620d0565f",
+      "ruleCount": 25
+    },
+    "ruleset/ChinaGaming.yaml": {
+      "sha256": "d9b45191404553bcdc1212332fce47f0cd37e1274a2675ec4e4cfa779afefab5",
+      "rulesSha256": "0f2e9ae0727c939be55356e7a45dd3f9f0069515ac92cc1b52d12970713623fa",
+      "ruleCount": 93
+    },
+    "ruleset/Steam_No_Resolve.yaml": {
+      "sha256": "585e423c866bb020421a79dd2842f279b56ef94bf487fbee13354796958dcad6",
+      "rulesSha256": "fc4690f13f3b4f9144702f74a38603ca9c9309b1abf73938cdce73755b28fce6",
+      "ruleCount": 54
+    },
+    "ruleset/SteamCN_No_Resolve.yaml": {
+      "sha256": "9001a292467843777e7b97b7a78224da8a259f5e6fcb5d36e4413c28296875e4",
+      "rulesSha256": "e5541c7db5d9396a8be97205ac5a3742b318a391f39946c2a1c8239fb567fb15",
+      "ruleCount": 17
+    },
+    "ruleset/Apple_No_Resolve.yaml": {
+      "sha256": "482744ca58ac3d36c7035dfa275a3417a4e3767a23b983d63a3861a4c1b8154c",
+      "rulesSha256": "7b3d2405fed28f6858444af13c4eba00c0f329f1e8294b317d49bf11442c26d6",
+      "ruleCount": 1593
+    },
+    "ruleset/Google_No_Resolve.yaml": {
+      "sha256": "1fb60a769273a36363b277c0083df87f16385bf98087fe1c6625e8b8bf9ebfb9",
+      "rulesSha256": "a1c519e797bf32705b535f51ec22879a0db3e6f562d2887b622aae0019726ee5",
+      "ruleCount": 701
+    },
+    "ruleset/Microsoft_No_Resolve.yaml": {
+      "sha256": "a289a1d52394e92ceee26a5c83953cd292609717d39fb2970d189dc7877b2a4d",
+      "rulesSha256": "4ff17f4a2820c4c7901299d03714057bc310da8808e0096edab84ba5d368de50",
+      "ruleCount": 670
+    },
+    "ruleset/YouTube_No_Resolve.yaml": {
+      "sha256": "7deacecc20077a39dc052d097806bfb8f89dc60970c02bfda3803edaedddaa55",
+      "rulesSha256": "df9f9138a41a99ef1e0e9be23942bc3624c39fb1111e90c61c14c187b50b60a0",
+      "ruleCount": 183
+    },
+    "ruleset/Bilibili_No_Resolve.yaml": {
+      "sha256": "4b221842279607a51399f51509338d729dff04f1a8a346823a2bf605e243d588",
+      "rulesSha256": "a8dbb0ff7d47a1bfd26747a025eb59b440270f6ac97a5cfbe5a610eee01543d7",
+      "ruleCount": 129
+    },
+    "ruleset/TikTok_No_Resolve.yaml": {
+      "sha256": "c93113e0f7d84302868ae8a1a7bfd024dbc03e54c5953f5439d20ca9c04005b7",
+      "rulesSha256": "6dabd26ed42ccfd8ad2bf02a0f626bd0a64a6c4f9ec690fbb7438224fb51ad41",
+      "ruleCount": 32
+    },
+    "ruleset/Disney_No_Resolve.yaml": {
+      "sha256": "5788df2a9935ecdbacc06c87c3f9c7cc4ec39fe3d61aea1f33be66d79e6b5a3a",
+      "rulesSha256": "151220e11f48454cf72d9878f312c4ac1a406962932a2c5b0ed183be28bce8ef",
+      "ruleCount": 174
+    },
+    "ruleset/Netflix_No_Resolve.yaml": {
+      "sha256": "cfb49b76fabc96887c7da7336ecea9066727c1489d25d677baa4f4e7a79a05f3",
+      "rulesSha256": "45790cc99916fb765f4e977b26c71da8329e6c7f8c68b6460ccba46afdbd0a10",
+      "ruleCount": 38
+    },
+    "ruleset/GlobalMedia_Classical_No_Resolve.yaml": {
+      "sha256": "a7260bb573154c249170e2f195f366239387ae6e8a3b3f028fb3f78d28131e70",
+      "rulesSha256": "1d9f445caee66549e014dee1d1d35e4f6b3e6e36eb24936fc2f6db0708df5ff3",
+      "ruleCount": 2265
+    },
+    "ruleset/Telegram_No_Resolve.yaml": {
+      "sha256": "996651175d82cdc34e07c2429d5737ddbe15a5ed83e54dbaf84727a6f5927f92",
+      "rulesSha256": "4f039e6cf0ab6e376cc8a0f32bc1970b52e8c5820e7a94a6015899300a599b5d",
+      "ruleCount": 46
+    },
+    "ruleset/Twitter_No_Resolve.yaml": {
+      "sha256": "512413d6f39d1331b75323ba7f4042e6028fd4014c35deb6abca343bd3aa1714",
+      "rulesSha256": "371a1ead914bfa4ff5ff4ca338111d6e088517cf4792dd0bd43448b9331d1eb8",
+      "ruleCount": 33
+    },
+    "ruleset/Discord_No_Resolve.yaml": {
+      "sha256": "ce5e3cf18e7353fea35edce91f66e1dfa2a38331203b7fb245c535620d02bf8b",
+      "rulesSha256": "706943aeceae3cd4b5054de90f4323014c1fcb85af64308d8e492d764f912893",
+      "ruleCount": 29
+    },
+    "ruleset/PayPal_No_Resolve.yaml": {
+      "sha256": "66c75e9ecff301097919cccb27a675251158e8d85e09c6c926995b465cab8a59",
+      "rulesSha256": "1c1e4f8459588bf0678fca29bf1f9e084c8b1151a4274400440e7d9784e11420",
+      "ruleCount": 247
+    },
+    "ruleset/Stripe_No_Resolve.yaml": {
+      "sha256": "1136cf1ec6bfb689c85176de3c371e142e48ce3cf14fe4ef2120f8235b993e83",
+      "rulesSha256": "de3b28f9240b31088fb5cad575e5724fd459f23334532247bc13476f3bf9695f",
+      "ruleCount": 1
+    },
+    "ruleset/Crypto_No_Resolve.yaml": {
+      "sha256": "285c3e375d6e3db1e4af8249b9e7d2b83646a6e1165dda6d2400654a0933b733",
+      "rulesSha256": "b8f8ad1d16e47836231c03c786c6f5ac0b6477919eed0626b44b216258776582",
+      "ruleCount": 204
+    },
+    "ruleset/Crypto.yaml": {
+      "sha256": "ff24864e6f8137921840823ab8805b1783babce39b3044c64350909dd3eef70b",
+      "rulesSha256": "37feb6db95b8953b6fc7c79b03bd461f02f4b75e230449cf1c7e37d2b0c326d7",
+      "ruleCount": 2
+    },
+    "ruleset/Privacy_No_Resolve.yaml": {
+      "sha256": "a7f16ed12c37d472c0b35ae21948a970db5062ef211677178568259fbc947d49",
+      "rulesSha256": "b7e04cea6efdfc33db3eb070599e7c4065f4c0c2662f7beccdf86eb7cebe0b3e",
+      "ruleCount": 39936
+    },
+    "ruleset/Hijacking_No_Resolve.yaml": {
+      "sha256": "e5eb030205505e184df4980afeaf29718e9b19a03d0c517b3856e503c1086e92",
+      "rulesSha256": "b976714a9cecf0e3da92fdf2857db1076d689497fd0e4b2b6309e61b480a1a55",
+      "ruleCount": 228
+    },
+    "ruleset/ChinaMax_Classical_No_Resolve.yaml": {
+      "sha256": "71aff44bef223158712dddffe5508748a8005b49ecfc8c86ed7287afb38302de",
+      "rulesSha256": "6d336edb7db9b85935ad2c699ed58789126b2da0eca2d2f91117faf61af00966",
+      "ruleCount": 123822
+    },
+    "ruleset/Lan_No_Resolve.yaml": {
+      "sha256": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c",
+      "rulesSha256": "9d07576869ca896bcef5d365209c9dccee6dc9cc1513d85bd3f35ef895259cf1",
+      "ruleCount": 140
+    }
+  },
+  "readmeCatalogSha256": "389502296bb6120d7bdd4b79f3011ef6c36a534fa4a190de71884946cdbe0ec5",
+  "artifacts": {
+    "config/rule-providers.local.yaml": "330b46f5a9e9f69e652b7319e74fead875005c33eadf625cef6852729c39da64",
+    "config/rule-providers.remote.yaml": "0d137a7e5d71c0b00c2b2c601807dba84c0e00e39922b1d952606164a6a66e6c",
+    "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
+    "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
+    "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
+    "services/gemini.md": "0378c41e169aca0dd496df89a35175052febda64ebc5d821cd2d4e21a125e802",
+    "services/international-gaming.md": "0968f9067918908bb372310e3e817323e57762b831ed8ca93f204e939993d740",
+    "services/china-gaming.md": "cee2a82ab2612833ba29a6ae7a7f3f8d8e830e9014c81ac818771875373ab0d6",
+    "services/steam.md": "3cb295dafebb48422c91752a308e20a78b09be685951d5a69cffdfd07e92ac66",
+    "services/steam-cn.md": "84173f81dd3dc4aad0064f76f8ddc33966187471a2186bc7bc533ff896ef1a84",
+    "services/apple.md": "91d75957da6b57d366fe5540c92c77e95282e6cf35bcbd9f2db06d32ec733def",
+    "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
+    "services/microsoft.md": "f88fa7d22bb858e5843fcea08038be27031d92ba06ae376f21ad3c03427ac900",
+    "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
+    "services/bilibili.md": "58b7530860e9601ce8a72abd9e8c2d178402c690dde03af5d44bc5d9a9e890ce",
+    "services/tiktok.md": "80688138cda7b1664d54ff9ea9e6c3acfe1b0f8714b11cb26f62904ed476d2bb",
+    "services/disney.md": "df302d62b60246c16e7a8128cef43af5a0e1a1fe85e5468ee295d80e8043c4ba",
+    "services/netflix.md": "8a090cc67d27c808fedda7ac62aa653c1a21f513233f93efb928337027511617",
+    "services/global-media.md": "5d13e7b4a433a3ff50b9734d22263cf4352877ecfe07077622adc10f9177e5ce",
+    "services/telegram.md": "e5820dcd7899a6c9b286f840ed8ff6e26e7141e43c7e91155f10f0994c6fc7e2",
+    "services/twitter.md": "a4711b617da1aa3dd2865430ac26515516a9a0cdbb231db403be6ae569a4485f",
+    "services/discord.md": "223fbe1d165fbbf69e911bd9e9d87fdf7bbf961b2b9d5031b76ceeff13212f78",
+    "services/paypal.md": "872ecec73b66aaaeb2f00a155f24ed9be5b71f7c3c08875f577b503fbdb84bf6",
+    "services/stripe.md": "1f55c6754d4065c20bf21cd3f000fa0c3df9c04b90b631913f32bdb2daec492e",
+    "services/crypto.md": "f83c754a95b79a123082adc4a47f5c16c0f14569d8bc518222fdbc138f7071d0",
+    "services/crypto-web.md": "7b35deb280cf4e585cbacaa5a7c99625d7bdbc25cb702fc91cea713355cbbbcc",
+    "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
+    "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
+    "services/china-max.md": "3bfa866d690939cbe28a7c2bd1ecff1cb45d5029abab38912715ab39b9f0d514",
+    "services/lan.md": "98647d09f37f07044c545f40b788a0acdda2cdbd6f62e265b1ed4f7274e9ccde",
+    "catalog/index.json": "40788a31a1d59c3e07ea0f5f01ac5378a569840249a34e59eba870dda2537591"
+  }
+}
