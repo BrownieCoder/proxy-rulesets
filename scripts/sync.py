@@ -132,8 +132,8 @@ def main() -> int:
             print(f"ok  {name:<14} {len(data):>9,} bytes")
 
         # Assemble a public-only candidate tree. Validate all derived formats
-        # before replacing any current snapshot, lock, provider or install asset.
-        for directory in ("catalog", "rules"):
+        # before replacing any current snapshot, lock, provider or catalog asset.
+        for directory in ("catalog", "rules", "services"):
             shutil.copytree(ROOT / directory, stage / directory)
         for relative in ("README.md", "sources.json", "local-rulesets.json",
                          "config/rules.yaml", "research/SiriAI-audit.json"):
@@ -145,12 +145,8 @@ def main() -> int:
             target = stage / source["path"]
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / source["path"], target)
-        from generate_catalog import build
-        outputs = build(stage)
-        for relative, content in outputs.items():
-            target = stage / relative
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text(content, encoding="utf-8")
+        from generate_catalog import generate
+        outputs = generate(stage, write=True)
 
         writes = [source["path"] for source in sources.values()] + list(outputs)
         previous_lock = {}

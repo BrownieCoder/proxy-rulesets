@@ -24,7 +24,7 @@ class Response(io.BytesIO):
 
 
 class SyncCatalog(unittest.TestCase):
-    def run_sync(self, invalid):
+    def run_sync(self, invalid=False, payload=None, rename_service=False):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             for directory in ('ruleset', 'catalog', 'docs', 'rules', 'research', 'config', 'services'):
@@ -32,10 +32,17 @@ class SyncCatalog(unittest.TestCase):
             for name in ('README.md', 'sources.json', 'local-rulesets.json', 'sources.lock.json'):
                 shutil.copyfile(ROOT / name, root / name)
             sources = json.loads((root / 'sources.json').read_text())
+            if rename_service:
+                metadata = root / 'catalog/services.json'
+                catalog = json.loads(metadata.read_text())
+                catalog[0]['id'] += '-renamed'
+                metadata.write_text(json.dumps(catalog))
             before = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
             bodies = {s['url']: (root / s['path']).read_bytes() for s in sources.values()}
             privacy_url = sources['Privacy']['url']
-            if invalid:
+            if payload is not None:
+                bodies[privacy_url] = payload
+            elif invalid:
                 bodies[privacy_url] += b'  - UNREVIEWED-RULE,example.org\n'
             else:
                 bodies[privacy_url] = b'# mocked public upstream metadata change\n' + bodies[privacy_url]
@@ -44,7 +51,7 @@ class SyncCatalog(unittest.TestCase):
                 with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errors):
                     result = sync.main()
             after = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
-            if invalid:
+            if invalid or payload is not None or rename_service:
                 self.assertEqual(result, 1)
                 self.assertEqual(before, after, 'failed candidate must not modify any live asset')
             else:
@@ -57,6 +64,19 @@ class SyncCatalog(unittest.TestCase):
 
     def test_invalid_download_preserves_all_existing_assets(self):
         self.run_sync(invalid=True)
+
+    def test_yaml_semantic_changes_preserve_all_existing_assets(self):
+        for payload in (
+            b'payload:\n  - "DOMAIN-KEYWORD,foo\\nbar"\n',
+            b"payload:\n  - 'DOMAIN-KEYWORD,foo''bar'\n",
+            b'payload:\n  - PROCESS-NAME,foo: bar\n',
+            b'payload:\n  - DOMAIN,example.org\n    - DOMAIN,example.net\n',
+        ):
+            with self.subTest(payload=payload):
+                self.run_sync(payload=payload)
+
+    def test_renamed_service_preserves_all_existing_assets(self):
+        self.run_sync(rename_service=True)
 
     def test_valid_download_updates_derived_assets_together(self):
         self.run_sync(invalid=False)

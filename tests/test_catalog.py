@@ -82,6 +82,13 @@ class ServiceCatalog(unittest.TestCase):
         with self.assertRaises(ValueError):
             gen.read_rules('payload:\n  - DOMAIN,example.com\n  - DOMAIN,example.com\n')
 
+    def test_supported_yaml_scalar_forms_match_independent_parser(self):
+        for indent in ('', '  ', '    '):
+            for quote in ('', "'", '"'):
+                text = f'payload:\n{indent}- {quote}DOMAIN,example.org{quote}\n'
+                with self.subTest(indent=indent, quote=quote):
+                    self.assertEqual(gen.read_rules(text), yaml.safe_load(text)['payload'])
+
     def test_missing_provider_and_duplicate_metadata_rejected(self):
         original = gen.load
         for mutate in (lambda x: x[0].update(provider='Missing'), lambda x: x.append(x[0])):

@@ -57,20 +57,31 @@ def read_rules(text: str) -> list[str]:
     """Parse the repository's deliberately restricted classical YAML subset."""
     rules = []
     payload = False
-    for line in text.splitlines():
-        line = line.strip()
+    indentation = None
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
         if not line or line.startswith('#'):
             continue
-        if line == 'payload:' and not payload:
+        if raw_line == 'payload:' and not payload:
             payload = True
             continue
-        if not payload or not line.startswith('- '):
+        entry = re.fullmatch(r'( *)- (\S(?:.*\S)?)', raw_line)
+        if not payload or entry is None:
             raise ValueError('Expected one payload mapping with scalar rule entries')
-        rule = line[2:]
+        if indentation is None:
+            indentation = entry[1]
+        elif indentation != entry[1]:
+            raise ValueError('Inconsistent YAML sequence indentation')
+        rule = entry[2]
         if rule.startswith(('"', "'")):
             if len(rule) < 2 or rule[-1] != rule[0]:
                 raise ValueError('Unbalanced YAML quotes')
             rule = rule[1:-1]
+        # Quotes only wrap literal scalars in this subset. Reject YAML escapes,
+        # embedded quotes, mapping separators and whitespace instead of silently
+        # interpreting them differently from a full YAML parser.
+        if not re.fullmatch(r'[\w,.:/+*?@%=-]+', rule):
+            raise ValueError('Unsupported YAML scalar; expected a literal rule')
         check_rule(rule)
         rules.append(rule)
     if not rules or len(rules) != len(set(rules)):
