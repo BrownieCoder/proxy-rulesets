@@ -133,10 +133,10 @@ def main() -> int:
 
         # Assemble a public-only candidate tree. Validate all derived formats
         # before replacing any current snapshot, lock, provider or catalog asset.
-        for directory in ("catalog", "rules", "services"):
+        for directory in ("catalog", "rules", "services", "config"):
             shutil.copytree(ROOT / directory, stage / directory)
         for relative in ("README.md", "sources.json", "local-rulesets.json",
-                         "config/rules.yaml", "research/SiriAI-audit.json"):
+                         "research/SiriAI-audit.json"):
             target = stage / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / relative, target)
@@ -162,6 +162,10 @@ def main() -> int:
                 encoding="utf-8",
             )
             writes.append("sources.lock.json")
+        else:
+            shutil.copyfile(LOCK_FILE, stage / "sources.lock.json")
+        from validate import validate_tree
+        validate_tree(stage)
         # Preserve the existing per-file atomic replace after all validation.
         for relative in writes:
             target = ROOT / relative

@@ -17,9 +17,9 @@ from siri_ai import validate as validate_siri_ai  # noqa: E402
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
 
 
-def parse_policy_groups() -> tuple[set[str], dict[str, list[str]]]:
+def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str]]]:
     """Read the project-owned policy-group template without a YAML dependency."""
-    text = (ROOT / "config" / "proxy-groups.yaml").read_text(encoding="utf-8")
+    text = (root / "config" / "proxy-groups.yaml").read_text(encoding="utf-8")
     names: set[str] = set()
     members: dict[str, list[str]] = {}
     current: str | None = None
@@ -89,10 +89,10 @@ def parse_rule_targets(text: str) -> set[str]:
     return targets
 
 
-def validate_config_references(provider_names: set[str]) -> None:
+def validate_config_references(provider_names: set[str], root: Path = ROOT) -> None:
     provider_pattern = re.compile(r"^  ([A-Za-z0-9_-]+):$", re.MULTILINE)
     for filename in ("rule-providers.local.yaml", "rule-providers.remote.yaml"):
-        text = (ROOT / "config" / filename).read_text(encoding="utf-8")
+        text = (root / "config" / filename).read_text(encoding="utf-8")
         defined = set(provider_pattern.findall(text))
         if defined != provider_names:
             raise ValueError(
@@ -100,7 +100,7 @@ def validate_config_references(provider_names: set[str]) -> None:
                 f"missing={provider_names-defined}, extra={defined-provider_names}"
             )
 
-    rules_text = (ROOT / "config" / "rules.yaml").read_text(encoding="utf-8")
+    rules_text = (root / "config" / "rules.yaml").read_text(encoding="utf-8")
     referenced = set(
         re.findall(r"^\s*-\s*RULE-SET,([^,]+),", rules_text, re.MULTILINE)
     )
@@ -131,7 +131,7 @@ def validate_config_references(provider_names: set[str]) -> None:
     if gemini_position > google_position:
         raise ValueError("Gemini must be matched before the broader Google provider")
 
-    group_names, group_members = parse_policy_groups()
+    group_names, group_members = parse_policy_groups(root)
     custom_targets = parse_rule_targets(rules_text) - BUILTIN_POLICIES
     missing_groups = custom_targets - group_names
     if missing_groups:
@@ -154,24 +154,24 @@ def validate_config_references(provider_names: set[str]) -> None:
         raise ValueError("🎮 国际游戏 must not offer DIRECT, including transitively")
 
 
-def main() -> int:
-    sources = json.loads((ROOT / "sources.json").read_text(encoding="utf-8"))
-    local_sources = json.loads((ROOT / "local-rulesets.json").read_text(encoding="utf-8"))
-    lock = json.loads((ROOT / "sources.lock.json").read_text(encoding="utf-8"))
+def validate_tree(root: Path = ROOT) -> int:
+    sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
+    local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
+    lock = json.loads((root / "sources.lock.json").read_text(encoding="utf-8"))
     expected_paths = {
         entry["path"] for entry in list(sources.values()) + list(local_sources.values())
     }
-    actual_paths = {str(path.relative_to(ROOT)) for path in (ROOT / "ruleset").glob("*.yaml")}
+    actual_paths = {str(path.relative_to(root)) for path in (root / "ruleset").glob("*.yaml")}
     if expected_paths != actual_paths:
         raise ValueError(f"ruleset file mismatch: missing={expected_paths-actual_paths}, extra={actual_paths-expected_paths}")
     for name, source in sources.items():
-        data = (ROOT / source["path"]).read_bytes()
+        data = (root / source["path"]).read_bytes()
         validate(name, data)
         digest = hashlib.sha256(data).hexdigest()
         if digest != lock["rulesets"][name]["sha256"]:
             raise ValueError(f"{name}: SHA-256 does not match sources.lock.json")
     for name, source in local_sources.items():
-        data = (ROOT / source["path"]).read_bytes()
+        data = (root / source["path"]).read_bytes()
         validate(name, data)
         rules = [
             line.strip()
@@ -180,15 +180,19 @@ def main() -> int:
         ]
         if len(rules) != len(set(rules)):
             raise ValueError(f"{name}: local ruleset contains duplicate entries")
-    validate_config_references(set(sources) | set(local_sources))
+    validate_config_references(set(sources) | set(local_sources), root)
     from generate_catalog import generate
-    generate(ROOT)
-    validate_siri_ai()
+    generate(root)
+    validate_siri_ai(root)
     print(
         f"Validated {len(sources)} mirrored rulesets/checksums "
         f"and {len(local_sources)} local rulesets."
     )
     return 0
+
+
+def main() -> int:
+    return validate_tree(ROOT)
 
 
 if __name__ == "__main__":

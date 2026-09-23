@@ -20,7 +20,7 @@ git diff --check
 
 测试依赖固定为 PyYAML 6.0.2，并在 `requirements-dev.txt` 记录 PyPI wheel 的 SHA-256；使用 `python3 -m pip install --require-hashes -r requirements-dev.txt` 安装，依赖升级时须重新审查版本和散列。生成器仅使用 Python 标准库。上述生成和验证不下载上游、不访问私人配置。
 
-只有明确需要同步时才运行 `python3 scripts/sync.py`。同步先在候选目录完成全部格式和目录验证，再替换现有资产；校验失败时保留旧文件。候选目录也检查遗留服务页；服务改名后须先审查旧页的移除。规则解析只接受单行字面量和一致缩进，不接受 YAML 转义、嵌入引号或映射值，避免生成结果与 YAML 语义不同。GitHub Actions 沿用已有权限，并一同保存更新后的目录文件。
+只有明确需要同步时才运行 `python3 scripts/sync.py`。同步先在候选目录执行与 `validate.py` 相同的完整验证（来源散列、配置引用、路由顺序、Siri 合同及生成目录），再替换现有资产；校验失败时保留旧文件。候选目录也检查遗留服务页；服务改名后须先审查旧页的移除。规则解析只接受单行字面量和一致缩进，不接受 YAML 转义、嵌入引号或映射值，避免生成结果与 YAML 语义不同。GitHub Actions 沿用已有权限，并一同保存更新后的目录文件。
 
 ## 公开地址检查
 
@@ -28,7 +28,7 @@ git diff --check
 python3 scripts/check_catalog_urls.py --record
 ```
 
-只 GET 目录中的公开规则 URL，记录 HTTP 状态与响应散列到 `catalog/online-verification.json`；不会同步规则。默认地址使用现有公开仓库的 main 分支，生成文档通过正常 Git 提交流程更新。
+只 GET 目录中的公开规则 URL，记录 HTTP 状态、响应散列和检查时的本地快照散列到 `catalog/online-verification.json`；匹配结论仅属于该次检查，不会同步规则。默认地址使用现有公开仓库的 main 分支，生成文档通过正常 Git 提交流程更新。
 
 ## 保持不变
 

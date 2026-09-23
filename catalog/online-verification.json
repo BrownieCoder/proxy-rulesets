@@ -1,203 +1,231 @@
 {
-  "checkedAt": "2026-09-22T14:53:19+00:00",
+  "checkedAt": "2026-09-23T06:57:28+00:00",
   "method": "GET",
+  "scope": "Response hashes compared with the local snapshot at checkedAt only; not a claim about later snapshots.",
   "results": [
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SiriAI.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "2e5e7f3bfc3edabb4a30f0443ea05848f11b80dc7bb3e26057ded4711ff674ef",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "2e5e7f3bfc3edabb4a30f0443ea05848f11b80dc7bb3e26057ded4711ff674ef",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/OpenAI_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "d4893f63ae867c410592ea902dc9a344a1959b94c37a1b36d34b547dee25bd14",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "d4893f63ae867c410592ea902dc9a344a1959b94c37a1b36d34b547dee25bd14",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Claude_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "ef21df39005b17dbd84aa65a47162b36fb5e72754cd32384146474ed488df482",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "ef21df39005b17dbd84aa65a47162b36fb5e72754cd32384146474ed488df482",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Gemini_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "d76e9822f72a69860b7d3086db61bbbef53014c57e3dc12472150c62a4f6434b",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "d76e9822f72a69860b7d3086db61bbbef53014c57e3dc12472150c62a4f6434b",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/InternationalGaming.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "2bda659eb48af57f32a42d1e3b35dca11eab9885279a198d961582418b1452c4",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "2bda659eb48af57f32a42d1e3b35dca11eab9885279a198d961582418b1452c4",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaGaming.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "d9b45191404553bcdc1212332fce47f0cd37e1274a2675ec4e4cfa779afefab5",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "d9b45191404553bcdc1212332fce47f0cd37e1274a2675ec4e4cfa779afefab5",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Steam_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "585e423c866bb020421a79dd2842f279b56ef94bf487fbee13354796958dcad6",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "585e423c866bb020421a79dd2842f279b56ef94bf487fbee13354796958dcad6",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SteamCN_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "9001a292467843777e7b97b7a78224da8a259f5e6fcb5d36e4413c28296875e4",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "9001a292467843777e7b97b7a78224da8a259f5e6fcb5d36e4413c28296875e4",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Apple_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
-      "sha256": "fb6e35aefb3a52dd331f7d2ee1bd74d9f159b0ccd6fd8b89a21d9c74187155d8",
-      "matchesLocal": true
+      "sha256": "482744ca58ac3d36c7035dfa275a3417a4e3767a23b983d63a3861a4c1b8154c",
+      "snapshotSha256AtCheck": "482744ca58ac3d36c7035dfa275a3417a4e3767a23b983d63a3861a4c1b8154c",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Google_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "1fb60a769273a36363b277c0083df87f16385bf98087fe1c6625e8b8bf9ebfb9",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "1fb60a769273a36363b277c0083df87f16385bf98087fe1c6625e8b8bf9ebfb9",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Microsoft_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "a289a1d52394e92ceee26a5c83953cd292609717d39fb2970d189dc7877b2a4d",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "a289a1d52394e92ceee26a5c83953cd292609717d39fb2970d189dc7877b2a4d",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/YouTube_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "7deacecc20077a39dc052d097806bfb8f89dc60970c02bfda3803edaedddaa55",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "7deacecc20077a39dc052d097806bfb8f89dc60970c02bfda3803edaedddaa55",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Bilibili_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "4b221842279607a51399f51509338d729dff04f1a8a346823a2bf605e243d588",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "4b221842279607a51399f51509338d729dff04f1a8a346823a2bf605e243d588",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TikTok_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "c93113e0f7d84302868ae8a1a7bfd024dbc03e54c5953f5439d20ca9c04005b7",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "c93113e0f7d84302868ae8a1a7bfd024dbc03e54c5953f5439d20ca9c04005b7",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Disney_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "5788df2a9935ecdbacc06c87c3f9c7cc4ec39fe3d61aea1f33be66d79e6b5a3a",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "5788df2a9935ecdbacc06c87c3f9c7cc4ec39fe3d61aea1f33be66d79e6b5a3a",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Netflix_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "cfb49b76fabc96887c7da7336ecea9066727c1489d25d677baa4f4e7a79a05f3",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "cfb49b76fabc96887c7da7336ecea9066727c1489d25d677baa4f4e7a79a05f3",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/GlobalMedia_Classical_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "a7260bb573154c249170e2f195f366239387ae6e8a3b3f028fb3f78d28131e70",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "a7260bb573154c249170e2f195f366239387ae6e8a3b3f028fb3f78d28131e70",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Telegram_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "996651175d82cdc34e07c2429d5737ddbe15a5ed83e54dbaf84727a6f5927f92",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "996651175d82cdc34e07c2429d5737ddbe15a5ed83e54dbaf84727a6f5927f92",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Twitter_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "512413d6f39d1331b75323ba7f4042e6028fd4014c35deb6abca343bd3aa1714",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "512413d6f39d1331b75323ba7f4042e6028fd4014c35deb6abca343bd3aa1714",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Discord_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "ce5e3cf18e7353fea35edce91f66e1dfa2a38331203b7fb245c535620d02bf8b",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "ce5e3cf18e7353fea35edce91f66e1dfa2a38331203b7fb245c535620d02bf8b",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/PayPal_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "66c75e9ecff301097919cccb27a675251158e8d85e09c6c926995b465cab8a59",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "66c75e9ecff301097919cccb27a675251158e8d85e09c6c926995b465cab8a59",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Stripe_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "1136cf1ec6bfb689c85176de3c371e142e48ce3cf14fe4ef2120f8235b993e83",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "1136cf1ec6bfb689c85176de3c371e142e48ce3cf14fe4ef2120f8235b993e83",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Crypto_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "285c3e375d6e3db1e4af8249b9e7d2b83646a6e1165dda6d2400654a0933b733",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "285c3e375d6e3db1e4af8249b9e7d2b83646a6e1165dda6d2400654a0933b733",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Crypto.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "ff24864e6f8137921840823ab8805b1783babce39b3044c64350909dd3eef70b",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "ff24864e6f8137921840823ab8805b1783babce39b3044c64350909dd3eef70b",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Privacy_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "a7f16ed12c37d472c0b35ae21948a970db5062ef211677178568259fbc947d49",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "a7f16ed12c37d472c0b35ae21948a970db5062ef211677178568259fbc947d49",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Hijacking_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "e5eb030205505e184df4980afeaf29718e9b19a03d0c517b3856e503c1086e92",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "e5eb030205505e184df4980afeaf29718e9b19a03d0c517b3856e503c1086e92",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaMax_Classical_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
-      "sha256": "86be376b4343248c10860f4e350eabcebbe1684458c765c790025ebe664be736",
-      "matchesLocal": true
+      "sha256": "71aff44bef223158712dddffe5508748a8005b49ecfc8c86ed7287afb38302de",
+      "snapshotSha256AtCheck": "71aff44bef223158712dddffe5508748a8005b49ecfc8c86ed7287afb38302de",
+      "matchesSnapshotAtCheck": true
     },
     {
       "url": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Lan_No_Resolve.yaml",
       "kind": "existing-provider",
       "status": 200,
       "sha256": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c",
-      "matchesLocal": true
+      "snapshotSha256AtCheck": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c",
+      "matchesSnapshotAtCheck": true
     }
-  ],
-  "scope": "Public rule URLs only; prior results for the retired installation feature removed. Original GET timestamp retained."
+  ]
 }

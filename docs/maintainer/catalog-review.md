@@ -4,7 +4,7 @@
 
 ## 目标与边界
 
-首页找服务 → 服务页复制地址或查看规则。28 个服务均有入口；地址先于技术说明。保持原规则、策略、优先级、MATCH、来源、许可和权限不变。本轮不 push、merge 或 deploy。
+首页找服务 → 服务页复制地址或查看规则。28 个服务均有入口；地址先于技术说明。保持原规则、策略、优先级、MATCH、来源、许可和权限不变。后续按用户授权推送 PR 分支并整合 main；尚未合并 PR 或部署。
 
 ## 独立技术审查
 
@@ -18,14 +18,18 @@
 
 - `python3 scripts/validate.py`：通过，24 个镜像与 4 个本地规则集，生成目录/provider 一致。
 - `python3 scripts/public_check.py`：通过。
-- `python3 -m unittest discover -s tests`：20 项通过，含目录/地址/锚点、独立 YAML 解析、失败关闭和模拟同步成功/失败路径。
+- `python3 -m unittest discover -s tests`：25 项通过，含目录/地址/锚点、独立 YAML 解析、失败关闭和模拟同步成功/失败路径。
 - `git diff --check`：通过。
-- 原规则、canonical、config、来源清单与锁、LICENSE、THIRD_PARTY_NOTICES 相对公开基线 `322017d` 无变化。
+- 原规则、canonical、config、来源清单与锁、LICENSE、THIRD_PARTY_NOTICES 与已整合的 main `5da48b5` 一致。
 - 工作流权限无变化；删去废弃的网页测试，继续运行 Python 校验。
-- 28 个公开规则 URL 沿用前次成功 GET 的记录；时间未改，响应字节仍对应当前规则。历史在线证据不替代未来发布后的再次核验。
+- 28 个公开规则 URL 已重新 GET；记录同时保存响应散列和检查时的本地快照散列，匹配结论仅属于 `checkedAt`，不代表之后的快照。具体结果见 `catalog/online-verification.json`。
 
 ## 后续事项
 
-本轮仅本地提交。上一轮发现的额外 `--release` 检查白名单问题仍属基线问题：GitHub 自动合并提交使用的通用 noreply 邮箱不在旧白名单内；本次没有扩大范围修改扫描器。
+PR 分支已按授权推送。上一轮发现的额外 `--release` 检查白名单问题仍属基线问题：GitHub 自动合并提交使用的通用 noreply 邮箱不在旧白名单内；本次没有扩大范围修改扫描器。
 
 权限变化：NONE。没有读取私人配置，没有执行生产网络同步。
+
+## Copilot 后续校验修复
+
+候选同步在替换文件前调用同一套 `validate_tree(root)`，包含来源散列、provider/策略组引用、规则顺序、目录与 Siri first-match 合同。新增测试证明上游 Privacy 抢先匹配 Siri 或策略组引用失效时，所有现有文件字节不变。测试依赖已固定版本、wheel 散列，并强制 hash 校验。

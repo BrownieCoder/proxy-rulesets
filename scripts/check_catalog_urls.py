@@ -22,7 +22,8 @@ def check(item: tuple[str, str, str | None]) -> dict:
             data = response.read()
             record.update(status=response.status, sha256=hashlib.sha256(data).hexdigest())
             if expected_hash:
-                record['matchesLocal'] = record['sha256'] == expected_hash
+                record['snapshotSha256AtCheck'] = expected_hash
+                record['matchesSnapshotAtCheck'] = record['sha256'] == expected_hash
     except urllib.error.HTTPError as error:
         record['status'] = error.code
     except (urllib.error.URLError, TimeoutError) as error:
@@ -41,12 +42,12 @@ def main() -> int:
         items.append((service['rawUrl'], 'existing-provider', hashlib.sha256(data).hexdigest()))
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
         results = list(pool.map(check, items))
-    report = {'checkedAt': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'method': 'GET', 'results': results}
+    report = {'checkedAt': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'method': 'GET', 'scope': 'Response hashes compared with the local snapshot at checkedAt only; not a claim about later snapshots.', 'results': results}
     if args.record:
         (ROOT / 'catalog/online-verification.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
     for r in results:
-        print(f'{r["status"]} {r["kind"]} {r["url"]}' + (' [local bytes differ]' if r.get('matchesLocal') is False else ''))
-    ok = bool(results) and all(r['status'] == 200 and r.get('matchesLocal') for r in results)
+        print(f'{r["status"]} {r["kind"]} {r["url"]}' + (' [local bytes differ]' if r.get('matchesSnapshotAtCheck') is False else ''))
+    ok = bool(results) and all(r['status'] == 200 and r.get('matchesSnapshotAtCheck') for r in results)
     print('Public rule URLs: ' + ('PASS' if ok else 'FAILED'))
     return 0 if ok else 1
 
