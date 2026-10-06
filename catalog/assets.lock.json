@@ -41,8 +41,8 @@
       "ruleCount": 17
     },
     "ruleset/Apple_No_Resolve.yaml": {
-      "sha256": "23829e7bfe37a9c113d27bbb1cb6c3a8d633df599822f204d894da378c6bdaa4",
-      "rulesSha256": "c68bf03245fa83c6d53063a7f54dd2aa94cacf1e823a89e12005148d33837b7a",
+      "sha256": "cd612c73a94c3ebd1e3b6e21f3d845c05a0b8ce832258812d83f90a9d8622841",
+      "rulesSha256": "acac1271c5d32f6f23d20e1f3a8e74a7fc179dab497b1f2fb3507cb37b4c4fb2",
       "ruleCount": 1593
     },
     "ruleset/Google_No_Resolve.yaml": {
@@ -131,8 +131,8 @@
       "ruleCount": 228
     },
     "ruleset/ChinaMax_Classical_No_Resolve.yaml": {
-      "sha256": "8c02dea7f744b0f127008848d6106d6f4c18ea080f9298b36aa2eb2918d2ece4",
-      "rulesSha256": "753c8ac1afac1778744a463c5c3c49cd1a1cde58bd1a3ee63f9d16103dd8ef35",
+      "sha256": "75efa1eacca9e54c3c53219c64bdfb1755fc0fa8bc5c6d131cf9cfd7d9cd9f5d",
+      "rulesSha256": "6c857e62fb8502cc743d5ef6177b2e3e9c29a2dbb5cf3ca327482d785fa95622",
       "ruleCount": 124064
     },
     "ruleset/Lan_No_Resolve.yaml": {
