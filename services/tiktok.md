@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TikTo
 
 ## 作用与范围
 
-推荐：**按已有国际媒体策略选择出口**。现有规则目标：`🎵 Tiktok`。共 **32 条**规则。
+推荐：**按已有国际媒体策略选择出口**。现有规则目标：`🎵 Tiktok`。共 **35 条**规则。
 
 分流不改变账号或地区资格；含进程规则。
 
