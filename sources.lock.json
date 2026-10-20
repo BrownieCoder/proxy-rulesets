@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-18T02:37:24+00:00",
+  "synced_at": "2026-10-20T02:38:57+00:00",
   "rulesets": {
     "Privacy": {
       "path": "ruleset/Privacy_No_Resolve.yaml",
@@ -22,8 +22,8 @@
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml",
       "bytes": 57219,
-      "sha256": "641ceaf9249cee27f50677781d835ff1417853eb6051f10da9dcbe6273b18123",
-      "upstream_sha256": "641ceaf9249cee27f50677781d835ff1417853eb6051f10da9dcbe6273b18123"
+      "sha256": "a534f205ca94ddd4a6706b9f74e6b31c7b94133b6f822540b34637bfc64e2ee3",
+      "upstream_sha256": "a534f205ca94ddd4a6706b9f74e6b31c7b94133b6f822540b34637bfc64e2ee3"
     },
     "PayPal": {
       "path": "ruleset/PayPal_No_Resolve.yaml",
@@ -182,16 +182,16 @@
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
       "bytes": 3900234,
-      "sha256": "de588120fec2bd9bc4d7e23b959c7beb5e6524c90641c9a96ab8c452df877e20",
-      "upstream_sha256": "de588120fec2bd9bc4d7e23b959c7beb5e6524c90641c9a96ab8c452df877e20"
+      "sha256": "49cf8c188eb9f1b61e7db495db797ad107d99baff616595de69f7179e2543c68",
+      "upstream_sha256": "49cf8c188eb9f1b61e7db495db797ad107d99baff616595de69f7179e2543c68"
     },
     "Lan": {
       "path": "ruleset/Lan_No_Resolve.yaml",
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan_No_Resolve.yaml",
-      "bytes": 5363,
-      "sha256": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c",
-      "upstream_sha256": "44687576f81a639540cd678d5717d43467508d8c80678efde07588610bda239c"
+      "bytes": 5438,
+      "sha256": "19cdbdd25d0d4e65e7409bc574bf06df813c57f6a3c7122c726cc6e1e785af2e",
+      "upstream_sha256": "19cdbdd25d0d4e65e7409bc574bf06df813c57f6a3c7122c726cc6e1e785af2e"
     }
   }
 }

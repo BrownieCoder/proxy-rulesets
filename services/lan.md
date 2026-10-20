@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Lan_N
 
 ## 作用与范围
 
-推荐：**直连**。现有规则目标：`DIRECT`。共 **140 条**规则。
+推荐：**直连**。现有规则目标：`DIRECT`。共 **142 条**规则。
 
 原方案位于 ChinaMax 之后；保留位置，避免覆盖前面的规则。
 
