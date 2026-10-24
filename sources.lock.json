@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-20T02:38:57+00:00",
+  "synced_at": "2026-10-24T02:37:54+00:00",
   "rulesets": {
     "Privacy": {
       "path": "ruleset/Privacy_No_Resolve.yaml",
@@ -22,8 +22,8 @@
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml",
       "bytes": 57219,
-      "sha256": "a534f205ca94ddd4a6706b9f74e6b31c7b94133b6f822540b34637bfc64e2ee3",
-      "upstream_sha256": "a534f205ca94ddd4a6706b9f74e6b31c7b94133b6f822540b34637bfc64e2ee3"
+      "sha256": "037a40c2409d92919f17b78f9a4f1ead9ec4b8e8abae2768f5804d62db8ec189",
+      "upstream_sha256": "037a40c2409d92919f17b78f9a4f1ead9ec4b8e8abae2768f5804d62db8ec189"
     },
     "PayPal": {
       "path": "ruleset/PayPal_No_Resolve.yaml",
@@ -125,9 +125,9 @@
       "path": "ruleset/Steam_No_Resolve.yaml",
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam_No_Resolve.yaml",
-      "bytes": 2280,
-      "sha256": "585e423c866bb020421a79dd2842f279b56ef94bf487fbee13354796958dcad6",
-      "upstream_sha256": "585e423c866bb020421a79dd2842f279b56ef94bf487fbee13354796958dcad6"
+      "bytes": 2856,
+      "sha256": "705def9e488dc7823e0f4ffae69b3c58b7f79970cb86554ab3f856862fd5d692",
+      "upstream_sha256": "705def9e488dc7823e0f4ffae69b3c58b7f79970cb86554ab3f856862fd5d692"
     },
     "OpenAI": {
       "path": "ruleset/OpenAI_No_Resolve.yaml",
@@ -181,9 +181,9 @@
       "path": "ruleset/ChinaMax_Classical_No_Resolve.yaml",
       "source_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
       "final_url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
-      "bytes": 3900234,
-      "sha256": "49cf8c188eb9f1b61e7db495db797ad107d99baff616595de69f7179e2543c68",
-      "upstream_sha256": "49cf8c188eb9f1b61e7db495db797ad107d99baff616595de69f7179e2543c68"
+      "bytes": 3900290,
+      "sha256": "f6ddd3862654b82fbd846eaaa5e4d75f3f443bdeea74a999fc4571c3ecd985f9",
+      "upstream_sha256": "f6ddd3862654b82fbd846eaaa5e4d75f3f443bdeea74a999fc4571c3ecd985f9"
     },
     "Lan": {
       "path": "ruleset/Lan_No_Resolve.yaml",

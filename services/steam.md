@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Steam
 
 ## 作用与范围
 
-推荐：**按已有 Steam 策略选择出口**。现有规则目标：`🕹️ Steam`。共 **54 条**规则。
+推荐：**按已有 Steam 策略选择出口**。现有规则目标：`🕹️ Steam`。共 **69 条**规则。
 
 先保留中国游戏规则；此规则不能替代区服和下载节点判断。
 

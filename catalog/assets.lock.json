@@ -31,9 +31,9 @@
       "ruleCount": 93
     },
     "ruleset/Steam_No_Resolve.yaml": {
-      "sha256": "585e423c866bb020421a79dd2842f279b56ef94bf487fbee13354796958dcad6",
-      "rulesSha256": "fc4690f13f3b4f9144702f74a38603ca9c9309b1abf73938cdce73755b28fce6",
-      "ruleCount": 54
+      "sha256": "705def9e488dc7823e0f4ffae69b3c58b7f79970cb86554ab3f856862fd5d692",
+      "rulesSha256": "9ecabe5254f6017b1502ed38bc1db3fce90ad1adc600196959d3c45f2543bfa9",
+      "ruleCount": 69
     },
     "ruleset/SteamCN_No_Resolve.yaml": {
       "sha256": "9001a292467843777e7b97b7a78224da8a259f5e6fcb5d36e4413c28296875e4",
@@ -41,8 +41,8 @@
       "ruleCount": 17
     },
     "ruleset/Apple_No_Resolve.yaml": {
-      "sha256": "a534f205ca94ddd4a6706b9f74e6b31c7b94133b6f822540b34637bfc64e2ee3",
-      "rulesSha256": "3889259604ba3bd1446b42a10005ee61467d32e3597ca8388624df5c2ba5a208",
+      "sha256": "037a40c2409d92919f17b78f9a4f1ead9ec4b8e8abae2768f5804d62db8ec189",
+      "rulesSha256": "6b31d41789ae01179b4779cd68d5f879add6a343ae48bee94e2d169d24cda407",
       "ruleCount": 1593
     },
     "ruleset/Google_No_Resolve.yaml": {
@@ -131,9 +131,9 @@
       "ruleCount": 228
     },
     "ruleset/ChinaMax_Classical_No_Resolve.yaml": {
-      "sha256": "49cf8c188eb9f1b61e7db495db797ad107d99baff616595de69f7179e2543c68",
-      "rulesSha256": "b7d22143a0d488aeb8685e2865a3b7ef9e715affa13c0f646c9d596dc9f7e9c8",
-      "ruleCount": 123331
+      "sha256": "f6ddd3862654b82fbd846eaaa5e4d75f3f443bdeea74a999fc4571c3ecd985f9",
+      "rulesSha256": "189bf8886d33b3c78a1a94b391aecf812540c45690e0396822e4afae6d32f135",
+      "ruleCount": 123333
     },
     "ruleset/Lan_No_Resolve.yaml": {
       "sha256": "19cdbdd25d0d4e65e7409bc574bf06df813c57f6a3c7122c726cc6e1e785af2e",
@@ -151,7 +151,7 @@
     "services/gemini.md": "0378c41e169aca0dd496df89a35175052febda64ebc5d821cd2d4e21a125e802",
     "services/international-gaming.md": "0968f9067918908bb372310e3e817323e57762b831ed8ca93f204e939993d740",
     "services/china-gaming.md": "cee2a82ab2612833ba29a6ae7a7f3f8d8e830e9014c81ac818771875373ab0d6",
-    "services/steam.md": "3cb295dafebb48422c91752a308e20a78b09be685951d5a69cffdfd07e92ac66",
+    "services/steam.md": "39729bd389941bcf4ea387833f06e5c3a55c6a474989889026c9d4b007ff4199",
     "services/steam-cn.md": "84173f81dd3dc4aad0064f76f8ddc33966187471a2186bc7bc533ff896ef1a84",
     "services/apple.md": "91d75957da6b57d366fe5540c92c77e95282e6cf35bcbd9f2db06d32ec733def",
     "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
@@ -171,8 +171,8 @@
     "services/crypto-web.md": "7b35deb280cf4e585cbacaa5a7c99625d7bdbc25cb702fc91cea713355cbbbcc",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
-    "services/china-max.md": "4cf0d5728c2ddc4839ca7b1f744bbb80816eb3037d2c4847c9bd8fab4633d5ff",
+    "services/china-max.md": "c1c550e3f8da057cc3f52185a324b20b96f76d60f9f1cf4963d478d5eb2c7b5f",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "b37608148bf61fe19991d53461c786f94d4d7e047f6fd2f03a69d73423139cb7"
+    "catalog/index.json": "c1bd0c7037c0cc8e4efabbb719b30173a85a4c2ea2101a7a3519d41302e11bb6"
   }
 }

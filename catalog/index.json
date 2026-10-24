@@ -105,7 +105,7 @@
       "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Steam_No_Resolve.yaml",
       "sourceUrl": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam_No_Resolve.yaml",
       "page": "services/steam.md",
-      "ruleCount": 54
+      "ruleCount": 69
     },
     {
       "id": "steam-cn",
@@ -405,7 +405,7 @@
       "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaMax_Classical_No_Resolve.yaml",
       "sourceUrl": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical_No_Resolve.yaml",
       "page": "services/china-max.md",
-      "ruleCount": 123331
+      "ruleCount": 123333
     },
     {
       "id": "lan",
