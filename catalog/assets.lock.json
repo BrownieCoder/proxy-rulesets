@@ -41,9 +41,9 @@
       "ruleCount": 17
     },
     "ruleset/Apple_No_Resolve.yaml": {
-      "sha256": "037a40c2409d92919f17b78f9a4f1ead9ec4b8e8abae2768f5804d62db8ec189",
-      "rulesSha256": "6b31d41789ae01179b4779cd68d5f879add6a343ae48bee94e2d169d24cda407",
-      "ruleCount": 1593
+      "sha256": "d753c9f3d04d0a4673f45e1907bdeed7f643faa4bc7b46d1617bbf237fcd5c8a",
+      "rulesSha256": "70d7b0fa7b120194e75a2df6ebfa4b682930cb920cf6770998f1044d7ce8e43a",
+      "ruleCount": 1592
     },
     "ruleset/Google_No_Resolve.yaml": {
       "sha256": "1fb60a769273a36363b277c0083df87f16385bf98087fe1c6625e8b8bf9ebfb9",
@@ -131,9 +131,9 @@
       "ruleCount": 228
     },
     "ruleset/ChinaMax_Classical_No_Resolve.yaml": {
-      "sha256": "f6ddd3862654b82fbd846eaaa5e4d75f3f443bdeea74a999fc4571c3ecd985f9",
-      "rulesSha256": "189bf8886d33b3c78a1a94b391aecf812540c45690e0396822e4afae6d32f135",
-      "ruleCount": 123333
+      "sha256": "676634a4784a8b147e05d14007d0f0234cc1bda2596423b0b1747c80d8c4f254",
+      "rulesSha256": "4e543b6066244eb865e73539997b2cbfba01b2846719c01f21e90d76040f8268",
+      "ruleCount": 123061
     },
     "ruleset/Lan_No_Resolve.yaml": {
       "sha256": "19cdbdd25d0d4e65e7409bc574bf06df813c57f6a3c7122c726cc6e1e785af2e",
@@ -153,7 +153,7 @@
     "services/china-gaming.md": "cee2a82ab2612833ba29a6ae7a7f3f8d8e830e9014c81ac818771875373ab0d6",
     "services/steam.md": "39729bd389941bcf4ea387833f06e5c3a55c6a474989889026c9d4b007ff4199",
     "services/steam-cn.md": "84173f81dd3dc4aad0064f76f8ddc33966187471a2186bc7bc533ff896ef1a84",
-    "services/apple.md": "91d75957da6b57d366fe5540c92c77e95282e6cf35bcbd9f2db06d32ec733def",
+    "services/apple.md": "8b95490abd53cb5e52cebf745019c6b8eae398ca41d507ccea5f54d0f8b3f790",
     "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
     "services/microsoft.md": "f88fa7d22bb858e5843fcea08038be27031d92ba06ae376f21ad3c03427ac900",
     "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
@@ -171,8 +171,8 @@
     "services/crypto-web.md": "7b35deb280cf4e585cbacaa5a7c99625d7bdbc25cb702fc91cea713355cbbbcc",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
-    "services/china-max.md": "c1c550e3f8da057cc3f52185a324b20b96f76d60f9f1cf4963d478d5eb2c7b5f",
+    "services/china-max.md": "14e0f3598ee6fbacfc6b2225fa3cfc8932a78f056e593b97a39eaa94062c1cca",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "c1bd0c7037c0cc8e4efabbb719b30173a85a4c2ea2101a7a3519d41302e11bb6"
+    "catalog/index.json": "ede09ba8d03ad625cd4798435827994e31bae09b397b4282f471dbf73ba45698"
   }
 }

@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Apple
 
 ## 作用与范围
 
-推荐：**默认直连，可选代理**。现有规则目标：`🍎 Apple`。共 **1593 条**规则。
+推荐：**默认直连，可选代理**。现有规则目标：`🍎 Apple`。共 **1592 条**规则。
 
 必须在 Siri AI 之后，避免先匹配其精确主机；包含进程和 IP 规则。
 
