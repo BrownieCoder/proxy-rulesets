@@ -11,6 +11,10 @@
     "path": "ruleset/InternationalGaming.yaml",
     "behavior": "classical"
   },
+  "Xiaohongshu": {
+    "path": "ruleset/Xiaohongshu.yaml",
+    "behavior": "classical"
+  },
   "SiriAI": {
     "path": "ruleset/SiriAI.yaml",
     "behavior": "classical"

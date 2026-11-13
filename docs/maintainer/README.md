@@ -6,7 +6,7 @@
 
 `sources.json` 定义镜像来源；`sources.lock.json` 保存上游 URL 与原始字节散列。镜像快照位于 `ruleset/`，不得手改。本地规则登记在 `local-rulesets.json`；Siri AI 继续从 `rules/siri-ai-domains.txt` 经现有 `scripts/siri_ai.py` 生成。
 
-`catalog/services.json` 只维护公开服务名称、分类和说明。实际目标从 `config/rules.yaml` 读取，不另造策略。`scripts/generate_catalog.py` 输出 README 目录、28 份 Markdown 服务页、`catalog/index.json`、`catalog/assets.lock.json`，并保留原 provider 配置的生成和一致性校验。
+`catalog/services.json` 只维护公开服务名称、分类和说明。实际目标从 `config/rules.yaml` 读取，不另造策略。`scripts/generate_catalog.py` 输出 README 目录、29 份 Markdown 服务页、`catalog/index.json`、`catalog/assets.lock.json`，并保留原 provider 配置的生成和一致性校验。
 
 ## 离线检查
 

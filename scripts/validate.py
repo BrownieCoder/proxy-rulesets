@@ -153,6 +153,64 @@ def validate_config_references(provider_names: set[str], root: Path = ROOT) -> N
     if reaches_direct("🎮 国际游戏"):
         raise ValueError("🎮 国际游戏 must not offer DIRECT, including transitively")
 
+    rednote = "RULE-SET,Xiaohongshu,📕 小红书 / REDnote"
+    if rules_text.count(rednote) != 1:
+        raise ValueError("Xiaohongshu must have exactly one dedicated policy reference")
+    rednote_position = rules_text.index(rednote)
+    for marker in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                   "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if rules_text.index(marker) > rednote_position:
+            raise ValueError("Security and gaming rules must precede Xiaohongshu")
+    for marker in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,Bilibili,📺 Bilibili",
+                   "RULE-SET,GlobalMedia,🛰️ International-Global",
+                   "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if rules_text.index(marker) < rednote_position:
+            raise ValueError("Xiaohongshu must precede broader providers")
+    options = group_members.get("📕 小红书 / REDnote", [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("Xiaohongshu must default to DIRECT and retain a proxy option")
+
+
+def validate_xiaohongshu(root: Path = ROOT) -> None:
+    """Validate reviewed scope and real first-match domain precedence offline."""
+    from siri_ai import DomainRules, entries
+    reviewed = {"xiaohongshu.com", "rednote.com", "xhscdn.com", "xhscdn.net"}
+    rules = entries(root / "ruleset/Xiaohongshu.yaml")
+    if len(rules) != 4 or set(rules) != {f"DOMAIN-SUFFIX,{d}" for d in reviewed}:
+        raise ValueError("Xiaohongshu must contain only the four reviewed first-party roots")
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text()))
+    providers = {name: DomainRules(entries(root / source["path"]))
+                 for name, source in manifests.items()}
+    ordered = entries(root / "config/rules.yaml")
+
+    def route(domain: str, include_rednote: bool = True) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            if fields[0] == "RULE-SET":
+                if fields[1] == "Xiaohongshu" and not include_rednote:
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif fields[0] == "MATCH":
+                return "MATCH", fields[1]
+            elif fields[0] in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return fields[0], fields[2]
+        raise ValueError("Missing MATCH rule")
+
+    for domain in reviewed | {"www.xiaohongshu.com", "creator.rednote.com",
+                              "sns-webpic-qc.xhscdn.com", "sns-video-hw.xhscdn.net"}:
+        if route(domain) != ("Xiaohongshu", "📕 小红书 / REDnote"):
+            raise ValueError(f"Xiaohongshu is shadowed by an earlier domain rule: {domain}")
+    controls = {"example.org", "reddit.com", "guzzoni.apple.com", "hoyoverse.com",
+                "fastcdn.hoyoverse.com", "hmma.baidu.com", "cloudflare.com"}
+    controls |= {name for d in reviewed for name in ("not" + d, d + ".example.org")}
+    for domain in controls:
+        if route(domain) != route(domain, False):
+            raise ValueError(f"Xiaohongshu changed non-target domain: {domain}")
+
 
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
@@ -181,6 +239,7 @@ def validate_tree(root: Path = ROOT) -> int:
         if len(rules) != len(set(rules)):
             raise ValueError(f"{name}: local ruleset contains duplicate entries")
     validate_config_references(set(sources) | set(local_sources), root)
+    validate_xiaohongshu(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

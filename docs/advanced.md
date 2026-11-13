@@ -11,7 +11,9 @@
 5. 如不采用本项目策略组，将目标映射到自己已有的真实策略组，保留直连、拒绝和可选出口的区别。
 6. 使用客户端检查或 `mihomo -t -f your-config.yaml` 后检查实际连接。
 
-顺序：Privacy 拒绝 → Hijacking 可选防护 → 游戏精确例外 → 国际游戏 → 中国游戏 → Siri AI → Apple → 其他服务 → 国际媒体 → GEOIP CN → ChinaMax → LAN → MATCH。
+顺序：Privacy 拒绝 → Hijacking 可选防护 → 游戏精确例外 → 国际游戏 → 中国游戏 → 小红书 / RedNote → Siri AI → Apple → 其他服务 → 国际媒体 → GEOIP CN → ChinaMax → LAN → MATCH。
+
+小红书 / RedNote 默认直连，可通过 `📕 小红书 / REDnote` 独立选择代理；规则覆盖四个已核实的第一方根域。安全规则始终优先。范围和依据见[小红书分流记录](../research/Xiaohongshu-direct.md)。
 
 国际游戏只提供代理出口；中国游戏固定直连。SteamCN 包含全球共享后缀，仍走 Steam 可选策略。Gemini 必须先于 Google。Siri AI 使用现有 AI 可选策略，而不是强制某地区；网络规则不改变 Apple 资格。
 

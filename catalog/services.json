@@ -153,6 +153,15 @@
     "warning": "范围较广，必须放在游戏和具体服务之后。"
   },
   {
+    "id": "xiaohongshu",
+    "provider": "Xiaohongshu",
+    "name": "小红书 / RedNote",
+    "category": "社交",
+    "description": "小红书、RedNote 与专用图片、视频资源的四个第一方根域。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "安全拦截仍优先；在通用 Apple、媒体和 ChinaMax 前匹配。可用性因网络和地区而异，不保证覆盖全部 App 请求。域名依据见 research/Xiaohongshu-direct.md。"
+  },
+  {
     "id": "telegram",
     "provider": "Telegram",
     "name": "Telegram",

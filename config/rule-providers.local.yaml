@@ -108,6 +108,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/InternationalGaming.yaml
+  Xiaohongshu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Xiaohongshu.yaml
   SiriAI:
     type: file
     behavior: classical
