@@ -15,12 +15,16 @@
     "path": "ruleset/Xiaohongshu.yaml",
     "behavior": "classical"
   },
-  "NetEaseMusic": {
-    "path": "ruleset/NetEaseMusic.yaml",
+  "Amap": {
+    "path": "ruleset/Amap.yaml",
     "behavior": "classical"
   },
   "SiriAI": {
     "path": "ruleset/SiriAI.yaml",
+    "behavior": "classical"
+  },
+  "NetEaseMusic": {
+    "path": "ruleset/NetEaseMusic.yaml",
     "behavior": "classical"
   }
 }

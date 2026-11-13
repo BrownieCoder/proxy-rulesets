@@ -227,6 +227,74 @@ def validate_xiaohongshu(root: Path = ROOT) -> None:
             raise ValueError(f"Xiaohongshu changed non-target domain: {domain}")
 
 
+def validate_amap(root: Path = ROOT) -> None:
+    """Enforce the reviewed AMap scope and security-first routing offline."""
+    from siri_ai import DomainRules
+    reviewed = {"ditu.amap.com", "m.amap.com", "maps.amap.com",
+                "mobile.amap.com", "restapi.amap.com", "webapi.amap.com"}
+    rules = entries(root / "ruleset/Amap.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {f"DOMAIN,{d}" for d in reviewed}:
+        raise ValueError("Amap must contain only the six reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    marker = "RULE-SET,Amap,🗺️ 高德地图"
+    references = [rule for rule in ordered if rule.startswith("RULE-SET,Amap,")]
+    if references != [marker]:
+        raise ValueError("Amap must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"Amap requires exactly one active rule: {rule}")
+        return ordered.index(rule)
+
+    amap_position = position(marker)
+    for rule in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                 "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(rule) > amap_position:
+            raise ValueError("Security and gaming rules must precede Amap")
+    for rule in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,Bilibili,📺 Bilibili",
+                 "RULE-SET,GlobalMedia,🛰️ International-Global",
+                 "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(rule) < amap_position:
+            raise ValueError("Amap must precede broader providers and GEOIP CN")
+
+    _, groups = parse_policy_groups(root)
+    options = groups.get("🗺️ 高德地图", [])
+    group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    block = re.search(r'^  - name: "🗺️ 高德地图"\n((?:    .*\n|\s*\n)*)', group_text, re.MULTILINE)
+    types = re.findall(r'^    type: (\S+)\s*$', block.group(1), re.MULTILINE) if block else []
+    if types != ["select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("Amap must be a DIRECT-first select group with a manual proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text()))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+
+    def route(domain: str) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return "MATCH", fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError(f"Unsupported top-level rule in Amap domain model: {kind}")
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Amap", "🗺️ 高德地图"), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for domain in reviewed:
+        current = route(domain)
+        if current not in allowed:
+            raise ValueError(f"Amap host shadowed by a non-security or incorrect policy: {domain}: {current}")
+
+
 def validate_netease_music(root: Path = ROOT) -> None:
     """Enforce reviewed exact hosts and security-first routing in sync candidates."""
     from siri_ai import DomainRules
@@ -337,6 +405,7 @@ def validate_tree(root: Path = ROOT) -> int:
             raise ValueError(f"{name}: local ruleset contains duplicate entries")
     validate_config_references(set(sources) | set(local_sources), root)
     validate_xiaohongshu(root)
+    validate_amap(root)
     validate_netease_music(root)
     from generate_catalog import generate
     generate(root)
