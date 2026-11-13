@@ -168,6 +168,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Xiaohongshu.yaml
     interval: 86400
     path: ./ruleset-cache/Xiaohongshu.yaml
+  NetEaseMusic:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/NetEaseMusic.yaml
+    interval: 86400
+    path: ./ruleset-cache/NetEaseMusic.yaml
   SiriAI:
     type: http
     behavior: classical

@@ -112,6 +112,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Xiaohongshu.yaml
+  NetEaseMusic:
+    type: file
+    behavior: classical
+    path: ./ruleset/NetEaseMusic.yaml
   SiriAI:
     type: file
     behavior: classical

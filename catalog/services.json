@@ -108,6 +108,15 @@
     "warning": "共享资源域名和 IP 规则可能承接其他流量。"
   },
   {
+    "id": "netease-music",
+    "provider": "NetEaseMusic",
+    "name": "网易云音乐",
+    "category": "影音",
+    "description": "官网及部分静态、图片资源的 8 个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "保留安全与游戏规则优先；不代表原生 App 音频、下载或登录全链路覆盖，不改变版权或地区资格。[域名来源与验证边界](../research/NetEaseMusic-routing.md)。"
+  },
+  {
     "id": "bilibili",
     "provider": "Bilibili",
     "name": "哔哩哔哩",
