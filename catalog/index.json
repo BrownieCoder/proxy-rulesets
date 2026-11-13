@@ -183,6 +183,21 @@
       "ruleCount": 183
     },
     {
+      "id": "netease-music",
+      "provider": "NetEaseMusic",
+      "name": "网易云音乐",
+      "category": "影音",
+      "description": "官网及部分静态、图片资源的 8 个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "保留安全与游戏规则优先；不代表原生 App 音频、下载或登录全链路覆盖，不改变版权或地区资格。[域名来源与验证边界](../research/NetEaseMusic-routing.md)。",
+      "path": "ruleset/NetEaseMusic.yaml",
+      "policy": "🎵 网易云音乐",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/NetEaseMusic.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/NetEaseMusic.yaml",
+      "page": "services/netease-music.md",
+      "ruleCount": 8
+    },
+    {
       "id": "bilibili",
       "provider": "Bilibili",
       "name": "哔哩哔哩",
@@ -256,6 +271,36 @@
       "sourceUrl": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical_No_Resolve.yaml",
       "page": "services/global-media.md",
       "ruleCount": 2265
+    },
+    {
+      "id": "amap",
+      "provider": "Amap",
+      "name": "高德地图 / AMap",
+      "category": "出行",
+      "description": "高德官网、移动入口与公开地图接口的六个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "安全与游戏规则优先；接口主机也影响第三方高德地图集成，不代表完整原生 App 导航或定位覆盖。域名依据见 research/Amap-routing.md。",
+      "path": "ruleset/Amap.yaml",
+      "policy": "🗺️ 高德地图",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Amap.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Amap.yaml",
+      "page": "services/amap.md",
+      "ruleCount": 6
+    },
+    {
+      "id": "zhihu",
+      "provider": "Zhihu",
+      "name": "知乎",
+      "category": "社交",
+      "description": "知乎网页、公开前端 API 配置及图片静态资源的 8 个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "安全拦截与游戏仍优先；仅匹配 8 个精确主机。手动选代理也只影响这 8 个主机，其他知乎域名沿用原路由并可能继续直连，因而可能混合出口；不保证完整 App 或一致出口。[域名来源与验证边界](../research/Zhihu-routing.md)。",
+      "path": "ruleset/Zhihu.yaml",
+      "policy": "💡 知乎",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Zhihu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Zhihu.yaml",
+      "page": "services/zhihu.md",
+      "ruleCount": 8
     },
     {
       "id": "xiaohongshu",

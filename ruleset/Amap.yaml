@@ -1,0 +1,10 @@
+# Self-maintained exact AMap website and public map API host rules.
+# Provenance: research/Amap-routing.md
+# API hosts also serve third-party map integrations; not complete native App coverage.
+payload:
+  - DOMAIN,ditu.amap.com
+  - DOMAIN,m.amap.com
+  - DOMAIN,maps.amap.com
+  - DOMAIN,mobile.amap.com
+  - DOMAIN,restapi.amap.com
+  - DOMAIN,webapi.amap.com

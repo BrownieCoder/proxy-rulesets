@@ -15,12 +15,24 @@
     "path": "ruleset/Xiaohongshu.yaml",
     "behavior": "classical"
   },
-  "Douban": {
-    "path": "ruleset/Douban.yaml",
+  "Amap": {
+    "path": "ruleset/Amap.yaml",
     "behavior": "classical"
   },
   "SiriAI": {
     "path": "ruleset/SiriAI.yaml",
+    "behavior": "classical"
+  },
+  "NetEaseMusic": {
+    "path": "ruleset/NetEaseMusic.yaml",
+    "behavior": "classical"
+  },
+  "Zhihu": {
+    "path": "ruleset/Zhihu.yaml",
+    "behavior": "classical"
+  },
+  "Douban": {
+    "path": "ruleset/Douban.yaml",
     "behavior": "classical"
   }
 }

@@ -1,0 +1,11 @@
+# Self-maintained exact Zhihu website, API configuration and resource hosts.
+# Provenance: research/Zhihu-routing.md
+payload:
+  - DOMAIN,www.zhihu.com
+  - DOMAIN,api.zhihu.com
+  - DOMAIN,zhuanlan.zhihu.com
+  - DOMAIN,static.zhihu.com
+  - DOMAIN,static.zhimg.com
+  - DOMAIN,pic1.zhimg.com
+  - DOMAIN,pica.zhimg.com
+  - DOMAIN,picx.zhimg.com
