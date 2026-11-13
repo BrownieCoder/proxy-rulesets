@@ -24,7 +24,7 @@ class Response(io.BytesIO):
 
 
 class SyncCatalog(unittest.TestCase):
-    def run_sync(self, invalid=False, payload=None, rename_service=False, shadow_siri=False, invalid_group=False):
+    def run_sync(self, invalid=False, payload=None, rename_service=False, shadow_siri=False, invalid_group=False, rednote_security=None):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             for directory in ('ruleset', 'catalog', 'docs', 'rules', 'research', 'config', 'services'):
@@ -51,6 +51,9 @@ class SyncCatalog(unittest.TestCase):
                 bodies[privacy_url] = b'# mocked public upstream metadata change\n' + bodies[privacy_url]
             if shadow_siri:
                 bodies[privacy_url] += b'  - DOMAIN,guzzoni.apple.com\n'
+            if rednote_security:
+                url = sources[rednote_security]['url']
+                bodies[url] += b'  - DOMAIN,creator.rednote.com\n'
             with patch.object(sync, 'ROOT', root), patch.object(sync, 'SOURCES_FILE', root / 'sources.json'), patch.object(sync, 'LOCAL_RULESETS_FILE', root / 'local-rulesets.json'), patch.object(sync, 'LOCK_FILE', root / 'sources.lock.json'), patch.object(sys, 'argv', ['sync.py']), patch.object(sync.urllib.request, 'urlopen', side_effect=lambda request, timeout: Response(bodies[request.full_url], request.full_url)):
                 errors = io.StringIO()
                 with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errors):
@@ -95,6 +98,11 @@ class SyncCatalog(unittest.TestCase):
 
     def test_valid_download_updates_derived_assets_together(self):
         self.run_sync(invalid=False)
+
+    def test_rednote_security_updates_sync_successfully(self):
+        for provider in ('Privacy', 'Hijacking'):
+            with self.subTest(provider=provider):
+                self.run_sync(rednote_security=provider)
 
 
 if __name__ == '__main__':
