@@ -54,6 +54,7 @@
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
+| [知乎](services/zhihu.md) | 知乎网页、公开前端 API 配置及图片静态资源的 8 个精确主机。 | [获取地址](services/zhihu.md#规则地址) · [查看规则](ruleset/Zhihu.yaml) |
 | [小红书 / RedNote](services/xiaohongshu.md) | 小红书、RedNote 与专用图片、视频资源的四个第一方根域。 | [获取地址](services/xiaohongshu.md#规则地址) · [查看规则](ruleset/Xiaohongshu.yaml) |
 | [Telegram](services/telegram.md) | Telegram 网络连接与资源。 | [获取地址](services/telegram.md#规则地址) · [查看规则](ruleset/Telegram_No_Resolve.yaml) |
 | [X / Twitter](services/twitter.md) | X / Twitter 服务及媒体资源。 | [获取地址](services/twitter.md#规则地址) · [查看规则](ruleset/Twitter_No_Resolve.yaml) |

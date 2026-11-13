@@ -5,6 +5,8 @@ rules:
   - DOMAIN,fastcdn.hoyoverse.com,DIRECT
   - RULE-SET,InternationalGaming,🎮 国际游戏
   - RULE-SET,ChinaGaming,DIRECT
+  # 知乎已核实主机使用独立可选策略，安全拦截和游戏仍优先。
+  - RULE-SET,Zhihu,💡 知乎
   # 小红书独立可选策略，安全拦截和游戏规则仍优先。
   - RULE-SET,Xiaohongshu,📕 小红书 / REDnote
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。

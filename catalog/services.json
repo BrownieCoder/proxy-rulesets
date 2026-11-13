@@ -153,6 +153,15 @@
     "warning": "范围较广，必须放在游戏和具体服务之后。"
   },
   {
+    "id": "zhihu",
+    "provider": "Zhihu",
+    "name": "知乎",
+    "category": "社交",
+    "description": "知乎网页、公开前端 API 配置及图片静态资源的 8 个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "安全拦截与游戏仍优先；只匹配已核实的精确主机，不覆盖全部知乎 App 请求。其他知乎域名沿用原有分流。[域名来源与验证边界](../research/Zhihu-routing.md)。"
+  },
+  {
     "id": "xiaohongshu",
     "provider": "Xiaohongshu",
     "name": "小红书 / RedNote",

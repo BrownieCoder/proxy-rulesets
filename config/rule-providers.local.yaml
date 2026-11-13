@@ -112,6 +112,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Xiaohongshu.yaml
+  Zhihu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Zhihu.yaml
   SiriAI:
     type: file
     behavior: classical
