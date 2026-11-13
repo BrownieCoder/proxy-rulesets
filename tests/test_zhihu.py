@@ -27,9 +27,10 @@ class ZhihuRouting(unittest.TestCase):
         cls.providers = {name: DomainRules(entries(ROOT / item['path']))
                          for name, item in manifests.items()}
 
-    def route(self, domain, skip=False, providers=None):
+    def route(self, domain, skip=False, providers=None, ordered=None):
         providers = self.providers if providers is None else providers
-        for rule in self.ordered:
+        ordered = self.ordered if ordered is None else ordered
+        for rule in ordered:
             fields = rule.split(',')
             kind = fields[0]
             if kind == 'RULE-SET':
@@ -52,11 +53,13 @@ class ZhihuRouting(unittest.TestCase):
         self.assertEqual(len(rules), len(HOSTS))
         self.assertEqual(set(rules), {'DOMAIN,' + host for host in HOSTS})
 
-    def test_hosts_reach_dedicated_policy(self):
+    def assert_reviewed_hosts_route(self, providers=None, ordered=None):
+        allowed = {('Zhihu', TARGET), ('Privacy', 'REJECT'), ('Hijacking', '🚫 Hijacking')}
         for host in HOSTS:
-            with self.subTest(host=host):
-                self.assertEqual(self.route(host), ('Zhihu', TARGET))
-                self.assertEqual(self.route(host, skip=True), ('ChinaMax', '🇨🇳 China-Global'))
+            self.assertIn(self.route(host, providers=providers, ordered=ordered), allowed, host)
+
+    def test_hosts_reach_dedicated_or_security_policy(self):
+        self.assert_reviewed_hosts_route()
 
     def test_non_target_routing_is_unchanged(self):
         controls = {'zhihu.com', 'zhimg.com', 'zhihuishu.com', 'cloudflare.com',
@@ -74,9 +77,26 @@ class ZhihuRouting(unittest.TestCase):
         for provider, target in (('Privacy', 'REJECT'), ('Hijacking', '🚫 Hijacking')):
             providers = dict(self.providers)
             providers[provider] = DomainRules(['DOMAIN,' + host for host in HOSTS])
+            self.assert_reviewed_hosts_route(providers=providers)
             for host in HOSTS:
                 with self.subTest(provider=provider, host=host):
                     self.assertEqual(self.route(host, providers=providers), (provider, target))
+
+    def test_non_security_shadowing_still_fails_acceptance(self):
+        providers = dict(self.providers)
+        providers['ChinaGaming'] = DomainRules(['DOMAIN,' + host for host in HOSTS])
+        with self.assertRaises(AssertionError):
+            self.assert_reviewed_hosts_route(providers=providers)
+
+    def test_wrong_security_target_still_fails_acceptance(self):
+        for provider, target in (('Privacy', 'REJECT'), ('Hijacking', '🚫 Hijacking')):
+            with self.subTest(provider=provider):
+                providers = dict(self.providers)
+                providers[provider] = DomainRules(['DOMAIN,' + host for host in HOSTS])
+                ordered = [rule.replace(f'RULE-SET,{provider},{target}', f'RULE-SET,{provider},DIRECT')
+                           for rule in self.ordered]
+                with self.assertRaises(AssertionError):
+                    self.assert_reviewed_hosts_route(providers=providers, ordered=ordered)
 
     def test_policy_default_and_override(self):
         groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text())['proxy-groups']
