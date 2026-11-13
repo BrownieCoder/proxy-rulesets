@@ -1,6 +1,8 @@
 """Exact scope and effective domain routing for public NetEase Music endpoints."""
 import json
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -9,6 +11,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from siri_ai import DomainRules, entries
+import validate
 
 EXPECTED = {'music.163.com', 'st.music.163.com', 'y.music.163.com',
             's1.music.126.net', 's2.music.126.net', 'p1.music.126.net',
@@ -49,15 +52,8 @@ class NetEaseMusicRouting(unittest.TestCase):
         self.assertEqual(len(payload), len(EXPECTED))
         self.assertEqual(set(payload), {'DOMAIN,' + host for host in EXPECTED})
 
-    def check_effective_first_match(self, providers=None):
-        for host in EXPECTED:
-            with self.subTest(host=host):
-                self.assertIn(self.route(host, providers=providers),
-                              {('NetEaseMusic', TARGET), ('Privacy', 'REJECT'),
-                               ('Hijacking', '🚫 Hijacking')})
-
     def test_effective_first_match(self):
-        self.check_effective_first_match()
+        validate.validate_netease_music(ROOT)
 
     def test_non_target_hosts_keep_their_routes(self):
         controls = {'163.com', '126.net', 'reg.163.com', 'mail.163.com',
@@ -70,24 +66,6 @@ class NetEaseMusicRouting(unittest.TestCase):
             with self.subTest(host=host):
                 self.assertFalse(self.providers['NetEaseMusic'].matches(host))
                 self.assertEqual(self.route(host), self.route(host, skip=True))
-
-    def test_security_rule_updates_keep_precedence(self):
-        for name, target in (('Privacy', 'REJECT'), ('Hijacking', '🚫 Hijacking')):
-            for host in EXPECTED:
-                with self.subTest(provider=name, host=host):
-                    providers = dict(self.providers)
-                    providers[name] = DomainRules(entries(ROOT / self.manifests[name]['path'])
-                                                  + ['DOMAIN,' + host])
-                    self.assertEqual(self.route(host, providers=providers), (name, target))
-                    self.check_effective_first_match(providers)
-
-    def test_non_security_shadowing_fails_the_same_contract(self):
-        providers = dict(self.providers)
-        providers['ChinaGaming'] = DomainRules(['DOMAIN,music.163.com'])
-        # Run the same contract without subTest so assertRaises observes its failure.
-        self.assertNotIn(self.route('music.163.com', providers=providers),
-                         {('NetEaseMusic', TARGET), ('Privacy', 'REJECT'),
-                          ('Hijacking', '🚫 Hijacking')})
 
     def test_direct_first_with_manual_proxy_choice(self):
         groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text())['proxy-groups']
@@ -107,6 +85,103 @@ class NetEaseMusicRouting(unittest.TestCase):
         for after in ('RULE-SET,Apple,🍎 Apple', 'RULE-SET,GlobalMedia,🛰️ International-Global',
                       'GEOIP,CN,DIRECT,no-resolve', 'RULE-SET,ChinaMax,🇨🇳 China-Global'):
             self.assertLess(pos, self.ordered.index(after))
+
+
+class NetEaseMusicValidatorMutations(unittest.TestCase):
+    MARKER = '  - RULE-SET,NetEaseMusic,' + TARGET + '\n'
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        for name in ('config', 'ruleset'):
+            shutil.copytree(ROOT / name, self.root / name)
+        for name in ('sources.json', 'local-rulesets.json', 'sources.lock.json'):
+            shutil.copyfile(ROOT / name, self.root / name)
+
+    def test_security_updates_pass_real_validator(self):
+        for provider in ('Privacy', 'Hijacking'):
+            path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
+            original = path.read_text()
+            for kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
+                with self.subTest(provider=provider, kind=kind):
+                    path.write_text(original + f'  - {kind},music.163.com\n')
+                    try:
+                        validate.validate_netease_music(self.root)
+                    finally:
+                        path.write_text(original)
+
+    def test_non_security_shadowing_is_rejected(self):
+        path = self.root / 'ruleset/ChinaGaming.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,music.163.com\n')
+        with self.assertRaisesRegex(ValueError, 'shadowed'):
+            validate.validate_netease_music(self.root)
+
+    def test_wrong_security_target_is_rejected(self):
+        path = self.root / 'ruleset/Privacy_No_Resolve.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,music.163.com\n')
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace('RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT'))
+        with self.assertRaisesRegex(ValueError, 'active expected rule'):
+            validate.validate_netease_music(self.root)
+
+    def test_scope_broadening_is_rejected_by_tree_validation(self):
+        path = self.root / 'ruleset/NetEaseMusic.yaml'
+        path.write_text(path.read_text().replace('DOMAIN,music.163.com', 'DOMAIN-SUFFIX,163.com'))
+        with self.assertRaisesRegex(ValueError, 'eight reviewed exact'):
+            validate.validate_tree(self.root)
+
+    def test_duplicate_host_is_rejected(self):
+        path = self.root / 'ruleset/NetEaseMusic.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,music.163.com\n')
+        with self.assertRaisesRegex(ValueError, 'eight reviewed exact'):
+            validate.validate_netease_music(self.root)
+
+    def test_late_rule_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        text = path.read_text().replace(self.MARKER, '')
+        path.write_text(text.replace('  - MATCH,', self.MARKER + '  - MATCH,'))
+        with self.assertRaisesRegex(ValueError, 'broader providers'):
+            validate.validate_netease_music(self.root)
+
+    def test_bypassing_security_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        text = path.read_text().replace(self.MARKER, '')
+        path.write_text(text.replace('rules:\n', 'rules:\n' + self.MARKER))
+        with self.assertRaisesRegex(ValueError, 'Security and gaming'):
+            validate.validate_netease_music(self.root)
+
+    def test_unknown_top_level_rule_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace(self.MARKER, '  - DST-PORT,443,DIRECT\n' + self.MARKER))
+        with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
+            validate.validate_netease_music(self.root)
+
+    def test_proxy_default_is_rejected(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        prefix, group = path.read_text().split('  - name: "🎵 网易云音乐"\n', 1)
+        path.write_text(prefix + '  - name: "🎵 网易云音乐"\n' + group.replace('      - DIRECT\n', '', 1))
+        with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+            validate.validate_netease_music(self.root)
+
+    def test_non_select_group_is_rejected(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        prefix, group = path.read_text().split('  - name: "🎵 网易云音乐"\n', 1)
+        path.write_text(prefix + '  - name: "🎵 网易云音乐"\n' + group.replace('type: select', 'type: fallback', 1))
+        with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+            validate.validate_netease_music(self.root)
+
+    def test_comment_cannot_replace_active_reference(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace(self.MARKER, self.MARKER.replace('  - ', '  # ')))
+        with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
+            validate.validate_netease_music(self.root)
+
+    def test_duplicate_provider_reference_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text() + self.MARKER)
+        with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
+            validate.validate_netease_music(self.root)
 
 
 if __name__ == '__main__':
