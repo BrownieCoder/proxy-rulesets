@@ -119,6 +119,13 @@ proxy-groups:
       - "🚀 节点选择"
       - DIRECT
 
+  - name: "📕 小红书 / REDnote"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "📺 Bilibili"
     type: select
     proxies:

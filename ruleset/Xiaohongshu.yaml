@@ -1,0 +1,7 @@
+# Self-maintained Xiaohongshu / RedNote first-party domain rules.
+# Provenance: research/Xiaohongshu-direct.md
+payload:
+  - DOMAIN-SUFFIX,xiaohongshu.com
+  - DOMAIN-SUFFIX,rednote.com
+  - DOMAIN-SUFFIX,xhscdn.com
+  - DOMAIN-SUFFIX,xhscdn.net

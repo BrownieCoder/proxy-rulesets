@@ -162,6 +162,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/InternationalGaming.yaml
     interval: 86400
     path: ./ruleset-cache/InternationalGaming.yaml
+  Xiaohongshu:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Xiaohongshu.yaml
+    interval: 86400
+    path: ./ruleset-cache/Xiaohongshu.yaml
   SiriAI:
     type: http
     behavior: classical
