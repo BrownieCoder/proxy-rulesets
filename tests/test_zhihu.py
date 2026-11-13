@@ -1,14 +1,18 @@
 """Exact Zhihu scope, policy and first-match domain regression checks."""
 import json
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from siri_ai import DomainRules, entries
+import validate
 
 HOSTS = {
     'www.zhihu.com', 'api.zhihu.com', 'zhuanlan.zhihu.com', 'static.zhihu.com',
@@ -115,6 +119,94 @@ class ZhihuRouting(unittest.TestCase):
         for later in ('RULE-SET,Apple,🍎 Apple', 'RULE-SET,GlobalMedia,🛰️ International-Global',
                       'GEOIP,CN,DIRECT,no-resolve', 'RULE-SET,ChinaMax,🇨🇳 China-Global'):
             self.assertLess(position, self.ordered.index(later))
+
+
+class ZhihuValidator(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        for directory in ('config', 'ruleset'):
+            shutil.copytree(ROOT / directory, self.root / directory)
+        for name in ('sources.json', 'local-rulesets.json'):
+            shutil.copyfile(ROOT / name, self.root / name)
+
+    def mutate(self, name, old, new):
+        path = self.root / name
+        path.write_text(path.read_text().replace(old, new))
+
+    def test_current_contract(self):
+        validate.validate_zhihu(self.root)
+
+    def test_tree_calls_zhihu_contract(self):
+        with patch.object(validate, 'validate_zhihu', side_effect=ValueError('Zhihu contract reached')):
+            with self.assertRaisesRegex(ValueError, 'Zhihu contract reached'):
+                validate.validate_tree(ROOT)
+
+    def test_broadening_scope_is_rejected(self):
+        self.mutate('ruleset/Zhihu.yaml', 'DOMAIN,www.zhihu.com', 'DOMAIN-SUFFIX,www.zhihu.com')
+        with self.assertRaisesRegex(ValueError, 'eight reviewed exact hosts'):
+            validate.validate_zhihu(self.root)
+
+    def test_duplicates_are_rejected(self):
+        path = self.root / 'ruleset/Zhihu.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,www.zhihu.com\n')
+        with self.assertRaisesRegex(ValueError, 'without duplicates'):
+            validate.validate_zhihu(self.root)
+
+    def test_late_placement_is_rejected(self):
+        line = '  - RULE-SET,Zhihu,💡 知乎\n'
+        self.mutate('config/rules.yaml', line, '')
+        self.mutate('config/rules.yaml', '  - MATCH,', line + '  - MATCH,')
+        with self.assertRaisesRegex(ValueError, 'must precede broader'):
+            validate.validate_zhihu(self.root)
+
+    def test_default_proxy_is_rejected(self):
+        self.mutate('config/proxy-groups.yaml',
+                    'name: "💡 知乎"\n    type: select\n    proxies:\n      - DIRECT',
+                    'name: "💡 知乎"\n    type: select\n    proxies:\n      - "🚀 节点选择"')
+        with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+            validate.validate_zhihu(self.root)
+
+    def test_security_bypass_is_rejected(self):
+        line = '  - RULE-SET,Zhihu,💡 知乎\n'
+        self.mutate('config/rules.yaml', line, '')
+        self.mutate('config/rules.yaml', 'rules:\n', 'rules:\n' + line)
+        with self.assertRaisesRegex(ValueError, 'Security and gaming'):
+            validate.validate_zhihu(self.root)
+
+    def test_unknown_top_level_kind_is_rejected(self):
+        self.mutate('config/rules.yaml', 'rules:\n', 'rules:\n  - DST-PORT,443,DIRECT\n')
+        with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
+            validate.validate_zhihu(self.root)
+
+    def test_legal_security_additions_pass_the_real_validator(self):
+        for provider in ('Privacy', 'Hijacking'):
+            with self.subTest(provider=provider):
+                path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
+                original = path.read_text()
+                path.write_text(original + '  - DOMAIN,www.zhihu.com\n')
+                try:
+                    validate.validate_zhihu(self.root)
+                finally:
+                    path.write_text(original)
+
+    def test_non_security_shadowing_is_rejected(self):
+        path = self.root / 'ruleset/ChinaGaming.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,www.zhihu.com\n')
+        with self.assertRaisesRegex(ValueError, 'shadowed'):
+            validate.validate_zhihu(self.root)
+
+    def test_wrong_security_target_is_rejected(self):
+        self.mutate('config/rules.yaml', 'RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT')
+        with self.assertRaisesRegex(ValueError, 'requires one active rule'):
+            validate.validate_zhihu(self.root)
+
+    def test_duplicate_provider_reference_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text() + '  - RULE-SET,Zhihu,DIRECT\n')
+        with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
+            validate.validate_zhihu(self.root)
 
 
 if __name__ == '__main__':

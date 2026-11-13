@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Zhihu
 
 推荐：**默认直连，可选代理**。现有规则目标：`💡 知乎`。共 **8 条**规则。
 
-安全拦截与游戏仍优先；只匹配已核实的精确主机，不覆盖全部知乎 App 请求。其他知乎域名沿用原有分流。[域名来源与验证边界](../research/Zhihu-routing.md)。
+安全拦截与游戏仍优先；仅匹配 8 个精确主机。手动选代理也只影响这 8 个主机，其他知乎域名沿用原路由并可能继续直连，因而可能混合出口；不保证完整 App 或一致出口。[域名来源与验证边界](../research/Zhihu-routing.md)。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 
