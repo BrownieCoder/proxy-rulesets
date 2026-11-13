@@ -119,6 +119,13 @@ proxy-groups:
       - "🚀 节点选择"
       - DIRECT
 
+  - name: "🗺️ 高德地图"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "💡 知乎"
     type: select
     proxies:
@@ -127,6 +134,13 @@ proxy-groups:
       - "🧭 Final"
 
   - name: "📕 小红书 / REDnote"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🎵 网易云音乐"
     type: select
     proxies:
       - DIRECT

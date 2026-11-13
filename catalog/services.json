@@ -108,6 +108,15 @@
     "warning": "共享资源域名和 IP 规则可能承接其他流量。"
   },
   {
+    "id": "netease-music",
+    "provider": "NetEaseMusic",
+    "name": "网易云音乐",
+    "category": "影音",
+    "description": "官网及部分静态、图片资源的 8 个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "保留安全与游戏规则优先；不代表原生 App 音频、下载或登录全链路覆盖，不改变版权或地区资格。[域名来源与验证边界](../research/NetEaseMusic-routing.md)。"
+  },
+  {
     "id": "bilibili",
     "provider": "Bilibili",
     "name": "哔哩哔哩",
@@ -151,6 +160,15 @@
     "description": "现有上游国际媒体集合。",
     "policyLabel": "按已有国际媒体策略选择出口",
     "warning": "范围较广，必须放在游戏和具体服务之后。"
+  },
+  {
+    "id": "amap",
+    "provider": "Amap",
+    "name": "高德地图 / AMap",
+    "category": "出行",
+    "description": "高德官网、移动入口与公开地图接口的六个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "安全与游戏规则优先；接口主机也影响第三方高德地图集成，不代表完整原生 App 导航或定位覆盖。域名依据见 research/Amap-routing.md。"
   },
   {
     "id": "zhihu",

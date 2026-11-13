@@ -60,6 +60,11 @@
       "rulesSha256": "df9f9138a41a99ef1e0e9be23942bc3624c39fb1111e90c61c14c187b50b60a0",
       "ruleCount": 183
     },
+    "ruleset/NetEaseMusic.yaml": {
+      "sha256": "e388c4b0ee17807951d1142f53116189e8f1ce0e62c72ead7b41875cee5b5d34",
+      "rulesSha256": "20172168a1ad15e12ba78ec540988d0fe13c9cee548dc7751490556a5486ccbb",
+      "ruleCount": 8
+    },
     "ruleset/Bilibili_No_Resolve.yaml": {
       "sha256": "4b221842279607a51399f51509338d729dff04f1a8a346823a2bf605e243d588",
       "rulesSha256": "a8dbb0ff7d47a1bfd26747a025eb59b440270f6ac97a5cfbe5a610eee01543d7",
@@ -84,6 +89,11 @@
       "sha256": "a7260bb573154c249170e2f195f366239387ae6e8a3b3f028fb3f78d28131e70",
       "rulesSha256": "1d9f445caee66549e014dee1d1d35e4f6b3e6e36eb24936fc2f6db0708df5ff3",
       "ruleCount": 2265
+    },
+    "ruleset/Amap.yaml": {
+      "sha256": "679c54d2e6ca3b9b3832f6a18d858efa039a63f812106a4f747b438343674fda",
+      "rulesSha256": "bd3c117b476b2ad10af90a9987d6e869824504a61bd9ddcc25e4dd9e64f80bfa",
+      "ruleCount": 6
     },
     "ruleset/Zhihu.yaml": {
       "sha256": "e07f204de826e44b3c6f7bd943cba6a4e05d22da87fae5584ea171d65e606b8a",
@@ -151,10 +161,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "9c7681ea1bcfbfc4c1881dbfccdac425d1773e9c0c182dd6fef61311a6827c40",
+  "readmeCatalogSha256": "9e6fbd82a71b74fc7190a3e6d1baf69a5a4e420eaaa0f906e07b927ce223784d",
   "artifacts": {
-    "config/rule-providers.local.yaml": "5c66363a66b0845fbcf40b74fda3df01288fcaf120ef6e564069fe9a816ff93e",
-    "config/rule-providers.remote.yaml": "36d979de5b761f539ac704dd680759048d97c5be23d3c4a588ec035fe9bd5594",
+    "config/rule-providers.local.yaml": "10198b472ea93df03a562c860555d96e6e4d4ab1a537c056dff1575df4a6ffd2",
+    "config/rule-providers.remote.yaml": "24e88cc166b43bcf76d86bc0b307c1a505358036062af7ed3bc6157535eea476",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
@@ -167,11 +177,13 @@
     "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
     "services/microsoft.md": "f88fa7d22bb858e5843fcea08038be27031d92ba06ae376f21ad3c03427ac900",
     "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
+    "services/netease-music.md": "1fa5906150851a5c98cf65ce59c0587476fdd64efd6f2da843c09ef4a35cfb1c",
     "services/bilibili.md": "58b7530860e9601ce8a72abd9e8c2d178402c690dde03af5d44bc5d9a9e890ce",
     "services/tiktok.md": "8365c79f21a038a880758d99528b183cdf6a5b2d1d2aa0b53ce4b2809a0f82ac",
     "services/disney.md": "df302d62b60246c16e7a8128cef43af5a0e1a1fe85e5468ee295d80e8043c4ba",
     "services/netflix.md": "8a090cc67d27c808fedda7ac62aa653c1a21f513233f93efb928337027511617",
     "services/global-media.md": "5d13e7b4a433a3ff50b9734d22263cf4352877ecfe07077622adc10f9177e5ce",
+    "services/amap.md": "5ddac01295e831a4b55588c687278e92ca9250367b7bcc7f040acefcf1d10926",
     "services/zhihu.md": "e1f15975888b05f22493ea5c5350950486de6ca2e8405de2103b78f296038672",
     "services/xiaohongshu.md": "f9e4d5363d2b9c25097d9ae786426115e3d1d17eb8f43629abc1179a21de8d60",
     "services/telegram.md": "e5820dcd7899a6c9b286f840ed8ff6e26e7141e43c7e91155f10f0994c6fc7e2",
@@ -185,6 +197,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "815c342d01bd92b2f6415d76fc26bd10df502b50fdffeef1f9b1f02e7a4fade3"
+    "catalog/index.json": "52a18b13a488ee8d686d301118b8a81acfb42cb7713d53acf59a30191968d76b"
   }
 }

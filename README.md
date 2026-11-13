@@ -11,7 +11,7 @@
 点击服务名称查看作用和影响范围；点击「获取地址」进入可复制的地址代码块，点击「查看规则」直接阅读文件。
 
 <!-- SERVICE-CATALOG:START -->
-[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [社交](#社交) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
+[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [出行](#出行) · [社交](#社交) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
 
 ### AI
 
@@ -44,11 +44,18 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [YouTube](services/youtube.md) | YouTube 视频及相关资源。 | [获取地址](services/youtube.md#规则地址) · [查看规则](ruleset/YouTube_No_Resolve.yaml) |
+| [网易云音乐](services/netease-music.md) | 官网及部分静态、图片资源的 8 个精确主机。 | [获取地址](services/netease-music.md#规则地址) · [查看规则](ruleset/NetEaseMusic.yaml) |
 | [哔哩哔哩](services/bilibili.md) | 哔哩哔哩服务。 | [获取地址](services/bilibili.md#规则地址) · [查看规则](ruleset/Bilibili_No_Resolve.yaml) |
 | [TikTok](services/tiktok.md) | TikTok 内容及相关网络服务。 | [获取地址](services/tiktok.md#规则地址) · [查看规则](ruleset/TikTok_No_Resolve.yaml) |
 | [Disney+](services/disney.md) | Disney+ 及相关媒体资源。 | [获取地址](services/disney.md#规则地址) · [查看规则](ruleset/Disney_No_Resolve.yaml) |
 | [Netflix](services/netflix.md) | Netflix 内容及相关资源。 | [获取地址](services/netflix.md#规则地址) · [查看规则](ruleset/Netflix_No_Resolve.yaml) |
 | [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 | [获取地址](services/global-media.md#规则地址) · [查看规则](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
+
+### 出行
+
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
 
 ### 社交
 
