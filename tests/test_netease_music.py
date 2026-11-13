@@ -49,10 +49,15 @@ class NetEaseMusicRouting(unittest.TestCase):
         self.assertEqual(len(payload), len(EXPECTED))
         self.assertEqual(set(payload), {'DOMAIN,' + host for host in EXPECTED})
 
-    def test_effective_first_match(self):
+    def check_effective_first_match(self, providers=None):
         for host in EXPECTED:
             with self.subTest(host=host):
-                self.assertEqual(self.route(host), ('NetEaseMusic', TARGET))
+                self.assertIn(self.route(host, providers=providers),
+                              {('NetEaseMusic', TARGET), ('Privacy', 'REJECT'),
+                               ('Hijacking', '🚫 Hijacking')})
+
+    def test_effective_first_match(self):
+        self.check_effective_first_match()
 
     def test_non_target_hosts_keep_their_routes(self):
         controls = {'163.com', '126.net', 'reg.163.com', 'mail.163.com',
@@ -74,6 +79,15 @@ class NetEaseMusicRouting(unittest.TestCase):
                     providers[name] = DomainRules(entries(ROOT / self.manifests[name]['path'])
                                                   + ['DOMAIN,' + host])
                     self.assertEqual(self.route(host, providers=providers), (name, target))
+                    self.check_effective_first_match(providers)
+
+    def test_non_security_shadowing_fails_the_same_contract(self):
+        providers = dict(self.providers)
+        providers['ChinaGaming'] = DomainRules(['DOMAIN,music.163.com'])
+        # Run the same contract without subTest so assertRaises observes its failure.
+        self.assertNotIn(self.route('music.163.com', providers=providers),
+                         {('NetEaseMusic', TARGET), ('Privacy', 'REJECT'),
+                          ('Hijacking', '🚫 Hijacking')})
 
     def test_direct_first_with_manual_proxy_choice(self):
         groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text())['proxy-groups']
