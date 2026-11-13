@@ -451,6 +451,88 @@ def validate_zhihu(root: Path = ROOT) -> None:
             raise ValueError("Zhihu changed non-target routing: " + host)
 
 
+def validate_douban(root: Path = ROOT) -> None:
+    """Check exact Douban scope and effective routing in live or staged public trees."""
+    from siri_ai import DomainRules
+
+    reviewed = {"accounts.douban.com", "asset.doubanio.com", "book.douban.com",
+                "img3.doubanio.com", "img9.doubanio.com", "m.douban.com",
+                "movie.douban.com", "www.douban.com"}
+    rules = entries(root / "ruleset/Douban.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Douban must contain only the eight reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "📚 豆瓣"
+    marker = "RULE-SET,Douban," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Douban"]]
+    if references != [marker]:
+        raise ValueError("Douban must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Douban requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security, gaming and Xiaohongshu rules must precede Douban")
+    for later in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("Douban must precede broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    group_text = (root / "config/proxy-groups.yaml").read_text()
+    group = re.search(r'^  - name: "📚 豆瓣"\n(.*?)(?=^  - name: |\Z)',
+                      group_text, re.MULTILINE | re.DOTALL)
+    types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
+                                     if line.startswith("    type:")]
+    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("Douban must be a DIRECT-first select group with a proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text()))
+    providers = {name: DomainRules(entries(root / source["path"]))
+                 for name, source in manifests.items()}
+
+    def route(domain: str, skip_douban: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_douban and fields[1] == "Douban":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return "MATCH", fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError(f"Unsupported top-level rule in Douban domain model: {kind}")
+        raise ValueError("Missing MATCH rule")
+
+    for host in reviewed:
+        current = route(host)
+        if current not in {("Douban", target), ("Privacy", "REJECT"),
+                           ("Hijacking", "🚫 Hijacking")}:
+            raise ValueError(f"Douban is shadowed by an earlier rule: {host}: {current}")
+    controls = {"douban.com", "doubanio.com", "api.douban.com", "music.douban.com",
+                "douban.fm", "cloudflare.com", "www.xiaohongshu.com", "guzzoni.apple.com"}
+    controls |= {value for host in reviewed for value in
+                 ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_douban=True):
+            raise ValueError("Douban changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -479,6 +561,7 @@ def validate_tree(root: Path = ROOT) -> int:
             raise ValueError(f"{name}: local ruleset contains duplicate entries")
     validate_config_references(set(sources) | set(local_sources), root)
     validate_xiaohongshu(root)
+    validate_douban(root)
     validate_zhihu(root)
     validate_amap(root)
     validate_netease_music(root)

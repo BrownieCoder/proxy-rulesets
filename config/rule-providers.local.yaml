@@ -128,3 +128,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Zhihu.yaml
+  Douban:
+    type: file
+    behavior: classical
+    path: ./ruleset/Douban.yaml

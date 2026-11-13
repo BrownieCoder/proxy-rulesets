@@ -318,6 +318,21 @@
       "ruleCount": 4
     },
     {
+      "id": "douban",
+      "provider": "Douban",
+      "name": "豆瓣",
+      "category": "社交",
+      "description": "豆瓣公开网页、登录入口与图像和静态资源的 8 个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "安全规则仍优先；仅含 8 个已核实精确主机，图片仅收录 img3 / img9。手动选代理只影响本清单，其他图片或 API 主机仍走原策略，同页可能混合直连与代理；不保证完整 App 链路。[范围与官方来源](../research/Douban-routing.md)。",
+      "path": "ruleset/Douban.yaml",
+      "policy": "📚 豆瓣",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douban.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Douban.yaml",
+      "page": "services/douban.md",
+      "ruleCount": 8
+    },
+    {
       "id": "telegram",
       "provider": "Telegram",
       "name": "Telegram",

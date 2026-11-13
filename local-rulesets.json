@@ -30,5 +30,9 @@
   "Zhihu": {
     "path": "ruleset/Zhihu.yaml",
     "behavior": "classical"
+  },
+  "Douban": {
+    "path": "ruleset/Douban.yaml",
+    "behavior": "classical"
   }
 }
