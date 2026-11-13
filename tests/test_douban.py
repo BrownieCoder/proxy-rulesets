@@ -3,6 +3,7 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import yaml
 
@@ -52,10 +53,15 @@ class DoubanRouting(unittest.TestCase):
         self.assertEqual(len(rules), len(self.HOSTS))
         self.assertEqual(set(rules), {'DOMAIN,' + host for host in self.HOSTS})
 
-    def test_hosts_reach_dedicated_policy(self):
-        for host in self.HOSTS:
-            with self.subTest(host=host):
-                self.assertEqual(self.route(host), ('Douban', self.POLICY))
+    def assert_reviewed_host_routes(self, providers=None):
+        allowed = {('Douban', self.POLICY), ('Privacy', 'REJECT'),
+                   ('Hijacking', '🚫 Hijacking')}
+        actual = {host: self.route(host, providers=providers) for host in self.HOSTS}
+        unexpected = {host: result for host, result in actual.items() if result not in allowed}
+        self.assertEqual(unexpected, {}, f'Unexpected host routing: {unexpected}')
+
+    def test_hosts_reach_dedicated_or_security_policy(self):
+        self.assert_reviewed_host_routes()
 
     def test_security_and_game_precedence(self):
         marker = 'RULE-SET,Douban,' + self.POLICY
@@ -72,6 +78,21 @@ class DoubanRouting(unittest.TestCase):
             models[provider] = DomainRules(['DOMAIN,www.douban.com'])
             with self.subTest(provider=provider):
                 self.assertEqual(self.route('www.douban.com', providers=models), (provider, target))
+                self.assert_reviewed_host_routes(providers=models)
+
+    def test_non_security_preemption_fails_host_contract(self):
+        models = dict(self.providers)
+        models['ChinaGaming'] = DomainRules(['DOMAIN,www.douban.com'])
+        with self.assertRaises(AssertionError):
+            self.assert_reviewed_host_routes(providers=models)
+
+    def test_wrong_security_target_fails_host_contract(self):
+        models = dict(self.providers)
+        models['Privacy'] = DomainRules(['DOMAIN,www.douban.com'])
+        rules = [rule.replace('RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT')
+                 for rule in self.ordered]
+        with patch.object(self, 'ordered', rules), self.assertRaises(AssertionError):
+            self.assert_reviewed_host_routes(providers=models)
 
     def test_default_direct_with_manual_proxy_choice(self):
         groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text())['proxy-groups']
