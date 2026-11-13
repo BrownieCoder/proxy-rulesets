@@ -44,6 +44,11 @@ class AmapRouting(unittest.TestCase):
                 raise ValueError(f'Unsupported top-level rule: {kind}')
         raise ValueError('Missing MATCH')
 
+    def assert_accepted_host_route(self, host, providers=None):
+        self.assertIn(self.route(host, providers=providers),
+                      {('Amap', self.POLICY), ('Privacy', 'REJECT'),
+                       ('Hijacking', '🚫 Hijacking')})
+
     def test_exact_reviewed_hosts_only(self):
         payload = yaml.safe_load((ROOT / 'ruleset/Amap.yaml').read_text())['payload']
         self.assertEqual(set(payload), {f'DOMAIN,{host}' for host in self.HOSTS})
@@ -70,13 +75,28 @@ class AmapRouting(unittest.TestCase):
         self.assertEqual(group['proxies'][0], 'DIRECT')
         self.assertIn('🚀 节点选择', group['proxies'])
         for host in self.HOSTS:
-            self.assertEqual(self.route(host), ('Amap', self.POLICY))
+            self.assert_accepted_host_route(host)
 
     def test_security_rules_still_win(self):
         for name, target in (('Privacy', 'REJECT'), ('Hijacking', '🚫 Hijacking')):
             providers = dict(self.providers)
             providers[name] = DomainRules(['DOMAIN,maps.amap.com'])
+            self.assert_accepted_host_route('maps.amap.com', providers=providers)
             self.assertEqual(self.route('maps.amap.com', providers=providers), (name, target))
+
+    def test_wrong_security_target_is_rejected(self):
+        providers = dict(self.providers)
+        providers['Privacy'] = DomainRules(['DOMAIN,maps.amap.com'])
+        self.rules = [rule.replace('RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT')
+                      for rule in self.rules]
+        with self.assertRaises(AssertionError):
+            self.assert_accepted_host_route('maps.amap.com', providers=providers)
+
+    def test_non_security_shadowing_is_rejected(self):
+        providers = dict(self.providers)
+        providers['ChinaGaming'] = DomainRules(['DOMAIN,maps.amap.com'])
+        with self.assertRaises(AssertionError):
+            self.assert_accepted_host_route('maps.amap.com', providers=providers)
 
     def test_non_target_routes_unchanged(self):
         controls = {'amap.com', 'autonavi.com', 'www.autonavi.com',
