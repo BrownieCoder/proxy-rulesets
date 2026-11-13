@@ -15,6 +15,10 @@
     "path": "ruleset/Xiaohongshu.yaml",
     "behavior": "classical"
   },
+  "Amap": {
+    "path": "ruleset/Amap.yaml",
+    "behavior": "classical"
+  },
   "SiriAI": {
     "path": "ruleset/SiriAI.yaml",
     "behavior": "classical"

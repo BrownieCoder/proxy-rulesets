@@ -168,6 +168,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Xiaohongshu.yaml
     interval: 86400
     path: ./ruleset-cache/Xiaohongshu.yaml
+  Amap:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Amap.yaml
+    interval: 86400
+    path: ./ruleset-cache/Amap.yaml
   SiriAI:
     type: http
     behavior: classical

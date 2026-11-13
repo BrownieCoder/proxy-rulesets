@@ -153,6 +153,15 @@
     "warning": "范围较广，必须放在游戏和具体服务之后。"
   },
   {
+    "id": "amap",
+    "provider": "Amap",
+    "name": "高德地图 / AMap",
+    "category": "出行",
+    "description": "高德官网、移动入口与公开地图接口的六个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "安全与游戏规则优先；接口主机也影响第三方高德地图集成，不代表完整原生 App 导航或定位覆盖。域名依据见 research/Amap-routing.md。"
+  },
+  {
     "id": "xiaohongshu",
     "provider": "Xiaohongshu",
     "name": "小红书 / RedNote",
