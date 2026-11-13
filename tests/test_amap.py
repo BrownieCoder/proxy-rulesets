@@ -1,14 +1,18 @@
 """AMap exact-host, first-match and configurable DIRECT-first contract."""
 import json
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from siri_ai import DomainRules, entries
+import validate
 
 
 class AmapRouting(unittest.TestCase):
@@ -107,6 +111,113 @@ class AmapRouting(unittest.TestCase):
         for domain in controls:
             with self.subTest(domain=domain):
                 self.assertEqual(self.route(domain), self.route(domain, include_amap=False))
+
+
+class AmapValidatorContract(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        for name in ('config', 'ruleset'):
+            shutil.copytree(ROOT / name, self.root / name)
+        for name in ('sources.json', 'sources.lock.json', 'local-rulesets.json'):
+            shutil.copyfile(ROOT / name, self.root / name)
+
+    def test_current_public_fixture(self):
+        validate.validate_amap(self.root)
+
+    def test_validate_tree_runs_amap_gate(self):
+        with patch.object(validate, 'validate_amap', side_effect=ValueError('Amap gate reached')) as gate:
+            with self.assertRaisesRegex(ValueError, 'Amap gate reached'):
+                validate.validate_tree(self.root)
+        gate.assert_called_once_with(self.root)
+
+    def test_broadening_and_duplicate_hosts_are_rejected(self):
+        path = self.root / 'ruleset/Amap.yaml'
+        original = path.read_text()
+        for suffix in ('  - DOMAIN-SUFFIX,amap.com\n', '  - DOMAIN,maps.amap.com\n'):
+            with self.subTest(rule=suffix):
+                path.write_text(original + suffix)
+                with self.assertRaisesRegex(ValueError, 'six reviewed exact hosts'):
+                    validate.validate_amap(self.root)
+
+    def test_late_rule_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        rule = '  - RULE-SET,Amap,🗺️ 高德地图\n'
+        text = path.read_text().replace(rule, '')
+        path.write_text(text.replace('  - MATCH,', rule + '  - MATCH,'))
+        with self.assertRaisesRegex(ValueError, 'broader providers'):
+            validate.validate_amap(self.root)
+
+    def test_security_bypass_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        rule = '  - RULE-SET,Amap,🗺️ 高德地图\n'
+        path.write_text(path.read_text().replace(rule, '').replace('rules:\n', 'rules:\n' + rule))
+        with self.assertRaisesRegex(ValueError, 'Security and gaming'):
+            validate.validate_amap(self.root)
+
+    def test_only_one_exact_active_reference_is_allowed(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text()
+        for text in (original.replace('  - RULE-SET,Amap,🗺️ 高德地图', '  # RULE-SET,Amap,🗺️ 高德地图'),
+                     original + '  - RULE-SET,Amap,🗺️ 高德地图\n',
+                     original + '  - RULE-SET,Amap,DIRECT\n'):
+            with self.subTest(text=text[-60:]):
+                path.write_text(text)
+                with self.assertRaisesRegex(ValueError, 'exactly one dedicated policy reference'):
+                    validate.validate_amap(self.root)
+
+    def test_comment_cannot_replace_required_marker(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace('  - RULE-SET,GlobalMedia,', '  # RULE-SET,GlobalMedia,'))
+        with self.assertRaisesRegex(ValueError, 'exactly one active rule'):
+            validate.validate_amap(self.root)
+
+    def test_direct_select_and_manual_proxy_are_required(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text()
+        start = original.index('  - name: "🗺️ 高德地图"')
+        end = original.index('  - name:', start + 1)
+        block = original[start:end]
+        for modified in (block.replace('      - DIRECT\n', ''),
+                         block.replace('    type: select', '    type: fallback'),
+                         block.replace('      - "🚀 节点选择"\n', '')):
+            with self.subTest(block=modified):
+                path.write_text(original[:start] + modified + original[end:])
+                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                    validate.validate_amap(self.root)
+
+    def test_legal_security_updates_remain_valid(self):
+        for name in ('Privacy', 'Hijacking'):
+            path = self.root / f'ruleset/{name}_No_Resolve.yaml'
+            original = path.read_text()
+            for kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
+                with self.subTest(provider=name, kind=kind):
+                    path.write_text(original + f'  - {kind},maps.amap.com\n')
+                    try:
+                        validate.validate_amap(self.root)
+                    finally:
+                        path.write_text(original)
+
+    def test_wrong_security_policy_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace('RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT'))
+        path = self.root / 'ruleset/Privacy_No_Resolve.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,maps.amap.com\n')
+        with self.assertRaises(ValueError):
+            validate.validate_amap(self.root)
+
+    def test_non_security_shadowing_is_rejected(self):
+        path = self.root / 'ruleset/ChinaGaming.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,maps.amap.com\n')
+        with self.assertRaisesRegex(ValueError, 'shadowed'):
+            validate.validate_amap(self.root)
+
+    def test_unknown_top_level_rule_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace('rules:\n', 'rules:\n  - DST-PORT,443,DIRECT\n'))
+        with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
+            validate.validate_amap(self.root)
 
 
 if __name__ == '__main__':

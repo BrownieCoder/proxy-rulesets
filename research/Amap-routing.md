@@ -13,7 +13,7 @@
 | 主机 | 来源 | 用途与目标 | 置信度与影响范围 |
 | --- | --- | --- | --- |
 | `maps.amap.com` | [高德在线地图](https://maps.amap.com/) | 地点搜索和路线规划网页；默认直连 | 高；仅该主机 |
-| `ditu.amap.com` | [高德在线地图旧版入口](https://ditu.amap.com/) | 旧版在线地图和 App 导流入口；默认直连 | 高；仅该主机 |
+| `ditu.amap.com` | [高德在线地图入口](https://ditu.amap.com/) | 在线地图和 App 导流入口；默认直连 | 高；仅该主机 |
 | `mobile.amap.com` | [高德地图官方网站](https://mobile.amap.com/cn/index) | 高德地图 App 功能介绍与下载入口；默认直连 | 高；仅该主机 |
 | `m.amap.com` | [高德地图手机版](https://m.amap.com/) | 官方移动地图入口；默认直连 | 高；仅该主机 |
 | `webapi.amap.com` | [高德 AMapUI 官方文档](https://lbs.amap.com/api/amap-ui/intro/) | 文档使用该主机加载 JS 地图与 UI 组件；默认直连 | 高；也影响第三方网站或 App 中的高德地图集成 |
