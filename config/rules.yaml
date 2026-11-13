@@ -9,6 +9,8 @@ rules:
   - RULE-SET,Amap,🗺️ 高德地图
   # 小红书独立可选策略，安全拦截和游戏规则仍优先。
   - RULE-SET,Xiaohongshu,📕 小红书 / REDnote
+  # 网易云音乐已核实公开主机；安全与游戏策略优先。
+  - RULE-SET,NetEaseMusic,🎵 网易云音乐
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

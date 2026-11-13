@@ -1,0 +1,11 @@
+# Self-maintained exact endpoints referenced by the official NetEase Music website.
+# Provenance: research/NetEaseMusic-routing.md
+payload:
+  - DOMAIN,music.163.com
+  - DOMAIN,st.music.163.com
+  - DOMAIN,y.music.163.com
+  - DOMAIN,s1.music.126.net
+  - DOMAIN,s2.music.126.net
+  - DOMAIN,p1.music.126.net
+  - DOMAIN,p3.music.126.net
+  - DOMAIN,p6.music.126.net

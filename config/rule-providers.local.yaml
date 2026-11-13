@@ -120,3 +120,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/SiriAI.yaml
+  NetEaseMusic:
+    type: file
+    behavior: classical
+    path: ./ruleset/NetEaseMusic.yaml

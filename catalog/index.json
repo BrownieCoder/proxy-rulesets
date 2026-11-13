@@ -183,6 +183,21 @@
       "ruleCount": 183
     },
     {
+      "id": "netease-music",
+      "provider": "NetEaseMusic",
+      "name": "网易云音乐",
+      "category": "影音",
+      "description": "官网及部分静态、图片资源的 8 个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "保留安全与游戏规则优先；不代表原生 App 音频、下载或登录全链路覆盖，不改变版权或地区资格。[域名来源与验证边界](../research/NetEaseMusic-routing.md)。",
+      "path": "ruleset/NetEaseMusic.yaml",
+      "policy": "🎵 网易云音乐",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/NetEaseMusic.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/NetEaseMusic.yaml",
+      "page": "services/netease-music.md",
+      "ruleCount": 8
+    },
+    {
       "id": "bilibili",
       "provider": "Bilibili",
       "name": "哔哩哔哩",

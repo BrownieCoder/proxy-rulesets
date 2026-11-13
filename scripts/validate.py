@@ -295,6 +295,88 @@ def validate_amap(root: Path = ROOT) -> None:
             raise ValueError(f"Amap host shadowed by a non-security or incorrect policy: {domain}: {current}")
 
 
+def validate_netease_music(root: Path = ROOT) -> None:
+    """Enforce reviewed exact hosts and security-first routing in sync candidates."""
+    from siri_ai import DomainRules
+
+    reviewed = {"music.163.com", "st.music.163.com", "y.music.163.com",
+                "s1.music.126.net", "s2.music.126.net", "p1.music.126.net",
+                "p3.music.126.net", "p6.music.126.net"}
+    rules = entries(root / "ruleset/NetEaseMusic.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {f"DOMAIN,{d}" for d in reviewed}:
+        raise ValueError("NetEaseMusic must contain only the eight reviewed exact hosts")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🎵 网易云音乐"
+    marker = f"RULE-SET,NetEaseMusic,{target}"
+    references = [rule for rule in ordered if rule.startswith("RULE-SET,NetEaseMusic,")]
+    if references != [marker]:
+        raise ValueError("NetEaseMusic must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        count = ordered.count(expected)
+        if count != 1:
+            raise ValueError(f"NetEaseMusic requires one active expected rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for expected in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                     "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(expected) > app_position:
+            raise ValueError("Security and gaming rules must precede NetEaseMusic")
+    for expected in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,GlobalMedia,🛰️ International-Global",
+                     "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(expected) < app_position:
+            raise ValueError("NetEaseMusic must precede broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    group_text = (root / "config/proxy-groups.yaml").read_text()
+    group = re.search(r'^  - name: "🎵 网易云音乐"\n(.*?)(?=^  - name: |\Z)',
+                      group_text, re.MULTILINE | re.DOTALL)
+    types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
+                                     if line.startswith("    type:")]
+    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("NetEaseMusic must be DIRECT-first select with a manual proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text()))
+    providers = {name: DomainRules(entries(root / source["path"]))
+                 for name, source in manifests.items()}
+
+    def route(domain: str, include_app: bool = True) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if fields[1] == "NetEaseMusic" and not include_app:
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return "MATCH", fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError(f"Unsupported top-level rule in domain model: {kind}")
+        raise ValueError("Missing MATCH rule")
+
+    for domain in reviewed:
+        current = route(domain)
+        if current not in {("NetEaseMusic", target), ("Privacy", "REJECT"),
+                           ("Hijacking", "🚫 Hijacking")}:
+            raise ValueError(f"NetEaseMusic is shadowed by an earlier domain rule: {domain}: {current}")
+    controls = {"163.com", "126.net", "reg.163.com", "mail.163.com", "example.org",
+                "clientlog.music.163.com", "sentry.music.163.com"}
+    controls |= {value for domain in reviewed for value in
+                 ("child." + domain, "not" + domain, domain + ".example.org")}
+    for domain in controls:
+        if route(domain) != route(domain, False):
+            raise ValueError(f"NetEaseMusic changed non-target domain: {domain}")
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -324,6 +406,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_config_references(set(sources) | set(local_sources), root)
     validate_xiaohongshu(root)
     validate_amap(root)
+    validate_netease_music(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
