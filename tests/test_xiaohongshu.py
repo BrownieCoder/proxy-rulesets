@@ -33,11 +33,60 @@ class RedNoteRouting(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'four reviewed'):
             validate.validate_xiaohongshu(self.root)
 
-    def test_security_shadowing_is_detected(self):
-        path = self.root / 'ruleset/Privacy_No_Resolve.yaml'
+    def test_security_matches_remain_valid(self):
+        for provider in ('Privacy', 'Hijacking'):
+            for kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
+                with self.subTest(provider=provider, kind=kind):
+                    path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
+                    original = path.read_text()
+                    path.write_text(original + f'  - {kind},rednote.com\n'
+                                    + f'  - {kind},creator.rednote.com\n')
+                    try:
+                        validate.validate_xiaohongshu(self.root)
+                    finally:
+                        path.write_text(original)
+
+    def test_non_security_shadowing_is_rejected(self):
+        path = self.root / 'ruleset/ChinaGaming.yaml'
         path.write_text(path.read_text() + '  - DOMAIN,creator.rednote.com\n')
         with self.assertRaisesRegex(ValueError, 'shadowed'):
             validate.validate_xiaohongshu(self.root)
+
+    def test_security_match_with_wrong_policy_is_rejected(self):
+        path = self.root / 'ruleset/Privacy_No_Resolve.yaml'
+        path.write_text(path.read_text() + '  - DOMAIN,creator.rednote.com\n')
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace('RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT'))
+        with self.assertRaisesRegex(ValueError, 'shadowed'):
+            validate.validate_xiaohongshu(self.root)
+
+    def test_unknown_top_level_rule_is_not_silently_ignored(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text()
+        for rule in ('PROCESS-NAME,rednote,DIRECT', 'DST-PORT,443,DIRECT',
+                     'AND,((DOMAIN,rednote.com)),DIRECT'):
+            with self.subTest(rule=rule):
+                path.write_text(original.replace('rules:\n', f'rules:\n  - {rule}\n'))
+                with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
+                    validate.validate_xiaohongshu(self.root)
+
+    def test_commented_marker_cannot_replace_active_rule(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text().replace('  - RULE-SET,Bilibili,📺 Bilibili',
+                                                '  # RULE-SET,Bilibili,📺 Bilibili'))
+        with self.assertRaisesRegex(ValueError, 'missing expected rule: RULE-SET,Bilibili'):
+            validate.validate_config_references(self.providers, self.root)
+
+    def test_duplicate_marker_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text() + '  - RULE-SET,Bilibili,📺 Bilibili\n')
+        with self.assertRaisesRegex(ValueError, 'duplicate expected rule: RULE-SET,Bilibili'):
+            validate.validate_config_references(self.providers, self.root)
+
+    def test_comment_does_not_duplicate_active_marker(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text() + '  # RULE-SET,Xiaohongshu,📕 小红书 / REDnote\n')
+        validate.validate_config_references(self.providers, self.root)
 
     def test_late_rule_is_rejected(self):
         path = self.root / 'config/rules.yaml'

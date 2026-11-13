@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).parent))
 from sync import validate  # noqa: E402
 from siri_ai import validate as validate_siri_ai  # noqa: E402
+from siri_ai import entries  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
 
@@ -101,6 +102,16 @@ def validate_config_references(provider_names: set[str], root: Path = ROOT) -> N
             )
 
     rules_text = (root / "config" / "rules.yaml").read_text(encoding="utf-8")
+    ordered_rules = entries(root / "config" / "rules.yaml")
+
+    def position(marker: str) -> int:
+        count = ordered_rules.count(marker)
+        if count == 0:
+            raise ValueError(f"missing expected rule: {marker}")
+        if count > 1:
+            raise ValueError(f"duplicate expected rule: {marker}")
+        return ordered_rules.index(marker)
+
     referenced = set(
         re.findall(r"^\s*-\s*RULE-SET,([^,]+),", rules_text, re.MULTILINE)
     )
@@ -117,17 +128,17 @@ def validate_config_references(provider_names: set[str], root: Path = ROOT) -> N
         "RULE-SET,GlobalMedia,🛰️ International-Global",
         "RULE-SET,ChinaMax,🇨🇳 China-Global",
     )
-    positions = [rules_text.index(marker) for marker in ordered_markers]
+    positions = [position(marker) for marker in ordered_markers]
     if positions != sorted(positions):
         raise ValueError("rules.yaml game/provider priority order is unsafe")
-    if rules_text.index("DOMAIN,fastcdn.hoyoverse.com,DIRECT") > positions[0]:
+    if position("DOMAIN,fastcdn.hoyoverse.com,DIRECT") > positions[0]:
         raise ValueError("fastcdn.hoyoverse.com override must precede InternationalGaming")
-    geoip_position = rules_text.index("GEOIP,CN,DIRECT,no-resolve")
+    geoip_position = position("GEOIP,CN,DIRECT,no-resolve")
     if not positions[-2] < geoip_position < positions[-1]:
         raise ValueError("GEOIP CN fallback must be after GlobalMedia and before ChinaMax")
 
-    gemini_position = rules_text.index("RULE-SET,Gemini,♊ Gemini")
-    google_position = rules_text.index("RULE-SET,Google,🔎 Google")
+    gemini_position = position("RULE-SET,Gemini,♊ Gemini")
+    google_position = position("RULE-SET,Google,🔎 Google")
     if gemini_position > google_position:
         raise ValueError("Gemini must be matched before the broader Google provider")
 
@@ -154,17 +165,15 @@ def validate_config_references(provider_names: set[str], root: Path = ROOT) -> N
         raise ValueError("🎮 国际游戏 must not offer DIRECT, including transitively")
 
     rednote = "RULE-SET,Xiaohongshu,📕 小红书 / REDnote"
-    if rules_text.count(rednote) != 1:
-        raise ValueError("Xiaohongshu must have exactly one dedicated policy reference")
-    rednote_position = rules_text.index(rednote)
+    rednote_position = position(rednote)
     for marker in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
-        if rules_text.index(marker) > rednote_position:
+        if position(marker) > rednote_position:
             raise ValueError("Security and gaming rules must precede Xiaohongshu")
     for marker in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,Bilibili,📺 Bilibili",
                    "RULE-SET,GlobalMedia,🛰️ International-Global",
                    "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
-        if rules_text.index(marker) < rednote_position:
+        if position(marker) < rednote_position:
             raise ValueError("Xiaohongshu must precede broader providers")
     options = group_members.get("📕 小红书 / REDnote", [])
     if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
@@ -197,13 +206,19 @@ def validate_xiaohongshu(root: Path = ROOT) -> None:
                 return "MATCH", fields[1]
             elif fields[0] in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
                 if DomainRules([rule]).matches(domain):
-                    return fields[0], fields[2]
+                    return fields[0] + "," + fields[1], fields[2]
+            elif fields[0] not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                # This model has no IP/process/port metadata. Fail explicitly
+                # when a new rule kind requires semantics we cannot simulate.
+                raise ValueError(f"Unsupported top-level rule in domain model: {fields[0]}")
         raise ValueError("Missing MATCH rule")
 
     for domain in reviewed | {"www.xiaohongshu.com", "creator.rednote.com",
                               "sns-webpic-qc.xhscdn.com", "sns-video-hw.xhscdn.net"}:
-        if route(domain) != ("Xiaohongshu", "📕 小红书 / REDnote"):
-            raise ValueError(f"Xiaohongshu is shadowed by an earlier domain rule: {domain}")
+        current = route(domain)
+        if current not in {("Xiaohongshu", "📕 小红书 / REDnote"),
+                           ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}:
+            raise ValueError(f"Xiaohongshu is shadowed by an earlier domain rule: {domain}: {current}")
     controls = {"example.org", "reddit.com", "guzzoni.apple.com", "hoyoverse.com",
                 "fastcdn.hoyoverse.com", "hmma.baidu.com", "cloudflare.com"}
     controls |= {name for d in reviewed for name in ("not" + d, d + ".example.org")}
