@@ -15,6 +15,10 @@
     "path": "ruleset/Xiaohongshu.yaml",
     "behavior": "classical"
   },
+  "Douban": {
+    "path": "ruleset/Douban.yaml",
+    "behavior": "classical"
+  },
   "SiriAI": {
     "path": "ruleset/SiriAI.yaml",
     "behavior": "classical"

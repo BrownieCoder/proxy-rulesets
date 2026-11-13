@@ -1,0 +1,11 @@
+# Self-maintained exact hosts observed on official Douban public pages.
+# Provenance: research/Douban-routing.md
+payload:
+  - DOMAIN,accounts.douban.com
+  - DOMAIN,asset.doubanio.com
+  - DOMAIN,book.douban.com
+  - DOMAIN,img3.doubanio.com
+  - DOMAIN,img9.doubanio.com
+  - DOMAIN,m.douban.com
+  - DOMAIN,movie.douban.com
+  - DOMAIN,www.douban.com

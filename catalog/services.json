@@ -162,6 +162,15 @@
     "warning": "安全拦截仍优先；在通用 Apple、媒体和 ChinaMax 前匹配。可用性因网络和地区而异，不保证覆盖全部 App 请求。域名依据见 research/Xiaohongshu-direct.md。"
   },
   {
+    "id": "douban",
+    "provider": "Douban",
+    "name": "豆瓣",
+    "category": "社交",
+    "description": "豆瓣公开网页、登录入口与图像和静态资源的 8 个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "安全规则仍优先；仅含已核实的精确主机，不保证完整 App API、私信或上传链路。范围与官方来源见 research/Douban-routing.md。"
+  },
+  {
     "id": "telegram",
     "provider": "Telegram",
     "name": "Telegram",

@@ -112,6 +112,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Xiaohongshu.yaml
+  Douban:
+    type: file
+    behavior: classical
+    path: ./ruleset/Douban.yaml
   SiriAI:
     type: file
     behavior: classical
