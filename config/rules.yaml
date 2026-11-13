@@ -7,6 +7,8 @@ rules:
   - RULE-SET,ChinaGaming,DIRECT
   # 高德官网与公开地图接口，安全拦截和游戏规则仍优先。
   - RULE-SET,Amap,🗺️ 高德地图
+  # 知乎已核实主机使用独立可选策略，安全拦截和游戏仍优先。
+  - RULE-SET,Zhihu,💡 知乎
   # 小红书独立可选策略，安全拦截和游戏规则仍优先。
   - RULE-SET,Xiaohongshu,📕 小红书 / REDnote
   # 网易云音乐已核实公开主机；安全与游戏策略优先。

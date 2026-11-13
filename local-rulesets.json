@@ -26,5 +26,9 @@
   "NetEaseMusic": {
     "path": "ruleset/NetEaseMusic.yaml",
     "behavior": "classical"
+  },
+  "Zhihu": {
+    "path": "ruleset/Zhihu.yaml",
+    "behavior": "classical"
   }
 }

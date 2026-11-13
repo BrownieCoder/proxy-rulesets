@@ -288,6 +288,21 @@
       "ruleCount": 6
     },
     {
+      "id": "zhihu",
+      "provider": "Zhihu",
+      "name": "知乎",
+      "category": "社交",
+      "description": "知乎网页、公开前端 API 配置及图片静态资源的 8 个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "安全拦截与游戏仍优先；仅匹配 8 个精确主机。手动选代理也只影响这 8 个主机，其他知乎域名沿用原路由并可能继续直连，因而可能混合出口；不保证完整 App 或一致出口。[域名来源与验证边界](../research/Zhihu-routing.md)。",
+      "path": "ruleset/Zhihu.yaml",
+      "policy": "💡 知乎",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Zhihu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Zhihu.yaml",
+      "page": "services/zhihu.md",
+      "ruleCount": 8
+    },
+    {
       "id": "xiaohongshu",
       "provider": "Xiaohongshu",
       "name": "小红书 / RedNote",
