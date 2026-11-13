@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douba
 
 推荐：**默认直连，可选代理**。现有规则目标：`📚 豆瓣`。共 **8 条**规则。
 
-安全规则仍优先；仅含已核实的精确主机，不保证完整 App API、私信或上传链路。范围与官方来源见 research/Douban-routing.md。
+安全规则仍优先；仅含 8 个已核实精确主机，图片仅收录 img3 / img9。手动选代理只影响本清单，其他图片或 API 主机仍走原策略，同页可能混合直连与代理；不保证完整 App 链路。[范围与官方来源](../research/Douban-routing.md)。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 

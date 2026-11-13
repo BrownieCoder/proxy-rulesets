@@ -68,7 +68,8 @@ class DoubanRouting(unittest.TestCase):
         self.assertEqual(self.ordered.count(marker), 1)
         position = self.ordered.index(marker)
         for earlier in ('RULE-SET,Privacy,REJECT', 'RULE-SET,Hijacking,🚫 Hijacking',
-                        'RULE-SET,InternationalGaming,🎮 国际游戏', 'RULE-SET,ChinaGaming,DIRECT'):
+                        'RULE-SET,InternationalGaming,🎮 国际游戏', 'RULE-SET,ChinaGaming,DIRECT',
+                        'RULE-SET,Xiaohongshu,📕 小红书 / REDnote'):
             self.assertLess(self.ordered.index(earlier), position)
         for later in ('RULE-SET,Apple,🍎 Apple', 'RULE-SET,GlobalMedia,🛰️ International-Global',
                       'GEOIP,CN,DIRECT,no-resolve', 'RULE-SET,ChinaMax,🇨🇳 China-Global'):

@@ -173,7 +173,7 @@
     "services/netflix.md": "8a090cc67d27c808fedda7ac62aa653c1a21f513233f93efb928337027511617",
     "services/global-media.md": "5d13e7b4a433a3ff50b9734d22263cf4352877ecfe07077622adc10f9177e5ce",
     "services/xiaohongshu.md": "f9e4d5363d2b9c25097d9ae786426115e3d1d17eb8f43629abc1179a21de8d60",
-    "services/douban.md": "641098b734395e9ce5f77253ef374fd2653beaef0e5894310776692b21d62779",
+    "services/douban.md": "af555ef84714eeb85f93e8aacc5d33eea46590475bcc024a8a36ab8ccfbf1cfd",
     "services/telegram.md": "e5820dcd7899a6c9b286f840ed8ff6e26e7141e43c7e91155f10f0994c6fc7e2",
     "services/twitter.md": "a4711b617da1aa3dd2865430ac26515516a9a0cdbb231db403be6ae569a4485f",
     "services/discord.md": "223fbe1d165fbbf69e911bd9e9d87fdf7bbf961b2b9d5031b76ceeff13212f78",
@@ -185,6 +185,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "5342757ecfdf2dff81459071c60eaed4b38a1e28fb5b204b7b2494335d9a17f4"
+    "catalog/index.json": "009df9949a5ed564df4df14c343a9da43aade8b3f5e1b8fce52dd9a6b1038fe3"
   }
 }
