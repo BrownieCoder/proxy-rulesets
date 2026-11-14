@@ -35,6 +35,10 @@
     "path": "ruleset/Zhihu.yaml",
     "behavior": "classical"
   },
+  "Meituan": {
+    "path": "ruleset/Meituan.yaml",
+    "behavior": "classical"
+  },
   "Douban": {
     "path": "ruleset/Douban.yaml",
     "behavior": "classical"
