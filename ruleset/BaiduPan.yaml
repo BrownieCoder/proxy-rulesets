@@ -1,0 +1,5 @@
+# Self-maintained exact hosts referenced by official Baidu Netdisk public pages.
+# Provenance: research/BaiduPan-routing.md
+payload:
+  - DOMAIN,pan.baidu.com
+  - DOMAIN,nd-static.bdstatic.com

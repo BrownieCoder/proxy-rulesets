@@ -116,6 +116,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Amap.yaml
+  BaiduPan:
+    type: file
+    behavior: classical
+    path: ./ruleset/BaiduPan.yaml
   SiriAI:
     type: file
     behavior: classical
