@@ -16,6 +16,12 @@ from siri_ai import validate as validate_siri_ai  # noqa: E402
 from siri_ai import entries  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
+DOUYIN_CONTROLS = frozenset({
+    "douyin.com", "douyinstatic.com", "douyinvod.com", "live.douyin.com",
+    "api.amemv.com", "v3-web.douyinvod.com", "v26-web.douyinvod.com",
+    "www.tiktok.com", "p16-sign-va.tiktokcdn.com", "p16-va.tiktokcdn.com",
+    "p16-sg.tiktokcdn.com", "p1.ibyteimg.com", "byteimg.com", "example.org",
+})
 
 
 def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str]]]:
@@ -533,6 +539,86 @@ def validate_douban(root: Path = ROOT) -> None:
             raise ValueError("Douban changed non-target routing: " + host)
 
 
+def validate_douyin(root: Path = ROOT) -> None:
+    """Validate only evidenced Douyin website/static hosts, preserving security and TikTok."""
+    from siri_ai import DomainRules
+    reviewed = {"www.douyin.com", "lf-douyin-pc-web.douyinstatic.com",
+                "sf1-cdn-tos.douyinstatic.com"}
+    rules = entries(root / "ruleset/Douyin.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Douyin must contain only the three reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "🎶 抖音"
+    marker = "RULE-SET,Douyin," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Douyin"]]
+    if references != [marker]:
+        raise ValueError("Douyin must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"Douyin requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(earlier) >= current:
+            raise ValueError("Security and gaming rules must precede Douyin")
+    for later in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,TikTok,🎵 Tiktok",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("Douyin must precede broader providers and TikTok")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🎶 抖音"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    types = [] if len(blocks) != 1 else re.findall(r'^    type: (\S+)\s*$', blocks[0], re.MULTILINE)
+    if types != ["select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("Douyin must be a DIRECT-first select group with a proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    referenced = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")}
+    missing = referenced - set(manifests)
+    if missing:
+        raise ValueError("Douyin routing references missing providers: " + ", ".join(sorted(missing)))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+
+    def route(domain: str, skip_douyin: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_douyin and fields[1] == "Douyin":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return kind + "," + fields[1], fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError("Unsupported top-level rule in Douyin domain model: " + kind)
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Douyin", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Douyin is shadowed by an earlier rule: {host}: {result}")
+    controls = DOUYIN_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_douyin=True):
+            raise ValueError("Douyin changed non-target routing: " + host)
+
+
 def validate_baidu_pan(root: Path = ROOT) -> None:
     """Check exact BaiduPan scope and effective routing in live or staged public trees."""
     from siri_ai import DomainRules
@@ -821,6 +907,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_zhihu(root)
     validate_amap(root)
     validate_netease_music(root)
+    validate_douyin(root)
     validate_jd(root)
     validate_meituan(root)
     from generate_catalog import generate

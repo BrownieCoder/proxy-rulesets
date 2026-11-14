@@ -132,6 +132,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Zhihu.yaml
+  Douyin:
+    type: file
+    behavior: classical
+    path: ./ruleset/Douyin.yaml
   Meituan:
     type: file
     behavior: classical

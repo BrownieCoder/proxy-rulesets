@@ -182,6 +182,13 @@ proxy-groups:
       - "🚀 节点选择"
       - "🎬 国际媒体"
 
+  - name: "🎶 抖音"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "🎵 Tiktok"
     type: select
     proxies:

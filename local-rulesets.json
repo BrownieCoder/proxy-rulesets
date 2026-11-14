@@ -35,6 +35,10 @@
     "path": "ruleset/Zhihu.yaml",
     "behavior": "classical"
   },
+  "Douyin": {
+    "path": "ruleset/Douyin.yaml",
+    "behavior": "classical"
+  },
   "Meituan": {
     "path": "ruleset/Meituan.yaml",
     "behavior": "classical"

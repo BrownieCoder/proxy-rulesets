@@ -5,6 +5,8 @@ rules:
   - DOMAIN,fastcdn.hoyoverse.com,DIRECT
   - RULE-SET,InternationalGaming,🎮 国际游戏
   - RULE-SET,ChinaGaming,DIRECT
+  # 抖音官网及已核实静态主机；安全与游戏规则仍优先。
+  - RULE-SET,Douyin,🎶 抖音
   # 高德官网与公开地图接口，安全拦截和游戏规则仍优先。
   - RULE-SET,Amap,🗺️ 高德地图
   # 知乎已核实主机使用独立可选策略，安全拦截和游戏仍优先。
