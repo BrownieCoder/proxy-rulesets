@@ -15,6 +15,8 @@ rules:
   - RULE-SET,NetEaseMusic,🎵 网易云音乐
   # 豆瓣已核实精确主机，安全、游戏及小红书规则仍优先。
   - RULE-SET,Douban,📚 豆瓣
+  # 京东已核实公开入口和资源；安全、游戏与既有服务规则优先。
+  - RULE-SET,JD,🛒 京东
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

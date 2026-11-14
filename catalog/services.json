@@ -162,6 +162,15 @@
     "warning": "范围较广，必须放在游戏和具体服务之后。"
   },
   {
+    "id": "jd",
+    "provider": "JD",
+    "name": "京东 / JD",
+    "category": "购物",
+    "description": "京东移动商城、App 入口和图片静态资源的 8 个精确主机。",
+    "policyLabel": "默认直连，可选代理",
+    "warning": "安全拦截仍优先；图片资源主机也可能服务其他京东页面。仅本清单跟随手动代理，其他请求仍走原策略，可能混合出口；不保证登录、订单、支付或完整 App 链路。[域名来源与范围](../research/JD-routing.md)。"
+  },
+  {
     "id": "amap",
     "provider": "Amap",
     "name": "高德地图 / AMap",
