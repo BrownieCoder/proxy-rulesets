@@ -17,9 +17,9 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douyi
 
 ## 作用与范围
 
-推荐：**默认直连，可选代理**。现有规则目标：`🎶 抖音`。共 **3 条**规则。
+推荐：**部分入口/资源：默认直连，可选代理**。现有规则目标：`🎶 抖音`。共 **3 条**规则。
 
-安全与游戏仍优先；手动代理只影响本清单，其他抖音主机仍走原策略，可能混合出口。不覆盖完整原生 App 登录、直播或视频播放，也不改变 TikTok 分流。[来源与限制](../research/Douyin-routing.md)。
+安全与游戏仍优先；手动代理只影响本清单，其他抖音主机仍走原策略，可能混合出口。不覆盖完整原生 App 登录、直播或视频播放，也不改变 TikTok 分流；默认直连是可调整的建议，未实测登录或风控效果。[来源与限制](../research/Douyin-routing.md)。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 

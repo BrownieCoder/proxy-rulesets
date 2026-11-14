@@ -16,6 +16,12 @@ from siri_ai import validate as validate_siri_ai  # noqa: E402
 from siri_ai import entries  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
+DOUYIN_CONTROLS = frozenset({
+    "douyin.com", "douyinstatic.com", "douyinvod.com", "live.douyin.com",
+    "api.amemv.com", "v3-web.douyinvod.com", "v26-web.douyinvod.com",
+    "www.tiktok.com", "p16-sign-va.tiktokcdn.com", "p16-va.tiktokcdn.com",
+    "p16-sg.tiktokcdn.com", "p1.ibyteimg.com", "byteimg.com", "example.org",
+})
 
 
 def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str]]]:
@@ -575,7 +581,11 @@ def validate_douyin(root: Path = ROOT) -> None:
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):
-        manifests.update(json.loads((root / filename).read_text()))
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    referenced = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")}
+    missing = referenced - set(manifests)
+    if missing:
+        raise ValueError("Douyin routing references missing providers: " + ", ".join(sorted(missing)))
     providers = {name: DomainRules(entries(root / item["path"]))
                  for name, item in manifests.items()}
 
@@ -602,12 +612,8 @@ def validate_douyin(root: Path = ROOT) -> None:
         result = route(host)
         if result not in allowed:
             raise ValueError(f"Douyin is shadowed by an earlier rule: {host}: {result}")
-    controls = {"douyin.com", "douyinstatic.com", "douyinvod.com", "live.douyin.com",
-                "api.amemv.com", "v3-web.douyinvod.com", "v26-web.douyinvod.com",
-                "www.tiktok.com", "p16-sign-va.tiktokcdn.com", "p16-va.tiktokcdn.com",
-                "p16-sg.tiktokcdn.com", "p1.ibyteimg.com", "byteimg.com", "example.org"}
-    controls |= {value for host in reviewed for value in
-                 ("child." + host, "not" + host, host + ".example.org")}
+    controls = DOUYIN_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
     for host in controls:
         if route(host) != route(host, skip_douyin=True):
             raise ValueError("Douyin changed non-target routing: " + host)
