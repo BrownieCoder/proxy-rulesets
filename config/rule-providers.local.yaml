@@ -136,3 +136,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Douban.yaml
+  JD:
+    type: file
+    behavior: classical
+    path: ./ruleset/JD.yaml
