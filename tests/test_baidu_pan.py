@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -17,26 +18,46 @@ class BaiduPanValidator(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        for directory in ('config', 'ruleset'):
+        for directory in ('config', 'ruleset', 'catalog', 'rules', 'research', 'services'):
             shutil.copytree(ROOT / directory, self.root / directory)
-        for name in ('sources.json', 'local-rulesets.json', 'sources.lock.json'):
+        for name in ('sources.json', 'local-rulesets.json', 'sources.lock.json', 'README.md'):
             shutil.copyfile(ROOT / name, self.root / name)
 
     def mutate(self, name, old, new):
         path = self.root / name
-        path.write_text(path.read_text().replace(old, new))
+        path.write_text(path.read_text(encoding="utf-8").replace(old, new), encoding="utf-8")
 
     def test_current_contract(self):
         validate.validate_baidu_pan(self.root)
 
-    def test_scope_broadening_is_rejected_by_tree_validation(self):
+    def test_tree_calls_contract_with_complete_public_fixture(self):
+        with patch.object(validate, 'validate_baidu_pan', side_effect=RuntimeError('BaiduPan gate')) as gate:
+            with self.assertRaisesRegex(RuntimeError, 'BaiduPan gate'):
+                validate.validate_tree(self.root)
+        gate.assert_called_once_with(self.root)
+
+    def test_unknown_provider_has_actionable_error(self):
+        self.mutate('config/rules.yaml', 'rules:\n',
+                    'rules:\n  - RULE-SET,MissingProvider,DIRECT\n')
+        with self.assertRaisesRegex(ValueError, 'Unknown provider in rules.yaml: MissingProvider'):
+            validate.validate_baidu_pan(self.root)
+
+    def test_all_contract_text_reads_request_utf8(self):
+        original = Path.read_text
+        def checked(path, *args, **kwargs):
+            self.assertEqual(kwargs.get('encoding'), 'utf-8', str(path))
+            return original(path, *args, **kwargs)
+        with patch.object(Path, 'read_text', checked):
+            validate.validate_baidu_pan(self.root)
+
+    def test_scope_broadening_is_rejected_by_validator(self):
         self.mutate('ruleset/BaiduPan.yaml', 'DOMAIN,pan.baidu.com', 'DOMAIN-SUFFIX,baidu.com')
         with self.assertRaisesRegex(ValueError, 'two reviewed exact hosts'):
-            validate.validate_tree(self.root)
+            validate.validate_baidu_pan(self.root)
 
     def test_duplicate_host_is_rejected(self):
         path = self.root / 'ruleset/BaiduPan.yaml'
-        path.write_text(path.read_text() + '  - DOMAIN,pan.baidu.com\n')
+        path.write_text(path.read_text(encoding="utf-8") + '  - DOMAIN,pan.baidu.com\n', encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'without duplicates'):
             validate.validate_baidu_pan(self.root)
 
@@ -82,16 +103,16 @@ class BaiduPanValidator(unittest.TestCase):
             for kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
                 with self.subTest(provider=provider, kind=kind):
                     path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
-                    original = path.read_text()
-                    path.write_text(original + f'  - {kind},pan.baidu.com\n')
+                    original = path.read_text(encoding="utf-8")
+                    path.write_text(original + f'  - {kind},pan.baidu.com\n', encoding="utf-8")
                     try:
                         validate.validate_baidu_pan(self.root)
                     finally:
-                        path.write_text(original)
+                        path.write_text(original, encoding="utf-8")
 
     def test_non_security_preemption_is_rejected(self):
         path = self.root / 'ruleset/ChinaGaming.yaml'
-        path.write_text(path.read_text() + '  - DOMAIN,pan.baidu.com\n')
+        path.write_text(path.read_text(encoding="utf-8") + '  - DOMAIN,pan.baidu.com\n', encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'shadowed'):
             validate.validate_baidu_pan(self.root)
 
@@ -107,7 +128,7 @@ class BaiduPanValidator(unittest.TestCase):
 
     def test_duplicate_provider_reference_is_rejected(self):
         path = self.root / 'config/rules.yaml'
-        path.write_text(path.read_text() + '  - RULE-SET,BaiduPan,DIRECT\n')
+        path.write_text(path.read_text(encoding="utf-8") + '  - RULE-SET,BaiduPan,DIRECT\n', encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
             validate.validate_baidu_pan(self.root)
 

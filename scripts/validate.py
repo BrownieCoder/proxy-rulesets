@@ -567,7 +567,7 @@ def validate_baidu_pan(root: Path = ROOT) -> None:
 
     _, members = parse_policy_groups(root)
     options = members.get(target, [])
-    group_text = (root / "config/proxy-groups.yaml").read_text()
+    group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     group = re.search(r'^  - name: "☁️ 百度网盘"\n(.*?)(?=^  - name: |\Z)',
                       group_text, re.MULTILINE | re.DOTALL)
     types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
@@ -577,7 +577,7 @@ def validate_baidu_pan(root: Path = ROOT) -> None:
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):
-        manifests.update(json.loads((root / filename).read_text()))
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
     providers = {name: DomainRules(entries(root / source["path"]))
                  for name, source in manifests.items()}
 
@@ -588,6 +588,8 @@ def validate_baidu_pan(root: Path = ROOT) -> None:
             if kind == "RULE-SET":
                 if skip_baidu_pan and fields[1] == "BaiduPan":
                     continue
+                if fields[1] not in providers:
+                    raise ValueError(f"Unknown provider in rules.yaml: {fields[1]}")
                 if providers[fields[1]].matches(domain):
                     return fields[1], fields[2]
             elif kind == "MATCH":
@@ -612,7 +614,6 @@ def validate_baidu_pan(root: Path = ROOT) -> None:
     for host in controls:
         if route(host) != route(host, skip_baidu_pan=True):
             raise ValueError("BaiduPan changed non-target routing: " + host)
-
 
 
 def validate_tree(root: Path = ROOT) -> int:

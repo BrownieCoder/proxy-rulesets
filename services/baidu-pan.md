@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Baidu
 
 ## 作用与范围
 
-推荐：**默认直连，可选代理**。现有规则目标：`☁️ 百度网盘`。共 **2 条**规则。
+推荐：**部分入口/资源：默认直连，可选代理**。现有规则目标：`☁️ 百度网盘`。共 **2 条**规则。
 
 安全规则优先；切换代理只影响这两个主机，其他请求仍按原规则，可能形成混合出口。不保证原生 App 登录、上传、下载或文件传输全链路；静态主机上其他资源也受影响。[来源与范围](../research/BaiduPan-routing.md)。
 
