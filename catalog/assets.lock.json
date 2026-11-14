@@ -135,6 +135,11 @@
       "rulesSha256": "cdc60bb061093b60f123b752e18527af25b1aad855277885f5448ee13b494ecc",
       "ruleCount": 7
     },
+    "ruleset/BaiduPan.yaml": {
+      "sha256": "b619454dea677d7d95523433fbe0973f97670d68523a8e606263b2df458ace49",
+      "rulesSha256": "95f2004d72678299e255b6b889b9e147c342f4c2fa18cb38389400da182597b6",
+      "ruleCount": 2
+    },
     "ruleset/PayPal_No_Resolve.yaml": {
       "sha256": "66c75e9ecff301097919cccb27a675251158e8d85e09c6c926995b465cab8a59",
       "rulesSha256": "1c1e4f8459588bf0678fca29bf1f9e084c8b1151a4274400440e7d9784e11420",
@@ -176,10 +181,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "5809d0b93606306226ae53ddc1ae3583f4ace72b6e52133ece1dc7b7a9f021f9",
+  "readmeCatalogSha256": "4fd7f1f3819c2f9e63cc368e555e1af6b2f6f60a7b44157a5ac50561e6668af4",
   "artifacts": {
-    "config/rule-providers.local.yaml": "ec1cdb026078f57ed69011d1171ab509e81c3cc46de5c4605cc0ce5c4e3723a0",
-    "config/rule-providers.remote.yaml": "a07f2b5c6f118787d135f78b973160bc5d2d18f7c007cc641f6ebac0397d7566",
+    "config/rule-providers.local.yaml": "459f3ed6c1d622abfa71a52c91ae46ce66c00d0122a948c32b3a26d46c6d7428",
+    "config/rule-providers.remote.yaml": "81eaf2f9b3b7ba35bb419dfeaf233c2f0af91443292fcae9dc75ee9caa1283b4",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
@@ -207,6 +212,7 @@
     "services/twitter.md": "a4711b617da1aa3dd2865430ac26515516a9a0cdbb231db403be6ae569a4485f",
     "services/discord.md": "223fbe1d165fbbf69e911bd9e9d87fdf7bbf961b2b9d5031b76ceeff13212f78",
     "services/meituan.md": "3662f32939fca50affb0d443ba943fc731d31a6c6faf26450f567443e63674bc",
+    "services/baidu-pan.md": "ea84596bda0ae4783dc0b88751f073f7e2570fc0592e6d3cb477d6947fbdf7d2",
     "services/paypal.md": "872ecec73b66aaaeb2f00a155f24ed9be5b71f7c3c08875f577b503fbdb84bf6",
     "services/stripe.md": "1f55c6754d4065c20bf21cd3f000fa0c3df9c04b90b631913f32bdb2daec492e",
     "services/crypto.md": "f83c754a95b79a123082adc4a47f5c16c0f14569d8bc518222fdbc138f7071d0",
@@ -215,6 +221,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "43a932d1d83fac130b54e9e11a13c7e86d8aea60acaf381b162b9d45dcfec75c"
+    "catalog/index.json": "cb9959b728b253e09cef273f4964043729a64cd0a9fd57642756dcd37e420ba6"
   }
 }

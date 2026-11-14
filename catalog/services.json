@@ -243,6 +243,15 @@
     "warning": "安全与游戏规则仍优先。资源主机可能跨美团业务；选代理仅影响这 7 个主机，其他请求可能仍直连而形成混合出口。若切代理后出现登录或地区识别异常，可先恢复直连排查；这不是已实测的风控结论。不保证订单、支付、定位或原生 App 全链路覆盖。[域名来源与验证边界](../research/Meituan-routing.md)。"
   },
   {
+    "id": "baidu-pan",
+    "provider": "BaiduPan",
+    "name": "百度网盘",
+    "category": "支付与其他",
+    "description": "百度网盘官网入口及静态资源的 2 个精确主机。",
+    "policyLabel": "部分入口/资源：默认直连，可选代理",
+    "warning": "安全规则优先；切换代理只影响这两个主机，其他请求仍按原规则，可能形成混合出口。不保证原生 App 登录、上传、下载或文件传输全链路；静态主机上其他资源也受影响。[来源与范围](../research/BaiduPan-routing.md)。"
+  },
+  {
     "id": "paypal",
     "provider": "PayPal",
     "name": "PayPal",
