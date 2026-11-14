@@ -1,0 +1,6 @@
+# Self-maintained exact Douyin website and observed static resource hosts.
+# Provenance: research/Douyin-routing.md; not complete native App/video coverage.
+payload:
+  - DOMAIN,www.douyin.com
+  - DOMAIN,lf-douyin-pc-web.douyinstatic.com
+  - DOMAIN,sf1-cdn-tos.douyinstatic.com

@@ -213,6 +213,21 @@
       "ruleCount": 129
     },
     {
+      "id": "douyin",
+      "provider": "Douyin",
+      "name": "抖音",
+      "category": "影音",
+      "description": "抖音官网与公开页面实际使用的静态资源，共 3 个精确主机。",
+      "policyLabel": "默认直连，可选代理",
+      "warning": "安全与游戏仍优先；手动代理只影响本清单，其他抖音主机仍走原策略，可能混合出口。不覆盖完整原生 App 登录、直播或视频播放，也不改变 TikTok 分流。[来源与限制](../research/Douyin-routing.md)。",
+      "path": "ruleset/Douyin.yaml",
+      "policy": "🎶 抖音",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douyin.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Douyin.yaml",
+      "page": "services/douyin.md",
+      "ruleCount": 3
+    },
+    {
       "id": "tiktok",
       "provider": "TikTok",
       "name": "TikTok",

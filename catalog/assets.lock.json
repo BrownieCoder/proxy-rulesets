@@ -70,6 +70,11 @@
       "rulesSha256": "a8dbb0ff7d47a1bfd26747a025eb59b440270f6ac97a5cfbe5a610eee01543d7",
       "ruleCount": 129
     },
+    "ruleset/Douyin.yaml": {
+      "sha256": "a294206b9d4c3a9567ce908f872eb957a8b731c61a19fdcf44126c22288d9d54",
+      "rulesSha256": "62909c0363646535c2b99e57601faff59beaceeac5af4dd63ece4bed896cee98",
+      "ruleCount": 3
+    },
     "ruleset/TikTok_No_Resolve.yaml": {
       "sha256": "71c372b476ff9b641bb619b74c1192dd1b831c374bcd8cd0ae8fa34374c9fff2",
       "rulesSha256": "7d0f8f090c0d9988cfcb5f391c1455d956cd9b15a4533435dc88ccaae1afaba6",
@@ -166,10 +171,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "159445eca086a626fa2a5117bdd6130503cd4cc8373792578d8cd895cd92be4e",
+  "readmeCatalogSha256": "b39e258f233a89dfd69ef41500f906110a77b517f49a0317a1d351fe21d3c458",
   "artifacts": {
-    "config/rule-providers.local.yaml": "5f5372cbd6e7dff5886f38fb589a25b6fc8ef5b675a320c912960508781efaed",
-    "config/rule-providers.remote.yaml": "0864c62d8fefbeb16d8f3e92ee1f13c6c45bdeae328f9aca03e28d537287c3a3",
+    "config/rule-providers.local.yaml": "9dc9a31a85bf3ea5ccfa05fa9db33083ffbcab2e5e69e29feeee3853d3d08f85",
+    "config/rule-providers.remote.yaml": "b2f27df7b02ec3fae8f9ba1fab241c47f3e74f6461a056e9e2dc1f223065fc98",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
@@ -184,6 +189,7 @@
     "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
     "services/netease-music.md": "1fa5906150851a5c98cf65ce59c0587476fdd64efd6f2da843c09ef4a35cfb1c",
     "services/bilibili.md": "58b7530860e9601ce8a72abd9e8c2d178402c690dde03af5d44bc5d9a9e890ce",
+    "services/douyin.md": "146807b81a1ec583972d380377906b0742cee707eefda60ff4ede3c91ab12e47",
     "services/tiktok.md": "8365c79f21a038a880758d99528b183cdf6a5b2d1d2aa0b53ce4b2809a0f82ac",
     "services/disney.md": "df302d62b60246c16e7a8128cef43af5a0e1a1fe85e5468ee295d80e8043c4ba",
     "services/netflix.md": "8a090cc67d27c808fedda7ac62aa653c1a21f513233f93efb928337027511617",
@@ -203,6 +209,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "2133c324c67e7b80a2622a6a09b16e13ea0c835b8c0f9dfacee90737a9e9178d"
+    "catalog/index.json": "2df201541fea5f12f058d8b748e5ea64ae32f3dada65d64e1527bf280f5dde79"
   }
 }
