@@ -19,6 +19,10 @@
     "path": "ruleset/Amap.yaml",
     "behavior": "classical"
   },
+  "BaiduPan": {
+    "path": "ruleset/BaiduPan.yaml",
+    "behavior": "classical"
+  },
   "SiriAI": {
     "path": "ruleset/SiriAI.yaml",
     "behavior": "classical"
@@ -33,6 +37,10 @@
   },
   "Douyin": {
     "path": "ruleset/Douyin.yaml",
+    "behavior": "classical"
+  },
+  "Meituan": {
+    "path": "ruleset/Meituan.yaml",
     "behavior": "classical"
   },
   "Douban": {

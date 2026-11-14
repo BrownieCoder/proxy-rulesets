@@ -11,7 +11,7 @@
 点击服务名称查看作用和影响范围；点击「获取地址」进入可复制的地址代码块，点击「查看规则」直接阅读文件。
 
 <!-- SERVICE-CATALOG:START -->
-[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
+[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [生活服务](#生活服务) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
 
 ### AI
 
@@ -75,10 +75,17 @@
 | [X / Twitter](services/twitter.md) | X / Twitter 服务及媒体资源。 | [获取地址](services/twitter.md#规则地址) · [查看规则](ruleset/Twitter_No_Resolve.yaml) |
 | [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 | [获取地址](services/discord.md#规则地址) · [查看规则](ruleset/Discord_No_Resolve.yaml) |
 
+### 生活服务
+
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [美团](services/meituan.md) | 官网、消费和外卖入口与部分资源的 7 个精确主机。 | [获取地址](services/meituan.md#规则地址) · [查看规则](ruleset/Meituan.yaml) |
+
 ### 支付与其他
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
+| [百度网盘](services/baidu-pan.md) | 百度网盘官网入口及静态资源的 2 个精确主机。 | [获取地址](services/baidu-pan.md#规则地址) · [查看规则](ruleset/BaiduPan.yaml) |
 | [PayPal](services/paypal.md) | PayPal 网络服务。 | [获取地址](services/paypal.md#规则地址) · [查看规则](ruleset/PayPal_No_Resolve.yaml) |
 | [Stripe](services/stripe.md) | 含 stripe 关键词的网络请求。 | [获取地址](services/stripe.md#规则地址) · [查看规则](ruleset/Stripe_No_Resolve.yaml) |
 | [加密资产服务](services/crypto.md) | 上游加密资产服务集合。 | [获取地址](services/crypto.md#规则地址) · [查看规则](ruleset/Crypto_No_Resolve.yaml) |
