@@ -1,0 +1,11 @@
+# Self-maintained exact public Meituan website and resource hosts.
+# Provenance: research/Meituan-routing.md
+# Resource hosts may also serve other Meituan business traffic.
+payload:
+  - DOMAIN,i.meituan.com
+  - DOMAIN,img.meituan.net
+  - DOMAIN,p0.meituan.net
+  - DOMAIN,p1.meituan.net
+  - DOMAIN,s3plus.meituan.net
+  - DOMAIN,waimai.meituan.com
+  - DOMAIN,www.meituan.com

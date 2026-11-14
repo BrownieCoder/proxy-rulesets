@@ -17,6 +17,8 @@ rules:
   - RULE-SET,Douban,📚 豆瓣
   # 京东已核实公开入口和资源；安全、游戏与既有服务规则优先。
   - RULE-SET,JD,🛒 京东
+  # 美团已核实公开主机；安全拦截与游戏规则仍优先。
+  - RULE-SET,Meituan,🍜 美团
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

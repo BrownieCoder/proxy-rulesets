@@ -192,6 +192,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Zhihu.yaml
     interval: 86400
     path: ./ruleset-cache/Zhihu.yaml
+  Meituan:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Meituan.yaml
+    interval: 86400
+    path: ./ruleset-cache/Meituan.yaml
   Douban:
     type: http
     behavior: classical
