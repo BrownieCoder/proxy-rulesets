@@ -204,3 +204,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douban.yaml
     interval: 86400
     path: ./ruleset-cache/Douban.yaml
+  JD:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/JD.yaml
+    interval: 86400
+    path: ./ruleset-cache/JD.yaml

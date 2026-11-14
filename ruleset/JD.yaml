@@ -1,0 +1,12 @@
+# Self-maintained exact JD storefront, App entry and resource hosts.
+# Provenance: research/JD-routing.md
+# Partial coverage: other JD requests retain their existing routing.
+payload:
+  - DOMAIN,app.jd.com
+  - DOMAIN,h5.m.jd.com
+  - DOMAIN,img12.360buyimg.com
+  - DOMAIN,img14.360buyimg.com
+  - DOMAIN,img20.360buyimg.com
+  - DOMAIN,m.360buyimg.com
+  - DOMAIN,m.jd.com
+  - DOMAIN,storage.360buyimg.com
