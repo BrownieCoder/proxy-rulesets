@@ -567,7 +567,7 @@ def validate_meituan(root: Path = ROOT) -> None:
 
     _, members = parse_policy_groups(root)
     options = members.get(target, [])
-    group_text = (root / "config/proxy-groups.yaml").read_text()
+    group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     group = re.search(r'^  - name: "🍜 美团"\n(.*?)(?=^  - name: |\Z)',
                       group_text, re.MULTILINE | re.DOTALL)
     types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
@@ -577,9 +577,13 @@ def validate_meituan(root: Path = ROOT) -> None:
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):
-        manifests.update(json.loads((root / filename).read_text()))
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
     providers = {name: DomainRules(entries(root / source["path"]))
                  for name, source in manifests.items()}
+    for rule in ordered:
+        fields = rule.split(",")
+        if fields[0] == "RULE-SET" and fields[1] not in providers:
+            raise ValueError(f"Meituan references undefined provider: {fields[1]}")
 
     def route(domain: str, skip_app: bool = False) -> tuple[str, str]:
         for rule in ordered:

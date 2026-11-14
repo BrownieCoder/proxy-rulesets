@@ -63,7 +63,7 @@ def render(domains: list[str], digest: str) -> str:
 
 
 def entries(path: Path) -> list[str]:
-    return [line.strip()[2:].strip("\"'") for line in path.read_text().splitlines()
+    return [line.strip()[2:].strip("\"'") for line in path.read_text(encoding="utf-8").splitlines()
             if line.strip().startswith("- ")]
 
 

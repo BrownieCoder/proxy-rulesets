@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import yaml
 
@@ -29,15 +30,15 @@ class MeituanRouting(unittest.TestCase):
 
     def mutate(self, name, old, new):
         path = self.root / name
-        self.assertIn(old, path.read_text())
-        path.write_text(path.read_text().replace(old, new))
+        self.assertIn(old, path.read_text(encoding='utf-8'))
+        path.write_text(path.read_text(encoding='utf-8').replace(old, new), encoding='utf-8')
 
     def test_live_and_staged_contracts(self):
         validate.validate_meituan(ROOT)
         validate.validate_meituan(self.root)
 
     def test_exact_scope_and_child_boundaries(self):
-        payload = yaml.safe_load((ROOT / 'ruleset/Meituan.yaml').read_text())['payload']
+        payload = yaml.safe_load((ROOT / 'ruleset/Meituan.yaml').read_text(encoding='utf-8'))['payload']
         self.assertEqual(len(payload), len(self.HOSTS))
         self.assertEqual(set(payload), {'DOMAIN,' + host for host in self.HOSTS})
         model = DomainRules(payload)
@@ -48,17 +49,38 @@ class MeituanRouting(unittest.TestCase):
 
     def test_missing_or_duplicate_host_is_rejected(self):
         path = self.root / 'ruleset/Meituan.yaml'
-        original = path.read_text()
+        original = path.read_text(encoding='utf-8')
         for mutated in (original.replace('  - DOMAIN,www.meituan.com\n', ''),
                         original + '  - DOMAIN,www.meituan.com\n'):
-            path.write_text(mutated)
+            path.write_text(mutated, encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'seven reviewed exact hosts'):
                 validate.validate_meituan(self.root)
 
-    def test_scope_broadening_is_rejected_by_tree_gate(self):
+    def test_scope_broadening_is_rejected(self):
         self.mutate('ruleset/Meituan.yaml', 'DOMAIN,www.meituan.com', 'DOMAIN-SUFFIX,meituan.com')
         with self.assertRaisesRegex(ValueError, 'seven reviewed exact hosts'):
-            validate.validate_tree(self.root)
+            validate.validate_meituan(self.root)
+
+    def test_complete_tree_invokes_meituan_contract(self):
+        with patch.object(validate, 'validate_meituan', side_effect=ValueError('Meituan gate reached')):
+            with self.assertRaisesRegex(ValueError, 'Meituan gate reached'):
+                validate.validate_tree(ROOT)
+
+    def test_all_helper_text_reads_use_utf8(self):
+        original = Path.read_text
+        calls = []
+
+        def read_utf8(path, *args, **kwargs):
+            self.assertEqual(kwargs.get('encoding'), 'utf-8', str(path.relative_to(self.root)))
+            calls.append(path)
+            return original(path, *args, **kwargs)
+
+        with patch.object(Path, 'read_text', new=read_utf8):
+            validate.validate_meituan(self.root)
+        self.assertIn(self.root / 'config/rules.yaml', calls)
+        self.assertIn(self.root / 'config/proxy-groups.yaml', calls)
+        self.assertIn(self.root / 'local-rulesets.json', calls)
+        self.assertIn(self.root / 'sources.json', calls)
 
     def test_late_rule_is_rejected(self):
         self.mutate('config/rules.yaml', self.MARKER, '')
@@ -77,6 +99,12 @@ class MeituanRouting(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
             validate.validate_meituan(self.root)
 
+    def test_unknown_provider_has_clear_validation_error(self):
+        self.mutate('config/rules.yaml', self.MARKER,
+                    '  - RULE-SET,UnreviewedProvider,DIRECT\n' + self.MARKER)
+        with self.assertRaisesRegex(ValueError, 'Meituan references undefined provider: UnreviewedProvider'):
+            validate.validate_meituan(self.root)
+
     def test_comment_cannot_replace_active_reference(self):
         self.mutate('config/rules.yaml', self.MARKER, self.MARKER.replace('  - ', '  # '))
         with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
@@ -84,19 +112,19 @@ class MeituanRouting(unittest.TestCase):
 
     def test_duplicate_or_wrong_reference_is_rejected(self):
         path = self.root / 'config/rules.yaml'
-        original = path.read_text()
+        original = path.read_text(encoding='utf-8')
         for mutated in (original + self.MARKER, original.replace(self.MARKER, '  - RULE-SET,Meituan,DIRECT\n')):
-            path.write_text(mutated)
+            path.write_text(mutated, encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
                 validate.validate_meituan(self.root)
 
     def test_commented_marker_does_not_duplicate_active_rule(self):
         path = self.root / 'config/rules.yaml'
-        path.write_text(path.read_text() + self.MARKER.replace('  - ', '  # '))
+        path.write_text(path.read_text(encoding='utf-8') + self.MARKER.replace('  - ', '  # '), encoding='utf-8')
         validate.validate_meituan(self.root)
 
     def test_direct_first_select_with_manual_proxy(self):
-        groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text())['proxy-groups']
+        groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text(encoding='utf-8'))['proxy-groups']
         group = next(group for group in groups if group['name'] == '🍜 美团')
         self.assertEqual(group['type'], 'select')
         self.assertEqual(group['proxies'][0], 'DIRECT')
@@ -104,35 +132,35 @@ class MeituanRouting(unittest.TestCase):
 
     def test_wrong_group_type_or_default_is_rejected(self):
         path = self.root / 'config/proxy-groups.yaml'
-        prefix, group = path.read_text().split('  - name: "🍜 美团"\n', 1)
+        prefix, group = path.read_text(encoding='utf-8').split('  - name: "🍜 美团"\n', 1)
         for wrong in (group.replace('type: select', 'type: fallback', 1),
                       group.replace('      - DIRECT\n', '', 1)):
-            path.write_text(prefix + '  - name: "🍜 美团"\n' + wrong)
+            path.write_text(prefix + '  - name: "🍜 美团"\n' + wrong, encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
                 validate.validate_meituan(self.root)
 
     def test_missing_proxy_option_is_rejected(self):
         path = self.root / 'config/proxy-groups.yaml'
-        prefix, group = path.read_text().split('  - name: "🍜 美团"\n', 1)
-        path.write_text(prefix + '  - name: "🍜 美团"\n' + group.replace('      - "🚀 节点选择"\n', '', 1))
+        prefix, group = path.read_text(encoding='utf-8').split('  - name: "🍜 美团"\n', 1)
+        path.write_text(prefix + '  - name: "🍜 美团"\n' + group.replace('      - "🚀 节点选择"\n', '', 1), encoding='utf-8')
         with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
             validate.validate_meituan(self.root)
 
     def test_legal_security_updates_remain_valid(self):
         for provider in ('Privacy', 'Hijacking'):
             path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
-            original = path.read_text()
+            original = path.read_text(encoding='utf-8')
             for kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
                 with self.subTest(provider=provider, kind=kind):
-                    path.write_text(original + f'  - {kind},www.meituan.com\n')
+                    path.write_text(original + f'  - {kind},www.meituan.com\n', encoding='utf-8')
                     try:
                         validate.validate_meituan(self.root)
                     finally:
-                        path.write_text(original)
+                        path.write_text(original, encoding='utf-8')
 
     def test_non_security_preemption_is_rejected(self):
         path = self.root / 'ruleset/ChinaGaming.yaml'
-        path.write_text(path.read_text() + '  - DOMAIN,www.meituan.com\n')
+        path.write_text(path.read_text(encoding='utf-8') + '  - DOMAIN,www.meituan.com\n', encoding='utf-8')
         with self.assertRaisesRegex(ValueError, 'shadowed'):
             validate.validate_meituan(self.root)
 
