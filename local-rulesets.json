@@ -38,5 +38,9 @@
   "Douban": {
     "path": "ruleset/Douban.yaml",
     "behavior": "classical"
+  },
+  "JD": {
+    "path": "ruleset/JD.yaml",
+    "behavior": "classical"
   }
 }

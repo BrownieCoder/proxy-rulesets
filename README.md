@@ -11,7 +11,7 @@
 点击服务名称查看作用和影响范围；点击「获取地址」进入可复制的地址代码块，点击「查看规则」直接阅读文件。
 
 <!-- SERVICE-CATALOG:START -->
-[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [出行](#出行) · [社交](#社交) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
+[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [支付与其他](#支付与其他) · [安全与基础](#安全与基础)
 
 ### AI
 
@@ -51,6 +51,12 @@
 | [Disney+](services/disney.md) | Disney+ 及相关媒体资源。 | [获取地址](services/disney.md#规则地址) · [查看规则](ruleset/Disney_No_Resolve.yaml) |
 | [Netflix](services/netflix.md) | Netflix 内容及相关资源。 | [获取地址](services/netflix.md#规则地址) · [查看规则](ruleset/Netflix_No_Resolve.yaml) |
 | [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 | [获取地址](services/global-media.md#规则地址) · [查看规则](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
+
+### 购物
+
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [京东 / JD](services/jd.md) | 京东移动商城、App 入口和图片静态资源的 8 个精确主机。 | [获取地址](services/jd.md#规则地址) · [查看规则](ruleset/JD.yaml) |
 
 ### 出行
 

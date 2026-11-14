@@ -619,6 +619,93 @@ def validate_douyin(root: Path = ROOT) -> None:
             raise ValueError("Douyin changed non-target routing: " + host)
 
 
+def validate_jd(root: Path = ROOT) -> None:
+    """Enforce the evidenced JD host and policy contract in public candidate trees."""
+    from siri_ai import DomainRules
+
+    reviewed = {"app.jd.com", "h5.m.jd.com", "img12.360buyimg.com",
+                "img14.360buyimg.com", "img20.360buyimg.com", "m.360buyimg.com",
+                "m.jd.com", "storage.360buyimg.com"}
+    rules = entries(root / "ruleset/JD.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + d for d in reviewed}:
+        raise ValueError("JD must contain only the eight reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🛒 京东"
+    marker = "RULE-SET,JD," + target
+    references = [r for r in ordered if r.split(",")[:2] == ["RULE-SET", "JD"]]
+    if references != [marker]:
+        raise ValueError("JD must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"JD requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security and gaming rules must precede JD")
+    for later in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("JD must precede broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    group = re.search(r'^  - name: "🛒 京东"\n(.*?)(?=^  - name: |\Z)',
+                      group_text, re.MULTILINE | re.DOTALL)
+    types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
+                                     if line.startswith("    type:")]
+    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("JD must be a DIRECT-first select group with a manual proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+    for rule in ordered:
+        fields = rule.split(",")
+        if fields[0] == "RULE-SET" and fields[1] not in providers:
+            raise ValueError(f"JD routing references missing provider: {fields[1]}")
+
+    def route(domain: str, skip_jd: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_jd and fields[1] == "JD":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return "MATCH", fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError(f"Unsupported top-level rule in JD domain model: {kind}")
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("JD", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        current = route(host)
+        if current not in allowed:
+            raise ValueError(f"JD host shadowed by a non-security or incorrect policy: {host}: {current}")
+    controls = {"jd.com", "360buyimg.com", "www.jd.com", "passport.jd.com",
+                "api.m.jd.com", "m.jr.jd.com", "jdpay.com", "aliyun.com",
+                "www.xiaohongshu.com", "guzzoni.apple.com", "hoyoverse.com"}
+    controls |= {name for host in reviewed for name in
+                 ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_jd=True):
+            raise ValueError("JD changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -652,6 +739,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_amap(root)
     validate_netease_music(root)
     validate_douyin(root)
+    validate_jd(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
