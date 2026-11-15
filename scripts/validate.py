@@ -1080,6 +1080,102 @@ def validate_ctrip(root: Path = ROOT) -> None:
             raise ValueError("Ctrip changed non-target routing: " + host)
 
 
+def validate_taobao(root: Path = ROOT) -> None:
+    """Enforce exact public Taobao entries in live and staged public trees."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.taobao.com", "m.taobao.com", "pc.taobao.com", "pcdetail.taobao.com"}
+    rules = entries(root / "ruleset/Taobao.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Taobao must contain only the four reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🛍️ 淘宝"
+    marker = "RULE-SET,Taobao," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Taobao"]]
+    if references != [marker]:
+        raise ValueError("Taobao must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Taobao requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security, gaming and existing app rules must precede Taobao")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili", "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("Taobao must precede broader providers and SiriAI")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🛍️ 淘宝"\n(.*?)(?=^  - name: |\Z)',
+                        group_text, re.MULTILINE | re.DOTALL)
+    error = "Taobao must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+    for rule in ordered:
+        fields = rule.split(",")
+        if fields[0] == "RULE-SET" and fields[1] not in providers:
+            raise ValueError(f"Taobao routing references missing provider: {fields[1]}")
+        if fields[0] not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                             "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError(f"Unsupported top-level rule in Taobao domain model: {fields[0]}")
+
+    def route(domain: str, skip_taobao: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_taobao and fields[1] == "Taobao":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # Remaining IP/GeoIP conditions fall through: this domain-only model has no IP metadata.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Taobao", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        current = route(host)
+        if current not in allowed:
+            raise ValueError(f"Taobao host shadowed by a non-security or incorrect policy: {host}: {current}")
+    controls = {"taobao.com", "alicdn.com", "taobaocdn.com", "g.alicdn.com", "o.alicdn.com",
+                "img.alicdn.com", "gw.alicdn.com", "g-search1.alicdn.com", "g-search2.alicdn.com",
+                "g-search3.alicdn.com", "gm.mmstat.com", "log.mmstat.com", "res.mmstat.com",
+                "dfhs.tanx.com", "ecpm.tanx.com", "login.taobao.com", "h5api.m.taobao.com",
+                "www.tmall.com", "www.alipay.com", "goods.taobao.com", "bk.taobao.com",
+                "item.taobao.com", "s.taobao.com",
+                "www.jd.com", "guzzoni.apple.com", "fastcdn.hoyoverse.com", "example.org"}
+    controls |= {name for host in reviewed for name in
+                 ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_taobao=True):
+            raise ValueError("Taobao changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -1118,6 +1214,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_meituan(root)
     validate_ctrip(root)
     validate_pinduoduo(root)
+    validate_taobao(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
