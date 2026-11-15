@@ -261,6 +261,38 @@ class TaobaoValidatorMutations(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate.validate_tree(self.root)
 
+    def test_complex_type_and_proxy_overrides_fail_helper_and_complete_tree(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🛍️ 淘宝"')
+        end = original.index('  - name:', start + 1)
+        block = original[start:end]
+        cases = (
+            (r'"t\u0079pe": fallback', 'type', 'fallback'),
+            ('!!str type: fallback', 'type', 'fallback'),
+            ('&policy_type type: fallback', 'type', 'fallback'),
+            ('? type\n    : fallback', 'type', 'fallback'),
+            ('<<: {type: fallback}', 'type', 'select'),
+            ('proxies: []', 'proxies', []),
+            ('"proxies": []', 'proxies', []),
+            (r'"pro\u0078ies": []', 'proxies', []),
+            ('!!str proxies: []', 'proxies', []),
+            ('&list_key proxies: []', 'proxies', []),
+            ('? proxies\n    : []', 'proxies', []),
+            ('unsupported: value', 'unsupported', 'value'),
+        )
+        for declaration, key, effective in cases:
+            with self.subTest(declaration=declaration):
+                changed = block + '    ' + declaration + '\n'
+                path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
+                groups = yaml.safe_load(path.read_text(encoding='utf-8'))['proxy-groups']
+                group = next(group for group in groups if group['name'] == TARGET)
+                self.assertEqual(group[key], effective)
+                for gate in (validate.validate_taobao, validate.validate_tree):
+                    with self.subTest(gate=gate.__name__):
+                        with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                            gate(self.root)
+
     def test_legal_security_updates_use_same_validator(self):
         for provider in ('Privacy', 'Hijacking'):
             path = self.root / f'ruleset/{provider}_No_Resolve.yaml'

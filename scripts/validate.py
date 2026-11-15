@@ -876,6 +876,7 @@ def validate_jd(root: Path = ROOT) -> None:
 
 def validate_taobao(root: Path = ROOT) -> None:
     """Enforce exact public Taobao entries in live and staged public trees."""
+    from app_policy import validate_select_group
     from siri_ai import DomainRules
 
     reviewed = {"www.taobao.com", "m.taobao.com", "pc.taobao.com", "pcdetail.taobao.com"}
@@ -910,16 +911,15 @@ def validate_taobao(root: Path = ROOT) -> None:
     _, members = parse_policy_groups(root)
     options = members.get(target, [])
     group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
-    group = re.search(r'^  - name: "🛍️ 淘宝"\n(.*?)(?=^  - name: |\Z)',
-                      group_text, re.MULTILINE | re.DOTALL)
-    types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
-                                     if re.match(r'''^    (?:type|'type'|"type")\s*:''', line)]
-    # Supported single-line YAML literals only; count every equivalent key before parsing its value.
-    valid_type = len(types) == 1 and re.fullmatch(
-        r'''(?:type|'type'|"type")[ \t]*:[ \t]+(?:select|'select'|"select")(?:[ \t]+#.*)?''', types[0])
-    if (not valid_type or not options or options[0] != "DIRECT"
+    blocks = re.findall(r'^  - name: "🛍️ 淘宝"\n(.*?)(?=^  - name: |\Z)',
+                        group_text, re.MULTILINE | re.DOTALL)
+    error = "Taobao must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    if (not options or options[0] != "DIRECT"
             or "🚀 节点选择" not in options or "🧭 Final" not in options):
-        raise ValueError("Taobao must be a DIRECT-first select group with manual proxy and Final options")
+        raise ValueError(error)
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):
