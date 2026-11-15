@@ -2,7 +2,7 @@
 
 ## 结论与当前状态
 
-本次仅记录候选与最小实施计划，尚未改变路由。建议为以下五个精确主机建立 `🛍️ 拼多多` 独立策略，默认 `DIRECT`，保留手动代理选项。需要先完成方案审查，再实施规则和验证入口。
+以下五个精确主机经方案审查后已接受，作为 `🛍️ 拼多多` 独立策略的完整范围，默认 `DIRECT`，保留手动代理选项。实施包含真实验证入口和公开 fixture 变异测试；不扩大到其他候选或根域。
 
 基线为 `4840a9cd0ef6a5507c00492815af7a47a6ce6483`。五个主机在现有无 IP 元数据的域名首匹配模拟中，均命中 `ChinaMax → 🇨🇳 China-Global`，并非此前没有覆盖；独立策略提供的是更细的出口控制。
 
@@ -10,7 +10,7 @@
 
 2026-11-15 无登录读取[拼多多官网](https://www.yangkeduo.com/)和[移动商城首页](https://mobile.yangkeduo.com/)。证据为公开网页正文及网页提取器列出的实际图片链接，不是私人抓包，也不是已经确认浏览器实际发起的资源请求。未保存商品内容、账户信息、完整页面或带参数资源链接。
 
-| 候选精确主机 | 官方来源 | 实际观察与用途 | 证据范围 |
+| 已接受精确主机 | 官方来源 | 实际观察与用途 | 证据范围 |
 | --- | --- | --- | --- |
 | `www.yangkeduo.com` | [官网](https://www.yangkeduo.com/) | 可读取的拼多多品牌官网入口 | 高；公开入口，不保证原生 App 使用 |
 | `mobile.yangkeduo.com` | [移动商城](https://mobile.yangkeduo.com/) | 可读取的拼多多移动商城入口 | 高；仅公开首页，不验证登录或交易 |
@@ -31,7 +31,7 @@
 - 不采纳仅 DNS 预取、脚本白名单、社区规则或共享大型 CDN 根域作为正式范围依据；本次也没有收集这些候选。
 - 不纳入 Temu、商家后台、多多买菜专用服务、推广返佣平台或其他品牌。既有安全规则保持优先，包括现有的 Temu 隐私拦截。
 
-## 最小实施计划
+## 最小实施范围与验证合同
 
 目标是为上述五个公开入口/图片主机提供可选出口，不宣称完整拼多多 App、加速、解锁、风控改善或一致出口 IP。
 
@@ -51,4 +51,8 @@
 
 ### 验收与非目标
 
-实施验收应包括完整 tests、`scripts/validate.py`、`scripts/public_check.py`、离线目录生成一致性和 `git diff --check`，并保留现有 37 服务 / 185 tests 基线合同。不得为了通过测试放宽安全、复制其他 App 私有信息、改变已有 App、重构共享框架或增加权限。研究提交与实施提交分开；本记录本身不授权发布或合并。
+实施验收包括完整 tests、`scripts/validate.py`、`scripts/public_check.py`、离线目录生成一致性和 `git diff --check`，并保留原有 37 服务 / 185 tests 基线合同。不得为了通过测试放宽安全、复制其他 App 私有信息、改变已有 App、重构共享框架或增加权限。研究提交与实施提交分开；本记录本身不授权发布或合并。
+
+## English scope summary
+
+This ruleset contains only five exact public entry/image hosts: `www.yangkeduo.com`, `mobile.yangkeduo.com`, `commimg.pddpic.com`, `img.pddpic.com`, and `t13img.yangkeduo.com`. It defaults to DIRECT with an optional manual proxy, while security, gaming, and existing app rules retain priority. Official public-page references are evidence of use, not an authenticated app traffic capture or proof of exclusive ownership. It does not cover the complete native app, login, orders, or payments. Other requests keep their existing routes, so mixed egress is possible; selecting a proxy also affects other resources on the listed hosts. No account, private configuration, or traffic capture was accessed. Temu, broad roots, and unverified API/CDN candidates are excluded.

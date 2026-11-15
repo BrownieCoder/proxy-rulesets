@@ -1,0 +1,8 @@
+# Self-maintained exact public Pinduoduo entry and image hosts.
+# Provenance and shared-resource limits: research/Pinduoduo-routing.md
+payload:
+  - DOMAIN,commimg.pddpic.com
+  - DOMAIN,img.pddpic.com
+  - DOMAIN,mobile.yangkeduo.com
+  - DOMAIN,t13img.yangkeduo.com
+  - DOMAIN,www.yangkeduo.com
