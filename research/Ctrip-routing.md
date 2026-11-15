@@ -10,7 +10,7 @@
 | --- | --- | --- | --- |
 | `www.ctrip.com` | 官网页面本身及首页链接 | 桌面公开入口；默认直连，可选代理 | 高：只匹配该主机全部路径，不包含子域 |
 | `m.ctrip.com` | 移动官网实际页面；桌面官网链接 `/webapp/qualifications-rules/index` 等 | 移动公开入口；默认直连，可选代理 | 高：同主机的不同业务路径也受同一策略影响 |
-| `app.ctrip.com` | 桌面官网实际 `<a href="https://app.ctrip.com/">` 链接 | App 推广/下载入口；默认直连，可选代理 | 高：官网关联证据，不代表安装包或原生 App 请求完整覆盖 |
+| `app.ctrip.com` | 桌面官网实际 `<a href>` 目标主机，路径 `/` | App 推广/下载入口；默认直连，可选代理 | 高：官网关联证据，不代表安装包或原生 App 请求完整覆盖 |
 | `hotels.ctrip.com` | 桌面官网实际链接 `/`、`/international/` 等 | 酒店网页入口；默认直连，可选代理 | 高：也包含该主机上的国际酒店页面，不按路径或目的地分流 |
 | `flights.ctrip.com` | 桌面官网实际链接 `/online/channel/domestic`、`/international/` 等 | 机票网页入口；默认直连，可选代理 | 高：也包含该主机上的国际航班页面 |
 | `trains.ctrip.com` | 桌面官网实际链接 `/`、`/overseasTrains` 等 | 火车票网页入口；默认直连，可选代理 | 高：同主机的境外列车页面也受影响 |

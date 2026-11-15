@@ -874,6 +874,94 @@ def validate_jd(root: Path = ROOT) -> None:
             raise ValueError("JD changed non-target routing: " + host)
 
 
+CTRIP_CONTROLS = {
+    "ctrip.com", "c-ctrip.com", "trip.com", "tripcdn.com", "www.trip.com",
+    "english.ctrip.com", "www.tieyou.com", "www.tujia.com", "my.ctrip.com",
+    "sec.ctrip.com", "ct.ctrip.com", "s.c-ctrip.com", "webresource.c-ctrip.com",
+    "static.tripcdn.com", "hm.baidu.com", "api.ctrip.com", "guzzoni.apple.com",
+    "www.jd.com", "www.meituan.com", "example.org",
+}
+
+
+def validate_ctrip(root: Path = ROOT) -> None:
+    """Enforce the exact official Ctrip entry scope in public candidate trees."""
+    from siri_ai import DomainRules
+
+    reviewed = {"www.ctrip.com", "m.ctrip.com", "app.ctrip.com", "hotels.ctrip.com",
+                "flights.ctrip.com", "trains.ctrip.com", "vacations.ctrip.com"}
+    rules = entries(root / "ruleset/Ctrip.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Ctrip must contain only the seven reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🧳 携程"
+    marker = "RULE-SET,Ctrip," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Ctrip"]]
+    if references != [marker]:
+        raise ValueError("Ctrip must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Ctrip requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security and gaming rules must precede Ctrip")
+    for later in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("Ctrip must precede broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🧳 携程"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    types = [] if len(blocks) != 1 else re.findall(r'^    type: (\S+)\s*$', blocks[0], re.MULTILINE)
+    if types != ["select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("Ctrip must be a DIRECT-first select group with a manual proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    missing = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")} - set(manifests)
+    if missing:
+        raise ValueError("Ctrip routing references missing providers: " + ", ".join(sorted(missing)))
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_ctrip: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_ctrip and fields[1] == "Ctrip":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError(f"Unsupported top-level rule in Ctrip domain model: {kind}")
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Ctrip", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        current = route(host)
+        if current not in allowed:
+            raise ValueError(f"Ctrip is shadowed by an earlier rule: {host}: {current}")
+    controls = CTRIP_CONTROLS | {value for host in reviewed for value in
+                               ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_ctrip=True):
+            raise ValueError("Ctrip changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -910,6 +998,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_douyin(root)
     validate_jd(root)
     validate_meituan(root)
+    validate_ctrip(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
