@@ -914,7 +914,10 @@ def validate_taobao(root: Path = ROOT) -> None:
                       group_text, re.MULTILINE | re.DOTALL)
     types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
                                      if re.match(r'''^    (?:type|'type'|"type")\s*:''', line)]
-    if (types != ["type: select"] or not options or options[0] != "DIRECT"
+    # Supported single-line YAML literals only; count every equivalent key before parsing its value.
+    valid_type = len(types) == 1 and re.fullmatch(
+        r'''(?:type|'type'|"type")[ \t]*:[ \t]+(?:select|'select'|"select")(?:[ \t]+#.*)?''', types[0])
+    if (not valid_type or not options or options[0] != "DIRECT"
             or "🚀 节点选择" not in options or "🧭 Final" not in options):
         raise ValueError("Taobao must be a DIRECT-first select group with manual proxy and Final options")
 
@@ -945,6 +948,7 @@ def validate_taobao(root: Path = ROOT) -> None:
             elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
                 if DomainRules([rule]).matches(domain):
                     return ",".join(fields[:2]), fields[2]
+            # Remaining IP/GeoIP conditions fall through: this domain-only model has no IP metadata.
         raise ValueError("Missing MATCH rule")
 
     allowed = {("Taobao", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
@@ -957,6 +961,7 @@ def validate_taobao(root: Path = ROOT) -> None:
                 "g-search3.alicdn.com", "gm.mmstat.com", "log.mmstat.com", "res.mmstat.com",
                 "dfhs.tanx.com", "ecpm.tanx.com", "login.taobao.com", "h5api.m.taobao.com",
                 "www.tmall.com", "www.alipay.com", "goods.taobao.com", "bk.taobao.com",
+                "item.taobao.com", "s.taobao.com",
                 "www.jd.com", "guzzoni.apple.com", "fastcdn.hoyoverse.com", "example.org"}
     controls |= {name for host in reviewed for name in
                  ("child." + host, "not" + host, host + ".example.org")}

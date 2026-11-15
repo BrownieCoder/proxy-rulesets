@@ -186,7 +186,7 @@
     "category": "购物",
     "description": "淘宝官网、移动跳转、客户端下载与商品网页入口的 4 个精确主机。",
     "policyLabel": "部分入口：默认直连，可选代理",
-    "warning": "安全与游戏规则仍优先；不包括共享 CDN、登录、API、支付或天猫。手动代理仅影响本清单，其他请求沿用原策略，可能混合出口；不保证完整原生 App 或购买链路。如切换后出现登录或地区异常，可恢复 DIRECT 排查；未实测账户风控。[来源与范围](../research/Taobao-routing.md)。"
+    "warning": "安全与游戏规则仍优先；商品网站入口仅指 pcdetail.taobao.com，不覆盖 item.taobao.com 或 s.taobao.com，亦不包括共享 CDN、登录、API、支付或天猫。手动代理仅影响本清单，其他请求沿用原策略，可能混合出口；不保证完整原生 App 或购买链路。如切换后出现登录或地区异常，可恢复 DIRECT 排查；未实测账户风控。[来源与范围](../research/Taobao-routing.md)。"
   },
   {
     "id": "amap",

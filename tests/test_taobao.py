@@ -22,6 +22,7 @@ CONTROLS = {
     'g-search3.alicdn.com', 'gm.mmstat.com', 'log.mmstat.com', 'res.mmstat.com',
     'dfhs.tanx.com', 'ecpm.tanx.com', 'login.taobao.com', 'h5api.m.taobao.com',
     'www.tmall.com', 'www.alipay.com', 'goods.taobao.com', 'bk.taobao.com',
+    'item.taobao.com', 's.taobao.com',
     'www.jd.com', 'guzzoni.apple.com', 'fastcdn.hoyoverse.com', 'example.org',
 }
 
@@ -205,6 +206,60 @@ class TaobaoValidatorMutations(unittest.TestCase):
                     with self.subTest(gate=gate.__name__):
                         with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
                             gate(self.root)
+
+    def test_known_select_formats_pass_helper_and_complete_tree(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🛍️ 淘宝"\n    type: select\n'
+        for declaration in ('type: "select"', "type: 'select'", 'type: select # same policy',
+                            'type: "select" # same policy', '"type": select', "'type': 'select'"):
+            with self.subTest(declaration=declaration):
+                path.write_text(original.replace(marker, '  - name: "🛍️ 淘宝"\n    ' + declaration + '\n'),
+                                encoding='utf-8')
+                groups = yaml.safe_load(path.read_text(encoding='utf-8'))['proxy-groups']
+                group = next(group for group in groups if group['name'] == TARGET)
+                self.assertEqual(group['type'], 'select')
+                validate.validate_taobao(self.root)
+                self.assertEqual(validate.validate_tree(self.root), 0)
+
+    def test_duplicate_select_formats_still_fail_both_gates(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🛍️ 淘宝"\n    type: select\n'
+        for declaration in ('type: "select"', "type: 'select'", 'type: select # still duplicated',
+                            '"type": select', "'type': 'select'"):
+            with self.subTest(declaration=declaration):
+                path.write_text(original.replace(marker, marker + '    ' + declaration + '\n'),
+                                encoding='utf-8')
+                groups = yaml.safe_load(path.read_text(encoding='utf-8'))['proxy-groups']
+                group = next(group for group in groups if group['name'] == TARGET)
+                self.assertEqual(group['type'], 'select')
+                for gate in (validate.validate_taobao, validate.validate_tree):
+                    with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                        gate(self.root)
+
+    def test_unseparated_or_nonselect_type_formats_fail_both_gates(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🛍️ 淘宝"\n    type: select\n'
+        for declaration in ('type:select', 'type: "fallback"', "type: 'fallback'", 'type: select#not-comment'):
+            with self.subTest(declaration=declaration):
+                path.write_text(original.replace(marker, '  - name: "🛍️ 淘宝"\n    ' + declaration + '\n'),
+                                encoding='utf-8')
+                for gate in (validate.validate_taobao, validate.validate_tree):
+                    with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                        gate(self.root)
+
+    def test_missing_policy_group_fails_helper_and_complete_tree(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🛍️ 淘宝"')
+        end = original.index('  - name:', start + 1)
+        path.write_text(original[:start] + original[end:], encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+            validate.validate_taobao(self.root)
+        with self.assertRaises(ValueError):
+            validate.validate_tree(self.root)
 
     def test_legal_security_updates_use_same_validator(self):
         for provider in ('Privacy', 'Hijacking'):

@@ -26,6 +26,7 @@
 - `img.alicdn.com` 的图标/图片、`gw.alicdn.com` 的商品页面图片，以及商品页的 `g-search1.alicdn.com`、`g-search2.alicdn.com`、`g-search3.alicdn.com` 图片引用均不纳入：这里只证明淘宝页面使用，未证明淘宝专属范围。不为凑齐资源链扩大 CDN 主机清单。
 - 首页 `gm.mmstat.com`、`log.mmstat.com`、`res.mmstat.com`、`dfhs.tanx.com`、`ecpm.tanx.com` 的 `dns-prefetch` 不是已完成请求或必要业务接口证据；不收录，保留既有路由与安全处理。
 - `login.taobao.com`、`h5api.m.taobao.com`、其他原生接口，以及支付/安全验证主机未按猜测添加。`www.tmall.com`、`www.alipay.com` 和其他阿里业务不归入本组。
+- 商品网站入口仅指已核实的 `pcdetail.taobao.com`；`item.taobao.com` 和 `s.taobao.com` 不在清单，不能把本组当成商品详情或搜索链路的完整覆盖。
 - 官网页面另链接 `goods.taobao.com`、`bk.taobao.com` 等分类或内容站；首批不扩展全部导航，等待具体使用需求和单独审查。
 
 ## 已落实的最小实施计划

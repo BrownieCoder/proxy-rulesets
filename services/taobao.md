@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Taoba
 
 推荐：**部分入口：默认直连，可选代理**。现有规则目标：`🛍️ 淘宝`。共 **4 条**规则。
 
-安全与游戏规则仍优先；不包括共享 CDN、登录、API、支付或天猫。手动代理仅影响本清单，其他请求沿用原策略，可能混合出口；不保证完整原生 App 或购买链路。如切换后出现登录或地区异常，可恢复 DIRECT 排查；未实测账户风控。[来源与范围](../research/Taobao-routing.md)。
+安全与游戏规则仍优先；商品网站入口仅指 pcdetail.taobao.com，不覆盖 item.taobao.com 或 s.taobao.com，亦不包括共享 CDN、登录、API、支付或天猫。手动代理仅影响本清单，其他请求沿用原策略，可能混合出口；不保证完整原生 App 或购买链路。如切换后出现登录或地区异常，可恢复 DIRECT 排查；未实测账户风控。[来源与范围](../research/Taobao-routing.md)。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 
