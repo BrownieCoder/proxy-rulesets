@@ -5,6 +5,8 @@ rules:
   - DOMAIN,fastcdn.hoyoverse.com,DIRECT
   - RULE-SET,InternationalGaming,🎮 国际游戏
   - RULE-SET,ChinaGaming,DIRECT
+  # QQ 音乐公开入口和下载主机；安全与游戏规则仍优先。
+  - RULE-SET,QQMusic,🎧 QQ 音乐
   # 抖音官网及已核实静态主机；安全与游戏规则仍优先。
   - RULE-SET,Douyin,🎶 抖音
   # 高德官网与公开地图接口，安全拦截和游戏规则仍优先。

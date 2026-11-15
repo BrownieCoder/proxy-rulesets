@@ -44,6 +44,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [YouTube](services/youtube.md) | YouTube 视频及相关资源。 | [获取地址](services/youtube.md#规则地址) · [查看规则](ruleset/YouTube_No_Resolve.yaml) |
+| [QQ 音乐](services/qq-music.md) | QQ 音乐官网、同主机资源及声明的下载入口，共 3 个精确主机。 | [获取地址](services/qq-music.md#规则地址) · [查看规则](ruleset/QQMusic.yaml) |
 | [网易云音乐](services/netease-music.md) | 官网及部分静态、图片资源的 8 个精确主机。 | [获取地址](services/netease-music.md#规则地址) · [查看规则](ruleset/NetEaseMusic.yaml) |
 | [哔哩哔哩](services/bilibili.md) | 哔哩哔哩服务。 | [获取地址](services/bilibili.md#规则地址) · [查看规则](ruleset/Bilibili_No_Resolve.yaml) |
 | [抖音](services/douyin.md) | 抖音官网与公开页面实际使用的静态资源，共 3 个精确主机。 | [获取地址](services/douyin.md#规则地址) · [查看规则](ruleset/Douyin.yaml) |
