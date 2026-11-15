@@ -16,10 +16,15 @@ _MEMBER = re.compile(r'''^      - (?:DIRECT|REJECT(?:-DROP)?|PASS|"[^"\\\x00-\x1
 
 def validate_select_group(block: str, error: str) -> None:
     """Validate a group's body after its canonical name line, without parsing private input."""
+    block = block.replace('\r\n', '\n')
+    if any((ord(char) < 32 and char != '\n') or 127 <= ord(char) <= 159
+           or 0xD800 <= ord(char) <= 0xDFFF or ord(char) in (0x2028, 0x2029, 0xFFFE, 0xFFFF)
+           for char in block):
+        raise ValueError(f'{error}; use printable template characters and LF or CRLF, without tabs')
     seen: set[str] = set()
     in_proxies = False
     proxy_count = 0
-    for number, line in enumerate(block.splitlines(), 1):
+    for number, line in enumerate(block.split('\n'), 1):
         if not line.strip(' ') or line.lstrip(' ').startswith('#'):
             continue
         key = _KEY.fullmatch(line)

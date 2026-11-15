@@ -20,6 +20,7 @@ class SelectGroupSyntax(unittest.TestCase):
                 parsed = yaml.safe_load('groups:\n  - name: public\n' + block)['groups'][0]
                 self.assertEqual(parsed['type'], 'select')
                 validate_select_group(block, 'public group')
+                validate_select_group(block.replace('\n', '\r\n'), 'public group')
 
     def test_complex_type_keys_cannot_override_select(self):
         for declaration in ('"t\\u0079pe": fallback', '!!str type: fallback',
@@ -75,6 +76,14 @@ class SelectGroupSyntax(unittest.TestCase):
                       BASE.replace('    type: select', '    type: select#not-a-comment')):
             with self.subTest(block=block), self.assertRaises(ValueError):
                 validate_select_group(block, 'public group')
+
+    def test_control_characters_and_noncanonical_line_breaks_are_rejected(self):
+        for char in ('\0', '\v', '\f', '\t', '\r', '\x7f', '\x85', '\u2028', '\u2029'):
+            with self.subTest(char=repr(char)), self.assertRaises(ValueError):
+                validate_select_group(BASE + '    # comment' + char + 'hidden\n', 'public group')
+        for value in ('select\t# comment', '"select"\t# comment'):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                validate_select_group(BASE.replace('select', value), 'public group')
 
 
 if __name__ == '__main__':
