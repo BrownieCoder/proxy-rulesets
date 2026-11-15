@@ -22,6 +22,14 @@ DOUYIN_CONTROLS = frozenset({
     "www.tiktok.com", "p16-sign-va.tiktokcdn.com", "p16-va.tiktokcdn.com",
     "p16-sg.tiktokcdn.com", "p1.ibyteimg.com", "byteimg.com", "example.org",
 })
+PINDUODUO_CONTROLS = frozenset({
+    "pinduoduo.com", "yangkeduo.com", "pddpic.com", "www.pinduoduo.com",
+    "cdn.pinduoduo.com", "images.pinduoduo.com", "promotion.pddpic.com",
+    "api.pinduoduo.com", "api.yangkeduo.com", "log.pinduoduo.com",
+    "log.yangkeduo.com", "www.temu.com", "pftk.temu.com", "thtk.temu.com",
+    "m.jd.com", "www.meituan.com", "www.douyin.com", "guzzoni.apple.com",
+    "example.org",
+})
 
 
 def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str]]]:
@@ -874,6 +882,204 @@ def validate_jd(root: Path = ROOT) -> None:
             raise ValueError("JD changed non-target routing: " + host)
 
 
+def validate_pinduoduo(root: Path = ROOT) -> None:
+    """Enforce reviewed Pinduoduo exact hosts in live and staged public trees."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.yangkeduo.com", "mobile.yangkeduo.com", "commimg.pddpic.com",
+                "img.pddpic.com", "t13img.yangkeduo.com"}
+    rules = entries(root / "ruleset/Pinduoduo.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Pinduoduo must contain only the five reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🛍️ 拼多多"
+    marker = "RULE-SET,Pinduoduo," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Pinduoduo"]]
+    if references != [marker]:
+        raise ValueError("Pinduoduo must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Pinduoduo requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,Douyin,🎶 抖音", "RULE-SET,Amap,🗺️ 高德地图",
+                    "RULE-SET,Zhihu,💡 知乎", "RULE-SET,Xiaohongshu,📕 小红书 / REDnote",
+                    "RULE-SET,NetEaseMusic,🎵 网易云音乐", "RULE-SET,Douban,📚 豆瓣",
+                    "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security, gaming and existing App rules must precede Pinduoduo")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili", "RULE-SET,TikTok,🎵 Tiktok",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("Pinduoduo must precede SiriAI and broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🛍️ 拼多多"\n(.*?)(?=^  - name: |\Z)',
+                        group_text, re.MULTILINE | re.DOTALL)
+    group_error = "Pinduoduo must be a DIRECT-first select group with a manual proxy option"
+    if len(blocks) != 1:
+        raise ValueError(group_error)
+    validate_select_group(blocks[0], group_error)
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError(group_error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    allowed_types = {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                     "GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for rule_index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        if fields[0] not in allowed_types:
+            raise ValueError("Unsupported top-level rule in Pinduoduo domain-only model: " + fields[0]
+                             + "; process/port or compound conditions are intentionally rejected (fail closed)")
+        if fields[0] in {"GEOIP", "IP-CIDR", "IP-CIDR6"} and rule_index < app_position:
+            raise ValueError("Pinduoduo domain-only model limitation: IP/GeoIP rules before Pinduoduo "
+                             "cannot be evaluated without IP metadata: " + rule)
+        if fields[0] == "RULE-SET":
+            if len(fields) < 3:
+                raise ValueError("Pinduoduo encountered an incomplete RULE-SET reference")
+            if fields[1] not in manifests:
+                raise ValueError("Pinduoduo references undefined provider: " + fields[1])
+    providers = {name: DomainRules(entries(root / source["path"]))
+                 for name, source in manifests.items()}
+
+    def route(domain: str, skip_app: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_app and fields[1] == "Pinduoduo":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # Only IP/GeoIP conditions remain; this domain-only model has no IP metadata.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Pinduoduo", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Pinduoduo is shadowed by an earlier rule: {host}: {result}")
+    controls = PINDUODUO_CONTROLS | {value for host in reviewed for value in
+                                   ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_app=True):
+            raise ValueError("Pinduoduo changed non-target routing: " + host)
+
+
+CTRIP_CONTROLS = {
+    "ctrip.com", "c-ctrip.com", "trip.com", "tripcdn.com", "www.trip.com",
+    "english.ctrip.com", "www.tieyou.com", "www.tujia.com", "my.ctrip.com",
+    "sec.ctrip.com", "ct.ctrip.com", "s.c-ctrip.com", "webresource.c-ctrip.com",
+    "static.tripcdn.com", "hm.baidu.com", "api.ctrip.com", "guzzoni.apple.com",
+    "www.jd.com", "www.meituan.com", "example.org",
+}
+
+
+def validate_ctrip(root: Path = ROOT) -> None:
+    """Enforce the exact official Ctrip entry scope in public candidate trees."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.ctrip.com", "m.ctrip.com", "app.ctrip.com", "hotels.ctrip.com",
+                "flights.ctrip.com", "trains.ctrip.com", "vacations.ctrip.com"}
+    rules = entries(root / "ruleset/Ctrip.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Ctrip must contain only the seven reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🧳 携程"
+    marker = "RULE-SET,Ctrip," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Ctrip"]]
+    if references != [marker]:
+        raise ValueError("Ctrip must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Ctrip requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security and gaming rules must precede Ctrip")
+    for later in ("RULE-SET,Apple,🍎 Apple", "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("Ctrip must precede broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🧳 携程"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "Ctrip must be a DIRECT-first select group with a manual proxy option"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("Ctrip manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    missing = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")} - set(manifests)
+    if missing:
+        raise ValueError("Ctrip routing references missing providers: " + ", ".join(sorted(missing)))
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_ctrip: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_ctrip and fields[1] == "Ctrip":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError(f"Unsupported top-level rule in Ctrip domain model: {kind}")
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Ctrip", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        current = route(host)
+        if current not in allowed:
+            raise ValueError(f"Ctrip is shadowed by an earlier rule: {host}: {current}")
+    controls = CTRIP_CONTROLS | {value for host in reviewed for value in
+                               ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_ctrip=True):
+            raise ValueError("Ctrip changed non-target routing: " + host)
+
+
 def validate_taobao(root: Path = ROOT) -> None:
     """Enforce exact public Taobao entries in live and staged public trees."""
     from app_policy import validate_select_group
@@ -1006,6 +1212,8 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_douyin(root)
     validate_jd(root)
     validate_meituan(root)
+    validate_ctrip(root)
+    validate_pinduoduo(root)
     validate_taobao(root)
     from generate_catalog import generate
     generate(root)

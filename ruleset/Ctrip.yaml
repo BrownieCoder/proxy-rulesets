@@ -1,0 +1,10 @@
+# Self-maintained exact public Ctrip entry hosts.
+# Evidence and limits: research/Ctrip-routing.md
+payload:
+  - DOMAIN,app.ctrip.com
+  - DOMAIN,flights.ctrip.com
+  - DOMAIN,hotels.ctrip.com
+  - DOMAIN,m.ctrip.com
+  - DOMAIN,trains.ctrip.com
+  - DOMAIN,vacations.ctrip.com
+  - DOMAIN,www.ctrip.com
