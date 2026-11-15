@@ -2,7 +2,7 @@
 
 ## 研究结论与边界
 
-核实日期：2026-11-15。建议首批只收录以下 4 个精确 `DOMAIN`，提供独立 `🛍️ 淘宝` 策略，默认 `DIRECT`，保留手动代理选择。本文件是实施前研究，不表示运行规则已变更。
+核实日期：2026-11-15。已接受首批范围为以下 4 个精确 `DOMAIN`，提供独立 `🛍️ 淘宝` 策略，默认 `DIRECT`，保留手动代理选择。以下实施计划已落实，原始研究仍保留在独立历史提交中。
 
 四个主机在基线 `4840a9cd0ef6a5507c00492815af7a47a6ce6483` 的离线域名模型中均首先匹配 `ChinaMax → 🇨🇳 China-Global`。新增价值是独立控制部分公开入口，不是此前完全没有规则覆盖。
 
@@ -28,7 +28,7 @@
 - `login.taobao.com`、`h5api.m.taobao.com`、其他原生接口，以及支付/安全验证主机未按猜测添加。`www.tmall.com`、`www.alipay.com` 和其他阿里业务不归入本组。
 - 官网页面另链接 `goods.taobao.com`、`bk.taobao.com` 等分类或内容站；首批不扩展全部导航，等待具体使用需求和单独审查。
 
-## 最小实施计划（等待范围批准）
+## 已落实的最小实施计划
 
 目标是让上述 4 个公开入口可以独立选择出口，不改变其他主机的原路由。约束为：安全拦截、`fastcdn.hoyoverse.com` 例外、国际/中国游戏优先，既有服务相对顺序和 `FINAL/MATCH` 不变；权限、工作流、上游快照及许可不变。
 
@@ -40,7 +40,7 @@
 
 负向控制包含共享根域、上述 CDN/统计排除项、登录/API、天猫/支付宝、其他关联业务和 `example.org`，并对每个正式主机测试 `child.` 子域、`not` 前缀、`.example.org` 后缀；新增规则必须不命中，且移除淘宝规则前后的首匹配保持一致。
 
-以上实施任务共享配置与验证文件，应在本独立分支顺序完成，避免与其他 App 同工作树并写。当前决策：**等待范围批准，不改变生产路由**。
+以上实施任务共享配置与验证文件，在本独立分支顺序完成，避免与其他 App 同工作树并写。当前决策：**已接受上述四主机范围，不扩展共享资源与账户链路**。
 
 ## 风险与未验证项
 
@@ -50,4 +50,4 @@
 
 ## English scope summary
 
-Four exact public Taobao entry hosts: the desktop homepage, mobile redirect entry, client promotion/download page, and linked product website. DIRECT is the proposed default with an optional manual proxy. Shared Alibaba CDN hosts, login/API/payment endpoints and related brands are excluded. This is not full native-app coverage; mixed egress and all-path impact on each exact host remain possible. Production implementation is awaiting scope approval.
+Four accepted exact public Taobao entry hosts: the desktop homepage, mobile redirect entry, client promotion/download page, and linked product website. DIRECT is the default with an optional manual proxy. Shared Alibaba CDN hosts, login/API/payment endpoints and related brands are excluded. This is not full native-app coverage; mixed egress and all-path impact on each exact host remain possible.

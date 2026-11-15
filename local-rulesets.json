@@ -50,5 +50,9 @@
   "JD": {
     "path": "ruleset/JD.yaml",
     "behavior": "classical"
+  },
+  "Taobao": {
+    "path": "ruleset/Taobao.yaml",
+    "behavior": "classical"
   }
 }

@@ -1,0 +1,224 @@
+"""Taobao exact entries and actual live/staged validator contract mutations."""
+import json
+import shutil
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from siri_ai import DomainRules, entries
+import validate
+
+HOSTS = {'www.taobao.com', 'm.taobao.com', 'pc.taobao.com', 'pcdetail.taobao.com'}
+TARGET = '🛍️ 淘宝'
+CONTROLS = {
+    'taobao.com', 'alicdn.com', 'taobaocdn.com', 'g.alicdn.com', 'o.alicdn.com',
+    'img.alicdn.com', 'gw.alicdn.com', 'g-search1.alicdn.com', 'g-search2.alicdn.com',
+    'g-search3.alicdn.com', 'gm.mmstat.com', 'log.mmstat.com', 'res.mmstat.com',
+    'dfhs.tanx.com', 'ecpm.tanx.com', 'login.taobao.com', 'h5api.m.taobao.com',
+    'www.tmall.com', 'www.alipay.com', 'goods.taobao.com', 'bk.taobao.com',
+    'www.jd.com', 'guzzoni.apple.com', 'fastcdn.hoyoverse.com', 'example.org',
+}
+
+
+class TaobaoRouting(unittest.TestCase):
+    def test_independent_yaml_scope_and_default(self):
+        payload = yaml.safe_load((ROOT / 'ruleset/Taobao.yaml').read_text(encoding='utf-8'))['payload']
+        self.assertEqual(len(payload), len(HOSTS))
+        self.assertEqual(set(payload), {'DOMAIN,' + host for host in HOSTS})
+        groups = yaml.safe_load((ROOT / 'config/proxy-groups.yaml').read_text(encoding='utf-8'))['proxy-groups']
+        matches = [group for group in groups if group['name'] == TARGET]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0]['type'], 'select')
+        self.assertEqual(matches[0]['proxies'][0], 'DIRECT')
+        self.assertIn('🚀 节点选择', matches[0]['proxies'])
+        self.assertIn('🧭 Final', matches[0]['proxies'])
+
+    def test_effective_routing_contract(self):
+        validate.validate_taobao(ROOT)
+
+    def test_unreviewed_hosts_do_not_match(self):
+        model = DomainRules(entries(ROOT / 'ruleset/Taobao.yaml'))
+        controls = CONTROLS | {value for host in HOSTS for value in
+                               ('child.' + host, 'not' + host, host + '.example.org')}
+        for host in controls:
+            with self.subTest(host=host):
+                self.assertFalse(model.matches(host))
+
+
+class TaobaoValidatorMutations(unittest.TestCase):
+    MARKER = '  - RULE-SET,Taobao,' + TARGET + '\n'
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        # Complete public fixture also exercises validate_tree without touching ROOT.
+        for directory in ('config', 'ruleset', 'catalog', 'rules', 'research', 'services'):
+            shutil.copytree(ROOT / directory, self.root / directory)
+        for filename in ('sources.json', 'local-rulesets.json', 'sources.lock.json', 'README.md'):
+            shutil.copyfile(ROOT / filename, self.root / filename)
+
+    def mutate(self, filename, old, new):
+        path = self.root / filename
+        text = path.read_text(encoding='utf-8')
+        self.assertIn(old, text)
+        path.write_text(text.replace(old, new), encoding='utf-8')
+
+    def test_valid_public_fixture(self):
+        validate.validate_taobao(self.root)
+
+    def test_scope_broadening_is_rejected(self):
+        self.mutate('ruleset/Taobao.yaml', 'DOMAIN,www.taobao.com', 'DOMAIN-SUFFIX,taobao.com')
+        with self.assertRaisesRegex(ValueError, 'four reviewed exact hosts'):
+            validate.validate_taobao(self.root)
+
+    def test_unreviewed_exact_host_is_rejected(self):
+        self.mutate('ruleset/Taobao.yaml', 'DOMAIN,www.taobao.com', 'DOMAIN,g.alicdn.com')
+        with self.assertRaisesRegex(ValueError, 'four reviewed exact hosts'):
+            validate.validate_taobao(self.root)
+
+    def test_duplicate_host_is_rejected(self):
+        path = self.root / 'ruleset/Taobao.yaml'
+        path.write_text(path.read_text(encoding='utf-8') + '  - DOMAIN,m.taobao.com\n', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'without duplicates'):
+            validate.validate_taobao(self.root)
+
+    def test_complete_public_tree_calls_taobao_gate(self):
+        with patch.object(validate, 'validate_taobao', side_effect=ValueError('Taobao gate reached')) as gate:
+            with self.assertRaisesRegex(ValueError, 'Taobao gate reached'):
+                validate.validate_tree(self.root)
+        gate.assert_called_once_with(self.root)
+
+    def test_missing_provider_reports_clear_validation_error(self):
+        path = self.root / 'local-rulesets.json'
+        records = json.loads(path.read_text(encoding='utf-8'))
+        del records['Taobao']
+        path.write_text(json.dumps(records, ensure_ascii=False), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'Taobao routing references missing provider: Taobao'):
+            validate.validate_taobao(self.root)
+
+    def test_unknown_provider_is_rejected_even_after_match(self):
+        path = self.root / 'config/rules.yaml'
+        path.write_text(path.read_text(encoding='utf-8') + '  - RULE-SET,Unknown,DIRECT\n', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'Taobao routing references missing provider: Unknown'):
+            validate.validate_taobao(self.root)
+
+    def test_all_validator_text_reads_request_utf8(self):
+        original = Path.read_text
+
+        def read_utf8(path, *args, **kwargs):
+            encoding = kwargs.get('encoding', args[0] if args else None)
+            self.assertEqual(encoding, 'utf-8', str(path))
+            return original(path, *args, **kwargs)
+
+        with patch.object(Path, 'read_text', autospec=True, side_effect=read_utf8):
+            validate.validate_taobao(self.root)
+
+    def test_no_duplicate_or_wrong_target_reference_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        for text in (original.replace(self.MARKER, ''), original + self.MARKER,
+                     original.replace(self.MARKER, '  - RULE-SET,Taobao,DIRECT\n'),
+                     original + '  - RULE-SET,Taobao,DIRECT\n'):
+            with self.subTest(tail=text[-40:]):
+                path.write_text(text, encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'exactly one dedicated'):
+                    validate.validate_taobao(self.root)
+
+    def test_late_reference_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8').replace(self.MARKER, '')
+        for marker in ('  - RULE-SET,SiriAI,🤖 AI 服务\n', '  - RULE-SET,Apple,🍎 Apple\n',
+                       '  - RULE-SET,ChinaMax,🇨🇳 China-Global\n'):
+            with self.subTest(marker=marker):
+                path.write_text(original.replace(marker, marker + self.MARKER), encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'broader providers'):
+                    validate.validate_taobao(self.root)
+
+    def test_security_or_existing_app_bypass_is_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8').replace(self.MARKER, '')
+        for marker in ('  - RULE-SET,Privacy,REJECT\n', '  - RULE-SET,ChinaGaming,DIRECT\n',
+                       '  - RULE-SET,BaiduPan,☁️ 百度网盘\n'):
+            with self.subTest(marker=marker):
+                path.write_text(original.replace(marker, self.MARKER + marker), encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'must precede Taobao'):
+                    validate.validate_taobao(self.root)
+
+    def test_active_markers_are_unique_and_not_comments(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        for marker in (self.MARKER, '  - RULE-SET,Privacy,REJECT\n',
+                       '  - RULE-SET,GlobalMedia,🛰️ International-Global\n'):
+            for text in (original.replace(marker, marker.replace('  - ', '  # ')), original + marker):
+                with self.subTest(marker=marker, tail=text[-40:]):
+                    path.write_text(text, encoding='utf-8')
+                    with self.assertRaises(ValueError):
+                        validate.validate_taobao(self.root)
+
+    def test_default_type_and_choices_are_required(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🛍️ 淘宝"')
+        end = original.index('  - name:', start + 1)
+        block = original[start:end]
+        for changed in (block.replace('      - DIRECT\n', ''),
+                        block.replace('      - DIRECT\n      - "🚀 节点选择"\n',
+                                      '      - "🚀 节点选择"\n      - DIRECT\n'),
+                        block.replace('type: select', 'type: fallback'),
+                        block.replace('      - "🚀 节点选择"\n', ''),
+                        block.replace('      - "🧭 Final"\n', ''),
+                        block.replace('    type: select\n', '    type: select\n    type: select\n')):
+            with self.subTest(block=changed):
+                path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                    validate.validate_taobao(self.root)
+
+    def test_legal_security_updates_use_same_validator(self):
+        for provider in ('Privacy', 'Hijacking'):
+            path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
+            original = path.read_text(encoding='utf-8')
+            for kind in ('DOMAIN', 'DOMAIN-SUFFIX'):
+                with self.subTest(provider=provider, kind=kind):
+                    path.write_text(original + f'  - {kind},m.taobao.com\n', encoding='utf-8')
+                    try:
+                        validate.validate_taobao(self.root)
+                    finally:
+                        path.write_text(original, encoding='utf-8')
+
+    def test_non_security_preemption_is_rejected(self):
+        path = self.root / 'ruleset/ChinaGaming.yaml'
+        path.write_text(path.read_text(encoding='utf-8') + '  - DOMAIN,m.taobao.com\n', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'shadowed'):
+            validate.validate_taobao(self.root)
+
+    def test_inline_non_security_preemption_is_rejected(self):
+        self.mutate('config/rules.yaml', self.MARKER, '  - DOMAIN,m.taobao.com,DIRECT\n' + self.MARKER)
+        with self.assertRaisesRegex(ValueError, 'shadowed'):
+            validate.validate_taobao(self.root)
+
+    def test_wrong_security_target_is_rejected(self):
+        self.mutate('config/rules.yaml', 'RULE-SET,Privacy,REJECT', 'RULE-SET,Privacy,DIRECT')
+        with self.assertRaisesRegex(ValueError, 'one active rule'):
+            validate.validate_taobao(self.root)
+
+    def test_unknown_top_level_rules_are_rejected(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        for rule in ('DST-PORT,443,DIRECT', 'PROCESS-NAME,taobao,DIRECT'):
+            for text in (original.replace(self.MARKER, f'  - {rule}\n' + self.MARKER),
+                         original + f'  - {rule}\n'):
+                with self.subTest(rule=rule, tail=text[-40:]):
+                    path.write_text(text, encoding='utf-8')
+                    with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
+                        validate.validate_taobao(self.root)
+
+
+if __name__ == '__main__':
+    unittest.main()
