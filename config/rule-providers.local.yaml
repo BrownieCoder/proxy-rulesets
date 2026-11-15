@@ -144,6 +144,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Douban.yaml
+  Ctrip:
+    type: file
+    behavior: classical
+    path: ./ruleset/Ctrip.yaml
   JD:
     type: file
     behavior: classical

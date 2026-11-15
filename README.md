@@ -63,6 +63,7 @@
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
+| [携程旅行 / Ctrip](services/ctrip.md) | 携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。 | [获取地址](services/ctrip.md#规则地址) · [查看规则](ruleset/Ctrip.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
 
 ### 社交

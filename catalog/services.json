@@ -189,6 +189,15 @@
     "warning": "安全、游戏与既有服务规则仍优先；图片主机可能供多个拼多多页面使用。本批不覆盖 www.pinduoduo.com、cdn.pinduoduo.com、images.pinduoduo.com 或未经核实的 H5 API。手动代理只供已列入口/图片独立控制，其他请求仍走原路由，可能混合出口。不保证原生 App 登录、订单、支付或一致出口 IP；若切代理后出现登录或地区识别异常，可恢复直连排查，这不是已实测的风控结论。[官方来源与范围](../research/Pinduoduo-routing.md)。"
   },
   {
+    "id": "ctrip",
+    "provider": "Ctrip",
+    "name": "携程旅行 / Ctrip",
+    "category": "出行",
+    "description": "携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。",
+    "policyLabel": "部分入口：默认直连，可选代理",
+    "warning": "安全规则仍优先；同主机上的国际机酒等页面也受影响，不按目的地或路径分流。只控制这 7 个入口，静态、API、登录及其他请求仍走原规则，可能混合出口；不保证预订、支付或原生 App 全链路，也不改变价格或地区资格。若切换后出现登录或地区识别异常，可恢复 DIRECT 排查；未实测账户风控。[官方来源与边界](../research/Ctrip-routing.md)。"
+  },
+  {
     "id": "amap",
     "provider": "Amap",
     "name": "高德地图 / AMap",
