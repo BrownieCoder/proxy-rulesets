@@ -920,8 +920,9 @@ def validate_ctrip(root: Path = ROOT) -> None:
     text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     blocks = re.findall(r'^  - name: "🧳 携程"\n(.*?)(?=^  - name: |\Z)',
                         text, re.MULTILINE | re.DOTALL)
-    types = [] if len(blocks) != 1 else re.findall(r'^    type: (\S+)\s*$', blocks[0], re.MULTILINE)
-    if types != ["select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+    types = [] if len(blocks) != 1 else [line.strip() for line in blocks[0].splitlines()
+                                       if re.match(r"^    (?:type|['\"]type['\"])\s*:", line)]
+    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
         raise ValueError("Ctrip must be a DIRECT-first select group with a manual proxy option")
 
     manifests = {}

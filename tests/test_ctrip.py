@@ -123,6 +123,23 @@ class CtripValidator(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
                     validate.validate_ctrip(self.root)
 
+    def test_duplicate_type_overrides_fail_helper_and_complete_tree(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🧳 携程"\n    type: select\n'
+        for override in ('type: fallback # duplicate override', 'type:', 'type : fallback',
+                         '"type": fallback', "'type': fallback"):
+            with self.subTest(override=override):
+                path.write_text(original.replace(marker, marker + '    ' + override + '\n'),
+                                encoding='utf-8')
+                parsed = yaml.safe_load(path.read_text(encoding='utf-8'))['proxy-groups']
+                effective = next(group for group in parsed if group['name'] == '🧳 携程')
+                self.assertNotEqual(effective['type'], 'select')
+                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                    validate.validate_ctrip(self.root)
+                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                    validate.validate_tree(self.root)
+
     def test_duplicate_policy_group_is_rejected(self):
         path = self.root / 'config/proxy-groups.yaml'
         path.write_text(path.read_text(encoding='utf-8') +
