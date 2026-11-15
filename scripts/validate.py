@@ -884,6 +884,7 @@ def validate_jd(root: Path = ROOT) -> None:
 
 def validate_pinduoduo(root: Path = ROOT) -> None:
     """Enforce reviewed Pinduoduo exact hosts in live and staged public trees."""
+    from app_policy import validate_select_group
     from siri_ai import DomainRules
 
     reviewed = {"www.yangkeduo.com", "mobile.yangkeduo.com", "commimg.pddpic.com",
@@ -926,10 +927,12 @@ def validate_pinduoduo(root: Path = ROOT) -> None:
     group_text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     blocks = re.findall(r'^  - name: "🛍️ 拼多多"\n(.*?)(?=^  - name: |\Z)',
                         group_text, re.MULTILINE | re.DOTALL)
-    types = [] if len(blocks) != 1 else [line.strip() for line in blocks[0].splitlines()
-                                       if re.match(r"^\s*(?:type|\"type\"|'type')\s*:", line)]
-    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
-        raise ValueError("Pinduoduo must be a DIRECT-first select group with a manual proxy option")
+    group_error = "Pinduoduo must be a DIRECT-first select group with a manual proxy option"
+    if len(blocks) != 1:
+        raise ValueError(group_error)
+    validate_select_group(blocks[0], group_error)
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError(group_error)
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):

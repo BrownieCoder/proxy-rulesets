@@ -213,6 +213,70 @@ class PinduoduoRouting(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
                         gate(self.root)
 
+    def test_complex_type_and_proxies_keys_fail_closed_at_both_gates(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🛍️ 拼多多"\n')
+        end = original.index('  - name:', start + 1)
+        variants = ((r'"t\u0079pe": fallback', 'type', 'fallback'),
+                    ('!!str type: fallback', 'type', 'fallback'),
+                    ('&policy_type type: fallback', 'type', 'fallback'),
+                    ('? type\n    : fallback', 'type', 'fallback'),
+                    ('<<: {type: fallback}', 'type', 'select'),
+                    ('proxies: []', 'proxies', []),
+                    ('"proxies": []', 'proxies', []),
+                    (r'"pro\u0078ies": []', 'proxies', []),
+                    ('!!str proxies: []', 'proxies', []),
+                    ('&proxy_list proxies: []', 'proxies', []),
+                    ('? proxies\n    : []', 'proxies', []))
+        for declaration, key, expected in variants:
+            changed = original[:end] + '    ' + declaration + '\n' + original[end:]
+            group = next(group for group in yaml.safe_load(changed)['proxy-groups']
+                         if group['name'] == '🛍️ 拼多多')
+            self.assertEqual(group[key], expected, declaration)
+            path.write_text(changed, encoding='utf-8')
+            for gate in (validate.validate_pinduoduo, validate.validate_tree):
+                with self.subTest(declaration=declaration, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'Pinduoduo must be a DIRECT-first select'):
+                        gate(self.root)
+
+    def test_literal_select_formats_pass_helper_and_complete_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🛍️ 拼多多"\n    type: select\n'
+        for declaration in ('type: "select"', "type: 'select'", 'type: select # manual',
+                            'type: "select" # manual', '"type": select', "'type': 'select'"):
+            with self.subTest(declaration=declaration):
+                changed = original.replace(marker, '  - name: "🛍️ 拼多多"\n    ' + declaration + '\n')
+                group = next(group for group in yaml.safe_load(changed)['proxy-groups']
+                             if group['name'] == '🛍️ 拼多多')
+                self.assertEqual(group['type'], 'select')
+                path.write_text(changed, encoding='utf-8')
+                validate.validate_pinduoduo(self.root)
+                self.assertEqual(validate.validate_tree(self.root), 0)
+
+    def test_noncanonical_group_shapes_fail_helper_and_complete_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🛍️ 拼多多"\n')
+        end = original.index('  - name:', start + 1)
+        group = original[start:end]
+        for changed in (group.replace('    proxies:\n      - DIRECT\n      - "🚀 节点选择"\n      - "🧭 Final"\n',
+                                      '    proxies: [DIRECT, "🚀 节点选择", "🧭 Final"]\n'),
+                        group.replace('    type: select\n', '    type: &kind select\n'),
+                        group.replace('    proxies:\n', '      - DIRECT\n    proxies:\n'),
+                        group + '    unsupported: value\n',
+                        group + '      - type: fallback\n'):
+            self.assertNotEqual(changed, group)
+            for gate in (validate.validate_pinduoduo, validate.validate_tree):
+                with self.subTest(group=changed, gate=gate.__name__):
+                    path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
+                    with self.assertRaises(ValueError):
+                        gate(self.root)
+
     def test_legal_future_security_updates_remain_valid(self):
         for provider in ('Privacy', 'Hijacking'):
             path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
