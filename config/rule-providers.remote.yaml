@@ -222,9 +222,27 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douban.yaml
     interval: 86400
     path: ./ruleset-cache/Douban.yaml
+  Ctrip:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Ctrip.yaml
+    interval: 86400
+    path: ./ruleset-cache/Ctrip.yaml
   JD:
     type: http
     behavior: classical
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/JD.yaml
     interval: 86400
     path: ./ruleset-cache/JD.yaml
+  Pinduoduo:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Pinduoduo.yaml
+    interval: 86400
+    path: ./ruleset-cache/Pinduoduo.yaml
+  Taobao:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Taobao.yaml
+    interval: 86400
+    path: ./ruleset-cache/Taobao.yaml

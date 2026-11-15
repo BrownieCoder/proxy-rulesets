@@ -148,7 +148,19 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Douban.yaml
+  Ctrip:
+    type: file
+    behavior: classical
+    path: ./ruleset/Ctrip.yaml
   JD:
     type: file
     behavior: classical
     path: ./ruleset/JD.yaml
+  Pinduoduo:
+    type: file
+    behavior: classical
+    path: ./ruleset/Pinduoduo.yaml
+  Taobao:
+    type: file
+    behavior: classical
+    path: ./ruleset/Taobao.yaml

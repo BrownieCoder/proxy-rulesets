@@ -1,0 +1,8 @@
+# Self-maintained exact Taobao public entry hosts.
+# Provenance: research/Taobao-routing.md
+# Partial coverage: shared CDN, login, API and payment hosts are excluded.
+payload:
+  - DOMAIN,m.taobao.com
+  - DOMAIN,pc.taobao.com
+  - DOMAIN,pcdetail.taobao.com
+  - DOMAIN,www.taobao.com

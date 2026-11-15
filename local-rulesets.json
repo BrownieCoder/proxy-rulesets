@@ -51,8 +51,20 @@
     "path": "ruleset/Douban.yaml",
     "behavior": "classical"
   },
+  "Ctrip": {
+    "path": "ruleset/Ctrip.yaml",
+    "behavior": "classical"
+  },
   "JD": {
     "path": "ruleset/JD.yaml",
+    "behavior": "classical"
+  },
+  "Pinduoduo": {
+    "path": "ruleset/Pinduoduo.yaml",
+    "behavior": "classical"
+  },
+  "Taobao": {
+    "path": "ruleset/Taobao.yaml",
     "behavior": "classical"
   }
 }

@@ -58,11 +58,14 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [京东 / JD](services/jd.md) | 京东移动商城、App 入口和图片静态资源的 8 个精确主机。 | [获取地址](services/jd.md#规则地址) · [查看规则](ruleset/JD.yaml) |
+| [淘宝 / Taobao](services/taobao.md) | 淘宝官网、移动跳转、客户端下载与商品网页入口的 4 个精确主机。 | [获取地址](services/taobao.md#规则地址) · [查看规则](ruleset/Taobao.yaml) |
+| [拼多多 / Pinduoduo](services/pinduoduo.md) | 拼多多公开官网、移动商城入口及图片资源的 5 个精确主机。 | [获取地址](services/pinduoduo.md#规则地址) · [查看规则](ruleset/Pinduoduo.yaml) |
 
 ### 出行
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
+| [携程旅行 / Ctrip](services/ctrip.md) | 携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。 | [获取地址](services/ctrip.md#规则地址) · [查看规则](ruleset/Ctrip.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
 
 ### 社交
