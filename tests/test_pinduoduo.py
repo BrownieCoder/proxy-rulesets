@@ -7,6 +7,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from siri_ai import DomainRules, entries
@@ -188,6 +190,28 @@ class PinduoduoRouting(unittest.TestCase):
                 path.write_text(changed, encoding='utf-8')
                 with self.assertRaisesRegex(ValueError, 'DIRECT-first select|duplicate group'):
                     validate.validate_pinduoduo(self.root)
+
+    def test_duplicate_type_keys_cannot_override_select(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🛍️ 拼多多"\n    type: select\n'
+        self.assertIn(marker, original)
+        variants = (('type: fallback # overriding comment', 'fallback'),
+                    ('type:', None), ('type : fallback', 'fallback'),
+                    ('"type": fallback', 'fallback'), ("'type': fallback", 'fallback'))
+        for declaration, effective_type in variants:
+            changed = original.replace(marker, marker + '    ' + declaration + '\n')
+            parsed = yaml.safe_load(changed)['proxy-groups']
+            group = next(group for group in parsed if group['name'] == '🛍️ 拼多多')
+            with self.subTest(declaration=declaration, check='effective YAML type'):
+                self.assertEqual(group['type'], effective_type)
+                self.assertNotEqual(group['type'], 'select')
+            path.write_text(changed, encoding='utf-8')
+            for gate in (validate.validate_pinduoduo, validate.validate_tree):
+                with self.subTest(declaration=declaration, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                        gate(self.root)
 
     def test_legal_future_security_updates_remain_valid(self):
         for provider in ('Privacy', 'Hijacking'):
