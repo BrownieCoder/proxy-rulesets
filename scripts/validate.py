@@ -16,6 +16,13 @@ from siri_ai import validate as validate_siri_ai  # noqa: E402
 from siri_ai import entries  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
+QQ_MUSIC_CONTROLS = frozenset({
+    "qq.com", "gtimg.com", "gtimg.cn", "qqmusic.com", "imgcache.qq.com",
+    "dldir1.qq.com", "dldir1v6.qq.com", "dlied6.qq.com", "service.qq.com",
+    "www.qq.com", "www.tencent.com", "hr.tencent.com", "adver.qq.com",
+    "monitor.music.qq.com", "stat.y.qq.com", "game.qq.com", "wegame.gtimg.com",
+    "music.163.com", "example.org",
+})
 DOUYIN_CONTROLS = frozenset({
     "douyin.com", "douyinstatic.com", "douyinvod.com", "live.douyin.com",
     "api.amemv.com", "v3-web.douyinvod.com", "v26-web.douyinvod.com",
@@ -619,6 +626,90 @@ def validate_douyin(root: Path = ROOT) -> None:
             raise ValueError("Douyin changed non-target routing: " + host)
 
 
+def validate_qq_music(root: Path = ROOT) -> None:
+    """Validate the three reviewed QQ Music hosts without widening shared Tencent scope."""
+    from siri_ai import DomainRules
+    reviewed = {"y.qq.com", "c.y.qq.com", "dldir.y.qq.com"}
+    rules = entries(root / "ruleset/QQMusic.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("QQMusic must contain only the three reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    for rule in ordered:
+        kind = rule.split(",")[0]
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in QQMusic domain model: " + kind)
+    target = "🎧 QQ 音乐"
+    marker = "RULE-SET,QQMusic," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "QQMusic"]]
+    if references != [marker]:
+        raise ValueError("QQMusic must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"QQMusic requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+        if position(earlier) >= current:
+            raise ValueError("Security and gaming rules must precede QQMusic")
+    for later in ("RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("QQMusic must precede broader providers")
+
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🎧 QQ 音乐"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    types = [] if len(blocks) != 1 else re.findall(r'^    type: (\S+)\s*$', blocks[0], re.MULTILINE)
+    if types != ["select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError("QQMusic must be a DIRECT-first select group with a proxy option")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+    referenced = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")}
+    missing = referenced - set(manifests)
+    if missing:
+        raise ValueError("QQMusic routing references missing providers: " + ", ".join(sorted(missing)))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+
+    def route(domain: str, skip_qq_music: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_qq_music and fields[1] == "QQMusic":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return kind + "," + fields[1], fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError("Unsupported top-level rule in QQMusic domain model: " + kind)
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("QQMusic", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"QQMusic is shadowed by an earlier rule: {host}: {result}")
+    controls = QQ_MUSIC_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_qq_music=True):
+            raise ValueError("QQMusic changed non-target routing: " + host)
+
+
 def validate_baidu_pan(root: Path = ROOT) -> None:
     """Check exact BaiduPan scope and effective routing in live or staged public trees."""
     from siri_ai import DomainRules
@@ -908,6 +999,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_amap(root)
     validate_netease_music(root)
     validate_douyin(root)
+    validate_qq_music(root)
     validate_jd(root)
     validate_meituan(root)
     from generate_catalog import generate

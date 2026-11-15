@@ -27,6 +27,10 @@
     "path": "ruleset/SiriAI.yaml",
     "behavior": "classical"
   },
+  "QQMusic": {
+    "path": "ruleset/QQMusic.yaml",
+    "behavior": "classical"
+  },
   "NetEaseMusic": {
     "path": "ruleset/NetEaseMusic.yaml",
     "behavior": "classical"

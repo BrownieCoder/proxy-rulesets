@@ -2,9 +2,9 @@
 
 ## 决策与当前状态
 
-`PLANNING`：本次只提交公开来源研究，不改变生产规则、策略组或生成资产。
+已接受范围：仅下表 3 个精确主机。规则实现为独立策略、生产验证入口与真实 fixture 变更测试，不扩大共享腾讯主机范围。
 
-建议首批仅为下表 3 个精确主机提供 `🎧 QQ 音乐` 独立策略，默认 `DIRECT`，保留手动代理选项。
+首批仅为下表 3 个精确主机提供 `🎧 QQ 音乐` 独立策略，默认 `DIRECT`，保留手动代理选项。
 这 3 个主机已有 ChinaMax 覆盖，新增价值是独立控制，而不是填补完全未覆盖的域名。
 共享腾讯主机默认排除，不采用 `qq.com`、`gtimg.com`、`gtimg.cn` 等根域后缀。
 
@@ -58,7 +58,7 @@
 计划位置必须在安全/游戏规则之后、Apple/GlobalMedia/GEOIP CN/ChinaMax 等宽泛分流之前，保持既有 SiriAI → Apple 顺序以及其他 App 的已有控制。
 当前三个候选未被前置安全、游戏或其他 App 规则抢先匹配；未来合法安全规则若新增覆盖，应优先而非让基础验证失败。
 
-## 最小实施提案（等待批准）
+## 已接受的最小实施范围
 
 目标：为公开入口与部分资源增加可选的独立出口，不改变非目标主机的现有策略。
 
@@ -69,7 +69,7 @@
 5. 独立固定 HOSTS 测试防止同源自证；对每个目标的子域、前缀相似域与伪后缀做负向检查，并验证上述安全、腾讯其他产品、游戏、网易云音乐及共享下载/CDN 对照在启用/移除 QQMusic 时首条匹配不变。
 6. catalog 文案明确“部分入口/资源：默认直连，可选代理”；通过既有 `generate_catalog.py --write` 离线重建 provider 配置、目录和校验资产，运行完整 tests、validate、public_check 与 diff 检查。不运行网络同步、不改权限/工作流。
 
-预计受影响：`ruleset/QQMusic.yaml`、`local-rulesets.json`、`config/rules.yaml`、`config/proxy-groups.yaml`、`catalog/services.json`、`scripts/validate.py`、独立测试及生成资产；仅在批准后实施。
+受影响：`ruleset/QQMusic.yaml`、`local-rulesets.json`、`config/rules.yaml`、`config/proxy-groups.yaml`、`catalog/services.json`、`scripts/validate.py`、独立测试及生成资产。
 
 ## 使用与证据边界
 
@@ -77,3 +77,11 @@
 不改变版权、账号资格、付费订阅或地区限制，不声称播放/地区解锁，也未实测代理对账号风控的影响。
 切换代理只影响这 3 个精确主机；其他主机继续使用原策略，可能仍为直连，产生 mixed-egress（混合出口）。
 若页面或下载仍失败，应先核对实际失败域名及既有规则命中，提供脱敏域名、预期与实际结果；不要上传完整配置、签名下载 URL、账号数据或私有抓包。
+
+## English scope summary
+
+Only three exact hosts are included: `y.qq.com`, `c.y.qq.com`, and `dldir.y.qq.com`.
+They cover the public website, same-host resources, and declared client-download entry points, not a complete download redirect chain.
+Shared Tencent hosts, telemetry, and unverified redirect destinations remain excluded.
+The group defaults to DIRECT with an optional manual proxy; other hosts retain their original routing, so mixed egress is possible.
+No complete native-app or audio-playback coverage, account eligibility, or copyright/region unlocking is claimed.

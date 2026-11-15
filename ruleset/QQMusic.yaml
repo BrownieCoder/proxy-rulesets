@@ -1,0 +1,6 @@
+# Self-maintained exact QQ Music public entry and declared download hosts.
+# Provenance: research/QQMusic-routing.md; not complete native App/audio coverage.
+payload:
+  - DOMAIN,y.qq.com
+  - DOMAIN,c.y.qq.com
+  - DOMAIN,dldir.y.qq.com
