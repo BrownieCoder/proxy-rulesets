@@ -92,11 +92,26 @@ class QQMusicContract(unittest.TestCase):
         marker = '  - RULE-SET,QQMusic,🎧 QQ 音乐\n'
         without = path.read_text(encoding='utf-8').replace(marker, '')
         for text, expected in ((without.replace('rules:\n', 'rules:\n' + marker), 'Security and gaming'),
-                               (without.replace('  - MATCH,', marker + '  - MATCH,'), 'broader providers')):
+                               (without.replace('  - RULE-SET,GlobalMedia,',
+                                                marker + '  - RULE-SET,GlobalMedia,'), 'broader providers')):
             with self.subTest(expected=expected):
                 path.write_text(text, encoding='utf-8')
                 with self.assertRaisesRegex(ValueError, expected):
                     validate.validate_qq_music(self.root)
+
+    def test_preceding_ip_conditions_rejected_by_helper_and_real_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - RULE-SET,QQMusic,🎧 QQ 音乐\n'
+        for rule in ('GEOIP,US,DIRECT', 'IP-CIDR,192.0.2.0/24,DIRECT,no-resolve',
+                     'IP-CIDR6,2001:db8::/32,DIRECT,no-resolve'):
+            with self.subTest(rule=rule):
+                path.write_text(original.replace(marker, '  - ' + rule + '\n' + marker), encoding='utf-8')
+                for validator in (validate.validate_qq_music, validate.validate_tree):
+                    with self.subTest(entry=validator.__name__):
+                        with self.assertRaisesRegex(ValueError, 'QQMusic domain-only model cannot validate preceding IP'):
+                            validator(self.root)
 
     def test_comments_cannot_replace_active_order_markers(self):
         self.mutate('config/rules.yaml', '  - RULE-SET,Apple,', '  # RULE-SET,Apple,')
@@ -190,6 +205,7 @@ class QQMusicContract(unittest.TestCase):
         self.assertEqual(len(payload), len(HOSTS))
         self.assertEqual(set(payload), {'DOMAIN,' + host for host in HOSTS})
         model = DomainRules(payload)
+        self.assertIn('u.y.qq.com', validate.QQ_MUSIC_CONTROLS)
         controls = validate.QQ_MUSIC_CONTROLS | {value for host in HOSTS for value in
                                              ('child.' + host, 'not' + host, host + '.example.org')}
         for host in controls:

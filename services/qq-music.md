@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/QQMus
 
 推荐：**部分入口/资源：默认直连，可选代理**。现有规则目标：`🎧 QQ 音乐`。共 **3 条**规则。
 
-安全与游戏仍优先；手动代理只影响这 3 个主机，其他主机继续走原策略，可能形成混合出口（mixed-egress）。不覆盖共享腾讯 CDN、重定向后的未知目的或完整原生 App 登录、音频播放和下载链路，不改变版权或地区资格。默认直连是可调整的建议，未实测账号风控效果。[来源与限制](../research/QQMusic-routing.md)。
+安全与游戏仍优先；手动代理只影响这 3 个主机，不会接管未列出主机上的网页播放器 API 或音频请求；其他主机继续走原策略，可能形成混合出口（mixed-egress）。不覆盖共享腾讯 CDN、重定向后的未知目的或完整原生 App 登录、音频播放和下载链路，不改变版权或地区资格。默认直连是可调整的建议，未实测账号风控效果。[来源与限制](../research/QQMusic-routing.md)。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 

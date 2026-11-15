@@ -21,7 +21,7 @@ QQ_MUSIC_CONTROLS = frozenset({
     "dldir1.qq.com", "dldir1v6.qq.com", "dlied6.qq.com", "service.qq.com",
     "www.qq.com", "www.tencent.com", "hr.tencent.com", "adver.qq.com",
     "monitor.music.qq.com", "stat.y.qq.com", "game.qq.com", "wegame.gtimg.com",
-    "music.163.com", "example.org",
+    "music.163.com", "u.y.qq.com", "example.org",
 })
 DOUYIN_CONTROLS = frozenset({
     "douyin.com", "douyinstatic.com", "douyinvod.com", "live.douyin.com",
@@ -651,6 +651,9 @@ def validate_qq_music(root: Path = ROOT) -> None:
         return ordered.index(rule)
 
     current = position(marker)
+    for rule in ordered[:current]:
+        if rule.split(",")[0] in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("QQMusic domain-only model cannot validate preceding IP conditions: " + rule)
     for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
                     "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
         if position(earlier) >= current:
@@ -671,7 +674,8 @@ def validate_qq_music(root: Path = ROOT) -> None:
     types = [] if len(blocks) != 1 else [line.strip() for line in blocks[0].splitlines()
                                         if re.match(r'''^    (?:type|"type"|'type')\s*:''', line)]
     if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
-        raise ValueError("QQMusic must be a DIRECT-first select group with a proxy option")
+        raise ValueError("QQMusic must be a DIRECT-first select group with a proxy option; "
+                         "require exactly one canonical type: select declaration")
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):

@@ -44,6 +44,7 @@
 基线：`4840a9cd0ef6a5507c00492815af7a47a6ce6483`。
 读取公开 `sources.json`、`local-rulesets.json` 与 `config/rules.yaml`，复用 `siri_ai.DomainRules`、`entries` 按实际顺序模拟。
 模型仅有域名，无 IP/进程信息，跳过 GEOIP/IP 条件，不声称已经执行 Mihomo、DNS 或实际网络出口验证。
+因此生产验证器拒绝 QQMusic 引用之前出现任何顶层 `GEOIP`、`IP-CIDR`、`IP-CIDR6` 条件，不能把模型无法验证的先行 IP 路由当成已证明安全；引用之后的既有 IP 条件保持不变。
 
 | 域名 / 对照 | 当前首条命中与目标 |
 | --- | --- |
@@ -76,6 +77,7 @@
 仅覆盖上述 3 个主机，不保证原生 App 的登录、搜索、播放、下载重定向全链路、直播或上传。
 不改变版权、账号资格、付费订阅或地区限制，不声称播放/地区解锁，也未实测代理对账号风控的影响。
 切换代理只影响这 3 个精确主机；其他主机继续使用原策略，可能仍为直连，产生 mixed-egress（混合出口）。
+本组不会接管未列出主机上的网页播放器 API 或音频请求。`u.y.qq.com` 仅作为未纳入的负向对照，未在本次官方页面证据中核实其请求或用途，不纳入规则。
 若页面或下载仍失败，应先核对实际失败域名及既有规则命中，提供脱敏域名、预期与实际结果；不要上传完整配置、签名下载 URL、账号数据或私有抓包。
 
 ## English scope summary
@@ -84,4 +86,5 @@ Only three exact hosts are included: `y.qq.com`, `c.y.qq.com`, and `dldir.y.qq.c
 They cover the public website, same-host resources, and declared client-download entry points, not a complete download redirect chain.
 Shared Tencent hosts, telemetry, and unverified redirect destinations remain excluded.
 The group defaults to DIRECT with an optional manual proxy; other hosts retain their original routing, so mixed egress is possible.
+Web-player API and audio requests on unlisted hosts are not covered; `u.y.qq.com` is only an unverified negative control, not an observed request or an included host.
 No complete native-app or audio-playback coverage, account eligibility, or copyright/region unlocking is claimed.
