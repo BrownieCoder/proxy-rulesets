@@ -11,7 +11,7 @@ import re
 
 _KEY = re.compile(r'''^    (type|proxies|'type'|'proxies'|"type"|"proxies")[ \t]*:(?:[ \t]+(.*)|[ \t]*)$''')
 _SELECT = re.compile(r'''^(?:select|'select'|"select")(?:[ \t]+\#.*)?[ \t]*$''')
-_MEMBER = re.compile(r'''^      - (?:DIRECT|REJECT(?:-DROP)?|PASS|"[^"\\\x00-\x1f]+")(?:[ \t]+\#.*)?[ \t]*$''')
+_MEMBER = re.compile(r'''^      - (?:DIRECT|REJECT(?:-DROP)?|PASS|"[^"\\\x00-\x1f]+")[ \t]*$''')
 
 
 def validate_select_group(block: str, error: str) -> None:

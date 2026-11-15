@@ -65,7 +65,8 @@ class SelectGroupSyntax(unittest.TestCase):
     def test_proxy_members_must_be_supported_literal_scalars(self):
         for member in ('type: fallback', '*alias', '&member DIRECT', '!!str DIRECT',
                        '[DIRECT]', '{type: fallback}', '|', 'null', 'true', '123',
-                       '"DI\\u0052ECT"', '"unterminated', '""', "'DIRECT'"):
+                       '"DI\\u0052ECT"', '"unterminated', '""', "'DIRECT'",
+                       'DIRECT # comment', '"unknown" # comment'):
             with self.subTest(member=member), self.assertRaises(ValueError):
                 validate_select_group(BASE + '      - ' + member + '\n', 'public group')
         for block in (BASE + '\t# noncanonical indentation\n',
