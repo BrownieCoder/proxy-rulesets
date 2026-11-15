@@ -54,5 +54,9 @@
   "JD": {
     "path": "ruleset/JD.yaml",
     "behavior": "classical"
+  },
+  "Pinduoduo": {
+    "path": "ruleset/Pinduoduo.yaml",
+    "behavior": "classical"
   }
 }

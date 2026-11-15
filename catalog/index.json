@@ -303,6 +303,21 @@
       "ruleCount": 8
     },
     {
+      "id": "pinduoduo",
+      "provider": "Pinduoduo",
+      "name": "拼多多 / Pinduoduo",
+      "category": "购物",
+      "description": "拼多多公开官网、移动商城入口及图片资源的 5 个精确主机。",
+      "policyLabel": "部分入口/图片：默认直连，可选代理",
+      "warning": "安全、游戏与既有服务规则仍优先；图片主机可能供多个拼多多页面使用。本批不覆盖 www.pinduoduo.com、cdn.pinduoduo.com、images.pinduoduo.com 或未经核实的 H5 API。手动代理只供已列入口/图片独立控制，其他请求仍走原路由，可能混合出口。不保证原生 App 登录、订单、支付或一致出口 IP；若切代理后出现登录或地区识别异常，可恢复直连排查，这不是已实测的风控结论。[官方来源与范围](../research/Pinduoduo-routing.md)。",
+      "path": "ruleset/Pinduoduo.yaml",
+      "policy": "🛍️ 拼多多",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Pinduoduo.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Pinduoduo.yaml",
+      "page": "services/pinduoduo.md",
+      "ruleCount": 5
+    },
+    {
       "id": "ctrip",
       "provider": "Ctrip",
       "name": "携程旅行 / Ctrip",

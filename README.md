@@ -57,6 +57,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [京东 / JD](services/jd.md) | 京东移动商城、App 入口和图片静态资源的 8 个精确主机。 | [获取地址](services/jd.md#规则地址) · [查看规则](ruleset/JD.yaml) |
+| [拼多多 / Pinduoduo](services/pinduoduo.md) | 拼多多公开官网、移动商城入口及图片资源的 5 个精确主机。 | [获取地址](services/pinduoduo.md#规则地址) · [查看规则](ruleset/Pinduoduo.yaml) |
 
 ### 出行
 
