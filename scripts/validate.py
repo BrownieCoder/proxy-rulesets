@@ -628,6 +628,7 @@ def validate_douyin(root: Path = ROOT) -> None:
 
 def validate_qq_music(root: Path = ROOT) -> None:
     """Validate the three reviewed QQ Music hosts without widening shared Tencent scope."""
+    from app_policy import validate_select_group
     from siri_ai import DomainRules
     reviewed = {"y.qq.com", "c.y.qq.com", "dldir.y.qq.com"}
     rules = entries(root / "ruleset/QQMusic.yaml")
@@ -664,18 +665,18 @@ def validate_qq_music(root: Path = ROOT) -> None:
         if position(later) <= current:
             raise ValueError("QQMusic must precede broader providers")
 
-    _, members = parse_policy_groups(root)
-    options = members.get(target, [])
     text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     blocks = re.findall(r'^  - name: "🎧 QQ 音乐"\n(.*?)(?=^  - name: |\Z)',
                         text, re.MULTILINE | re.DOTALL)
-    # Collect every supported spelling of the key, not just valid-looking values:
-    # a later commented, empty or quoted-key declaration still overrides YAML.
-    types = [] if len(blocks) != 1 else [line.strip() for line in blocks[0].splitlines()
-                                        if re.match(r'''^    (?:type|"type"|'type')\s*:''', line)]
-    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
-        raise ValueError("QQMusic must be a DIRECT-first select group with a proxy option; "
-                         "require exactly one canonical type: select declaration")
+    error = ("QQMusic must be a DIRECT-first select group with a proxy option; "
+             "use supported simple select/type and proxies template syntax")
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError(error)
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):

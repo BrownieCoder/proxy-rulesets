@@ -72,6 +72,10 @@
 
 受影响：`ruleset/QQMusic.yaml`、`local-rulesets.json`、`config/rules.yaml`、`config/proxy-groups.yaml`、`catalog/services.json`、`scripts/validate.py`、独立测试及生成资产。
 
+策略组验证仅面向本项目自有的受限公共模板，不是通用 YAML 解析器，也不用于读取或解析私人配置。
+共享 `scripts/app_policy.py` 穷尽检查组体每一行，仅接受简单的 select 类型声明、proxies 块和字面量代理列表；转义键、标签、锚点、显式键、合并键、未知字段、重复 proxies、复杂列表项及控制字符均拒绝。
+DIRECT-first 和手动代理选项仍由 QQMusic 验证器单独约束，不新增运行时 YAML 依赖，不改变旧 App 的验证行为。
+
 ## 使用与证据边界
 
 仅覆盖上述 3 个主机，不保证原生 App 的登录、搜索、播放、下载重定向全链路、直播或上传。
@@ -88,3 +92,4 @@ Shared Tencent hosts, telemetry, and unverified redirect destinations remain exc
 The group defaults to DIRECT with an optional manual proxy; other hosts retain their original routing, so mixed egress is possible.
 Web-player API and audio requests on unlisted hosts are not covered; `u.y.qq.com` is only an unverified negative control, not an observed request or an included host.
 No complete native-app or audio-playback coverage, account eligibility, or copyright/region unlocking is claimed.
+Policy validation uses a restricted project-owned public-template grammar, not a general YAML parser or a private-configuration parser.

@@ -160,6 +160,64 @@ class QQMusicContract(unittest.TestCase):
                         with self.assertRaisesRegex(ValueError, 'QQMusic must be a DIRECT-first select'):
                             validator(self.root)
 
+    def test_complex_group_yaml_rejected_by_helper_and_real_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🎧 QQ 音乐"\n')
+        end = original.index('  - name:', start + 1)
+        block = original[start:end]
+        cases = (
+            ('    "t\\u0079pe": fallback\n', 'type', 'fallback'),
+            ('    !!str type: fallback\n', 'type', 'fallback'),
+            ('    &policy_type type: fallback\n', 'type', 'fallback'),
+            ('    ? type\n    : fallback\n', 'type', 'fallback'),
+            ('    <<: {type: fallback}\n', 'type', 'select'),
+            ('    proxies: []\n', 'proxies', []),
+            ('    "proxies": []\n', 'proxies', []),
+            ('    "pro\\u0078ies": []\n', 'proxies', []),
+            ('    !!str proxies: []\n', 'proxies', []),
+            ('    &list_key proxies: []\n', 'proxies', []),
+            ('    ? proxies\n    : []\n', 'proxies', []),
+            ('    unsupported: value\n', 'unsupported', 'value'),
+            ('      - {type: fallback}\n', 'last_proxy', {'type': 'fallback'}),
+            ('      - "DI\\u0052ECT"\n', 'last_proxy', 'DIRECT'),
+        )
+        for extra, field, expected in cases:
+            with self.subTest(extra=extra):
+                changed = original[:start] + block + extra + original[end:]
+                parsed = yaml.safe_load(changed)['proxy-groups']
+                groups = [group for group in parsed if group['name'] == '🎧 QQ 音乐']
+                self.assertEqual(len(groups), 1)
+                effective = groups[0]
+                actual = effective['proxies'][-1] if field == 'last_proxy' else effective[field]
+                self.assertEqual(actual, expected)
+                path.write_text(changed, encoding='utf-8')
+                for validator in (validate.validate_qq_music, validate.validate_tree):
+                    with self.subTest(entry=validator.__name__):
+                        # The tree's existing global reference gate rejects
+                        # complex members before the new App helper runs.
+                        error = ('proxy-groups.yaml references undefined groups'
+                                 if validator is validate.validate_tree and field == 'last_proxy'
+                                 else 'QQMusic must be a DIRECT-first select')
+                        with self.assertRaisesRegex(ValueError, error):
+                            validator(self.root)
+
+    def test_supported_literal_select_forms_pass_helper_and_real_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🎧 QQ 音乐"\n    type: select\n'
+        for value in ('"select"', "'select'", 'select # manual selection'):
+            with self.subTest(value=value):
+                changed = original.replace(marker, marker.replace('type: select', 'type: ' + value))
+                groups = yaml.safe_load(changed)['proxy-groups']
+                self.assertEqual(next(group for group in groups if group['name'] == '🎧 QQ 音乐')['type'],
+                                 'select')
+                path.write_text(changed, encoding='utf-8')
+                validate.validate_qq_music(self.root)
+                self.assertEqual(validate.validate_tree(self.root), 0)
+
     def test_future_security_matches_remain_valid(self):
         for provider in ('Privacy', 'Hijacking'):
             path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
