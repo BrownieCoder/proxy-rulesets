@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Pindu
 
 推荐：**部分入口/图片：默认直连，可选代理**。现有规则目标：`🛍️ 拼多多`。共 **5 条**规则。
 
-安全、游戏与既有服务规则仍优先；图片主机可能供多个拼多多页面使用。手动代理仅影响这 5 个主机，其他请求仍走原路由，可能混合出口。不保证原生 App 登录、订单、支付或一致出口 IP；若切代理后出现登录或地区识别异常，可恢复直连排查，这不是已实测的风控结论。[官方来源与范围](../research/Pinduoduo-routing.md)。
+安全、游戏与既有服务规则仍优先；图片主机可能供多个拼多多页面使用。本批不覆盖 www.pinduoduo.com、cdn.pinduoduo.com、images.pinduoduo.com 或未经核实的 H5 API。手动代理只供已列入口/图片独立控制，其他请求仍走原路由，可能混合出口。不保证原生 App 登录、订单、支付或一致出口 IP；若切代理后出现登录或地区识别异常，可恢复直连排查，这不是已实测的风控结论。[官方来源与范围](../research/Pinduoduo-routing.md)。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 

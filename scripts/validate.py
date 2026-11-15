@@ -936,10 +936,14 @@ def validate_pinduoduo(root: Path = ROOT) -> None:
         manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
     allowed_types = {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
                      "GEOIP", "IP-CIDR", "IP-CIDR6"}
-    for rule in ordered:
+    for rule_index, rule in enumerate(ordered):
         fields = rule.split(",")
         if fields[0] not in allowed_types:
-            raise ValueError("Unsupported top-level rule in Pinduoduo domain model: " + fields[0])
+            raise ValueError("Unsupported top-level rule in Pinduoduo domain-only model: " + fields[0]
+                             + "; process/port or compound conditions are intentionally rejected (fail closed)")
+        if fields[0] in {"GEOIP", "IP-CIDR", "IP-CIDR6"} and rule_index < app_position:
+            raise ValueError("Pinduoduo domain-only model limitation: IP/GeoIP rules before Pinduoduo "
+                             "cannot be evaluated without IP metadata: " + rule)
         if fields[0] == "RULE-SET":
             if len(fields) < 3:
                 raise ValueError("Pinduoduo encountered an incomplete RULE-SET reference")

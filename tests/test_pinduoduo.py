@@ -258,8 +258,23 @@ class PinduoduoRouting(unittest.TestCase):
                             original + f'  - {rule}\n'):
                 with self.subTest(rule=rule, tail=changed.endswith(rule + '\n')):
                     path.write_text(changed, encoding='utf-8')
-                    with self.assertRaisesRegex(ValueError, 'Unsupported top-level'):
+                    with self.assertRaisesRegex(ValueError, 'Unsupported top-level.*domain-only model'):
                         validate.validate_pinduoduo(self.root)
+
+    def test_early_ip_rules_are_rejected_by_helper_and_complete_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        rules = ('GEOIP,US,DIRECT,no-resolve',
+                 'IP-CIDR,192.0.2.0/24,DIRECT,no-resolve',
+                 'IP-CIDR6,2001:db8::/32,DIRECT,no-resolve')
+        for rule in rules:
+            path.write_text(original.replace(self.MARKER, '  - ' + rule + '\n' + self.MARKER),
+                            encoding='utf-8')
+            for gate in (validate.validate_pinduoduo, validate.validate_tree):
+                with self.subTest(rule=rule, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'domain-only model limitation: IP/GeoIP rules'):
+                        gate(self.root)
 
     def test_unknown_provider_has_clear_validation_error(self):
         self.mutate('config/rules.yaml', self.MARKER,
