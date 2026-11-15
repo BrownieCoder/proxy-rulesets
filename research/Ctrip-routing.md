@@ -32,6 +32,8 @@ Privacy/Hijacking、安全例外与两组游戏规则继续在前，携程精确
 
 实施复用现有服务注册、独立策略组和目录生成器，增加真实 `validate_ctrip(root)` / `validate_tree` 门禁与公开 fixture mutation 测试，覆盖精确范围、重复、唯一引用、DIRECT-first select、前置安全、遮蔽、未知 provider、UTF-8 和非目标不变。验证仅为无 IP/进程元数据的离线域名首匹配；DNS、GeoIP、UDP、设备或真实账户行为尚未实测。
 
+公共策略组模板使用有限 YAML 语法门禁：仅支持各一个简单 `type` / `proxies` 键、literal `select` 和规范缩进的简单代理列表；未知字段、复杂/转义键、标签、锚点、merge、flow、多行值、重复键与非法控制字符明确拒绝。共享检查只供本批新组复用，不改变旧 APP，也不是通用 YAML 或私人配置解析器。
+
 ## English scope summary
 
 Seven exact public Ctrip entry hosts, evidenced by the official desktop/mobile pages and real navigation links. DIRECT is the default, with an optional manual proxy. This is not full native-app, authentication, booking, payment or shared-CDN coverage. International pages on the same exact hosts are affected too. Security precedence and unrelated brands remain unchanged; no private traffic or credentials were collected.

@@ -140,6 +140,30 @@ class CtripValidator(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
                     validate.validate_tree(self.root)
 
+    def test_complex_keys_and_proxy_overrides_fail_helper_and_complete_tree(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🧳 携程"')
+        end = original.index('  - name:', start + 1)
+        for declaration in ('"t\\u0079pe": fallback', '!!str type: fallback',
+                            '&policy_type type: fallback', '? type\n    : fallback',
+                            'proxies: []', '"pro\\u0078ies": []',
+                            '!!str proxies: []', '? proxies\n    : []',
+                            '<<: {type: fallback}', 'unsupported: value'):
+            with self.subTest(declaration=declaration):
+                changed = original[:end] + '    ' + declaration + '\n' + original[end:]
+                path.write_text(changed, encoding='utf-8')
+                groups = yaml.safe_load(changed)['proxy-groups']
+                effective = next(group for group in groups if group['name'] == '🧳 携程')
+                if 'fallback' in declaration and not declaration.startswith('<<:'):
+                    self.assertEqual(effective['type'], 'fallback')
+                if '[]' in declaration:
+                    self.assertEqual(effective['proxies'], [])
+                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                    validate.validate_ctrip(self.root)
+                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                    validate.validate_tree(self.root)
+
     def test_duplicate_policy_group_is_rejected(self):
         path = self.root / 'config/proxy-groups.yaml'
         path.write_text(path.read_text(encoding='utf-8') +

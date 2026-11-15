@@ -885,6 +885,7 @@ CTRIP_CONTROLS = {
 
 def validate_ctrip(root: Path = ROOT) -> None:
     """Enforce the exact official Ctrip entry scope in public candidate trees."""
+    from app_policy import validate_select_group
     from siri_ai import DomainRules
 
     reviewed = {"www.ctrip.com", "m.ctrip.com", "app.ctrip.com", "hotels.ctrip.com",
@@ -920,10 +921,12 @@ def validate_ctrip(root: Path = ROOT) -> None:
     text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     blocks = re.findall(r'^  - name: "🧳 携程"\n(.*?)(?=^  - name: |\Z)',
                         text, re.MULTILINE | re.DOTALL)
-    types = [] if len(blocks) != 1 else [line.strip() for line in blocks[0].splitlines()
-                                       if re.match(r"^    (?:type|['\"]type['\"])\s*:", line)]
-    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
-        raise ValueError("Ctrip must be a DIRECT-first select group with a manual proxy option")
+    error = "Ctrip must be a DIRECT-first select group with a manual proxy option"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+        raise ValueError(error)
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):
