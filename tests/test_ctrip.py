@@ -46,7 +46,7 @@ class CtripValidator(unittest.TestCase):
         gate.assert_called_once_with(self.root)
 
     def test_exact_scope_and_non_target_boundaries(self):
-        payload = yaml.safe_load((ROOT / 'ruleset/Ctrip.yaml').read_text(encoding='utf-8'))['payload']
+        payload = yaml.safe_load((self.root / 'ruleset/Ctrip.yaml').read_text(encoding='utf-8'))['payload']
         self.assertEqual(len(payload), len(HOSTS))
         self.assertEqual(set(payload), {'DOMAIN,' + host for host in HOSTS})
         model = DomainRules(payload)
@@ -189,6 +189,17 @@ class CtripValidator(unittest.TestCase):
         path.write_text(json.dumps(manifest, ensure_ascii=False), encoding='utf-8')
         with self.assertRaisesRegex(ValueError, 'missing providers: Ctrip'):
             validate.validate_ctrip(self.root)
+
+    def test_manifest_provider_collision_is_rejected(self):
+        sources = json.loads((self.root / 'sources.json').read_text(encoding='utf-8'))
+        path = self.root / 'local-rulesets.json'
+        local = json.loads(path.read_text(encoding='utf-8'))
+        local['Apple'] = sources['Apple']
+        path.write_text(json.dumps(local, ensure_ascii=False), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'Ctrip manifests contain duplicate providers: Apple'):
+            validate.validate_ctrip(self.root)
+        with self.assertRaisesRegex(ValueError, 'Ctrip manifests contain duplicate providers: Apple'):
+            validate.validate_tree(self.root)
 
     def test_contract_text_reads_are_explicit_utf8(self):
         original = Path.read_text

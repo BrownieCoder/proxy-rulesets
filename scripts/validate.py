@@ -927,7 +927,11 @@ def validate_ctrip(root: Path = ROOT) -> None:
 
     manifests = {}
     for filename in ("sources.json", "local-rulesets.json"):
-        manifests.update(json.loads((root / filename).read_text(encoding="utf-8")))
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("Ctrip manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
     missing = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")} - set(manifests)
     if missing:
         raise ValueError("Ctrip routing references missing providers: " + ", ".join(sorted(missing)))
