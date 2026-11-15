@@ -913,7 +913,7 @@ def validate_taobao(root: Path = ROOT) -> None:
     group = re.search(r'^  - name: "🛍️ 淘宝"\n(.*?)(?=^  - name: |\Z)',
                       group_text, re.MULTILINE | re.DOTALL)
     types = [] if group is None else [line.strip() for line in group.group(1).splitlines()
-                                     if line.startswith("    type:")]
+                                     if re.match(r'''^    (?:type|'type'|"type")\s*:''', line)]
     if (types != ["type: select"] or not options or options[0] != "DIRECT"
             or "🚀 节点选择" not in options or "🧭 Final" not in options):
         raise ValueError("Taobao must be a DIRECT-first select group with manual proxy and Final options")

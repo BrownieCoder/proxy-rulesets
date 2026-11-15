@@ -180,6 +180,32 @@ class TaobaoValidatorMutations(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
                     validate.validate_taobao(self.root)
 
+    def test_equivalent_duplicate_type_keys_are_rejected_by_both_gates(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "🛍️ 淘宝"')
+        end = original.index('  - name:', start + 1)
+        block = original[start:end]
+        variants = (
+            ('    type: fallback # duplicate override\n', 'fallback'),
+            ('    type:\n', None),
+            ('    type : fallback\n', 'fallback'),
+            ("    'type': fallback\n", 'fallback'),
+            ('    "type": fallback\n', 'fallback'),
+        )
+        for extra, effective in variants:
+            with self.subTest(extra=extra):
+                changed = block.replace('    type: select\n', '    type: select\n' + extra)
+                path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
+                groups = yaml.safe_load(path.read_text(encoding='utf-8'))['proxy-groups']
+                group = next(group for group in groups if group['name'] == TARGET)
+                self.assertEqual(group['type'], effective)
+                self.assertNotEqual(group['type'], 'select')
+                for gate in (validate.validate_taobao, validate.validate_tree):
+                    with self.subTest(gate=gate.__name__):
+                        with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                            gate(self.root)
+
     def test_legal_security_updates_use_same_validator(self):
         for provider in ('Privacy', 'Hijacking'):
             path = self.root / f'ruleset/{provider}_No_Resolve.yaml'
