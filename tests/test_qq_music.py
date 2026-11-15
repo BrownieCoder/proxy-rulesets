@@ -34,11 +34,14 @@ class QQMusicContract(unittest.TestCase):
     def test_current_contract(self):
         validate.validate_qq_music(self.root)
 
-    def test_tree_calls_qq_music_gate(self):
+    def complete_public_fixture(self):
         for directory in ('catalog', 'docs', 'research', 'rules', 'services'):
             shutil.copytree(ROOT / directory, self.root / directory)
         for name in ('README.md', 'sources.lock.json'):
             shutil.copyfile(ROOT / name, self.root / name)
+
+    def test_tree_calls_qq_music_gate(self):
+        self.complete_public_fixture()
         with patch.object(validate, 'validate_qq_music', side_effect=ValueError('QQMusic gate reached')) as gate:
             with self.assertRaisesRegex(ValueError, 'QQMusic gate reached'):
                 validate.validate_tree(self.root)
@@ -116,6 +119,31 @@ class QQMusicContract(unittest.TestCase):
                 path.write_text(original[:start] + replacement + original[end:], encoding='utf-8')
                 with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
                     validate.validate_qq_music(self.root)
+
+    def test_equivalent_duplicate_type_keys_rejected_by_helper_and_real_tree(self):
+        self.complete_public_fixture()
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - name: "🎧 QQ 音乐"\n    type: select\n'
+        self.assertIn(marker, original)
+        self.assertEqual(validate.validate_tree(self.root), 0)
+        for declaration, expected_type in (('type: fallback # duplicate type', 'fallback'),
+                                           ('type:', None),
+                                           ('type : fallback', 'fallback'),
+                                           ('"type": fallback', 'fallback'),
+                                           ("'type': fallback", 'fallback')):
+            with self.subTest(declaration=declaration):
+                changed = original.replace(marker, marker + '    ' + declaration + '\n')
+                parsed = yaml.safe_load(changed)
+                groups = [g for g in parsed['proxy-groups'] if g['name'] == '🎧 QQ 音乐']
+                self.assertEqual(len(groups), 1)
+                self.assertEqual(groups[0]['type'], expected_type)
+                self.assertNotEqual(groups[0]['type'], 'select')
+                path.write_text(changed, encoding='utf-8')
+                for validator in (validate.validate_qq_music, validate.validate_tree):
+                    with self.subTest(entry=validator.__name__):
+                        with self.assertRaisesRegex(ValueError, 'QQMusic must be a DIRECT-first select'):
+                            validator(self.root)
 
     def test_future_security_matches_remain_valid(self):
         for provider in ('Privacy', 'Hijacking'):

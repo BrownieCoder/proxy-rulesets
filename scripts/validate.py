@@ -666,8 +666,11 @@ def validate_qq_music(root: Path = ROOT) -> None:
     text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     blocks = re.findall(r'^  - name: "🎧 QQ 音乐"\n(.*?)(?=^  - name: |\Z)',
                         text, re.MULTILINE | re.DOTALL)
-    types = [] if len(blocks) != 1 else re.findall(r'^    type: (\S+)\s*$', blocks[0], re.MULTILINE)
-    if types != ["select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+    # Collect every supported spelling of the key, not just valid-looking values:
+    # a later commented, empty or quoted-key declaration still overrides YAML.
+    types = [] if len(blocks) != 1 else [line.strip() for line in blocks[0].splitlines()
+                                        if re.match(r'''^    (?:type|"type"|'type')\s*:''', line)]
+    if types != ["type: select"] or not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
         raise ValueError("QQMusic must be a DIRECT-first select group with a proxy option")
 
     manifests = {}
