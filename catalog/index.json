@@ -303,6 +303,21 @@
       "ruleCount": 8
     },
     {
+      "id": "ctrip",
+      "provider": "Ctrip",
+      "name": "携程旅行 / Ctrip",
+      "category": "出行",
+      "description": "携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。",
+      "policyLabel": "部分入口：默认直连，可选代理",
+      "warning": "安全规则仍优先；同主机上的国际机酒等页面也受影响，不按目的地或路径分流。只控制这 7 个入口，静态、API、登录及其他请求仍走原规则，可能混合出口；不保证预订、支付或原生 App 全链路，也不改变价格或地区资格。若切换后出现登录或地区识别异常，可恢复 DIRECT 排查；未实测账户风控。[官方来源与边界](../research/Ctrip-routing.md)。",
+      "path": "ruleset/Ctrip.yaml",
+      "policy": "🧳 携程",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Ctrip.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Ctrip.yaml",
+      "page": "services/ctrip.md",
+      "ruleCount": 7
+    },
+    {
       "id": "amap",
       "provider": "Amap",
       "name": "高德地图 / AMap",
