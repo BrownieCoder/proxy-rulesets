@@ -70,5 +70,13 @@
   "Taobao": {
     "path": "ruleset/Taobao.yaml",
     "behavior": "classical"
+  },
+  "BaiduMap": {
+    "path": "ruleset/BaiduMap.yaml",
+    "behavior": "classical"
+  },
+  "Kuaishou": {
+    "path": "ruleset/Kuaishou.yaml",
+    "behavior": "classical"
   }
 }

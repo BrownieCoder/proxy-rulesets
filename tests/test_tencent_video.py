@@ -398,5 +398,23 @@ class TencentVideoContract(unittest.TestCase):
             validate.validate_tencent_video(self.root)
 
 
+    def test_merged_apps_remain_before_tencent_video_in_both_gates(self):
+        self.complete_public_fixture()
+        self.assertEqual(validate.validate_tree(self.root), 0)
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        marker = '  - RULE-SET,TencentVideo,📺 腾讯视频\n'
+        for predecessor in ('BaiduMap,🗺️ 百度地图', 'Kuaishou,📹 快手'):
+            anchor = '  - RULE-SET,' + predecessor + '\n'
+            self.assertEqual(original.count(anchor), 1)
+            changed = original.replace(marker, '').replace(anchor, marker + anchor)
+            self.assertLess(changed.index('RULE-SET,Taobao,'), changed.index(marker))
+            path.write_text(changed, encoding='utf-8')
+            for gate in (validate.validate_tencent_video, validate.validate_tree):
+                with self.subTest(predecessor=predecessor, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'existing App rules must precede TencentVideo'):
+                        gate(self.root)
+
+
 if __name__ == '__main__':
     unittest.main()
