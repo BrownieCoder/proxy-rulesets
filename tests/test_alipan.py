@@ -38,6 +38,58 @@ class AliPanValidator(unittest.TestCase):
     def test_current_contract(self):
         validate.validate_alipan(self.root)
 
+    def test_complete_public_fixture_passes_the_real_tree(self):
+        self.assertEqual(validate.validate_tree(self.root), 0)
+
+    def test_final_option_is_required_by_helper_and_tree(self):
+        path = self.root / 'config/proxy-groups.yaml'
+        original = path.read_text(encoding='utf-8')
+        start = original.index('  - name: "📁 阿里云盘"')
+        end = original.index('  - name:', start + 1)
+        block = original[start:end]
+        self.assertIn('      - "🧭 Final"\n', block)
+        changed = original[:start] + block.replace('      - "🧭 Final"\n', '') + original[end:]
+        path.write_text(changed, encoding='utf-8')
+        group = next(group for group in yaml.safe_load(changed)['proxy-groups']
+                     if group['name'] == '📁 阿里云盘')
+        self.assertEqual(group['proxies'], ['DIRECT', '🚀 节点选择'])
+        for gate in (validate.validate_alipan, validate.validate_tree):
+            with self.subTest(gate=gate.__name__):
+                with self.assertRaisesRegex(ValueError, 'AliPan.*Final options'):
+                    gate(self.root)
+
+    def test_existing_apps_must_precede_alipan_in_helper_and_tree(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        predecessors = ('QQMusic,🎧 QQ 音乐', 'Douyin,🎶 抖音', 'Amap,🗺️ 高德地图',
+                        'Zhihu,💡 知乎', 'Xiaohongshu,📕 小红书 / REDnote',
+                        'NetEaseMusic,🎵 网易云音乐', 'Douban,📚 豆瓣', 'JD,🛒 京东',
+                        'Meituan,🍜 美团', 'BaiduPan,☁️ 百度网盘', 'Ctrip,🧳 携程',
+                        'Pinduoduo,🛍️ 拼多多', 'Taobao,🛍️ 淘宝')
+        for predecessor in predecessors:
+            anchor = '  - RULE-SET,' + predecessor + '\n'
+            self.assertEqual(original.count(anchor), 1)
+            changed = original.replace(self.MARKER, '').replace(anchor, self.MARKER + anchor)
+            path.write_text(changed, encoding='utf-8')
+            for gate in (validate.validate_alipan, validate.validate_tree):
+                with self.subTest(predecessor=predecessor, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'existing app rules must precede AliPan'):
+                        gate(self.root)
+
+    def test_bilibili_must_follow_alipan_even_when_siri_stays_later(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        anchor = '  - RULE-SET,Bilibili,📺 Bilibili\n'
+        self.assertEqual(original.count(anchor), 1)
+        changed = original.replace(anchor, '').replace(self.MARKER, anchor + self.MARKER)
+        self.assertLess(changed.index('RULE-SET,Taobao,'), changed.index(anchor))
+        self.assertLess(changed.index(self.MARKER), changed.index('RULE-SET,SiriAI,'))
+        path.write_text(changed, encoding='utf-8')
+        for gate in (validate.validate_alipan, validate.validate_tree):
+            with self.subTest(gate=gate.__name__):
+                with self.assertRaisesRegex(ValueError, 'AliPan must precede broader providers'):
+                    gate(self.root)
+
     def test_tree_calls_contract_with_complete_public_fixture(self):
         with patch.object(validate, 'validate_alipan', side_effect=RuntimeError('AliPan gate')) as gate:
             with self.assertRaisesRegex(RuntimeError, 'AliPan gate'):

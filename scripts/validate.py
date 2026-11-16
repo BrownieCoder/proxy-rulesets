@@ -1308,10 +1308,17 @@ def validate_alipan(root: Path = ROOT) -> None:
 
     current = position(marker)
     for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
-                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT"):
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝"):
         if position(earlier) >= current:
-            raise ValueError("Security and gaming rules must precede AliPan")
+            raise ValueError("Security, gaming and existing app rules must precede AliPan")
     for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili",
                   "RULE-SET,GlobalMedia,🛰️ International-Global",
                   "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
         if position(later) <= current:
@@ -1320,13 +1327,14 @@ def validate_alipan(root: Path = ROOT) -> None:
     text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
     blocks = re.findall(r'^  - name: "📁 阿里云盘"\n(.*?)(?=^  - name: |\Z)',
                         text, re.MULTILINE | re.DOTALL)
-    error = "AliPan must be a DIRECT-first select group with a manual proxy option"
+    error = "AliPan must be a DIRECT-first select group with manual proxy and Final options"
     if len(blocks) != 1:
         raise ValueError(error)
     validate_select_group(blocks[0], error)
     _, members = parse_policy_groups(root)
     options = members.get(target, [])
-    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options:
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
         raise ValueError(error)
 
     manifests = {}
