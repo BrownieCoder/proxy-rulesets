@@ -55,6 +55,10 @@
     "path": "ruleset/Douban.yaml",
     "behavior": "classical"
   },
+  "AliPan": {
+    "path": "ruleset/AliPan.yaml",
+    "behavior": "classical"
+  },
   "Ctrip": {
     "path": "ruleset/Ctrip.yaml",
     "behavior": "classical"
