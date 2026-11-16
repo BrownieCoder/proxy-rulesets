@@ -2,7 +2,7 @@
 
 ## 研究结论与状态
 
-核实日期：2026-11-16。建议首批仅使用下表 4 个精确 `DOMAIN`，提供 `🗺️ 百度地图` 独立策略，默认 `DIRECT`，保留手动代理选项。当前只提交研究，等待范围审查，不改变运行规则。
+核实日期：2026-11-16。已接受首批范围为下表 4 个精确 `DOMAIN`，提供 `🗺️ 百度地图` 独立策略，默认 `DIRECT`，保留手动代理选项。以下最小计划已落实；原始研究保留为独立历史提交。
 
 基线为 `a1c2dd26337b7277019a8764785cdf258bb6f045`，已有 41 个服务和 288 项测试。这四个候选在当前公开快照的域名首匹配模型中，均命中 `ChinaMax → 🇨🇳 China-Global`；增加的是独立出口控制，不是此前完全没有覆盖。
 
@@ -10,7 +10,7 @@
 
 只匿名读取官方公开 HTML 与开发文档，不登录、不携带浏览器 Cookie、不执行页面脚本，不请求带 AK/key 的接口，不使用位置、地址、路线或账户数据。证据只保留页面主机、标签类型及不含参数的资源路径，不保存完整页面、响应头或调用密钥。
 
-| 建议精确主机 | 第一方公开来源与实际证据 | 用途 / 目标 / 置信度 | 主机级影响范围 |
+| 已接受精确主机 | 第一方公开来源与实际证据 | 用途 / 目标 / 置信度 | 主机级影响范围 |
 | --- | --- | --- | --- |
 | `map.baidu.com` | [百度地图官网](https://map.baidu.com/) 返回 HTTP 200、标题为“百度地图”；[移动入口](https://map.baidu.com/mobile/) 也在同一主机。本次官网 HTML 有同主机的 stylesheet、script 和图片引用，如 `/wolfman/static/common/css/` | 官网、移动入口及同主机网页资源；默认直连，可选代理 / 高 | 匹配该主机的全部路径，不限首页或移动页面 |
 | `api.map.baidu.com` | [百度地图 JSAPI 4.0 官方升级指南](https://lbs.baidu.com/docs/jsapi?title=jsapi4/upgrade) 在替换入口步骤明确以该主机 `/api` 加载 JSAPI；示例中的密钥为占位说明，本研究不复制参数或执行调用 | 官方文档声明的 JSAPI 加载入口；默认直连，可选代理 / 高 | 也影响第三方网站或应用中使用该主机的百度地图集成，不限百度地图 App，也不能按 API 路径进一步隔离 |
@@ -25,7 +25,7 @@
 
 | 主机 / 对照 | 基线首条命中与策略 | 本次处理 |
 | --- | --- | --- |
-| 上述 4 个候选 | `ChinaMax → 🇨🇳 China-Global` | 建议独立精确规则 |
+| 上述 4 个主机 | `ChinaMax → 🇨🇳 China-Global` | 已接受独立精确规则 |
 | `ss0.bdstatic.com` | `ChinaMax → 🇨🇳 China-Global` | 官网确实引用其 `/sty/` 下三个脚本，但共享主机影响面较大，首批排除 |
 | `map-mobile-static.cdn.bcebos.com` | `ChinaMax → 🇨🇳 China-Global` | 官网实际引用 `/jssdk/mapLogReport/MapLogReport.min.js`；不因日志组件引用而扩充核心地图范围，也不据名称宣称恶意或必被拦截 |
 | `lbs.baidu.com`、`lbsyun.baidu.com` | `ChinaMax → 🇨🇳 China-Global` | 文档站只作来源，不作为地图运行请求加入规则 |
@@ -39,7 +39,7 @@
 
 文档站的 `mapopen-website-wiki.cdn.bcebos.com`、`mapopen-docs-assets.bj.bcebos.com` 等图像引用不证明它们是地图 App 或 JSAPI 的必要运行资源，本次不加入。共享登录、原生 SDK/API、瓦片、定位、公交、打车、语音导航、下载、支付和其他未核实资源主机均不按经验猜测补齐；没有业务需求就不为凑数量扩张分片。
 
-## 最小实施计划（等待范围批准）
+## 已落实的最小实施计划
 
 目标是让四个已核实入口/接口/资源主机可独立选出口，而不是做完整百度地图 App 清单。以下改动应在本独立分支顺序完成，共享配置有依赖，不与其他 App 同工作树并写。
 
@@ -62,6 +62,6 @@
 
 ## English scope summary
 
-The proposed scope contains four exact hosts: `map.baidu.com`, `api.map.baidu.com`, `webmap0.bdimg.com`, and `webmap1.bdimg.com`. Official website tags support the entry/resource hosts; the official JSAPI 4.0 documentation identifies the API loader host. DIRECT is the proposed default with an optional manual proxy.
+The accepted scope contains four exact hosts: `map.baidu.com`, `api.map.baidu.com`, `webmap0.bdimg.com`, and `webmap1.bdimg.com`. Official website tags support the entry/resource hosts; the official JSAPI 4.0 documentation identifies the API loader host. DIRECT is the default with an optional manual proxy.
 
-The API host also affects third-party Baidu Map integrations, not only the native app. Exact-host rules cover every path on each listed host. Shared roots, general static hosts, logging components, documentation assets, login and unverified native/SDK/tile endpoints remain excluded. Mixed egress is possible; full navigation, location, rendering or account functionality is not claimed. No private traffic, location or API credentials were used. Implementation awaits scope approval.
+The API host also affects third-party Baidu Map integrations, not only the native app. Exact-host rules cover every path on each listed host. Shared roots, general static hosts, logging components, documentation assets, login and unverified native/SDK/tile endpoints remain excluded. Mixed egress is possible; full navigation, location, rendering or account functionality is not claimed. No private traffic, location or API credentials were used.

@@ -1275,6 +1275,120 @@ def validate_taobao(root: Path = ROOT) -> None:
             raise ValueError("Taobao changed non-target routing: " + host)
 
 
+def validate_baidu_map(root: Path = ROOT) -> None:
+    """Validate only evidenced Baidu Map hosts in live or staged public trees."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"map.baidu.com", "api.map.baidu.com", "webmap0.bdimg.com", "webmap1.bdimg.com"}
+    rules = entries(root / "ruleset/BaiduMap.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("BaiduMap must contain only the four reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🗺️ 百度地图"
+    marker = "RULE-SET,BaiduMap," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "BaiduMap"]]
+    if references != [marker]:
+        raise ValueError("BaiduMap must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"BaiduMap requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security, gaming and existing app rules must precede BaiduMap")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili", "RULE-SET,TikTok,🎵 Tiktok",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("BaiduMap must precede broader providers and SiriAI")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🗺️ 百度地图"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "BaiduMap must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options or "🧭 Final" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("BaiduMap manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    allowed_types = {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                     "GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in allowed_types:
+            raise ValueError("Unsupported top-level rule in BaiduMap domain-only model: " + kind)
+        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} and index < app_position:
+            raise ValueError("BaiduMap domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if len(fields) != 3:
+                raise ValueError("BaiduMap encountered an unsupported RULE-SET reference: " + rule)
+            if fields[1] not in manifests:
+                raise ValueError("BaiduMap routing references missing provider: " + fields[1])
+        elif kind == "MATCH" and len(fields) != 2:
+            raise ValueError("BaiduMap encountered an unsupported MATCH rule: " + rule)
+        elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"} and len(fields) != 3:
+            raise ValueError("BaiduMap encountered an unsupported domain rule: " + rule)
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_baidu_map: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_baidu_map and fields[1] == "BaiduMap":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # This domain-only model does not evaluate IP/GeoIP conditions after the App rule.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("BaiduMap", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        current = route(host)
+        if current not in allowed:
+            raise ValueError(f"BaiduMap host shadowed by a non-security or incorrect policy: {host}: {current}")
+    controls = {"baidu.com", "bdimg.com", "bdstatic.com", "bcebos.com", "www.baidu.com",
+                "ss0.bdstatic.com", "map-mobile-static.cdn.bcebos.com", "lbs.baidu.com",
+                "lbsyun.baidu.com", "hm.baidu.com", "log.map.baidu.com",
+                "mapopen-website-wiki.cdn.bcebos.com", "mapopen-docs-assets.bj.bcebos.com",
+                "pan.baidu.com", "nd-static.bdstatic.com", "webapi.amap.com", "restapi.amap.com",
+                "guzzoni.apple.com", "fastcdn.hoyoverse.com", "music.163.com", "example.org"}
+    controls |= {name for host in reviewed for name in
+                 ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_baidu_map=True):
+            raise ValueError("BaiduMap changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -1315,6 +1429,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_ctrip(root)
     validate_pinduoduo(root)
     validate_taobao(root)
+    validate_baidu_map(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
