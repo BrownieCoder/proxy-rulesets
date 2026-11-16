@@ -124,6 +124,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/SiriAI.yaml
+  TencentVideo:
+    type: file
+    behavior: classical
+    path: ./ruleset/TencentVideo.yaml
   QQMusic:
     type: file
     behavior: classical

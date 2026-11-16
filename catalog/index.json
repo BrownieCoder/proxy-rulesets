@@ -183,6 +183,21 @@
       "ruleCount": 183
     },
     {
+      "id": "tencent-video",
+      "provider": "TencentVideo",
+      "name": "腾讯视频 / Tencent Video",
+      "category": "影音",
+      "description": "桌面、移动和公开会员入口的 4 个精确主机，不代表完整播放链路。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "安全、游戏及既有服务仍优先；同主机所有路径（包括会员、推广和游戏频道页面）均跟随本组，但不接管独立游戏或共享 CDN 主机。未列出的资源、播放器 API 和媒体请求继续原路由，可能混合出口（mixed-egress）。不保证登录、购买、下载或原生 App/播放全链路，不改变版权、会员或地区资格。[官方来源与范围](../research/TencentVideo-routing.md)。",
+      "path": "ruleset/TencentVideo.yaml",
+      "policy": "📺 腾讯视频",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentVideo.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/TencentVideo.yaml",
+      "page": "services/tencent-video.md",
+      "ruleCount": 4
+    },
+    {
       "id": "qq-music",
       "provider": "QQMusic",
       "name": "QQ 音乐",

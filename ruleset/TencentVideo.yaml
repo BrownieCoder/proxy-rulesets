@@ -1,0 +1,7 @@
+# Self-maintained exact Tencent Video public desktop/mobile/VIP entry hosts.
+# Provenance and all-path/mixed-egress limits: research/TencentVideo-routing.md
+payload:
+  - DOMAIN,v.qq.com
+  - DOMAIN,m.v.qq.com
+  - DOMAIN,film.qq.com
+  - DOMAIN,film.video.qq.com

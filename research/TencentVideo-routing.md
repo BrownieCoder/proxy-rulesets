@@ -2,11 +2,11 @@
 
 ## 状态与建议
 
-`WAITING FOR HUMAN DECISION`：本提交只保存公开来源研究，不改变生产规则、策略组或生成资产。
+已接受范围：仅下述 4 个精确主机，实施包括独立策略、生产验证入口和真实公共 fixture 回归；不扩大共享主机范围。
 
-建议首批只纳入 4 个精确主机：`v.qq.com`、`m.v.qq.com`、`film.qq.com`、`film.video.qq.com`。
+首批只纳入 4 个精确主机：`v.qq.com`、`m.v.qq.com`、`film.qq.com`、`film.video.qq.com`。
 它们当前均已有 ChinaMax 覆盖；新增价值是为桌面、移动和公开会员入口提供独立出口选择，不是补齐整个视频播放链路。
-拟使用 `📺 腾讯视频` 独立策略，默认 `DIRECT`，保留手动代理选项；范围和策略尚待批准。
+使用 `📺 腾讯视频` 独立策略，默认 `DIRECT`，保留手动代理和 Final 选项。
 腾讯共享根域、共享资源、游戏、其他视频品牌、仅预连接的接口及未知下载目的不纳入。
 
 ## 官方公开证据
@@ -62,11 +62,11 @@
 | `child.v.qq.com`、`notv.qq.com` | `ChinaMax` → `🇨🇳 China-Global` |
 | `v.qq.com.example.org`、`example.org` | `MATCH` → `🧭 Final` |
 
-当前没有更早的安全、游戏或既有 App 提前命中四个目标。新增位置建议在既有 App（包括 QQMusic、Taobao）之后、SiriAI / Apple / GlobalMedia / GEOIP CN / ChinaMax 之前，不挪动原有规则。
+当前没有更早的安全、游戏或既有 App 提前命中四个目标。新增位置在既有 App（包括 QQMusic、Taobao）之后、SiriAI / Apple / GlobalMedia / GEOIP CN / ChinaMax 之前，不挪动原有规则。
 必须保持 reject/security 优先、InternationalGaming → ChinaGaming、SiriAI → Apple 及 FINAL/MATCH 语义。
-本模型没有 IP、进程或端口元数据，不是完整 Mihomo 请求或真实出口实测；生产验证拟拒绝新引用前出现任何顶层 GEOIP/IP-CIDR/IP-CIDR6，未知顶层条件也应明确拒绝。
+本模型没有 IP、进程或端口元数据，不是完整 Mihomo 请求或真实出口实测；生产验证拒绝新引用前出现任何顶层 GEOIP/IP-CIDR/IP-CIDR6，未知顶层条件也明确拒绝。
 
-## 最小实施提案（待审查，不在本提交实施）
+## 已接受的最小实施范围
 
 目标：仅为 4 个官方公开入口主机提供独立、默认直连的手动出口选择，不扩展共享服务、不承诺完整视频功能。
 
@@ -76,14 +76,14 @@
 4. 新增独立固定 HOSTS、QQMusic / TencentGames / 共享域 / 其他视频品牌负控；逐目标检查子域、相似前缀与伪后缀。真实公共 fixture mutation 实调 helper 和完整 tree，覆盖范围、引用、顺序、默认、复杂 type/proxies YAML、合法 select 形式、IP/未知类型、provider 和安全更新；文本读写显式 UTF-8。
 5. 目录写明“部分公开入口：默认直连，可选代理”，不把共享资源或播放接口算入覆盖。按已有 generator 离线生成资产，跑完整 tests、validate、public_check、生成一致性及 diff 检查；不运行网络同步、不改权限/工作流。
 
-预计涉及 provider、local manifest、catalog 登记、策略组/有序规则、新 App validator/测试、研究及相应生成资产；本分支顺序实施，不在共享工作树并写。
+涉及 provider、local manifest、catalog 登记、策略组/有序规则、新 App validator/测试、研究及相应生成资产；本分支顺序实施，不在共享工作树并写。
 主要风险为同主机全路径影响和 mixed-egress；以明确范围、负控、首匹配验证和独立审查约束。若只有整根共享规则才能继续，应减小范围或停止，不以 broad suffix 代替证据。
 非目标：登录、购买、版权或地区资格解锁、播放/CDN 全链路、原生 App 覆盖、账号风控实测、其他腾讯产品及旧 App 重构。
 
 ## English scope summary
 
-Research only; implementation awaits approval. The proposed scope is four exact public entry hosts: `v.qq.com`, `m.v.qq.com`, `film.qq.com`, and `film.video.qq.com`.
+The accepted scope is four exact public entry hosts: `v.qq.com`, `m.v.qq.com`, `film.qq.com`, and `film.video.qq.com`.
 Official desktop/mobile HTML, a public 302 redirect, and actual same-host script/stylesheet declarations provide the evidence; no account, playback, purchase, installer download, or private traffic was used.
-The proposed group defaults to DIRECT with an optional manual proxy. All paths on each listed host are affected, but shared Tencent CDN/download hosts, games, other streaming brands, and preconnect-only API candidates remain excluded.
+The group defaults to DIRECT with an optional manual proxy and Final. All paths on each listed host are affected, but independent game hosts, shared Tencent CDN/download hosts, other streaming brands, and preconnect-only API candidates remain excluded.
 Unlisted resources, player APIs and media requests retain their original routes, so mixed egress is possible. This is not complete website/native-app/playback coverage or copyright/region unlocking.
 Implementation must reuse the existing restricted public-template policy guard, preserve security/gaming and QQ Music controls, and pass real helper/full-tree mutation tests without changing permissions or workflows.
