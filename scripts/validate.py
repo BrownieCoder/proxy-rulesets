@@ -1327,6 +1327,9 @@ def validate_tencent_video(root: Path = ROOT) -> None:
         if position(earlier) >= current:
             raise ValueError("Security and gaming rules and existing App rules must precede TencentVideo")
     for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix",
                   "RULE-SET,GlobalMedia,🛰️ International-Global",
                   "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
         if position(later) <= current:

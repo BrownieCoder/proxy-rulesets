@@ -327,6 +327,31 @@ class TencentVideoContract(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, expected):
                     validate.validate_tencent_video(self.root)
 
+    def test_each_media_anchor_moved_ahead_is_rejected_by_both_gates(self):
+        self.complete_public_fixture()
+        self.assertEqual(validate.validate_tree(self.root), 0)
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        app = 'RULE-SET,TencentVideo,📺 腾讯视频'
+        for media in ('RULE-SET,YouTube,📼 YouTube', 'RULE-SET,Bilibili,📺 Bilibili',
+                      'RULE-SET,TikTok,🎵 Tiktok', 'RULE-SET,Disney,🏰 Disney',
+                      'RULE-SET,Netflix,🎞️ Netflix'):
+            with self.subTest(media=media):
+                marker = '  - ' + media + '\n'
+                self.assertEqual(original.count(marker), 1)
+                changed = original.replace(marker, '').replace('  - ' + app + '\n',
+                                                               marker + '  - ' + app + '\n')
+                path.write_text(changed, encoding='utf-8')
+                ordered = entries(path)
+                self.assertLess(ordered.index('RULE-SET,Taobao,🛍️ 淘宝'), ordered.index(media))
+                self.assertLess(ordered.index(media), ordered.index(app))
+                self.assertLess(ordered.index(app), ordered.index('RULE-SET,SiriAI,🤖 AI 服务'))
+                self.assertLess(ordered.index(app), ordered.index('RULE-SET,Apple,🍎 Apple'))
+                for validator in (validate.validate_tencent_video, validate.validate_tree):
+                    with self.subTest(entry=validator.__name__):
+                        with self.assertRaisesRegex(ValueError, 'TencentVideo must precede broader providers'):
+                            validator(self.root)
+
     def test_cross_manifest_provider_collision_rejected_by_both_gates(self):
         self.complete_public_fixture()
         path = self.root / 'local-rulesets.json'
