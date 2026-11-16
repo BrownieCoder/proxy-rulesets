@@ -51,8 +51,12 @@ class KuaishouContract(unittest.TestCase):
         required = {'kuaishou.com', 'yximgs.com', 'yximg.com', 'kwimgs.com', 'wskwai.com',
                     'kwai.com', 'static.yximgs.com', 's2-11673.kwimgs.com',
                     'p1-plat.wskwai.com', 'p2-plat.wskwai.com', 'live.kuaishou.com',
-                    'liveopen.kuaishou.com', 'e.kuaishou.com', 'www.kwai.com',
-                    'wlog.kuaishou.com', 'www.douyin.com', 'guzzoni.apple.com'}
+                    'liveopen.kuaishou.com', 'cp.kuaishou.com', 'jigou.kuaishou.com',
+                    'e.kuaishou.com', 'tuiguang.kuaishou.com', 'pay.ssl.kuaishou.com',
+                    'game.kuaishou.com', 'klingai.kuaishou.com', 'music.kuaishou.com',
+                    'www.acfun.cn', 'www.kwaixiaodian.com', 'www.kwai.com',
+                    'wlog.kuaishou.com', 'www.douyin.com', 'y.qq.com',
+                    'guzzoni.apple.com', 'example.org'}
         self.assertLessEqual(required, validate.KUAISHOU_CONTROLS)
         model = DomainRules(rules)
         for host in HOSTS:
