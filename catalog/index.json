@@ -378,6 +378,21 @@
       "ruleCount": 7
     },
     {
+      "id": "baidu-map",
+      "provider": "BaiduMap",
+      "name": "百度地图 / Baidu Map",
+      "category": "出行",
+      "description": "百度地图官网、JSAPI 入口与网页资源的 4 个精确主机。",
+      "policyLabel": "部分地图服务：默认直连，可选代理",
+      "warning": "安全与游戏规则仍优先；API 主机也影响第三方百度地图集成，资源主机的其他路径也受影响。仅清单内主机可独立选出口，未列请求沿用旧规则，可能混合出口；不保证原生 App、地图瓦片、定位、导航或完整接口链路。如切换后出现登录或地区异常，可恢复 DIRECT 排查；未实测账户风控。[官方来源与范围](../research/BaiduMap-routing.md)。",
+      "path": "ruleset/BaiduMap.yaml",
+      "policy": "🗺️ 百度地图",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/BaiduMap.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/BaiduMap.yaml",
+      "page": "services/baidu-map.md",
+      "ruleCount": 4
+    },
+    {
       "id": "amap",
       "provider": "Amap",
       "name": "高德地图 / AMap",

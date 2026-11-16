@@ -246,6 +246,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Taobao.yaml
     interval: 86400
     path: ./ruleset-cache/Taobao.yaml
+  BaiduMap:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/BaiduMap.yaml
+    interval: 86400
+    path: ./ruleset-cache/BaiduMap.yaml
   Kuaishou:
     type: http
     behavior: classical

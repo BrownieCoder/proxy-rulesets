@@ -164,6 +164,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Taobao.yaml
+  BaiduMap:
+    type: file
+    behavior: classical
+    path: ./ruleset/BaiduMap.yaml
   Kuaishou:
     type: file
     behavior: classical

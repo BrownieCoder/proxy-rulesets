@@ -316,6 +316,21 @@ class KuaishouContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Kuaishou encountered an incomplete RULE-SET reference'):
             validate.validate_kuaishou(self.root)
 
+    def test_merged_baidu_map_remains_before_kuaishou_in_both_gates(self):
+        self.complete_fixture()
+        self.assertEqual(validate.validate_tree(self.root), 0)
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        anchor = '  - RULE-SET,BaiduMap,🗺️ 百度地图\n'
+        self.assertEqual(original.count(anchor), 1)
+        changed = original.replace(MARKER, '').replace(anchor, MARKER + anchor)
+        self.assertLess(changed.index('RULE-SET,Taobao,'), changed.index(MARKER))
+        path.write_text(changed, encoding='utf-8')
+        for gate in (validate.validate_kuaishou, validate.validate_tree):
+            with self.subTest(gate=gate.__name__):
+                with self.assertRaisesRegex(ValueError, 'existing App rules must precede Kuaishou'):
+                    gate(self.root)
+
 
 if __name__ == '__main__':
     unittest.main()
