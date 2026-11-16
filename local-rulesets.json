@@ -27,6 +27,10 @@
     "path": "ruleset/SiriAI.yaml",
     "behavior": "classical"
   },
+  "TencentVideo": {
+    "path": "ruleset/TencentVideo.yaml",
+    "behavior": "classical"
+  },
   "QQMusic": {
     "path": "ruleset/QQMusic.yaml",
     "behavior": "classical"
@@ -69,6 +73,14 @@
   },
   "Taobao": {
     "path": "ruleset/Taobao.yaml",
+    "behavior": "classical"
+  },
+  "BaiduMap": {
+    "path": "ruleset/BaiduMap.yaml",
+    "behavior": "classical"
+  },
+  "Kuaishou": {
+    "path": "ruleset/Kuaishou.yaml",
     "behavior": "classical"
   }
 }

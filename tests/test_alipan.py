@@ -326,5 +326,22 @@ class AliPanValidator(unittest.TestCase):
                     validate.validate_alipan(self.root)
 
 
+    def test_merged_apps_remain_before_alipan_in_both_gates(self):
+        self.assertEqual(validate.validate_tree(self.root), 0)
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        for predecessor in ('BaiduMap,🗺️ 百度地图', 'Kuaishou,📹 快手',
+                            'TencentVideo,📺 腾讯视频'):
+            anchor = '  - RULE-SET,' + predecessor + '\n'
+            self.assertEqual(original.count(anchor), 1)
+            changed = original.replace(self.MARKER, '').replace(anchor, self.MARKER + anchor)
+            self.assertLess(changed.index('RULE-SET,Taobao,'), changed.index(self.MARKER))
+            path.write_text(changed, encoding='utf-8')
+            for gate in (validate.validate_alipan, validate.validate_tree):
+                with self.subTest(predecessor=predecessor, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'existing app rules must precede AliPan'):
+                        gate(self.root)
+
+
 if __name__ == '__main__':
     unittest.main()

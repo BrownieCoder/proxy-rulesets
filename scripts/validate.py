@@ -1275,6 +1275,353 @@ def validate_taobao(root: Path = ROOT) -> None:
             raise ValueError("Taobao changed non-target routing: " + host)
 
 
+def validate_baidu_map(root: Path = ROOT) -> None:
+    """Validate only evidenced Baidu Map hosts in live or staged public trees."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"map.baidu.com", "api.map.baidu.com", "webmap0.bdimg.com", "webmap1.bdimg.com"}
+    rules = entries(root / "ruleset/BaiduMap.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("BaiduMap must contain only the four reviewed exact hosts without duplicates")
+
+    ordered = entries(root / "config/rules.yaml")
+    target = "🗺️ 百度地图"
+    marker = "RULE-SET,BaiduMap," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "BaiduMap"]]
+    if references != [marker]:
+        raise ValueError("BaiduMap must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"BaiduMap requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    app_position = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝"):
+        if position(earlier) >= app_position:
+            raise ValueError("Security, gaming and existing app rules must precede BaiduMap")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili", "RULE-SET,TikTok,🎵 Tiktok",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= app_position:
+            raise ValueError("BaiduMap must precede broader providers and SiriAI")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🗺️ 百度地图"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "BaiduMap must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options or "🧭 Final" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("BaiduMap manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    allowed_types = {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                     "GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in allowed_types:
+            raise ValueError("Unsupported top-level rule in BaiduMap domain-only model: " + kind)
+        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} and index < app_position:
+            raise ValueError("BaiduMap domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if len(fields) != 3:
+                raise ValueError("BaiduMap encountered an unsupported RULE-SET reference: " + rule)
+            if fields[1] not in manifests:
+                raise ValueError("BaiduMap routing references missing provider: " + fields[1])
+        elif kind == "MATCH" and len(fields) != 2:
+            raise ValueError("BaiduMap encountered an unsupported MATCH rule: " + rule)
+        elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"} and len(fields) != 3:
+            raise ValueError("BaiduMap encountered an unsupported domain rule: " + rule)
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_baidu_map: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_baidu_map and fields[1] == "BaiduMap":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # This domain-only model does not evaluate IP/GeoIP conditions after the App rule.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("BaiduMap", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        current = route(host)
+        if current not in allowed:
+            raise ValueError(f"BaiduMap host shadowed by a non-security or incorrect policy: {host}: {current}")
+    controls = {"baidu.com", "bdimg.com", "bdstatic.com", "bcebos.com", "www.baidu.com",
+                "ss0.bdstatic.com", "map-mobile-static.cdn.bcebos.com", "lbs.baidu.com",
+                "lbsyun.baidu.com", "hm.baidu.com", "log.map.baidu.com",
+                "mapopen-website-wiki.cdn.bcebos.com", "mapopen-docs-assets.bj.bcebos.com",
+                "pan.baidu.com", "nd-static.bdstatic.com", "webapi.amap.com", "restapi.amap.com",
+                "guzzoni.apple.com", "fastcdn.hoyoverse.com", "music.163.com", "example.org"}
+    controls |= {name for host in reviewed for name in
+                 ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_baidu_map=True):
+            raise ValueError("BaiduMap changed non-target routing: " + host)
+
+
+KUAISHOU_CONTROLS = frozenset({
+    "kuaishou.com", "yximgs.com", "yximg.com", "kwimgs.com", "wskwai.com", "kwai.com",
+    "static.yximgs.com", "s2-11673.kwimgs.com", "p1-plat.wskwai.com", "p2-plat.wskwai.com",
+    "live.kuaishou.com", "liveopen.kuaishou.com", "cp.kuaishou.com", "jigou.kuaishou.com",
+    "e.kuaishou.com", "tuiguang.kuaishou.com", "pay.ssl.kuaishou.com", "game.kuaishou.com",
+    "klingai.kuaishou.com", "music.kuaishou.com", "www.acfun.cn", "www.kwaixiaodian.com",
+    "www.kwai.com", "wlog.kuaishou.com", "www.douyin.com", "y.qq.com",
+    "guzzoni.apple.com", "example.org",
+})
+
+def validate_kuaishou(root: Path = ROOT) -> None:
+    """Validate only the two evidenced public Kuaishou entry hosts and their policy."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.kuaishou.com", "m.kuaishou.com"}
+    rules = entries(root / "ruleset/Kuaishou.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Kuaishou must contain only the two reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "📹 快手"
+    marker = "RULE-SET,Kuaishou," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Kuaishou"]]
+    if references != [marker]:
+        raise ValueError("Kuaishou must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Kuaishou requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing App rules must precede Kuaishou")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili", "RULE-SET,TikTok,🎵 Tiktok",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("Kuaishou must precede SiriAI and broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "📹 快手"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "Kuaishou must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options or "🧭 Final" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("Kuaishou manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    allowed_types = {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                     "GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in allowed_types:
+            raise ValueError("Kuaishou domain-only model limitation: unsupported top-level rule " + kind)
+        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} and index < current:
+            raise ValueError("Kuaishou domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if len(fields) < 3:
+                raise ValueError("Kuaishou encountered an incomplete RULE-SET reference")
+            if fields[1] not in manifests:
+                raise ValueError("Kuaishou routing references missing provider: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_kuaishou: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_kuaishou and fields[1] == "Kuaishou":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # Only supported IP conditions remain; the model has no IP metadata.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Kuaishou", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Kuaishou is shadowed by an earlier rule: {host}: {result}")
+    controls = KUAISHOU_CONTROLS | {value for host in reviewed for value in
+                                  ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_kuaishou=True):
+            raise ValueError("Kuaishou changed non-target routing: " + host)
+
+
+TENCENT_VIDEO_CONTROLS = frozenset({
+    "qq.com", "video.qq.com", "gtimg.com", "gtimg.cn", "qpic.cn",
+    "vfiles.gtimg.cn", "vm.gtimg.cn", "midas.gtimg.cn", "tv.puui.qpic.cn",
+    "puui.qpic.cn", "imgcache.qq.com", "dcm.qq.com", "dldir1.qq.com",
+    "pbaccess.video.qq.com", "vd6.l.qq.com", "staticfile.qq.com",
+    "res.ab.qq.com", "config.ab.qq.com", "cc.v.qq.com", "mp.v.qq.com",
+    "y.qq.com", "c.y.qq.com", "dldir.y.qq.com", "game.qq.com", "wegame.gtimg.com",
+    "iwan.video.qq.com", "iwan-s.video.qq.com", "iwan.qq.com", "stat.y.qq.com",
+    "live.qq.com", "www.iqiyi.com", "www.youku.com", "example.org",
+})
+
+def validate_tencent_video(root: Path = ROOT) -> None:
+    """Validate four exact public Tencent Video entries without widening shared Tencent scope."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+    reviewed = {"v.qq.com", "m.v.qq.com", "film.qq.com", "film.video.qq.com"}
+    rules = entries(root / "ruleset/TencentVideo.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("TencentVideo must contain only the four reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    for rule in ordered:
+        kind = rule.split(",")[0]
+        if kind == "RULE-SET" and len(rule.split(",")) < 3:
+            raise ValueError("TencentVideo encountered an incomplete RULE-SET reference")
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in TencentVideo domain model: " + kind)
+    target = "📺 腾讯视频"
+    marker = "RULE-SET,TencentVideo," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "TencentVideo"]]
+    if references != [marker]:
+        raise ValueError("TencentVideo must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"TencentVideo requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for rule in ordered[:current]:
+        if rule.split(",")[0] in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("TencentVideo domain-only model cannot validate preceding IP conditions: " + rule)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手"):
+        if position(earlier) >= current:
+            raise ValueError("Security and gaming rules and existing App rules must precede TencentVideo")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("TencentVideo must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "📺 腾讯视频"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = ("TencentVideo must be a DIRECT-first select group with proxy and Final options; "
+             "use supported simple select/type and proxies template syntax")
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options or "🧭 Final" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        records = json.loads((root / filename).read_text(encoding="utf-8"))
+        duplicates = set(manifests) & set(records)
+        if duplicates:
+            raise ValueError("TencentVideo manifests contain duplicate providers: " + ", ".join(sorted(duplicates)))
+        manifests.update(records)
+    referenced = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")}
+    missing = referenced - set(manifests)
+    if missing:
+        raise ValueError("TencentVideo routing references missing providers: " + ", ".join(sorted(missing)))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+
+    def route(domain: str, skip_tencent_video: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_tencent_video and fields[1] == "TencentVideo":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return kind + "," + fields[1], fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError("Unsupported top-level rule in TencentVideo domain model: " + kind)
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("TencentVideo", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"TencentVideo is shadowed by an earlier rule: {host}: {result}")
+    controls = TENCENT_VIDEO_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_tencent_video=True):
+            raise ValueError("TencentVideo changed non-target routing: " + host)
+
+
 ALIPAN_CONTROLS = frozenset({
     "alipan.com", "aliyundrive.com", "aliyundrive.net", "alicdn.com", "aliyun.com",
     "api.alipan.com", "api.aliyundrive.com", "auth.aliyundrive.com", "cdn.aliyundrive.net",
@@ -1283,7 +1630,6 @@ ALIPAN_CONTROLS = frozenset({
     "pan.baidu.com", "nd-static.bdstatic.com", "www.taobao.com", "www.dingtalk.com",
     "guzzoni.apple.com", "fastcdn.hoyoverse.com", "example.org",
 })
-
 
 def validate_alipan(root: Path = ROOT) -> None:
     """Enforce the two evidenced public entries without expanding Alibaba shared scope."""
@@ -1314,7 +1660,9 @@ def validate_alipan(root: Path = ROOT) -> None:
                     "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
                     "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
                     "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
-                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝"):
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+                    "RULE-SET,TencentVideo,📺 腾讯视频"):
         if position(earlier) >= current:
             raise ValueError("Security, gaming and existing app rules must precede AliPan")
     for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
@@ -1431,6 +1779,9 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_ctrip(root)
     validate_pinduoduo(root)
     validate_taobao(root)
+    validate_baidu_map(root)
+    validate_kuaishou(root)
+    validate_tencent_video(root)
     validate_alipan(root)
     from generate_catalog import generate
     generate(root)

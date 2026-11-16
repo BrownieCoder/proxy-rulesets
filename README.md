@@ -44,6 +44,8 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [YouTube](services/youtube.md) | YouTube 视频及相关资源。 | [获取地址](services/youtube.md#规则地址) · [查看规则](ruleset/YouTube_No_Resolve.yaml) |
+| [快手 / Kuaishou](services/kuaishou.md) | 快手品牌官网和移动跳转入口，共 2 个精确主机，仅控制部分公开入口。 | [获取地址](services/kuaishou.md#规则地址) · [查看规则](ruleset/Kuaishou.yaml) |
+| [腾讯视频 / Tencent Video](services/tencent-video.md) | 桌面、移动和公开会员入口的 4 个精确主机，不代表完整播放链路。 | [获取地址](services/tencent-video.md#规则地址) · [查看规则](ruleset/TencentVideo.yaml) |
 | [QQ 音乐](services/qq-music.md) | QQ 音乐官网、同主机资源及声明的下载入口，共 3 个精确主机。 | [获取地址](services/qq-music.md#规则地址) · [查看规则](ruleset/QQMusic.yaml) |
 | [网易云音乐](services/netease-music.md) | 官网及部分静态、图片资源的 8 个精确主机。 | [获取地址](services/netease-music.md#规则地址) · [查看规则](ruleset/NetEaseMusic.yaml) |
 | [哔哩哔哩](services/bilibili.md) | 哔哩哔哩服务。 | [获取地址](services/bilibili.md#规则地址) · [查看规则](ruleset/Bilibili_No_Resolve.yaml) |
@@ -66,6 +68,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [携程旅行 / Ctrip](services/ctrip.md) | 携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。 | [获取地址](services/ctrip.md#规则地址) · [查看规则](ruleset/Ctrip.yaml) |
+| [百度地图 / Baidu Map](services/baidu-map.md) | 百度地图官网、JSAPI 入口与网页资源的 4 个精确主机。 | [获取地址](services/baidu-map.md#规则地址) · [查看规则](ruleset/BaiduMap.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
 
 ### 社交
