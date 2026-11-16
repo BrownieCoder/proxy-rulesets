@@ -164,3 +164,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Taobao.yaml
+  Kuaishou:
+    type: file
+    behavior: classical
+    path: ./ruleset/Kuaishou.yaml

@@ -1,0 +1,6 @@
+# Self-maintained exact Kuaishou public entry hosts only.
+# Evidence and limits: research/Kuaishou-routing.md
+# Not complete native-app, installer, CDN, live-streaming or playback coverage.
+payload:
+  - DOMAIN,m.kuaishou.com
+  - DOMAIN,www.kuaishou.com

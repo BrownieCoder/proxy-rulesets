@@ -246,3 +246,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Taobao.yaml
     interval: 86400
     path: ./ruleset-cache/Taobao.yaml
+  Kuaishou:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Kuaishou.yaml
+    interval: 86400
+    path: ./ruleset-cache/Kuaishou.yaml

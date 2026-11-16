@@ -2,7 +2,7 @@
 
 ## 当前决定与范围
 
-本次仅研究，尚未改变路由。建议首批只收录 `www.kuaishou.com`、`m.kuaishou.com` 两个精确 `DOMAIN`，提供 `📹 快手` 独立策略，默认 `DIRECT`，保留手动代理。资源主机虽有官方引用，但没有足够的主机专属范围证据，不为凑齐资源链扩大清单；需方案审查后才实施。
+经方案审查，已接受首批范围仅为 `www.kuaishou.com`、`m.kuaishou.com` 两个精确 `DOMAIN`，提供 `📹 快手` 独立策略，默认 `DIRECT`，保留手动代理。资源主机虽有官方引用，但没有足够的主机专属范围证据，不为凑齐资源链扩大清单；实现只提供部分公开入口控制，不表示安装包或播放链路已验证。
 
 基线：`a1c2dd26337b7277019a8764785cdf258bb6f045`。两主机当前离线首匹配均为 `ChinaMax → 🇨🇳 China-Global`，新增价值是独立入口出口控制，不是此前没有覆盖。
 
@@ -10,7 +10,7 @@
 
 2026-11-16 只读取匿名官方公开 HTML，提取实际 `a[href]`、`link[href]`、`script[src]`、`img[src]` 等标签的去参数主机/路径。未登录、携带个人 Cookie、抓取私人流量、访问账户接口或下载可执行文件；没有保存完整页面、响应头、请求标识或带参数链接。
 
-| 候选精确主机 | 官方来源和实际观察 | 用途 / 建议目标 | 置信度与影响范围 |
+| 已接受精确主机 | 官方来源和实际观察 | 用途 / 目标 | 置信度与影响范围 |
 | --- | --- | --- | --- |
 | `www.kuaishou.com` | [快手品牌官网](https://www.kuaishou.com/cn) 匿名 HTTP 200，页面展示快手 App 品牌；官网有指向本主机 `/` 的实际 `a[href]`。另读取[根入口](https://www.kuaishou.com/)，本次桌面请求跳转至 `/new-reco`，返回 HTTP 200 HTML | 品牌官网和桌面公开入口；默认直连，可选代理 | 高：入口/实际链接证据；影响本主机所有路径，不证明原生 App、视频播放或下载链路 |
 | `m.kuaishou.com` | 上述 `/cn` HTML 的实际 `a[href]` 指向 `/download/kwai`，另有 `link[rel=alternate]` 指向本主机。匿名请求[移动入口](https://m.kuaishou.com/)及[官网链接的下载入口](https://m.kuaishou.com/download/kwai)，本次均跳转至 `www.kuaishou.com/new-reco` 的 HTTP 200 HTML | 官网声明的移动/下载访问入口，本次只验证跳转；默认直连，可选代理 | 高：官网关系与跳转证据；不称其返回独立移动业务页，不保证实际安装包下载 |
@@ -34,9 +34,9 @@
 - 官网实际链接的 `live.kuaishou.com`、`liveopen.kuaishou.com` 属于直播入口/服务，本次不自动扩展到直播和赛事业务；也不加入小游戏、直播伴侣、营销落地页或海外 Kwai。
 - `cp.kuaishou.com`、`jigou.kuaishou.com` 等创作者/机构入口、`e.kuaishou.com`、推广/商业平台、支付充值和快手电商不因同属快手自动加入。`www.acfun.cn`、`klingai.kuaishou.com`、一甜相机等关联产品同样排除。
 - `wlog.kuaishou.com` 已被公开 Privacy 快照拦截，继续保持 `Privacy → REJECT`；不从网站链接或服务归属推导“应绕过安全拦截”。
-- 正式规则若采用两主机，会作用于它们的所有路径，不能只限制 `/cn`、推荐页或移动跳转路径；同主机承载的其他页面也会受选择影响。
+- 两条精确规则作用于这两主机的所有路径，不能只限制 `/cn`、推荐页或移动跳转路径；同主机承载的其他页面也会受选择影响。
 
-## 最小实施计划（待审查）
+## 已接受的最小实施范围
 
 目标仅是两个已核实公开入口的独立出口选择。不宣称完整 App、短视频、直播、登录、发布、支付、下载、解锁或账号风控改善。
 
@@ -52,4 +52,4 @@
 
 ## English scope summary
 
-Research only: propose two exact public entry hosts, `www.kuaishou.com` and `m.kuaishou.com`, evidenced by official anonymous pages and real navigation/alternate links. The mobile/download entry redirected to the desktop recommendation page in this observation; no installer or native-app flow was verified. DIRECT would be the default with optional manual proxy control, preserving security and gaming priority. Shared static/CDN hosts, live services, marketing, mini-games, related products and overseas Kwai are excluded. This is not complete app or playback coverage; all paths on each included host would be affected, while unlisted requests could use different egress. Validation would reuse the existing restricted public-template grammar, not parse private configuration or claim full YAML/network simulation.
+Two accepted exact public entry hosts, `www.kuaishou.com` and `m.kuaishou.com`, are evidenced by official anonymous pages and real navigation/alternate links. The mobile/download entry redirected to the desktop recommendation page in this observation; no installer or native-app flow was verified. DIRECT is the default with optional manual proxy control, preserving security and gaming priority. Shared static/CDN hosts, live services, marketing, mini-games, related products and overseas Kwai are excluded. This is not complete app or playback coverage; all paths on each included host are affected, while unlisted requests could use different egress. Validation reuses the existing restricted public-template grammar, not a private-configuration parser or full YAML/network simulation.

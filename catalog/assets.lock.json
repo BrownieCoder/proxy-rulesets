@@ -60,6 +60,11 @@
       "rulesSha256": "df9f9138a41a99ef1e0e9be23942bc3624c39fb1111e90c61c14c187b50b60a0",
       "ruleCount": 183
     },
+    "ruleset/Kuaishou.yaml": {
+      "sha256": "64db0c13635060b452829c099df3e6608270546839d16213d28438b8b3755fa9",
+      "rulesSha256": "b1a15cd7e631456c6cd5617f559393739aac094d3a6777471bb34d5b360306d3",
+      "ruleCount": 2
+    },
     "ruleset/QQMusic.yaml": {
       "sha256": "d13318283d83191851f9c0e2fe3e4b5670d14793a64c1df0929fc6f405b37da2",
       "rulesSha256": "98d0e6d772a7a428856c8ba6e180fde415b9fab2ce733a49f7f18960811ce2f9",
@@ -206,10 +211,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "6fd17bbade8967c594e8ce98d6bbdef349282dafdc2bd6a32a93dfe4521ecf4f",
+  "readmeCatalogSha256": "95794c314c485907099b0e214a12db4310b22849edcc945c20ffb5b96335aa08",
   "artifacts": {
-    "config/rule-providers.local.yaml": "c403db13e57289b166f953ef95e1ea654061470e67c86ab7cbd673e5f3c3c353",
-    "config/rule-providers.remote.yaml": "ba6595682550aa2f72fafc38348c307a0e5db2d546b5c035f9459274c1f7ff4f",
+    "config/rule-providers.local.yaml": "f9ece756079e851608e6162188ae0547a32cf539c66ff4b15aad42ca20c9788b",
+    "config/rule-providers.remote.yaml": "6a9952914315b742bb9a93fb85c3654aeadd8b7084a05b8a0b496d48c7b1bc3a",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
@@ -222,6 +227,7 @@
     "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
     "services/microsoft.md": "f88fa7d22bb858e5843fcea08038be27031d92ba06ae376f21ad3c03427ac900",
     "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
+    "services/kuaishou.md": "974a38b2c27a416211f12c9a943d98313cf09b2ad3e23bd9e0d4b6262d1ffb5c",
     "services/qq-music.md": "20d6b8de55025574b93a790b8793d214e97d231838c65bb831fa261d06b198dc",
     "services/netease-music.md": "1fa5906150851a5c98cf65ce59c0587476fdd64efd6f2da843c09ef4a35cfb1c",
     "services/bilibili.md": "58b7530860e9601ce8a72abd9e8c2d178402c690dde03af5d44bc5d9a9e890ce",
@@ -251,6 +257,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "3d8499663d87bf3eb025bac328a1433f85bbcd43f565726025329b303408decb"
+    "catalog/index.json": "273d1c0dc8d8480486669f9ec334d0778d53de51ce4fe5273d9228d01ddd58a0"
   }
 }

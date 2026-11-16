@@ -16,6 +16,15 @@ from siri_ai import validate as validate_siri_ai  # noqa: E402
 from siri_ai import entries  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
+KUAISHOU_CONTROLS = frozenset({
+    "kuaishou.com", "yximgs.com", "yximg.com", "kwimgs.com", "wskwai.com", "kwai.com",
+    "static.yximgs.com", "s2-11673.kwimgs.com", "p1-plat.wskwai.com", "p2-plat.wskwai.com",
+    "live.kuaishou.com", "liveopen.kuaishou.com", "cp.kuaishou.com", "jigou.kuaishou.com",
+    "e.kuaishou.com", "tuiguang.kuaishou.com", "pay.ssl.kuaishou.com", "game.kuaishou.com",
+    "klingai.kuaishou.com", "music.kuaishou.com", "www.acfun.cn", "www.kwaixiaodian.com",
+    "www.kwai.com", "wlog.kuaishou.com", "www.douyin.com", "y.qq.com",
+    "guzzoni.apple.com", "example.org",
+})
 QQ_MUSIC_CONTROLS = frozenset({
     "qq.com", "gtimg.com", "gtimg.cn", "qqmusic.com", "imgcache.qq.com",
     "dldir1.qq.com", "dldir1v6.qq.com", "dlied6.qq.com", "service.qq.com",
@@ -1275,6 +1284,109 @@ def validate_taobao(root: Path = ROOT) -> None:
             raise ValueError("Taobao changed non-target routing: " + host)
 
 
+def validate_kuaishou(root: Path = ROOT) -> None:
+    """Validate only the two evidenced public Kuaishou entry hosts and their policy."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.kuaishou.com", "m.kuaishou.com"}
+    rules = entries(root / "ruleset/Kuaishou.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Kuaishou must contain only the two reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "📹 快手"
+    marker = "RULE-SET,Kuaishou," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Kuaishou"]]
+    if references != [marker]:
+        raise ValueError("Kuaishou must have exactly one dedicated policy reference")
+
+    def position(expected: str) -> int:
+        if ordered.count(expected) != 1:
+            raise ValueError(f"Kuaishou requires one active rule: {expected}")
+        return ordered.index(expected)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing App rules must precede Kuaishou")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,Bilibili,📺 Bilibili", "RULE-SET,TikTok,🎵 Tiktok",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("Kuaishou must precede SiriAI and broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "📹 快手"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "Kuaishou must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options or "🧭 Final" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("Kuaishou manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    allowed_types = {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                     "GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in allowed_types:
+            raise ValueError("Kuaishou domain-only model limitation: unsupported top-level rule " + kind)
+        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} and index < current:
+            raise ValueError("Kuaishou domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if len(fields) < 3:
+                raise ValueError("Kuaishou encountered an incomplete RULE-SET reference")
+            if fields[1] not in manifests:
+                raise ValueError("Kuaishou routing references missing provider: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_kuaishou: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_kuaishou and fields[1] == "Kuaishou":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # Only supported IP conditions remain; the model has no IP metadata.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Kuaishou", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Kuaishou is shadowed by an earlier rule: {host}: {result}")
+    controls = KUAISHOU_CONTROLS | {value for host in reviewed for value in
+                                  ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_kuaishou=True):
+            raise ValueError("Kuaishou changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -1315,6 +1427,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_ctrip(root)
     validate_pinduoduo(root)
     validate_taobao(root)
+    validate_kuaishou(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

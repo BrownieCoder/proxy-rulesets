@@ -183,6 +183,21 @@
       "ruleCount": 183
     },
     {
+      "id": "kuaishou",
+      "provider": "Kuaishou",
+      "name": "快手 / Kuaishou",
+      "category": "影音",
+      "description": "快手品牌官网和移动跳转入口，共 2 个精确主机，仅控制部分公开入口。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "安全、游戏和既有服务仍优先；不覆盖共享 CDN、直播、营销、小游戏或海外 Kwai。手动代理只影响这两个主机的全部路径，其他请求沿用旧策略，可能混合出口；不保证安装包下载、登录、原生 App 或视频播放链路。若切换后出现登录或地区异常，可恢复直连排查；未实测账号风控。[官方来源与范围](../research/Kuaishou-routing.md)。",
+      "path": "ruleset/Kuaishou.yaml",
+      "policy": "📹 快手",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Kuaishou.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Kuaishou.yaml",
+      "page": "services/kuaishou.md",
+      "ruleCount": 2
+    },
+    {
       "id": "qq-music",
       "provider": "QQMusic",
       "name": "QQ 音乐",
