@@ -31,6 +31,8 @@ rules:
   - RULE-SET,Pinduoduo,🛍️ 拼多多
   # 淘宝已核实公开入口；不包含共享 CDN、登录、API 或支付主机。
   - RULE-SET,Taobao,🛍️ 淘宝
+  # 百度地图公开入口、JSAPI 与网页资源；也影响第三方地图集成。
+  - RULE-SET,BaiduMap,🗺️ 百度地图
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

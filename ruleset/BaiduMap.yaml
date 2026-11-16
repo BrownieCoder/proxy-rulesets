@@ -1,0 +1,8 @@
+# Self-maintained exact Baidu Map entry, JSAPI and website resource hosts.
+# Provenance and third-party integration scope: research/BaiduMap-routing.md
+# Not complete native App, navigation, location or tile coverage.
+payload:
+  - DOMAIN,api.map.baidu.com
+  - DOMAIN,map.baidu.com
+  - DOMAIN,webmap0.bdimg.com
+  - DOMAIN,webmap1.bdimg.com
