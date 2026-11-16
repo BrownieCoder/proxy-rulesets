@@ -168,3 +168,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/BaiduMap.yaml
+  Kuaishou:
+    type: file
+    behavior: classical
+    path: ./ruleset/Kuaishou.yaml
