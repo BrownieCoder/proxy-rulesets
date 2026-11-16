@@ -89,6 +89,7 @@
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
+| [阿里云盘 / AliPan](services/alipan.md) | 阿里云盘当前与兼容官网的 2 个精确公开入口主机。 | [获取地址](services/alipan.md#规则地址) · [查看规则](ruleset/AliPan.yaml) |
 | [百度网盘](services/baidu-pan.md) | 百度网盘官网入口及静态资源的 2 个精确主机。 | [获取地址](services/baidu-pan.md#规则地址) · [查看规则](ruleset/BaiduPan.yaml) |
 | [PayPal](services/paypal.md) | PayPal 网络服务。 | [获取地址](services/paypal.md#规则地址) · [查看规则](ruleset/PayPal_No_Resolve.yaml) |
 | [Stripe](services/stripe.md) | 含 stripe 关键词的网络请求。 | [获取地址](services/stripe.md#规则地址) · [查看规则](ruleset/Stripe_No_Resolve.yaml) |

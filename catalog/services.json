@@ -288,6 +288,15 @@
     "warning": "安全与游戏规则仍优先。资源主机可能跨美团业务；选代理仅影响这 7 个主机，其他请求可能仍直连而形成混合出口。若切代理后出现登录或地区识别异常，可先恢复直连排查；这不是已实测的风控结论。不保证订单、支付、定位或原生 App 全链路覆盖。[域名来源与验证边界](../research/Meituan-routing.md)。"
   },
   {
+    "id": "alipan",
+    "provider": "AliPan",
+    "name": "阿里云盘 / AliPan",
+    "category": "支付与其他",
+    "description": "阿里云盘当前与兼容官网的 2 个精确公开入口主机。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "安全与游戏仍优先；仅 www.alipan.com 和 www.aliyundrive.com 的全部路径跟随本组，不包括不带 www 的根主机、API、认证、共享 CDN 或文件传输端点。其他请求沿原策略，可能混合出口；不保证原生 App 登录、上传下载、分享或同步全链路，也不改变账号、会员、容量、速度或地区资格。若切换后出现登录或地区识别异常，可恢复 DIRECT 排查；未实测风控。[官方证据与边界](../research/AliPan-routing.md)。"
+  },
+  {
     "id": "baidu-pan",
     "provider": "BaiduPan",
     "name": "百度网盘",

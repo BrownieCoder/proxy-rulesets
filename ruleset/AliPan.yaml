@@ -1,0 +1,5 @@
+# Self-maintained exact official public AliPan entry hosts.
+# Evidence and limits: research/AliPan-routing.md
+payload:
+  - DOMAIN,www.alipan.com
+  - DOMAIN,www.aliyundrive.com

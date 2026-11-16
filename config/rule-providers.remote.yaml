@@ -222,6 +222,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Douban.yaml
     interval: 86400
     path: ./ruleset-cache/Douban.yaml
+  AliPan:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/AliPan.yaml
+    interval: 86400
+    path: ./ruleset-cache/AliPan.yaml
   Ctrip:
     type: http
     behavior: classical

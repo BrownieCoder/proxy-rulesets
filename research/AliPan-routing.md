@@ -1,6 +1,6 @@
 # 阿里云盘公开入口精确分流依据
 
-## 已核实候选与决策边界
+## 已核实范围与决策边界
 
 核实日期：2026-11-16。最小方案仅为 `www.alipan.com` 和 `www.aliyundrive.com` 两个精确 `DOMAIN` 提供独立 `📁 阿里云盘` 策略，默认直连，可手动选择代理。两者在基线 `a1c2dd26337b7277019a8764785cdf258bb6f045` 都已由 `ChinaMax → 🇨🇳 China-Global` 覆盖，新增价值是独立出口控制，不是此前完全没有规则。
 
@@ -21,7 +21,7 @@
 
 不使用 `alipan.com`、`aliyundrive.com`、`aliyundrive.net`、`alicdn.com` 或任何云存储域名的后缀。两个不带 `www` 的根主机本身也不在正式清单内；其他客户端、API、登录或分享入口继续沿原路由。阿里云、淘宝、钉钉、其他网盘及国际服务不改归本组。已有与未来合法 Privacy/Hijacking 拦截仍优先。
 
-## 最小实施提案（待独立方案审查）
+## 已接受的最小实施范围
 
 1. 仅新增 `AliPan` / `alipan` 的两条固定 `DOMAIN`、本地登记与目录说明；独立 `📁 阿里云盘` 为唯一 `select` 组，`DIRECT` 首选并保留手动代理和 Final 选项。
 2. 只添加一个活动引用，位于既有安全、游戏、APP 规则之后，SiriAI/Apple/国际媒体/GeoIP/ChinaMax 等更宽规则之前；不重排已合规则。
@@ -37,4 +37,4 @@
 
 ## English scope summary
 
-Only two exact official public entry hosts are proposed: `www.alipan.com` and `www.aliyundrive.com`. They already match ChinaMax; a DIRECT-first optional policy adds independent control. Shared Alibaba CDNs and unobserved API/auth/storage/download endpoints stay out. This is not full native-app, account or file-transfer coverage. Each host includes all paths; other traffic retains its route and mixed egress is possible. Public pages were fetched anonymously with normal response decompression, without login, private links, tokens or file access.
+Only two exact official public entry hosts are included: `www.alipan.com` and `www.aliyundrive.com`. They already match ChinaMax; a DIRECT-first optional policy adds independent control. Shared Alibaba CDNs and unobserved API/auth/storage/download endpoints stay out. This is not full native-app, account or file-transfer coverage. Each host includes all paths; other traffic retains its route and mixed egress is possible. Public pages were fetched anonymously with normal response decompression, without login, private links, tokens or file access.
