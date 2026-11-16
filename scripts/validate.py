@@ -1503,6 +1503,125 @@ def validate_kuaishou(root: Path = ROOT) -> None:
             raise ValueError("Kuaishou changed non-target routing: " + host)
 
 
+TENCENT_VIDEO_CONTROLS = frozenset({
+    "qq.com", "video.qq.com", "gtimg.com", "gtimg.cn", "qpic.cn",
+    "vfiles.gtimg.cn", "vm.gtimg.cn", "midas.gtimg.cn", "tv.puui.qpic.cn",
+    "puui.qpic.cn", "imgcache.qq.com", "dcm.qq.com", "dldir1.qq.com",
+    "pbaccess.video.qq.com", "vd6.l.qq.com", "staticfile.qq.com",
+    "res.ab.qq.com", "config.ab.qq.com", "cc.v.qq.com", "mp.v.qq.com",
+    "y.qq.com", "c.y.qq.com", "dldir.y.qq.com", "game.qq.com", "wegame.gtimg.com",
+    "iwan.video.qq.com", "iwan-s.video.qq.com", "iwan.qq.com", "stat.y.qq.com",
+    "live.qq.com", "www.iqiyi.com", "www.youku.com", "example.org",
+})
+
+def validate_tencent_video(root: Path = ROOT) -> None:
+    """Validate four exact public Tencent Video entries without widening shared Tencent scope."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+    reviewed = {"v.qq.com", "m.v.qq.com", "film.qq.com", "film.video.qq.com"}
+    rules = entries(root / "ruleset/TencentVideo.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("TencentVideo must contain only the four reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    for rule in ordered:
+        kind = rule.split(",")[0]
+        if kind == "RULE-SET" and len(rule.split(",")) < 3:
+            raise ValueError("TencentVideo encountered an incomplete RULE-SET reference")
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in TencentVideo domain model: " + kind)
+    target = "📺 腾讯视频"
+    marker = "RULE-SET,TencentVideo," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "TencentVideo"]]
+    if references != [marker]:
+        raise ValueError("TencentVideo must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"TencentVideo requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for rule in ordered[:current]:
+        if rule.split(",")[0] in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("TencentVideo domain-only model cannot validate preceding IP conditions: " + rule)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手"):
+        if position(earlier) >= current:
+            raise ValueError("Security and gaming rules and existing App rules must precede TencentVideo")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("TencentVideo must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "📺 腾讯视频"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = ("TencentVideo must be a DIRECT-first select group with proxy and Final options; "
+             "use supported simple select/type and proxies template syntax")
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if not options or options[0] != "DIRECT" or "🚀 节点选择" not in options or "🧭 Final" not in options:
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        records = json.loads((root / filename).read_text(encoding="utf-8"))
+        duplicates = set(manifests) & set(records)
+        if duplicates:
+            raise ValueError("TencentVideo manifests contain duplicate providers: " + ", ".join(sorted(duplicates)))
+        manifests.update(records)
+    referenced = {rule.split(",")[1] for rule in ordered if rule.startswith("RULE-SET,")}
+    missing = referenced - set(manifests)
+    if missing:
+        raise ValueError("TencentVideo routing references missing providers: " + ", ".join(sorted(missing)))
+    providers = {name: DomainRules(entries(root / item["path"]))
+                 for name, item in manifests.items()}
+
+    def route(domain: str, skip_tencent_video: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_tencent_video and fields[1] == "TencentVideo":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return kind + "," + fields[1], fields[2]
+            elif kind not in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+                raise ValueError("Unsupported top-level rule in TencentVideo domain model: " + kind)
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("TencentVideo", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"TencentVideo is shadowed by an earlier rule: {host}: {result}")
+    controls = TENCENT_VIDEO_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_tencent_video=True):
+            raise ValueError("TencentVideo changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -1545,6 +1664,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_taobao(root)
     validate_baidu_map(root)
     validate_kuaishou(root)
+    validate_tencent_video(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
