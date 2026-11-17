@@ -98,5 +98,9 @@
   "Youku": {
     "path": "ruleset/Youku.yaml",
     "behavior": "classical"
+  },
+  "Feishu": {
+    "path": "ruleset/Feishu.yaml",
+    "behavior": "classical"
   }
 }

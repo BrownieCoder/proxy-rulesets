@@ -196,3 +196,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Youku.yaml
+  Feishu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Feishu.yaml
