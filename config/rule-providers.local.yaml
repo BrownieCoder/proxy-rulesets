@@ -196,3 +196,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Youku.yaml
+  WPSOffice:
+    type: file
+    behavior: classical
+    path: ./ruleset/WPSOffice.yaml

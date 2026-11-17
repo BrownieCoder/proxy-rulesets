@@ -22,14 +22,14 @@
 - 只有四个精确主机跟随独立组；其他主机仍按原规则，手动代理可能产生混合出口。主机级规则作用于全部路径，不能承诺仅影响下载介绍页，也不能在同主机内排除营销、业务或遥测路径。已有合法 Privacy / Hijacking 拦截优先。
 - 不是完整原生 App、编辑、同步、云文档上传、AI 或下载链路控制；不保证功能、速度、地区、付费权限或 AI 资格。未实测真实客户端、DNS、GeoIP、文件传输、账户或网络可用性。
 
-## 最小实施计划（待独立审查）
+## 最终范围与接入验证约定
 
 目标是为已核实入口提供独立且默认直连的可选策略，不扩大其他 WPS 产品范围。约束为公开材料、来源许可、安全/游戏优先、所有 21 个既有 App 相对顺序、既有 FINAL，以及权限和共享验证器零变化。
 
-1. `APPROVE FOR IMPLEMENTATION` 候选：新增 `ruleset/WPSOffice.yaml` 四条精确 `DOMAIN`、`WPSOffice` 本地登记、`📝 WPS Office` 的 DIRECT-first select 组（保留已有手动代理与 Final）、`办公` 目录项。独立规则放在全部既有 App（含 Youku）之后、SiriAI 之前；只增加一个引用，不重排旧规则。
-2. `APPROVE FOR IMPLEMENTATION` 候选：只新增自身 `validate_wps_office(root)` 与一个 tree 调用，复用现有 `app_policy` / 结构读取合同。固定四主机、唯一引用、策略选项、先后顺序、真实 first-match 与非目标负控；未知或不完整规则、空白字段、缺失/冲突 provider、前置 IP 条件均失败关闭。旧函数、共享模块、镜像、来源锁及工作流不改。
+1. 新增 `ruleset/WPSOffice.yaml` 四条精确 `DOMAIN`、`WPSOffice` 本地登记、`📝 WPS Office` 的 DIRECT-first select 组（保留已有手动代理与 Final）、`办公` 目录项。独立规则放在全部既有 App（含 Youku）之后、SiriAI 之前；只增加一个引用，不重排旧规则。
+2. 只新增自身 `validate_wps_office(root)` 与一个 tree 调用，复用现有 `app_policy` / 结构读取合同。固定四主机、唯一引用、策略选项、先后顺序、真实 first-match 与非目标负控；未知或不完整规则、空白字段、缺失/冲突 provider、前置 IP 条件均失败关闭。旧函数、共享模块、镜像、来源锁及工作流不改。
 3. 验收：完整公开 fixture 正向，helper 与真实 tree 的范围、顺序、策略组复杂 YAML、结构错误、合法安全更新、非安全抢先、未知 provider/IP、空白字段、UTF-8 等实际变异回归；失败来自目标合同而不是缺文件。全树可由更早的同原因门禁拒绝，不强锁 WPS 专属前缀。
-4. 通过现有离线生成器维护派生页、目录、provider 与 hash；执行针对测试、默认验证、公开检查、生成一致性、diff 检查，完整测试由整批统一调度。精确本地候选再交独立复核；独立 commit / PR，不与其他 App 混合，不合并。
+4. 通过现有离线生成器维护派生页、目录、provider 与 hash；执行针对测试、完整测试、默认验证、公开检查、生成一致性与 diff 检查，并将验证绑定到精确版本。离线检查不等同于真实客户端或网络可用性验证。
 
 ## English scope summary
 
