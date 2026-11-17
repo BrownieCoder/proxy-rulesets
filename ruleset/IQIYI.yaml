@@ -1,0 +1,5 @@
+# Self-maintained exact iQIYI public portal host only.
+# Provenance and all-path/tracking limits: research/IQIYI-routing.md
+# Not complete App, installer, account, CDN or playback coverage.
+payload:
+  - DOMAIN,www.iqiyi.com

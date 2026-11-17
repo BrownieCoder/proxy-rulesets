@@ -2,7 +2,7 @@
 
 ## 研究决定与状态
 
-核实日期：2026-11-17。建议首批仅收录 `www.iqiyi.com` 一个精确 `DOMAIN`，提供独立 `🎬 爱奇艺` 策略，默认 `DIRECT`，保留手动代理与 Final。当前仅提交研究，等待范围审查；不改变运行规则。
+核实日期：2026-11-17。已接受首批仅收录 `www.iqiyi.com` 一个精确 `DOMAIN`，提供独立 `🎬 爱奇艺` 策略，默认 `DIRECT`，保留手动代理与 Final。以下最小计划已落实；原始研究保留为独立历史提交。
 
 官网首页和官方客户端下载介绍页共用该主机；`appstore.html` 是页面路径，不是第二个主机。不为增加规则数量，把共用安装包、图片、脚本或仅预连接主机一起归入本组。
 
@@ -12,7 +12,7 @@
 
 仅匿名读取公开 HTML，不带 Cookie，不执行脚本，不跟随安装包、登录、购买、账户或视频链接。只保留主机、标签类型与去参数路径；不保存原始网页、响应头、用户字段、媒体内容或签名 URL。
 
-| 建议精确主机 | Primary source / 实际引用 | 用途、置信度与影响范围 |
+| 已接受精确主机 | Primary source / 实际引用 | 用途、置信度与影响范围 |
 | --- | --- | --- |
 | `www.iqiyi.com` | [官网首页](https://www.iqiyi.com/)直接请求 HTTP 200，标题标识爱奇艺 iQIYI；实际 `script[src]` 和 stylesheet 指向同主机 `/static/js/`、`/static/css/`。 [官方客户端介绍页](https://www.iqiyi.com/appstore.html)直接请求 HTTP 200，标题标识爱奇艺官方客户端下载；实际 `a[href]` 指向本主机 `/`、`/appstore.html`，另有 `/cstatic/app.6a90674c.css` 样式与 `/cstatic/app/` 脚本引用 | 高：官方公开入口、同主机页面及资源引用；不代表安装包、原生 App、账号或视频链路实测。精确主机规则影响其全部路径，而不是仅首页和 appstore 页面 |
 
@@ -53,7 +53,7 @@
 
 不将国际站改归国内策略，不绕过当前或未来合法隐私/劫持拦截。后续测试对根域、排除主机、其他已合 App，以及 `child.www.iqiyi.com`、`notwww.iqiyi.com`、`www.iqiyi.com.example.org` 等边界比较启用/移除本组的首匹配，均须不变。
 
-## 最小实施计划（待批准）
+## 已落实的最小实施计划
 
 目标只是在局部公开入口增加独立可选出口；非目标是完整网站/原生 App、安装包、图片、播放、登录、会员购买、版权/地区资格或账号风控效果。
 
@@ -63,7 +63,7 @@
 4. 独立固定 HOSTS 与负控，真实完整公共 fixture 实调 helper 和 tree：先证明完整树可通过，再做范围、引用、全部前驱/后继、默认/组缺失、provider、IP、未知句法、复杂 type/proxies 和合法 select 格式等变异。正确 `Privacy → REJECT` 或 `Hijacking → 🚫 Hijacking` 未来优先命中走同一验收路径；非安全抢占或错误目标拒绝，不硬编码跳过 ChinaMax 或要求永远必须命中新 App。
 5. canonical 顺序实施后只用既有离线 generator 重建资产，执行针对性及全量测试、validate、public_check、生成一致性、diff 和旧函数/共享/来源/权限保护检查。共享配置有依赖，应在本独立分支顺序完成，不能与其他 App 同工作树并写。
 
-验收需保留 45 服务 / 402 测试基线及全部已合规则，仅新增本 App；权限、工作流、共享模块、上游镜像、Siri、许可不变，不运行同步。当前决定：等待范围批准，研究本身不授权发布或合并。
+验收需保留 45 服务 / 402 测试基线及全部已合规则，仅新增本 App；权限、工作流、共享模块、上游镜像、Siri、许可不变，不运行同步。当前决定：已接受上述单主机范围，不扩展共享资源或接口；本记录不授权发布或合并。
 
 ## 使用与验证限制
 
@@ -73,6 +73,6 @@
 
 ## English scope summary
 
-The proposed scope is one exact host, `www.iqiyi.com`, covering the official portal and its `/appstore.html` client-introduction page. Actual same-host links, scripts and styles support this entry; no extra host is needed merely because appstore is a second page. DIRECT is the proposed default with optional manual proxy and Final.
+The accepted scope is one exact host, `www.iqiyi.com`, covering the official portal and its `/appstore.html` client-introduction page. Actual same-host links, scripts and styles support this entry; no extra host is needed merely because appstore is a second page. DIRECT is the default with optional manual proxy and Final.
 
-All paths on that host are affected, including same-host tracking/pingback scripts or other product/channel pages. Independent game/telemetry hosts, international `iq.com`, shared pictures, installers, preconnect-only interfaces and unverified media/API endpoints remain excluded. Other requests retain their routes, so mixed egress is possible. This is not full native-app, download, playback or region/copyright control. No account, private traffic, purchase, installer or video request was used. Implementation awaits scope approval.
+All paths on that host are affected, including same-host tracking/pingback scripts or other product/channel pages. Independent game/telemetry hosts, international `iq.com`, shared pictures, installers, preconnect-only interfaces and unverified media/API endpoints remain excluded. Other requests retain their routes, so mixed egress is possible. This is not full native-app, download, playback or region/copyright control. No account, private traffic, purchase, installer or video request was used.
