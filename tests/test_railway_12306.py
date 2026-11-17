@@ -329,7 +329,8 @@ class Railway12306Validator(unittest.TestCase):
     def test_incomplete_supported_rules_have_clear_errors_even_after_match(self):
         path = self.root / 'config/rules.yaml'
         original = path.read_text(encoding='utf-8')
-        for rule in ('RULE-SET', 'RULE-SET,IncompleteRailway12306', 'DOMAIN,www.12306.cn', 'MATCH'):
+        for rule in ('RULE-SET', 'RULE-SET,IncompleteRailway12306', 'DOMAIN,www.12306.cn', 'MATCH',
+                     'RULE-SET, ,DIRECT', 'DOMAIN, ,DIRECT', 'GEOIP, ,DIRECT'):
             with self.subTest(rule=rule):
                 path.write_text(original + '  - ' + rule + '\n', encoding='utf-8')
                 with self.assertRaisesRegex(ValueError, 'Railway12306 domain-only model requires complete supported rules'):
