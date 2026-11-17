@@ -1821,7 +1821,7 @@ def validate_xianyu(root: Path = ROOT) -> None:
         required = 2 if kind == "MATCH" else 3
         valid_length = (len(fields) in {3, 4} and (len(fields) == 3 or fields[3] == "no-resolve")
                         if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} else len(fields) == required)
-        if not valid_length or any(not field for field in fields[:required]):
+        if not valid_length or any(not field.strip() for field in fields[:required]):
             raise ValueError("Xianyu domain-only model requires complete supported rules: " + kind)
         if index < current and kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
             raise ValueError("Xianyu domain-only model cannot validate preceding IP conditions: " + rule)

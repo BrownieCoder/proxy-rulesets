@@ -375,6 +375,7 @@ class XianyuValidator(unittest.TestCase):
         path = self.root / 'config/rules.yaml'
         original = path.read_text(encoding='utf-8')
         for rule in ('RULE-SET', 'RULE-SET,IncompleteXianyu', 'RULE-SET,Privacy,REJECT,extra',
+                     'RULE-SET, ,DIRECT', 'DOMAIN, ,DIRECT', 'GEOIP, ,DIRECT',
                      'DOMAIN,www.goofish.com', 'DOMAIN,,DIRECT', 'DOMAIN-SUFFIX,goofish.com',
                      'DOMAIN-KEYWORD,goofish', 'MATCH', 'MATCH,DIRECT,extra',
                      'GEOIP,CN', 'GEOIP,CN,DIRECT,invalid', 'IP-CIDR,192.0.2.0/24',
