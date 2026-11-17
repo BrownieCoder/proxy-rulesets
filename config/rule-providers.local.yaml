@@ -184,3 +184,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Kuaishou.yaml
+  IQIYI:
+    type: file
+    behavior: classical
+    path: ./ruleset/IQIYI.yaml

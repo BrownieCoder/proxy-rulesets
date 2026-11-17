@@ -60,6 +60,11 @@
       "rulesSha256": "df9f9138a41a99ef1e0e9be23942bc3624c39fb1111e90c61c14c187b50b60a0",
       "ruleCount": 183
     },
+    "ruleset/IQIYI.yaml": {
+      "sha256": "a70757b542a825bc60805f5509d33fbe272c4f85102ffeb40cd6e63e31a3f124",
+      "rulesSha256": "4fb5023d025bd3de03f45019f0002347eb1b5d1e2a024cdcd8f7e6bf52ba6b0c",
+      "ruleCount": 1
+    },
     "ruleset/Kuaishou.yaml": {
       "sha256": "64db0c13635060b452829c099df3e6608270546839d16213d28438b8b3755fa9",
       "rulesSha256": "b1a15cd7e631456c6cd5617f559393739aac094d3a6777471bb34d5b360306d3",
@@ -231,13 +236,13 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "e60093766a420e78b9e401b2df3e1d8db9cd4f90ee5cc396426497198da4af3b",
+  "readmeCatalogSha256": "72c7b58259346d78ca657e6ec598ba351bb7f7f9ac5b8f3570f771e929b310ed",
   "artifacts": {
-    "config/rule-providers.local.yaml": "f353fcb9bb1fd7aebd32d3a9dd0e7aea152fe59cbfc79bc43e153ba54c8694b4",
-    "config/rule-providers.remote.yaml": "3aeb6d3e977cdd89e850a60126470ce11af04ecb63c5433425f89eada374263a",
+    "config/rule-providers.local.yaml": "30289dfc453ff4a93e57bdf46d27e7e2b5f524b1d9ad90641c33b0b4ca97f353",
+    "config/rule-providers.remote.yaml": "1678ba3cbde4cf9086eac7758efb9aea536e3b02d27204690b29053ab4797d6c",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
-    "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
+    "services/claude.md": "a09a8ef15d9028416b219c549bce86557eed0eaa2edf1d4e8679766306a46867",
     "services/gemini.md": "0378c41e169aca0dd496df89a35175052febda64ebc5d821cd2d4e21a125e802",
     "services/international-gaming.md": "0968f9067918908bb372310e3e817323e57762b831ed8ca93f204e939993d740",
     "services/china-gaming.md": "cee2a82ab2612833ba29a6ae7a7f3f8d8e830e9014c81ac818771875373ab0d6",
@@ -247,6 +252,7 @@
     "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
     "services/microsoft.md": "f88fa7d22bb858e5843fcea08038be27031d92ba06ae376f21ad3c03427ac900",
     "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
+    "services/iqiyi.md": "ceda15d8db7708e9aa038d231c9eece3b79b9ba6d42168a780a16464c021ffbb",
     "services/kuaishou.md": "974a38b2c27a416211f12c9a943d98313cf09b2ad3e23bd9e0d4b6262d1ffb5c",
     "services/tencent-video.md": "94a9b6de4fcb24c535aa5249bdedc6d04f1d03025400405bed221582d11003ff",
     "services/qq-music.md": "20d6b8de55025574b93a790b8793d214e97d231838c65bb831fa261d06b198dc",
@@ -281,6 +287,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "d4b3a058c20da97d034929621ef90708ebf7b7b0d90db6e87884d66dc280daf3"
+    "catalog/index.json": "fa57ac908cdb11b8c4f53c89127435e148cdb5f0dbfbd680c5699ba41b851c37"
   }
 }

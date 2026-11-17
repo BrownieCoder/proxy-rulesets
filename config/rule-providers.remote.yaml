@@ -276,3 +276,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Kuaishou.yaml
     interval: 86400
     path: ./ruleset-cache/Kuaishou.yaml
+  IQIYI:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/IQIYI.yaml
+    interval: 86400
+    path: ./ruleset-cache/IQIYI.yaml

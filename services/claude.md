@@ -19,7 +19,7 @@ https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Claud
 
 推荐：**按已有 Claude 策略选择出口**。现有规则目标：`🧠 Claude`。共 **3 条**规则。
 
-此文件是上游基础清单；完整方案在有序路由中还有 10 条补充。不能把复制此文件当作完整 Claude 配置。
+此文件是上游基础清单；完整方案在有序路由中还有 9 条补充。不能把复制此文件当作完整 Claude 配置。
 
 单个文件不包含完整分流方案中的前置保护和补充规则；组合使用时参考[有序规则](../config/rules.yaml)与[高级说明](../docs/advanced.md)。
 
