@@ -176,10 +176,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/BaiduMap.yaml
+  Xianyu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Xianyu.yaml
   Kuaishou:
     type: file
     behavior: classical
     path: ./ruleset/Kuaishou.yaml
+  IQIYI:
+    type: file
+    behavior: classical
+    path: ./ruleset/IQIYI.yaml
   Railway12306:
     type: file
     behavior: classical

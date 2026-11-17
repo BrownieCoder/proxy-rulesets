@@ -60,6 +60,11 @@
       "rulesSha256": "df9f9138a41a99ef1e0e9be23942bc3624c39fb1111e90c61c14c187b50b60a0",
       "ruleCount": 183
     },
+    "ruleset/IQIYI.yaml": {
+      "sha256": "a70757b542a825bc60805f5509d33fbe272c4f85102ffeb40cd6e63e31a3f124",
+      "rulesSha256": "4fb5023d025bd3de03f45019f0002347eb1b5d1e2a024cdcd8f7e6bf52ba6b0c",
+      "ruleCount": 1
+    },
     "ruleset/Kuaishou.yaml": {
       "sha256": "64db0c13635060b452829c099df3e6608270546839d16213d28438b8b3755fa9",
       "rulesSha256": "b1a15cd7e631456c6cd5617f559393739aac094d3a6777471bb34d5b360306d3",
@@ -119,6 +124,11 @@
       "sha256": "ea2bc3bc69cf9a7b40a7e9423fecbeb4cd24c058b47b57e56def00079e632735",
       "rulesSha256": "d27883e7f41eb4ca1c079cfe4dcf0109fd71c18089ff554af694f88c89457ab0",
       "ruleCount": 4
+    },
+    "ruleset/Xianyu.yaml": {
+      "sha256": "a35af0180ddd03dbf21151ee51157285e6f9d4118315ef89bcfbce4ae1eac71a",
+      "rulesSha256": "e87fcaf735a796f9c049391db990fc20b7ccca10cfa1fcd71deedc36246a9464",
+      "ruleCount": 3
     },
     "ruleset/Pinduoduo.yaml": {
       "sha256": "9dcbc80ac2c541d565f51ac00897182b85a8636f7d6ff41fdad52f703673c281",
@@ -231,13 +241,13 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "879cbbc55829fcb8cd1f4a41188651a16eaf2e8f138242a77c7d6102349e3fa1",
+  "readmeCatalogSha256": "a5b482425e19afbd54006c450a3f4f6af411d40d0927271bd9336a6bae20bfc8",
   "artifacts": {
-    "config/rule-providers.local.yaml": "812f860907b1225048e29cb432757984182de6d033793ee57992852f9dd7d730",
-    "config/rule-providers.remote.yaml": "090cbbeba229507e436c128b5ad6d97bc3d717f497a5908dff8edaf29f8b7139",
+    "config/rule-providers.local.yaml": "2e5d7c74c49de648d9719c74a0426c96fb31b9e70c2748c387f1208dc92dbf5d",
+    "config/rule-providers.remote.yaml": "cd51d7bbc978fda71039a63ee154cb4acfb6c3ea5cad440c88936463f4844755",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
-    "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
+    "services/claude.md": "a09a8ef15d9028416b219c549bce86557eed0eaa2edf1d4e8679766306a46867",
     "services/gemini.md": "0378c41e169aca0dd496df89a35175052febda64ebc5d821cd2d4e21a125e802",
     "services/international-gaming.md": "0968f9067918908bb372310e3e817323e57762b831ed8ca93f204e939993d740",
     "services/china-gaming.md": "cee2a82ab2612833ba29a6ae7a7f3f8d8e830e9014c81ac818771875373ab0d6",
@@ -247,6 +257,7 @@
     "services/google.md": "e34b10f1457d1d94332e295fc5b6d8de3b7be0d59765187d0d05b65470e1f230",
     "services/microsoft.md": "f88fa7d22bb858e5843fcea08038be27031d92ba06ae376f21ad3c03427ac900",
     "services/youtube.md": "363f16629ee38908189d0bea4001c3aaa87090c9df0691a171f206a3223ad7c7",
+    "services/iqiyi.md": "ceda15d8db7708e9aa038d231c9eece3b79b9ba6d42168a780a16464c021ffbb",
     "services/kuaishou.md": "974a38b2c27a416211f12c9a943d98313cf09b2ad3e23bd9e0d4b6262d1ffb5c",
     "services/tencent-video.md": "94a9b6de4fcb24c535aa5249bdedc6d04f1d03025400405bed221582d11003ff",
     "services/qq-music.md": "20d6b8de55025574b93a790b8793d214e97d231838c65bb831fa261d06b198dc",
@@ -259,6 +270,7 @@
     "services/global-media.md": "5d13e7b4a433a3ff50b9734d22263cf4352877ecfe07077622adc10f9177e5ce",
     "services/jd.md": "b62273c180329eeb5c37aa4ce49bce7145fdd937a654a7e7e680dc9de9720b57",
     "services/taobao.md": "9f6cb06667284442c8644142822e001f6aac6aa9a1e07e8973ba869305ab49aa",
+    "services/xianyu.md": "b85a6ea46552f1ba59da23da4e86858f29fe742407db2dae05e091bd632b7c96",
     "services/pinduoduo.md": "f7e09873f5816d08096d82efbc301df9a18ccabce90b06e4d9576dba41f50319",
     "services/railway-12306.md": "3dd41fc2410a47e7b7f928825e765e458cf7b1a98a242669488210f6db348fcf",
     "services/ctrip.md": "afe6e45bf797100a3705f15b1378406d4da4b928a7ca920bc77bf9f11f5e15b3",
@@ -281,6 +293,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "9ab8ecd9dfdfdfe548e66d33bf2930f7a4503586bdd792c31ed8484aed4daf7b"
+    "catalog/index.json": "27e6c5275d1645e7082705ba4e9ee7fb4507073dbcdd9f7ed580ff77639694b8"
   }
 }

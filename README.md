@@ -44,6 +44,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [YouTube](services/youtube.md) | YouTube 视频及相关资源。 | [获取地址](services/youtube.md#规则地址) · [查看规则](ruleset/YouTube_No_Resolve.yaml) |
+| [爱奇艺 / iQIYI](services/iqiyi.md) | 仅官网和客户端介绍页共用的 www.iqiyi.com 精确公开入口。 | [获取地址](services/iqiyi.md#规则地址) · [查看规则](ruleset/IQIYI.yaml) |
 | [快手 / Kuaishou](services/kuaishou.md) | 快手品牌官网和移动跳转入口，共 2 个精确主机，仅控制部分公开入口。 | [获取地址](services/kuaishou.md#规则地址) · [查看规则](ruleset/Kuaishou.yaml) |
 | [腾讯视频 / Tencent Video](services/tencent-video.md) | 桌面、移动和公开会员入口的 4 个精确主机，不代表完整播放链路。 | [获取地址](services/tencent-video.md#规则地址) · [查看规则](ruleset/TencentVideo.yaml) |
 | [QQ 音乐](services/qq-music.md) | QQ 音乐官网、同主机资源及声明的下载入口，共 3 个精确主机。 | [获取地址](services/qq-music.md#规则地址) · [查看规则](ruleset/QQMusic.yaml) |
@@ -61,6 +62,7 @@
 | --- | --- | --- |
 | [京东 / JD](services/jd.md) | 京东移动商城、App 入口和图片静态资源的 8 个精确主机。 | [获取地址](services/jd.md#规则地址) · [查看规则](ruleset/JD.yaml) |
 | [淘宝 / Taobao](services/taobao.md) | 淘宝官网、移动跳转、客户端下载与商品网页入口的 4 个精确主机。 | [获取地址](services/taobao.md#规则地址) · [查看规则](ruleset/Taobao.yaml) |
+| [闲鱼 / Xianyu](services/xianyu.md) | 闲鱼官网、根域跳转及公开条款入口的 3 个精确主机。 | [获取地址](services/xianyu.md#规则地址) · [查看规则](ruleset/Xianyu.yaml) |
 | [拼多多 / Pinduoduo](services/pinduoduo.md) | 拼多多公开官网、移动商城入口及图片资源的 5 个精确主机。 | [获取地址](services/pinduoduo.md#规则地址) · [查看规则](ruleset/Pinduoduo.yaml) |
 
 ### 出行

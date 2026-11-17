@@ -39,7 +39,7 @@
       "category": "AI",
       "description": "Claude 的上游基础规则。",
       "policyLabel": "按已有 Claude 策略选择出口",
-      "warning": "此文件是上游基础清单；完整方案在有序路由中还有 10 条补充。不能把复制此文件当作完整 Claude 配置。",
+      "warning": "此文件是上游基础清单；完整方案在有序路由中还有 9 条补充。不能把复制此文件当作完整 Claude 配置。",
       "path": "ruleset/Claude_No_Resolve.yaml",
       "policy": "🧠 Claude",
       "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Claude_No_Resolve.yaml",
@@ -181,6 +181,21 @@
       "sourceUrl": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube_No_Resolve.yaml",
       "page": "services/youtube.md",
       "ruleCount": 183
+    },
+    {
+      "id": "iqiyi",
+      "provider": "IQIYI",
+      "name": "爱奇艺 / iQIYI",
+      "category": "影音",
+      "description": "仅官网和客户端介绍页共用的 www.iqiyi.com 精确公开入口。",
+      "policyLabel": "单个公开入口：默认直连，可选代理",
+      "warning": "安全与游戏优先；同主机全部路径及 tracking/pingback 脚本也受影响，不能按频道或推广内容隔离。独立游戏、遥测、国际 iq.com、共享资源与未核实接口不纳入。其他请求走原策略，可能混合出口；不保证原生 App、安装包、登录、会员、播放或地区资格。若切换后登录/地区异常可恢复 DIRECT 排查；未实测风控。[官方依据与范围](../research/IQIYI-routing.md)。",
+      "path": "ruleset/IQIYI.yaml",
+      "policy": "🎬 爱奇艺",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/IQIYI.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/IQIYI.yaml",
+      "page": "services/iqiyi.md",
+      "ruleCount": 1
     },
     {
       "id": "kuaishou",
@@ -361,6 +376,21 @@
       "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Taobao.yaml",
       "page": "services/taobao.md",
       "ruleCount": 4
+    },
+    {
+      "id": "xianyu",
+      "provider": "Xianyu",
+      "name": "闲鱼 / Xianyu",
+      "category": "购物",
+      "description": "闲鱼官网、根域跳转及公开条款入口的 3 个精确主机。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "安全、游戏和既有服务仍优先；仅 goofish.com、www.goofish.com、terms.goofish.com 的全部路径跟随本组，同主机登录、搜索或消息页面也受影响。共享阿里 CDN、H5、API、鉴权、聊天、订单和支付等其他主机继续原策略，可能混合出口；不保证原生 App、登录、消息或交易全链路，不改变账号、支付或地区资格。若切代理后异常可恢复 DIRECT 排查；未实测风控。[官方来源与范围](../research/Xianyu-routing.md)。",
+      "path": "ruleset/Xianyu.yaml",
+      "policy": "🐟 闲鱼",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Xianyu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Xianyu.yaml",
+      "page": "services/xianyu.md",
+      "ruleCount": 3
     },
     {
       "id": "pinduoduo",

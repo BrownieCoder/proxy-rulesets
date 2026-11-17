@@ -9,6 +9,7 @@ import json
 import re
 from pathlib import Path
 
+from public_rules import read_routing_rules
 from siri_ai import canonical as siri_canonical, render as siri_render
 from sync import render_provider_configs
 
@@ -90,8 +91,7 @@ def read_rules(text: str) -> list[str]:
 
 
 def routing(root: Path) -> tuple[list[str], dict[str, str]]:
-    ordered = [line.strip()[2:] for line in (root / 'config/rules.yaml').read_text().splitlines()
-               if line.strip().startswith('- ')]
+    ordered = read_routing_rules(root / 'config/rules.yaml')
     targets = {}
     for rule in ordered:
         fields = rule.split(',')
