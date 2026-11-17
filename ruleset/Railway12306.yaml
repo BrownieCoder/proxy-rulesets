@@ -1,0 +1,6 @@
+# Exact official public portal and client/download entry hosts.
+# Evidence and all-path limits: research/Railway12306-routing.md
+payload:
+  - DOMAIN,www.12306.cn
+  - DOMAIN,kyfw.12306.cn
+  - DOMAIN,dynamic.12306.cn

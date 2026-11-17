@@ -79,8 +79,20 @@
     "path": "ruleset/BaiduMap.yaml",
     "behavior": "classical"
   },
+  "Xianyu": {
+    "path": "ruleset/Xianyu.yaml",
+    "behavior": "classical"
+  },
   "Kuaishou": {
     "path": "ruleset/Kuaishou.yaml",
+    "behavior": "classical"
+  },
+  "IQIYI": {
+    "path": "ruleset/IQIYI.yaml",
+    "behavior": "classical"
+  },
+  "Railway12306": {
+    "path": "ruleset/Railway12306.yaml",
     "behavior": "classical"
   },
   "Youku": {
