@@ -9,6 +9,8 @@ import json
 import re
 from pathlib import Path
 
+from public_rules import read_routing_rules
+
 ROOT = Path(__file__).resolve().parents[1]
 DOMAIN = re.compile(r"(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?\Z")
 SOURCE = "https://support.apple.com/en-us/101555"
@@ -63,6 +65,8 @@ def render(domains: list[str], digest: str) -> str:
 
 
 def entries(path: Path) -> list[str]:
+    if path.name == "rules.yaml" and path.parent.name == "config":
+        return read_routing_rules(path)
     return [line.strip()[2:].strip("\"'") for line in path.read_text(encoding="utf-8").splitlines()
             if line.strip().startswith("- ")]
 

@@ -75,7 +75,6 @@ rules:
   - DOMAIN-SUFFIX,claudeusercontent.com,🧠 Claude
   - DOMAIN-SUFFIX,modelcontextprotocol.io,🧠 Claude
   - DOMAIN-SUFFIX,clau.de,🧠 Claude
-  - DOMAIN-SUFFIX,datadoghq.com,🧠 Claude
   - RULE-SET,Google,🔎 Google
   - RULE-SET,Microsoft,🪟 Microsoft
   - RULE-SET,GlobalMedia,🛰️ International-Global

@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from sync import validate  # noqa: E402
 from siri_ai import validate as validate_siri_ai  # noqa: E402
 from siri_ai import entries  # noqa: E402
+from public_rules import parse_routing_rules  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
 QQ_MUSIC_CONTROLS = frozenset({
@@ -99,11 +100,8 @@ def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str
 
 def parse_rule_targets(text: str) -> set[str]:
     targets: set[str] = set()
-    for line in text.splitlines():
-        match = re.match(r"^\s*-\s*([^#].*)$", line)
-        if not match:
-            continue
-        fields = [field.strip() for field in match.group(1).split(",")]
+    for rule in parse_routing_rules(text):
+        fields = [field.strip() for field in rule.split(",")]
         if fields[0] == "MATCH" and len(fields) >= 2:
             targets.add(fields[1])
         elif len(fields) >= 3:
@@ -133,9 +131,8 @@ def validate_config_references(provider_names: set[str], root: Path = ROOT) -> N
             raise ValueError(f"duplicate expected rule: {marker}")
         return ordered_rules.index(marker)
 
-    referenced = set(
-        re.findall(r"^\s*-\s*RULE-SET,([^,]+),", rules_text, re.MULTILINE)
-    )
+    referenced = {fields[1] for rule in ordered_rules
+                  if len(fields := rule.split(",")) >= 3 and fields[0] == "RULE-SET"}
     if not referenced <= provider_names:
         raise ValueError(
             f"rules.yaml references undefined providers: {referenced-provider_names}"

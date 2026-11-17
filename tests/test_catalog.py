@@ -63,7 +63,7 @@ class ServiceCatalog(unittest.TestCase):
         for service in self.catalog['services']:
             self.assertEqual(service['policy'], targets[service['provider']])
         claude = next(s for s in self.catalog['services'] if s['provider'] == 'Claude')
-        self.assertIn('10 条补充', claude['warning'])
+        self.assertIn('9 条补充', claude['warning'])
         self.assertEqual(next(s for s in self.catalog['services'] if s['provider'] == 'Privacy')['policy'], 'REJECT')
         self.assertEqual(next(s for s in self.catalog['services'] if s['provider'] == 'ChinaGaming')['policy'], 'DIRECT')
 

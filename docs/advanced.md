@@ -11,7 +11,9 @@
 5. 如不采用本项目策略组，将目标映射到自己已有的真实策略组，保留直连、拒绝和可选出口的区别。
 6. 使用客户端检查或 `mihomo -t -f your-config.yaml` 后检查实际连接。
 
-顺序：Privacy 拒绝 → Hijacking 可选防护 → 游戏精确例外 → 国际游戏 → 中国游戏 → 小红书 / RedNote → Siri AI → Apple → 其他服务 → 国际媒体 → GEOIP CN → ChinaMax → LAN → MATCH。
+顺序：Privacy 拒绝 → Hijacking 可选防护 → 游戏精确例外 → 国际游戏 → 中国游戏 → 具体服务规则（含国内 App） → Siri AI → Apple → 其他服务 → 国际媒体 → GEOIP CN → ChinaMax → LAN → MATCH。
+
+以上是阶段概览，不是重新排序指引；同一阶段内仍须保留[有序规则模板](../config/rules.yaml)中的实际顺序。
 
 小红书 / RedNote 默认直连，可通过 `📕 小红书 / REDnote` 独立选择代理；规则覆盖四个已核实的第一方根域。安全规则始终优先。范围和依据见[小红书分流记录](../research/Xiaohongshu-direct.md)。
 

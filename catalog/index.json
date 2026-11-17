@@ -39,7 +39,7 @@
       "category": "AI",
       "description": "Claude 的上游基础规则。",
       "policyLabel": "按已有 Claude 策略选择出口",
-      "warning": "此文件是上游基础清单；完整方案在有序路由中还有 10 条补充。不能把复制此文件当作完整 Claude 配置。",
+      "warning": "此文件是上游基础清单；完整方案在有序路由中还有 9 条补充。不能把复制此文件当作完整 Claude 配置。",
       "path": "ruleset/Claude_No_Resolve.yaml",
       "policy": "🧠 Claude",
       "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Claude_No_Resolve.yaml",
