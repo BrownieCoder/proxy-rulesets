@@ -345,6 +345,21 @@ class YoukuValidator(unittest.TestCase):
                         gate(self.root)
 
 
+    def test_whitespace_fields_fail_helper_and_complete_tree(self):
+        path = self.root / 'config/rules.yaml'
+        original = path.read_text(encoding='utf-8')
+        for rule in ('RULE-SET, ,DIRECT', 'DOMAIN, ,DIRECT', 'GEOIP, ,DIRECT'):
+            changed = original + '  - ' + rule + '\n'
+            path.write_text(changed, encoding='utf-8')
+            self.assertEqual(yaml.safe_load(changed)['rules'][-1], rule)
+            for gate in (validate.validate_youku, validate.validate_tree):
+                with self.subTest(rule=rule, gate=gate.__name__):
+                    # An earlier App can reject the blank provider before the Youku gate.
+                    error = ('' if gate is validate.validate_tree and rule.startswith('RULE-SET,')
+                             else 'Youku domain-only model requires complete supported rules')
+                    with self.assertRaisesRegex(ValueError, error):
+                        gate(self.root)
+
     def test_fixed_exact_host_and_all_excluded_controls(self):
         self.assertEqual(HOSTS, {'www.youku.com'})
         required = {
