@@ -354,9 +354,14 @@ class YoukuValidator(unittest.TestCase):
             self.assertEqual(yaml.safe_load(changed)['rules'][-1], rule)
             for gate in (validate.validate_youku, validate.validate_tree):
                 with self.subTest(rule=rule, gate=gate.__name__):
-                    # An earlier App can reject the blank provider before the Youku gate.
-                    error = ('' if gate is validate.validate_tree and rule.startswith('RULE-SET,')
-                             else 'Youku domain-only model requires complete supported rules')
+                    kind = rule.split(',')[0]
+                    # The complete tree may reject malformed fields in an earlier gate.
+                    if gate is validate.validate_youku:
+                        error = r'^Youku domain-only model requires complete supported rules: ' + kind + r'\Z'
+                    elif kind == 'RULE-SET':
+                        error = r'^rules\.yaml references undefined providers:'
+                    else:
+                        error = r'domain-only model requires complete supported rules: ' + kind + r'\Z'
                     with self.assertRaisesRegex(ValueError, error):
                         gate(self.root)
 
