@@ -79,6 +79,10 @@
     "path": "ruleset/BaiduMap.yaml",
     "behavior": "classical"
   },
+  "Xianyu": {
+    "path": "ruleset/Xianyu.yaml",
+    "behavior": "classical"
+  },
   "Kuaishou": {
     "path": "ruleset/Kuaishou.yaml",
     "behavior": "classical"

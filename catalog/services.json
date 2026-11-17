@@ -216,6 +216,15 @@
     "warning": "安全与游戏规则仍优先；商品网站入口仅指 pcdetail.taobao.com，不覆盖 item.taobao.com 或 s.taobao.com，亦不包括共享 CDN、登录、API、支付或天猫。手动代理仅影响本清单，其他请求沿用原策略，可能混合出口；不保证完整原生 App 或购买链路。如切换后出现登录或地区异常，可恢复 DIRECT 排查；未实测账户风控。[来源与范围](../research/Taobao-routing.md)。"
   },
   {
+    "id": "xianyu",
+    "provider": "Xianyu",
+    "name": "闲鱼 / Xianyu",
+    "category": "购物",
+    "description": "闲鱼官网、根域跳转及公开条款入口的 3 个精确主机。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "安全、游戏和既有服务仍优先；仅 goofish.com、www.goofish.com、terms.goofish.com 的全部路径跟随本组，同主机登录、搜索或消息页面也受影响。共享阿里 CDN、H5、API、鉴权、聊天、订单和支付等其他主机继续原策略，可能混合出口；不保证原生 App、登录、消息或交易全链路，不改变账号、支付或地区资格。若切代理后异常可恢复 DIRECT 排查；未实测风控。[官方来源与范围](../research/Xianyu-routing.md)。"
+  },
+  {
     "id": "pinduoduo",
     "provider": "Pinduoduo",
     "name": "拼多多 / Pinduoduo",

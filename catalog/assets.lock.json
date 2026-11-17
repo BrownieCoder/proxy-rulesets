@@ -120,6 +120,11 @@
       "rulesSha256": "d27883e7f41eb4ca1c079cfe4dcf0109fd71c18089ff554af694f88c89457ab0",
       "ruleCount": 4
     },
+    "ruleset/Xianyu.yaml": {
+      "sha256": "a35af0180ddd03dbf21151ee51157285e6f9d4118315ef89bcfbce4ae1eac71a",
+      "rulesSha256": "e87fcaf735a796f9c049391db990fc20b7ccca10cfa1fcd71deedc36246a9464",
+      "ruleCount": 3
+    },
     "ruleset/Pinduoduo.yaml": {
       "sha256": "9dcbc80ac2c541d565f51ac00897182b85a8636f7d6ff41fdad52f703673c281",
       "rulesSha256": "d288a7df354b0ebefeb7336cc64e724b7b5fec4829291f70fc67c7c40c1d606b",
@@ -226,10 +231,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "c007e57e695ff29aabfda65b6c0198fddc79ab1f5cb1f2dc210003af92e8d276",
+  "readmeCatalogSha256": "e60093766a420e78b9e401b2df3e1d8db9cd4f90ee5cc396426497198da4af3b",
   "artifacts": {
-    "config/rule-providers.local.yaml": "ad07da747367b1ea90097574520c71a2b6f51757d70383b5e43b94dd41192f14",
-    "config/rule-providers.remote.yaml": "b5145b9482c0153f1b5f87b89a18a483c7932bba80197f1f80939d17f5a6d334",
+    "config/rule-providers.local.yaml": "f353fcb9bb1fd7aebd32d3a9dd0e7aea152fe59cbfc79bc43e153ba54c8694b4",
+    "config/rule-providers.remote.yaml": "3aeb6d3e977cdd89e850a60126470ce11af04ecb63c5433425f89eada374263a",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "d9ad4dd3c175dcda2829fcc1d5ab7e00df47c2f3c6da08483cea61bb13c8274f",
@@ -254,6 +259,7 @@
     "services/global-media.md": "5d13e7b4a433a3ff50b9734d22263cf4352877ecfe07077622adc10f9177e5ce",
     "services/jd.md": "b62273c180329eeb5c37aa4ce49bce7145fdd937a654a7e7e680dc9de9720b57",
     "services/taobao.md": "9f6cb06667284442c8644142822e001f6aac6aa9a1e07e8973ba869305ab49aa",
+    "services/xianyu.md": "b85a6ea46552f1ba59da23da4e86858f29fe742407db2dae05e091bd632b7c96",
     "services/pinduoduo.md": "f7e09873f5816d08096d82efbc301df9a18ccabce90b06e4d9576dba41f50319",
     "services/ctrip.md": "afe6e45bf797100a3705f15b1378406d4da4b928a7ca920bc77bf9f11f5e15b3",
     "services/baidu-map.md": "2a9715a48635f312fb07c370726ec18303b9b647d9f85ecd1a00de0e0c93d4e1",
@@ -275,6 +281,6 @@
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "d36b7acd40ed5de01c5f49ceab5d296baae50bc61557929d0fecb5fb52988fc4"
+    "catalog/index.json": "d4b3a058c20da97d034929621ef90708ebf7b7b0d90db6e87884d66dc280daf3"
   }
 }

@@ -1,0 +1,6 @@
+# Self-maintained exact official Xianyu public entry hosts.
+# Evidence and all-path/mixed-egress limits: research/Xianyu-routing.md
+payload:
+  - DOMAIN,goofish.com
+  - DOMAIN,www.goofish.com
+  - DOMAIN,terms.goofish.com

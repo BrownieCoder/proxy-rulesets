@@ -2,7 +2,7 @@
 
 ## 状态与最小建议
 
-研究日期：2026-11-17。候选仅 3 个精确主机：`goofish.com`、`www.goofish.com`、`terms.goofish.com`。拟新增 `Xianyu` / `xianyu` 与独立 `🐟 闲鱼` 策略，默认 `DIRECT`，保留手动 `🚀 节点选择` 和 `🧭 Final`。本文件先记录研究与最小方案，尚未增加正式规则，待独立方案审查。
+研究日期：2026-11-17。已接受范围仅 3 个精确主机：`goofish.com`、`www.goofish.com`、`terms.goofish.com`。新增 `Xianyu` / `xianyu` 与独立 `🐟 闲鱼` 策略，默认 `DIRECT`，保留手动 `🚀 节点选择` 和 `🧭 Final`。范围及最小方案已独立核实后接受，实施不扩大下述边界。
 
 基线 `3ee79fedd218dc178efd91251d7fbf48ca2b8b17` 已含 45 项服务、402 项测试。3 个候选都已命中 `ChinaMax → 🇨🇳 China-Global`，新增价值是独立出口控制，不是此前完全没有覆盖，也不是补齐整个闲鱼原生 App。
 
@@ -42,9 +42,9 @@ App Store 提供的开发者网站、隐私链接是开发者元数据，不是 
 | `www.kuaishou.com` / `v.qq.com` | `Kuaishou → 📹 快手` / `TencentVideo → 📺 腾讯视频` |
 | `guzzoni.apple.com` / `example.org` | `SiriAI → 🤖 AI 服务` / `MATCH → 🧭 Final` |
 
-正式范围的 3 个精确 `DOMAIN` 不应匹配各自的 `child.`、`not…` 或 `….example.org` 变体。首匹配验证还应证明保留现有 / 未来合法 Privacy、Hijacking 优先命中，并拒绝非安全规则遮蔽；不能只检查规则文件存在。
+正式范围的 3 个精确 `DOMAIN` 不应匹配各自的 `child.`、`not…` 或 `….example.org` 变体。首匹配验证还应证明保留现有 / 未来合法 Privacy、Hijacking 优先命中，并拒绝非安全规则遮蔽；不能只检查规则文件存在。测试中的 `m.goofish.com`、`api.goofish.com` 和 `goofish.cn` 仅为命名边界负向对照，不声称观察到它们的业务请求。
 
-## 最小实施计划（待方案审批）
+## 已接受的最小实施范围
 
 目标是官网 / 官方重定向 / 公开条款入口的独立选择，不改变其余流量。
 
@@ -64,6 +64,6 @@ App Store 提供的开发者网站、隐私链接是开发者元数据，不是 
 
 ## English scope summary
 
-Propose only three exact official Xianyu entry hosts: `goofish.com`, `www.goofish.com`, and `terms.goofish.com`. Anonymous official HTML, the developer-supplied App Store website/privacy links, and an observed apex-to-www 301 redirect support this limited scope. Default DIRECT with manual proxy and Final options adds independent control; these hosts already match ChinaMax.
+Include only three exact official Xianyu entry hosts: `goofish.com`, `www.goofish.com`, and `terms.goofish.com`. Anonymous official HTML, the developer-supplied App Store website/privacy links, and an observed apex-to-www 301 redirect support this accepted scope. Default DIRECT with manual proxy and Final options adds independent control; these hosts already match ChinaMax.
 
 All paths on each listed host are affected. Shared Alibaba CDN/telemetry, H5 settings, unobserved API/auth/chat/order/payment endpoints and other products stay on their existing routes. No full native-app, login, messaging or transaction-chain coverage, or account/payment/region unlock claim. Only public pages were read; no account, installer, buyer/seller data or private traffic was accessed.
