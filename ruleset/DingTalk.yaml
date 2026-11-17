@@ -1,0 +1,4 @@
+# Self-maintained exact official DingTalk public portal only.
+# Evidence and all-path/mixed-egress limits: research/DingTalk-routing.md
+payload:
+  - DOMAIN,www.dingtalk.com

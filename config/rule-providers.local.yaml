@@ -192,6 +192,10 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Railway12306.yaml
+  DingTalk:
+    type: file
+    behavior: classical
+    path: ./ruleset/DingTalk.yaml
   Youku:
     type: file
     behavior: classical

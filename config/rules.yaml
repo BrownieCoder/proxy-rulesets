@@ -47,6 +47,8 @@ rules:
   - RULE-SET,Railway12306,🚄 铁路12306
   # 优酷仅官网公开入口；共享资源及未核实视频页仍按原策略。
   - RULE-SET,Youku,🎞️ 优酷
+  # 钉钉单个公开官网入口；共享图片、视频与业务主机不纳入。
+  - RULE-SET,DingTalk,💬 钉钉
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
