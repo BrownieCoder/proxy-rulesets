@@ -663,6 +663,21 @@
       "ruleCount": 2
     },
     {
+      "id": "youku",
+      "provider": "Youku",
+      "name": "优酷 / Youku",
+      "category": "影音",
+      "description": "优酷官网一个已核实精确主机；不包含共享资源或完整播放链路。",
+      "policyLabel": "仅公开入口：默认直连，可选代理",
+      "warning": "仅 www.youku.com 全路径受影响，包括同主机账户、会员、直播/游戏导航和推广；不含 v.youku.com、共享阿里 CDN 或未知 API。其他请求保留原策略，可能混合出口；切代理后若登录或地区识别异常可恢复直连，未实测风控。不解锁会员、版权或地区资格，不保证完整网站/App/播放/下载。",
+      "path": "ruleset/Youku.yaml",
+      "policy": "🎞️ 优酷",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Youku.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Youku.yaml",
+      "page": "services/youku.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

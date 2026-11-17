@@ -288,3 +288,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Railway12306.yaml
     interval: 86400
     path: ./ruleset-cache/Railway12306.yaml
+  Youku:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Youku.yaml
+    interval: 86400
+    path: ./ruleset-cache/Youku.yaml

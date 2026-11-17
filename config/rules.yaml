@@ -45,6 +45,8 @@ rules:
   - RULE-SET,Xianyu,🐟 闲鱼
   # 铁路12306公开入口；同主机所有路径受影响，未验证购票或文件链路。
   - RULE-SET,Railway12306,🚄 铁路12306
+  # 优酷仅官网公开入口；共享资源及未核实视频页仍按原策略。
+  - RULE-SET,Youku,🎞️ 优酷
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

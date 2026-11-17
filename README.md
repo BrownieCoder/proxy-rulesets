@@ -55,6 +55,7 @@
 | [Disney+](services/disney.md) | Disney+ 及相关媒体资源。 | [获取地址](services/disney.md#规则地址) · [查看规则](ruleset/Disney_No_Resolve.yaml) |
 | [Netflix](services/netflix.md) | Netflix 内容及相关资源。 | [获取地址](services/netflix.md#规则地址) · [查看规则](ruleset/Netflix_No_Resolve.yaml) |
 | [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 | [获取地址](services/global-media.md#规则地址) · [查看规则](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
+| [优酷 / Youku](services/youku.md) | 优酷官网一个已核实精确主机；不包含共享资源或完整播放链路。 | [获取地址](services/youku.md#规则地址) · [查看规则](ruleset/Youku.yaml) |
 
 ### 购物
 

@@ -94,5 +94,9 @@
   "Railway12306": {
     "path": "ruleset/Railway12306.yaml",
     "behavior": "classical"
+  },
+  "Youku": {
+    "path": "ruleset/Youku.yaml",
+    "behavior": "classical"
   }
 }
