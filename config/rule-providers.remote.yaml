@@ -294,3 +294,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Youku.yaml
     interval: 86400
     path: ./ruleset-cache/Youku.yaml
+  Quark:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Quark.yaml
+    interval: 86400
+    path: ./ruleset-cache/Quark.yaml

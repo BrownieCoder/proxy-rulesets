@@ -98,5 +98,9 @@
   "Youku": {
     "path": "ruleset/Youku.yaml",
     "behavior": "classical"
+  },
+  "Quark": {
+    "path": "ruleset/Quark.yaml",
+    "behavior": "classical"
   }
 }

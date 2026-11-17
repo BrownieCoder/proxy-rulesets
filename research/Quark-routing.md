@@ -2,7 +2,7 @@
 
 核实日期：2026-11-18。基线：`74b4640cfb0d8cef4395fb199f8e9f8903fcd84e`。
 
-## 官方证据与建议范围
+## 官方证据与已核实范围
 
 只匿名读取公开介绍和门户，不登录、上传、搜索账户内容、播放或请求安装包。以下是域名归类依据，不是账号、服务可用性或完整客户端流量证明。
 
@@ -15,7 +15,7 @@
 
 ## 排除与使用限制
 
-- 只建议两个精确 `DOMAIN`，不添加整个 `quark.cn`、`sm.cn`、`alicdn.com` 或其他共享根域后缀。
+- 只接受两个精确 `DOMAIN`，不添加整个 `quark.cn`、`sm.cn`、`alicdn.com` 或其他共享根域后缀。
 - 官网声明的共享素材主机 `img.alicdn.com`、`g.alicdn.com`、`blm.sm.cn` 不纳入。`scan.quark.cn` 的扫描王入口、`talent.quark.cn` 招聘入口及历史 / HD 入口 `www.myquark.cn` 也不在本批；没有否认其品牌关联，只是不扩本次范围。
 - 不猜测搜索、千问 / AI、登录、鉴权、会员、文件 API、上传下载或传输 CDN。未核实的接口外形只能作为负向边界测试，不能伪装为本轮观察到的官方请求。
 - 同主机全路径都随策略，不能按页面、产品、用户或 URL 路径隔离；其他主机仍走原策略，手动代理可能形成混合出口。切换后如遇会话或地区异常，可恢复 DIRECT 排查；未实测风控效果。
@@ -23,7 +23,7 @@
 
 ## 接入与验证合约
 
-建议 provider `Quark`、目录 id `quark`、分类“工具”，独立 `🔍 夸克` literal select：DIRECT-first，加上现有 `🚀 节点选择` 和 `🧭 Final`。只在 21 个既有 App（含 Youku）之后、Siri AI 之前新增一个引用；保留全部旧规则相对顺序、安全与游戏优先、Gemini 在 Google 前及原 MATCH。
+采用 provider `Quark`、目录 id `quark`、分类“工具”，独立 `🔍 夸克` literal select：DIRECT-first，加上现有 `🚀 节点选择` 和 `🧭 Final`。只在 21 个既有 App（含 Youku）之后、Siri AI 之前新增一个引用；保留全部旧规则相对顺序、安全与游戏优先、Gemini 在 Google 前及原 MATCH。
 
 仅新增 `validate_quark(root)` 与一次 tree 调用，复用未改变的结构读取和策略组选项合同。验收覆盖固定两个主机及非目标对照、实际首匹配、合法安全更新、非安全抢先、未知 / 不完整 / 空白字段 / 前置 IP、provider 缺失和冲突、UTF-8、重复根键及真实完整公共 fixture 正向与变异。直接 helper 必须给出严格自身错误；完整树允许更早门禁以准确原因拒绝，不把“必须最后由夸克报错”作为合同。
 
@@ -31,6 +31,6 @@
 
 ## English scope summary
 
-Proposed scope: two exact public entry hosts, `www.quark.cn` and `pan.quark.cn`. The official homepage links the cloud-drive portal, and the developer's Chinese App Store description declares the website and cloud-drive feature. An anonymous portal GET also returned HTTP 200 on the same host after the page extractor timed out. This establishes public entry attribution, not complete network coverage or service availability.
+Accepted scope: two exact public entry hosts, `www.quark.cn` and `pan.quark.cn`. The official homepage links the cloud-drive portal, and the developer's Chinese App Store description declares the website and cloud-drive feature. An anonymous portal GET also returned HTTP 200 on the same host after the page extractor timed out. This establishes public entry attribution, not complete network coverage or service availability.
 
 All paths on these two hosts follow an optional DIRECT-first group. Shared Alibaba / Shenma resources, scan/recruitment/legacy hosts, and unverified search, AI, authentication or file-transfer hosts remain excluded. Other traffic retains its routing and may use a different exit. No login, upload, playback, download, native-client, account, entitlement, speed or regional guarantee is made; existing security, game and App precedence remains unchanged.
