@@ -2,9 +2,9 @@
 
 ## 状态与最小建议
 
-`RESEARCHING`：本提交仅保存公开证据与实施建议，尚未新增 provider、策略组或路由，等待范围批准。
+已接受范围：仅下述一个精确主机，实施包括独立策略、生产验证入口和真实公共 fixture 回归；不扩大共享资源或视频播放主机范围。独立研究提交保留原始证据，后续实施遵循批准范围。
 
-建议首批仅纳入 **1 个精确主机：`www.youku.com`**，provider `Youku`、目录 id `youku`，独立策略 `🎞️ 优酷`，默认 `DIRECT`，可选 `🚀 节点选择` 与 `🧭 Final`。
+首批仅纳入 **1 个精确主机：`www.youku.com`**，provider `Youku`、目录 id `youku`，独立策略 `🎞️ 优酷`，默认 `DIRECT`，可选 `🚀 节点选择` 与 `🧭 Final`。
 这提供的是官网、同主机个人中心公开外壳和客户端介绍页的独立出口选择，不是完整网站、原生 App、安装包、账号或视频播放链路覆盖。
 现有 ChinaMax 已覆盖该主机；新增价值是单独控制出口，而不是修复一个已证明的播放故障。
 
@@ -64,7 +64,7 @@
 未来合法 `Privacy` → `REJECT` 或 `Hijacking` → `🚫 Hijacking` 应继续优先，不能为了让入口命中而绕过安全规则。
 模型只有域名，没有 IP、进程、端口等元数据，不是完整 Mihomo、DNS、GeoIP、UDP 或真实出口 / 播放实测。
 
-## 待批准的最小实施计划
+## 已接受的最小实施范围
 
 目标：一个官网精确主机的独立、默认直连出口控制。非目标：完整 App / 播放 / 下载 / 登录 / 支付链路、会员版权地区解锁、国际站、共享资源、游戏及旧 App 重构。
 
@@ -80,10 +80,11 @@
 
 - `scripts/validate.py`：45 services、24 mirrored / 21 local，生成 / hash / provider / 文档一致性通过。
 - `scripts/public_check.py`：172 个公共文件通过；`git diff --check` 通过。
-- 只新增本研究文档，没有生产、权限、工作流、共享组件或旧 App 变更；未执行 push、PR、merge、sync、reset、restore、clean 或 stash。
+- 以上是独立研究阶段的基线检查。后续实施只增加已接受单主机规则、策略、门禁和测试，不改变旧 App、共享组件、权限或工作流；未执行 push、PR、merge、sync、reset、restore、clean 或 stash。
+- 实施阶段：新增 35 项专项真实 fixture 测试通过，包括未变异完整 tree、合法策略格式与未来合法安全快照更新成功，及范围 / 顺序 / IP / 未知条件 / 复杂 YAML 等拒绝回归。当前 validate 为 46 services、24 mirrored / 22 local，公共检查 176 files，离线生成一致性与 diff 检查通过；完整测试另以最终候选记录为准。
 
 ## English scope summary
 
-Research-only proposal: one exact public entry host, `www.youku.com`, with a DIRECT-first `🎞️ 优酷` group and optional manual proxy / Final. Official homepage, public account-shell and product-page HTML establish the entry; no login, purchase, playback, installer or private traffic was used.
+The accepted scope is one exact public entry host, `www.youku.com`, with a DIRECT-first `🎞️ 优酷` group and optional manual proxy / Final. Official homepage, public account-shell and product-page HTML establish the entry; no login, purchase, playback, installer or private traffic was used.
 All paths on this host would follow the group, including same-host promotional or account-related paths. Shared Alibaba assets, observed advertising / campaign / game hosts, the unverified video-page candidate, overseas services and unknown APIs remain excluded. Mixed egress is expected; this is not complete website, native-app, account, download or playback coverage, and does not unlock membership, copyright or regional eligibility.
-Implementation awaits scope approval. It must preserve all 17 existing App routes plus security / gaming priority, reuse the unchanged restricted public-template policy guard, and pass real helper / full-tree mutations without permission or workflow changes.
+Implementation preserves all 17 existing App routes plus security / gaming priority, reuses the unchanged restricted public-template policy guard, and is checked with real helper / full-tree mutations without permission or workflow changes.

@@ -1739,6 +1739,126 @@ def validate_alipan(root: Path = ROOT) -> None:
             raise ValueError("AliPan changed non-target routing: " + host)
 
 
+YOUKU_CONTROLS = frozenset({
+    "youku.com", "m.youku.com", "v.youku.com", "t.youku.com", "acg.youku.com",
+    "jingrui-ai-competition.youku.com", "ykimg.com", "alicdn.com", "aliyun.com",
+    "g.alicdn.com", "img.alicdn.com", "gw.alicdn.com", "ykimg.alicdn.com",
+    "liangcang-material.alicdn.com", "qzs.gdtimg.com", "wy.668wan.com",
+    "www.youku.tv", "www.kumiao.com", "api.youku.com", "ups.youku.com",
+    "www.taobao.com", "www.alipan.com", "v.qq.com", "www.kuaishou.com",
+    "www.iqiyi.com", "game.qq.com", "guzzoni.apple.com", "fastcdn.hoyoverse.com",
+    "example.org",
+})
+
+def validate_youku(root: Path = ROOT) -> None:
+    """Enforce the one evidenced public entry without expanding shared Alibaba scope."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.youku.com"}
+    rules = entries(root / "ruleset/Youku.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Youku must contain only the one reviewed exact host without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "🎞️ 优酷"
+    marker = "RULE-SET,Youku," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Youku"]]
+    if references != [marker]:
+        raise ValueError("Youku must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"Youku requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+                    "RULE-SET,TencentVideo,📺 腾讯视频", "RULE-SET,AliPan,📁 阿里云盘"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing app rules must precede Youku")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("Youku must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "🎞️ 优酷"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "Youku must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("Youku manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in Youku domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        valid_length = (len(fields) in {3, 4} and (len(fields) == 3 or fields[3] == "no-resolve")
+                        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} else len(fields) == required)
+        if not valid_length or any(not field for field in fields[:required]):
+            raise ValueError("Youku domain-only model requires complete supported rules: " + kind)
+        if index < current and kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Youku domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if fields[1] not in manifests:
+                raise ValueError("Youku routing references missing providers: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_youku: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_youku and fields[1] == "Youku":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # IP/GeoIP is only allowed after this App and has no domain-only verdict.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Youku", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Youku is shadowed by an earlier rule: {host}: {result}")
+    controls = YOUKU_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_youku=True):
+            raise ValueError("Youku changed non-target routing: " + host)
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -1783,6 +1903,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_kuaishou(root)
     validate_tencent_video(root)
     validate_alipan(root)
+    validate_youku(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

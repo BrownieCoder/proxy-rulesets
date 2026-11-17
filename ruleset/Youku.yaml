@@ -1,0 +1,4 @@
+# Self-maintained exact official Youku public entry; not full playback coverage.
+# Evidence and limits: research/Youku-routing.md
+payload:
+  - DOMAIN,www.youku.com

@@ -82,5 +82,9 @@
   "Kuaishou": {
     "path": "ruleset/Kuaishou.yaml",
     "behavior": "classical"
+  },
+  "Youku": {
+    "path": "ruleset/Youku.yaml",
+    "behavior": "classical"
   }
 }

@@ -180,3 +180,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Kuaishou.yaml
+  Youku:
+    type: file
+    behavior: classical
+    path: ./ruleset/Youku.yaml
