@@ -69,6 +69,7 @@
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
+| [铁路12306 / Railway 12306](services/railway-12306.md) | 官方门户、客户端介绍与声明的 Android 下载入口，共 3 个精确主机。 | [获取地址](services/railway-12306.md#规则地址) · [查看规则](ruleset/Railway12306.yaml) |
 | [携程旅行 / Ctrip](services/ctrip.md) | 携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。 | [获取地址](services/ctrip.md#规则地址) · [查看规则](ruleset/Ctrip.yaml) |
 | [百度地图 / Baidu Map](services/baidu-map.md) | 百度地图官网、JSAPI 入口与网页资源的 4 个精确主机。 | [获取地址](services/baidu-map.md#规则地址) · [查看规则](ruleset/BaiduMap.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |

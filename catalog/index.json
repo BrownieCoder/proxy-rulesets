@@ -408,6 +408,21 @@
       "ruleCount": 5
     },
     {
+      "id": "railway-12306",
+      "provider": "Railway12306",
+      "name": "铁路12306 / Railway 12306",
+      "category": "出行",
+      "description": "官方门户、客户端介绍与声明的 Android 下载入口，共 3 个精确主机。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "安全、游戏与既有服务仍优先；三个主机全部路径均跟随本组，包含同主机英文站、业务及日志路径，不能按路径排除。其他主机沿原策略，可能混合出口；未请求安装包端点或验证购票、查询、登录、订单、支付及原生 App 全链路，不保证余票或购买成功，也不提供绕过验证的能力。若切换后会话或地区识别异常，可恢复 DIRECT 排查；未实测风控。[官方证据与范围](../research/Railway12306-routing.md)。",
+      "path": "ruleset/Railway12306.yaml",
+      "policy": "🚄 铁路12306",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Railway12306.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Railway12306.yaml",
+      "page": "services/railway-12306.md",
+      "ruleCount": 3
+    },
+    {
       "id": "ctrip",
       "provider": "Ctrip",
       "name": "携程旅行 / Ctrip",

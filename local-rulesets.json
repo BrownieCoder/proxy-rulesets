@@ -90,5 +90,9 @@
   "IQIYI": {
     "path": "ruleset/IQIYI.yaml",
     "behavior": "classical"
+  },
+  "Railway12306": {
+    "path": "ruleset/Railway12306.yaml",
+    "behavior": "classical"
   }
 }
