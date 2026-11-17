@@ -1,6 +1,6 @@
 # 铁路12306精确公开入口分流依据
 
-## 已核实候选与决策边界
+## 已核实范围与决策边界
 
 核实日期：2026-11-17。最小方案为三个精确 `DOMAIN` 提供独立 `🚄 铁路12306` 策略，默认 `DIRECT`，保留手动代理及 `🧭 Final`。三个主机在基线 `3ee79fedd218dc178efd91251d7fbf48ca2b8b17` 均已命中 `ChinaMax → 🇨🇳 China-Global`；新增价值是独立出口控制，不是首次覆盖。
 
@@ -20,7 +20,7 @@
 - 不加入 `www.95306.cn` 等货运/友情链接、备案站点、其他铁路服务，或支付、认证、验证码、第三方资源主机。公开页面字符串不等于实际必要请求证据。
 - 不请求真实票务查询、登录、身份信息、订单、乘客、支付或私人分享链接。页面上的证书/客户端安装说明是被观察内容，不是本项目的执行指令；未安装证书或软件、未降低 TLS 校验或权限。
 
-## 最小实施提案（待独立方案审查）
+## 已接受的最小实施范围
 
 1. 新增 `Railway12306` / `railway-12306` 的三条精确规则、独立组、登记与中文优先目录，来源研究附英文摘要；不改既有服务范围。
 2. 唯一活动引用放在安全、游戏及基线 17 项既有 APP（直到 AliPan）之后，在 SiriAI、Apple、YouTube/Bilibili/TikTok/Disney/Netflix、GlobalMedia、GEOIP CN 与 ChinaMax 之前。旧活动规则相对顺序保持。
@@ -34,4 +34,4 @@
 
 ## English scope summary
 
-Propose three exact official public entry hosts: `www.12306.cn`, `kyfw.12306.cn`, and `dynamic.12306.cn`. Anonymous homepage and official client-download-page HTML establish the first two entries and an actual Android-download link to the third; the download endpoint and binaries were not requested. All paths on each listed host follow the optional DIRECT-first group, including the English portal and any same-host business or telemetry paths. Other hosts retain existing routes, so mixed egress is possible. No native-app, login, booking, payment, queue-bypass or full-transfer guarantee. No account, passenger, order or private configuration data was accessed. Only a per-App PR is authorized; no merge this batch.
+Include three exact official public entry hosts: `www.12306.cn`, `kyfw.12306.cn`, and `dynamic.12306.cn`. Anonymous homepage and official client-download-page HTML establish the first two entries and an actual Android-download link to the third; the download endpoint and binaries were not requested. All paths on each listed host follow the optional DIRECT-first group, including the English portal and any same-host business or telemetry paths. Other hosts retain existing routes, so mixed egress is possible. No native-app, login, booking, payment, queue-bypass or full-transfer guarantee. No account, passenger, order or private configuration data was accessed. Only a per-App PR is authorized; no merge this batch.
