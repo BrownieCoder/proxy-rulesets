@@ -378,6 +378,21 @@
       "ruleCount": 4
     },
     {
+      "id": "xianyu",
+      "provider": "Xianyu",
+      "name": "闲鱼 / Xianyu",
+      "category": "购物",
+      "description": "闲鱼官网、根域跳转及公开条款入口的 3 个精确主机。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "安全、游戏和既有服务仍优先；仅 goofish.com、www.goofish.com、terms.goofish.com 的全部路径跟随本组，同主机登录、搜索或消息页面也受影响。共享阿里 CDN、H5、API、鉴权、聊天、订单和支付等其他主机继续原策略，可能混合出口；不保证原生 App、登录、消息或交易全链路，不改变账号、支付或地区资格。若切代理后异常可恢复 DIRECT 排查；未实测风控。[官方来源与范围](../research/Xianyu-routing.md)。",
+      "path": "ruleset/Xianyu.yaml",
+      "policy": "🐟 闲鱼",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Xianyu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Xianyu.yaml",
+      "page": "services/xianyu.md",
+      "ruleCount": 3
+    },
+    {
       "id": "pinduoduo",
       "provider": "Pinduoduo",
       "name": "拼多多 / Pinduoduo",

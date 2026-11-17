@@ -41,6 +41,8 @@ rules:
   - RULE-SET,AliPan,📁 阿里云盘
   # 爱奇艺单个公开入口；同主机全部路径（含统计脚本）均受影响。
   - RULE-SET,IQIYI,🎬 爱奇艺
+  # 闲鱼官网、根域跳转与公开条款；不扩共享阿里 CDN 或交易链路。
+  - RULE-SET,Xianyu,🐟 闲鱼
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
