@@ -200,3 +200,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/WPSOffice.yaml
+  Feishu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Feishu.yaml

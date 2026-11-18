@@ -693,6 +693,21 @@
       "ruleCount": 4
     },
     {
+      "id": "feishu",
+      "provider": "Feishu",
+      "name": "飞书 / Feishu",
+      "category": "办公",
+      "description": "仅 www.feishu.cn 一个已核实的国内公开入口主机。",
+      "policyLabel": "单个公开入口：默认直连，可选代理",
+      "warning": "安全、游戏与既有服务优先；同主机全部路径受影响。首页曾观察到跨主机跳转至国际 Lark；国际跳转目标及其他请求仍沿原策略，可能混合出口，不保证保持国内页面。未纳入租户、API 或共享 CDN，不保证原生 App、登录、文档、聊天、会议或下载全链路，不改变账号或地区资格。若切换后出现异常可恢复 DIRECT 排查；未实测风控。[官方依据与边界](../research/Feishu-routing.md)。",
+      "path": "ruleset/Feishu.yaml",
+      "policy": "💼 飞书",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Feishu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Feishu.yaml",
+      "page": "services/feishu.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
