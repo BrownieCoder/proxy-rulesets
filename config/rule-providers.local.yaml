@@ -196,6 +196,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Youku.yaml
+  WPSOffice:
+    type: file
+    behavior: classical
+    path: ./ruleset/WPSOffice.yaml
+  Feishu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Feishu.yaml
+  DingTalk:
+    type: file
+    behavior: classical
+    path: ./ruleset/DingTalk.yaml
   Quark:
     type: file
     behavior: classical

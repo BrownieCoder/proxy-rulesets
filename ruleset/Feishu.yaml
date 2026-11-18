@@ -1,0 +1,4 @@
+# One exact domestic Feishu public entry; not full native-App coverage.
+# Evidence, all-path and international-redirect limits: research/Feishu-routing.md
+payload:
+  - DOMAIN,www.feishu.cn
