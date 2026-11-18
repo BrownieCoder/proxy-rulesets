@@ -423,6 +423,15 @@
     "warning": "安全、游戏与既有服务优先；同主机全部路径受影响。首页曾观察到跨主机跳转至国际 Lark；国际跳转目标及其他请求仍沿原策略，可能混合出口，不保证保持国内页面。未纳入租户、API 或共享 CDN，不保证原生 App、登录、文档、聊天、会议或下载全链路，不改变账号或地区资格。若切换后出现异常可恢复 DIRECT 排查；未实测风控。[官方依据与边界](../research/Feishu-routing.md)。"
   },
   {
+    "id": "dingtalk",
+    "provider": "DingTalk",
+    "name": "钉钉 / DingTalk",
+    "category": "办公",
+    "description": "仅 www.dingtalk.com 一个已核实的官网公开入口。",
+    "policyLabel": "单个公开入口：默认直连，可选代理",
+    "warning": "同主机全部路径均受影响，不能按产品、宣传或潜在业务路径隔离；共享阿里图片、淘宝视频及未核实客户端、登录、API、会议主机不纳入。其他请求沿用原策略，可能混合出口；不保证完整 App、聊天、会议、下载或企业网络可用性，不解锁账号、组织或地区资格。若切代理后登录/地区异常可恢复 DIRECT 排查；未实测风控。[官方来源与范围](../research/DingTalk-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

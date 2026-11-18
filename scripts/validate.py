@@ -2449,6 +2449,125 @@ def validate_feishu(root: Path = ROOT) -> None:
             raise ValueError("Feishu changed non-target routing: " + host)
 
 
+DINGTALK_CONTROLS = frozenset({
+    "dingtalk.com", "gw.alicdn.com", "img.alicdn.com", "cloud.video.taobao.com",
+    "alicdn.com", "taobao.com", "www.taobao.com", "www.alipan.com",
+    "www.goofish.com", "www.youku.com", "www.feishu.cn", "work.weixin.qq.com",
+    "guzzoni.apple.com", "fastcdn.hoyoverse.com", "generativelanguage.googleapis.com",
+    "app.datadoghq.com", "example.org",
+})
+
+def validate_dingtalk(root: Path = ROOT) -> None:
+    """Enforce the one evidenced public entry without expanding shared Alibaba scope."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.dingtalk.com"}
+    rules = entries(root / "ruleset/DingTalk.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("DingTalk must contain only the one reviewed exact host without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "💬 钉钉"
+    marker = "RULE-SET,DingTalk," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "DingTalk"]]
+    if references != [marker]:
+        raise ValueError("DingTalk must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"DingTalk requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+                    "RULE-SET,TencentVideo,📺 腾讯视频", "RULE-SET,AliPan,📁 阿里云盘",
+                    "RULE-SET,IQIYI,🎬 爱奇艺", "RULE-SET,Xianyu,🐟 闲鱼",
+                    "RULE-SET,Railway12306,🚄 铁路12306", "RULE-SET,Youku,🎞️ 优酷"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing app rules must precede DingTalk")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix", "RULE-SET,Gemini,♊ Gemini",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("DingTalk must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "💬 钉钉"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "DingTalk must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("DingTalk manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in DingTalk domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        valid_length = (len(fields) in {3, 4} and (len(fields) == 3 or fields[3] == "no-resolve")
+                        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} else len(fields) == required)
+        if not valid_length or any(not field.strip() for field in fields[:required]):
+            raise ValueError("DingTalk domain-only model requires complete supported rules: " + kind)
+        if index < current and kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("DingTalk domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if fields[1] not in manifests:
+                raise ValueError("DingTalk routing references missing providers: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_dingtalk: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_dingtalk and fields[1] == "DingTalk":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # IP/GeoIP is only allowed after this App and has no domain-only verdict.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("DingTalk", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"DingTalk is shadowed by an earlier rule: {host}: {result}")
+    controls = DINGTALK_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_dingtalk=True):
+            raise ValueError("DingTalk changed non-target routing: " + host)
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -2499,6 +2618,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_youku(root)
     validate_wps_office(root)
     validate_feishu(root)
+    validate_dingtalk(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

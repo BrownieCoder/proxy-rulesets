@@ -204,3 +204,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Feishu.yaml
+  DingTalk:
+    type: file
+    behavior: classical
+    path: ./ruleset/DingTalk.yaml

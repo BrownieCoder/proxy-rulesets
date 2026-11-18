@@ -306,3 +306,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Feishu.yaml
     interval: 86400
     path: ./ruleset-cache/Feishu.yaml
+  DingTalk:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/DingTalk.yaml
+    interval: 86400
+    path: ./ruleset-cache/DingTalk.yaml

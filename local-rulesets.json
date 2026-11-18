@@ -106,5 +106,9 @@
   "Feishu": {
     "path": "ruleset/Feishu.yaml",
     "behavior": "classical"
+  },
+  "DingTalk": {
+    "path": "ruleset/DingTalk.yaml",
+    "behavior": "classical"
   }
 }
