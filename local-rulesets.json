@@ -99,6 +99,10 @@
     "path": "ruleset/Youku.yaml",
     "behavior": "classical"
   },
+  "WPSOffice": {
+    "path": "ruleset/WPSOffice.yaml",
+    "behavior": "classical"
+  },
   "Feishu": {
     "path": "ruleset/Feishu.yaml",
     "behavior": "classical"
