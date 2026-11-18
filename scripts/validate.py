@@ -15,6 +15,7 @@ from sync import validate  # noqa: E402
 from siri_ai import validate as validate_siri_ai  # noqa: E402
 from siri_ai import entries  # noqa: E402
 from public_rules import parse_routing_rules  # noqa: E402
+from public_policy_groups import read_policy_group_model  # noqa: E402
 
 BUILTIN_POLICIES = {"DIRECT", "REJECT", "REJECT-DROP", "PASS"}
 QQ_MUSIC_CONTROLS = frozenset({
@@ -42,37 +43,9 @@ PINDUODUO_CONTROLS = frozenset({
 
 def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str]]]:
     """Read the project-owned policy-group template without a YAML dependency."""
-    text = (root / "config" / "proxy-groups.yaml").read_text(encoding="utf-8")
-    names: set[str] = set()
-    members: dict[str, list[str]] = {}
-    current: str | None = None
-    in_proxies = False
-
-    for line in text.splitlines():
-        name_match = re.match(r'^  - name: "([^"]+)"\s*$', line)
-        if name_match:
-            current = name_match.group(1)
-            if current in names:
-                raise ValueError(f"proxy-groups.yaml defines duplicate group: {current}")
-            names.add(current)
-            members[current] = []
-            in_proxies = False
-            continue
-        if current is None:
-            continue
-        if re.match(r"^    proxies:\s*$", line):
-            in_proxies = True
-            continue
-        if in_proxies:
-            member_match = re.match(r'^      - (?:"([^"]+)"|([^#\s][^#]*?))\s*$', line)
-            if member_match:
-                member = (member_match.group(1) or member_match.group(2)).strip()
-                members[current].append(member)
-            elif line.strip() and not line.lstrip().startswith("#"):
-                in_proxies = False
-
-    if not names:
-        raise ValueError("proxy-groups.yaml defines no policy groups")
+    groups = read_policy_group_model(root / "config" / "proxy-groups.yaml")
+    names = {group['name'] for group in groups}
+    members = {group['name']: list(group.get('proxies', [])) for group in groups}
     referenced = {member for values in members.values() for member in values}
     missing = referenced - names - BUILTIN_POLICIES
     if missing:
@@ -200,6 +173,7 @@ def validate_config_references(provider_names: set[str], root: Path = ROOT) -> N
 
 def validate_xiaohongshu(root: Path = ROOT) -> None:
     """Validate reviewed scope and real first-match domain precedence offline."""
+    parse_policy_groups(root)
     from siri_ai import DomainRules, entries
     reviewed = {"xiaohongshu.com", "rednote.com", "xhscdn.com", "xhscdn.net"}
     rules = entries(root / "ruleset/Xiaohongshu.yaml")

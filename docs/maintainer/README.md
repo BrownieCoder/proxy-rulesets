@@ -32,6 +32,18 @@ English: the public ordered-rule template accepts one literal `rules` key with a
 
 只有明确需要同步时才运行 `python3 scripts/sync.py`。同步先在候选目录执行与 `validate.py` 相同的完整验证（来源散列、配置引用、路由顺序、Siri 合同及生成目录），再替换现有资产；校验失败时保留旧文件。候选目录也检查遗留服务页；服务改名后须先审查旧页的移除。规则解析只接受单行字面量和一致缩进，不接受 YAML 转义、嵌入引号或映射值，避免生成结果与 YAML 语义不同。GitHub Actions 沿用已有权限，并一同保存更新后的目录文件。
 
+### 策略组模板的受限 YAML 语法
+
+`config/proxy-groups.yaml` 由标准库模块 `scripts/public_policy_groups.py` 建立真实 mapping-list 模型。`parse_policy_groups` 的 `(names, members)` 接口保持不变，组名、成员引用及循环检查全部来自模型，不再扫描任意根键下的列表行。此接口只读取仓库公开模板，不是通用 YAML 或私人配置解析器。
+
+- 仅允许一个 `proxy-groups` 顶层键（裸键或无转义单/双引号等价键），其值必须是非空 block mapping 列表；组、字段、成员分别使用 2/4/6 个空格缩进。错误、重复、额外根键、嵌套层级、流式集合及非 mapping 组项均拒绝。
+- 字段限于当前模板的 13 种：`name`、`type`、`proxies`、`include-all`、`exclude-type`、`url`、`interval`、`timeout`、`tolerance`、`lazy`、`expected-status`、`empty-fallback`、`filter`。组名必须是非空字面字符串，所有字段键唯一，包含引号等价键。`proxies` 若出现必须为非空 block 字符串列表，不能用 null、标量或 flow 列表代替；仅字段缺失时模型成员为 `[]`，兼容现有两个动态 `url-test` 组。
+- 字符串支持简单 ASCII 裸字面量、简单 HTTP(S) URL，或无转义的整条单/双引号字面量；空格及正则特殊符号应放在引号内。引号内的空格、`#`、URL 冒号及 filter 正则字符原样保留，不作 trim。仅引号外且有空格分隔的 `#` 为行内注释。裸 URL 不能以冒号结束，避免与 YAML 映射语法分叉。
+- 布尔字段只接受裸 `true` / `false`，整数采用不带前导零的十进制字面量；不把带引号数字、布尔或 null 强制转换。锚点、别名、tag、merge、转义、block scalar、多文档、tab 和 Unicode 控制/格式字符均失败关闭。LF/CRLF、空行、注释及受限的引号键/`select` 形式有独立 PyYAML 语义对照。
+- 此模型不代替 Mihomo 参数范围、动态节点或实际网络验证。现有 App 的 select/type/body、DIRECT-first 和出口选项门禁保留；结构非法可能由更早的共享入口抛出清晰 ValueError，不能为了保留旧报错前缀接受歧义结构。PyYAML 仅用于测试，运行时仍只依赖标准库。
+
+English: one literal `proxy-groups` key (plain or unescaped quoted) owns a nonempty block list of group mappings. A strict 2/4/6-space, finite-field reader preserves real scalar types and ordered string members; missing `proxies` is distinct from explicit null/flow values. Quoted contents are never trimmed, and comments are recognized only outside quotes at a YAML separator. Duplicate keys, ambiguous values, complex YAML and hidden controls fail closed. References/cycles and existing App-specific policy semantics consume the model without changing routing data or introducing a runtime YAML dependency.
+
 ## 公开地址检查
 
 ```bash
