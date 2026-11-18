@@ -227,7 +227,16 @@ class DingTalkContract(unittest.TestCase):
                 text = before + block + '    ' + declaration + '\n' + after
                 yaml.safe_load(text)  # Valid YAML can still be outside the public template grammar.
                 self.write('config/proxy-groups.yaml', text)
-                self.rejected('DingTalk must be a DIRECT-first select', 'DIRECT-first select|undefined.*groups')
+                if declaration.startswith(('type:', 'type :', '"type":', "'type':")):
+                    reason = 'duplicate group field: type'
+                elif declaration == 'proxies: []':
+                    reason = 'duplicate group field: proxies'
+                elif declaration == 'unknown: value':
+                    reason = 'unsupported group field: unknown'
+                else:
+                    reason = 'expected a literal mapping key with a separated value'
+                self.rejected('DingTalk must be a DIRECT-first select',
+                              r'Public config/proxy-groups\.yaml.*' + reason)
 
     def test_complex_proxy_members_fail_closed(self):
         before, block, after = self.group_parts()
@@ -237,7 +246,13 @@ class DingTalkContract(unittest.TestCase):
                 text = before + block + '      - ' + member + '\n' + after
                 yaml.safe_load(text)
                 self.write('config/proxy-groups.yaml', text)
-                self.rejected('DingTalk must be a DIRECT-first select', 'DIRECT-first select|undefined.*groups')
+                if member in ("'DIRECT'", 'DIRECT # comment'):
+                    reason = 'DingTalk must be a DIRECT-first select'
+                elif member.startswith('"'):
+                    reason = r'Public config/proxy-groups\.yaml.*expected an unescaped whole quoted literal'
+                else:
+                    reason = r'Public config/proxy-groups\.yaml.*unsupported scalar syntax'
+                self.rejected('DingTalk must be a DIRECT-first select', reason)
 
     def test_provider_collisions_fail_both_gates(self):
         sources = json.loads(self.read('sources.json'))
