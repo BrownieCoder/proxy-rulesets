@@ -1,0 +1,5 @@
+# 本地维护：夸克精确公开入口；GPL-2.0-only。
+# 依据与范围：research/Quark-routing.md；不含共享 CDN 或完整客户端链路。
+payload:
+  - DOMAIN,www.quark.cn
+  - DOMAIN,pan.quark.cn

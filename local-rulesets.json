@@ -110,5 +110,9 @@
   "DingTalk": {
     "path": "ruleset/DingTalk.yaml",
     "behavior": "classical"
+  },
+  "Quark": {
+    "path": "ruleset/Quark.yaml",
+    "behavior": "classical"
   }
 }

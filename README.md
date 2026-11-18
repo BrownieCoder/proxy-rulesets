@@ -11,7 +11,7 @@
 点击服务名称查看作用和影响范围；点击「获取地址」进入可复制的地址代码块，点击「查看规则」直接阅读文件。
 
 <!-- SERVICE-CATALOG:START -->
-[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [生活服务](#生活服务) · [支付与其他](#支付与其他) · [办公](#办公) · [安全与基础](#安全与基础)
+[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [生活服务](#生活服务) · [支付与其他](#支付与其他) · [办公](#办公) · [工具](#工具) · [安全与基础](#安全与基础)
 
 ### AI
 
@@ -110,6 +110,12 @@
 | [WPS Office](services/wps-office.md) | WPS Office 官网与 Windows、Mac、Linux 产品入口的 4 个精确主机。 | [获取地址](services/wps-office.md#规则地址) · [查看规则](ruleset/WPSOffice.yaml) |
 | [飞书 / Feishu](services/feishu.md) | 仅 www.feishu.cn 一个已核实的国内公开入口主机。 | [获取地址](services/feishu.md#规则地址) · [查看规则](ruleset/Feishu.yaml) |
 | [钉钉 / DingTalk](services/dingtalk.md) | 仅 www.dingtalk.com 一个已核实的官网公开入口。 | [获取地址](services/dingtalk.md#规则地址) · [查看规则](ruleset/DingTalk.yaml) |
+
+### 工具
+
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [夸克 / Quark](services/quark.md) | 夸克官网与官网声明的网盘门户，共 2 个精确公开入口。 | [获取地址](services/quark.md#规则地址) · [查看规则](ruleset/Quark.yaml) |
 
 ### 安全与基础
 

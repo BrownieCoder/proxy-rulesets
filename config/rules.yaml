@@ -53,6 +53,8 @@ rules:
   - RULE-SET,Feishu,💼 飞书
   # 钉钉单个公开官网入口；共享图片、视频与业务主机不纳入。
   - RULE-SET,DingTalk,💬 钉钉
+  # 夸克官网与网盘公开门户；不代表完整浏览、AI 或文件传输链路。
+  - RULE-SET,Quark,🔍 夸克
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
