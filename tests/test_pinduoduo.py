@@ -177,7 +177,9 @@ class PinduoduoRouting(unittest.TestCase):
                         group.replace('      - "🚀 节点选择"\n', '')):
             with self.subTest(group=changed):
                 path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                         if changed.count('type: select') > 1 else 'DIRECT-first select')):
                     validate.validate_pinduoduo(self.root)
 
     def test_missing_or_duplicate_policy_group_is_rejected(self):
