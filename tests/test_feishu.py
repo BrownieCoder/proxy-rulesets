@@ -210,7 +210,8 @@ class FeishuValidator(unittest.TestCase):
                 self.assertNotEqual(effective['type'], 'select')
                 with self.assertRaisesRegex(ValueError, 'Feishu must be a DIRECT-first select'):
                     validate.validate_feishu(self.root)
-                with self.assertRaisesRegex(ValueError, 'Feishu must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                     validate.validate_tree(self.root)
 
     def test_complex_keys_and_proxy_overrides_fail_helper_and_complete_tree(self):
@@ -234,7 +235,11 @@ class FeishuValidator(unittest.TestCase):
                     self.assertEqual(effective['proxies'], [])
                 with self.assertRaisesRegex(ValueError, 'Feishu must be a DIRECT-first select'):
                     validate.validate_feishu(self.root)
-                with self.assertRaisesRegex(ValueError, 'Feishu must be a DIRECT-first select'):
+                # The full tree now rejects invalid structure before the App body gate.
+                reason = ('duplicate group field: proxies' if declaration == 'proxies: []'
+                          else 'unsupported group field: unsupported' if declaration == 'unsupported: value'
+                          else 'expected a literal mapping key with a separated value')
+                with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*' + reason):
                     validate.validate_tree(self.root)
 
     def test_duplicate_policy_group_is_rejected(self):

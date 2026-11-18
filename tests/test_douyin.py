@@ -113,7 +113,9 @@ class DouyinContract(unittest.TestCase):
                             block.replace('      - "🚀 节点选择"\n', '')):
             with self.subTest(group=replacement):
                 path.write_text(original[:start] + replacement + original[end:], encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                         if replacement.count('type: select') > 1 else 'DIRECT-first select')):
                     validate.validate_douyin(self.root)
 
     def test_future_security_matches_remain_valid(self):

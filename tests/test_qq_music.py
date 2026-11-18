@@ -157,10 +157,25 @@ class QQMusicContract(unittest.TestCase):
                 path.write_text(changed, encoding='utf-8')
                 for validator in (validate.validate_qq_music, validate.validate_tree):
                     with self.subTest(entry=validator.__name__):
-                        with self.assertRaisesRegex(ValueError, 'QQMusic must be a DIRECT-first select'):
+                        with self.assertRaisesRegex(ValueError, (r'Public config/proxy-groups\.yaml.*duplicate group field: type' if validator is validate.validate_tree else 'QQMusic must be a DIRECT-first select')):
                             validator(self.root)
 
     def test_complex_group_yaml_rejected_by_helper_and_real_tree(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         self.complete_public_fixture()
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
@@ -195,12 +210,11 @@ class QQMusicContract(unittest.TestCase):
                 path.write_text(changed, encoding='utf-8')
                 for validator in (validate.validate_qq_music, validate.validate_tree):
                     with self.subTest(entry=validator.__name__):
-                        # The tree's existing global reference gate rejects
-                        # complex members before the new App helper runs.
+                        # Structural syntax is rejected before App policy semantics.
                         error = ('proxy-groups.yaml references undefined groups'
                                  if validator is validate.validate_tree and field == 'last_proxy'
                                  else 'QQMusic must be a DIRECT-first select')
-                        with self.assertRaisesRegex(ValueError, error):
+                        with self.assertRaisesRegex(ValueError, (structural_error(extra) if validator is validate.validate_tree else error)):
                             validator(self.root)
 
     def test_supported_literal_select_forms_pass_helper_and_real_tree(self):

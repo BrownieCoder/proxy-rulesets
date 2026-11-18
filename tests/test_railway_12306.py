@@ -198,10 +198,25 @@ class Railway12306Validator(unittest.TestCase):
                 self.assertNotEqual(effective['type'], 'select')
                 with self.assertRaisesRegex(ValueError, 'Railway12306 must be a DIRECT-first select'):
                     validate.validate_railway_12306(self.root)
-                with self.assertRaisesRegex(ValueError, 'Railway12306 must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                     validate.validate_tree(self.root)
 
     def test_complex_keys_and_proxy_overrides_fail_helper_and_complete_tree(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
         start = original.index('  - name: "🚄 铁路12306"')
@@ -222,7 +237,7 @@ class Railway12306Validator(unittest.TestCase):
                     self.assertEqual(effective['proxies'], [])
                 with self.assertRaisesRegex(ValueError, 'Railway12306 must be a DIRECT-first select'):
                     validate.validate_railway_12306(self.root)
-                with self.assertRaisesRegex(ValueError, 'Railway12306 must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError, structural_error(declaration)):
                     validate.validate_tree(self.root)
 
     def test_duplicate_policy_group_is_rejected(self):
