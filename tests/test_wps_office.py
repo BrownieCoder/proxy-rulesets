@@ -190,7 +190,9 @@ class WPSOfficeValidator(unittest.TestCase):
                 self.assertNotEqual(effective['type'], 'select')
                 with self.assertRaisesRegex(ValueError, 'WPSOffice must be a DIRECT-first select'):
                     validate.validate_wps_office(self.root)
-                with self.assertRaisesRegex(ValueError, 'WPSOffice must be a DIRECT-first select'):
+                with self.assertRaisesRegex(
+                    ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                ):
                     validate.validate_tree(self.root)
 
     def test_complex_keys_and_proxy_overrides_fail_helper_and_complete_tree(self):
@@ -214,7 +216,11 @@ class WPSOfficeValidator(unittest.TestCase):
                     self.assertEqual(effective['proxies'], [])
                 with self.assertRaisesRegex(ValueError, 'WPSOffice must be a DIRECT-first select'):
                     validate.validate_wps_office(self.root)
-                with self.assertRaisesRegex(ValueError, 'WPSOffice must be a DIRECT-first select'):
+                reason = {
+                    'proxies: []': 'duplicate group field: proxies',
+                    'unsupported: value': 'unsupported group field: unsupported',
+                }.get(declaration, 'expected a literal mapping key with a separated value')
+                with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*' + reason):
                     validate.validate_tree(self.root)
 
     def test_duplicate_policy_group_is_rejected(self):

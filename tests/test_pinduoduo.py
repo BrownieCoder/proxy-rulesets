@@ -177,7 +177,9 @@ class PinduoduoRouting(unittest.TestCase):
                         group.replace('      - "🚀 节点选择"\n', '')):
             with self.subTest(group=changed):
                 path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                         if changed.count('type: select') > 1 else 'DIRECT-first select')):
                     validate.validate_pinduoduo(self.root)
 
     def test_missing_or_duplicate_policy_group_is_rejected(self):
@@ -210,10 +212,25 @@ class PinduoduoRouting(unittest.TestCase):
             path.write_text(changed, encoding='utf-8')
             for gate in (validate.validate_pinduoduo, validate.validate_tree):
                 with self.subTest(declaration=declaration, gate=gate.__name__):
-                    with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                         gate(self.root)
 
     def test_complex_type_and_proxies_keys_fail_closed_at_both_gates(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         self.complete_public_fixture()
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
@@ -238,7 +255,7 @@ class PinduoduoRouting(unittest.TestCase):
             path.write_text(changed, encoding='utf-8')
             for gate in (validate.validate_pinduoduo, validate.validate_tree):
                 with self.subTest(declaration=declaration, gate=gate.__name__):
-                    with self.assertRaisesRegex(ValueError, 'Pinduoduo must be a DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError, structural_error(declaration)):
                         gate(self.root)
 
     def test_literal_select_formats_pass_helper_and_complete_tree(self):

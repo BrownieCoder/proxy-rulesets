@@ -120,7 +120,9 @@ class CtripValidator(unittest.TestCase):
                         block.replace('      - DIRECT\n', '      - "🚀 节点选择"\n')):
             with self.subTest(group=changed):
                 path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                         if changed.count('type: select') > 1 else 'DIRECT-first select')):
                     validate.validate_ctrip(self.root)
 
     def test_duplicate_type_overrides_fail_helper_and_complete_tree(self):
@@ -135,12 +137,27 @@ class CtripValidator(unittest.TestCase):
                 parsed = yaml.safe_load(path.read_text(encoding='utf-8'))['proxy-groups']
                 effective = next(group for group in parsed if group['name'] == '🧳 携程')
                 self.assertNotEqual(effective['type'], 'select')
-                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                     validate.validate_ctrip(self.root)
-                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                     validate.validate_tree(self.root)
 
     def test_complex_keys_and_proxy_overrides_fail_helper_and_complete_tree(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
         start = original.index('  - name: "🧳 携程"')
@@ -159,9 +176,9 @@ class CtripValidator(unittest.TestCase):
                     self.assertEqual(effective['type'], 'fallback')
                 if '[]' in declaration:
                     self.assertEqual(effective['proxies'], [])
-                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError, structural_error(declaration)):
                     validate.validate_ctrip(self.root)
-                with self.assertRaisesRegex(ValueError, 'Ctrip must be a DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError, structural_error(declaration)):
                     validate.validate_tree(self.root)
 
     def test_duplicate_policy_group_is_rejected(self):
