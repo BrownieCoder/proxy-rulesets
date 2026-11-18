@@ -678,6 +678,21 @@
       "ruleCount": 1
     },
     {
+      "id": "wps-office",
+      "provider": "WPSOffice",
+      "name": "WPS Office",
+      "category": "办公",
+      "description": "WPS Office 官网与 Windows、Mac、Linux 产品入口的 4 个精确主机。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "四个主机全部路径受影响，官网也展示 WPS 365 / AI 等内容；不含其独立主机、金山文档、企业版、模板或共享 CDN。其他请求沿原策略，可能混合出口；不保证原生编辑、同步、云文档上传、AI、下载链路或资格。Windows/Mac 目标页本轮抓取超时，证据仅为官方入口声明。[来源与边界](../research/WPSOffice-routing.md)。",
+      "path": "ruleset/WPSOffice.yaml",
+      "policy": "📝 WPS Office",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/WPSOffice.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/WPSOffice.yaml",
+      "page": "services/wps-office.md",
+      "ruleCount": 4
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

@@ -405,6 +405,15 @@
     "warning": "仅 www.youku.com 全路径受影响，包括同主机账户、会员、直播/游戏导航和推广；不含 v.youku.com、共享阿里 CDN 或未知 API。其他请求保留原策略，可能混合出口；切代理后若登录或地区识别异常可恢复直连，未实测风控。不解锁会员、版权或地区资格，不保证完整网站/App/播放/下载。"
   },
   {
+    "id": "wps-office",
+    "provider": "WPSOffice",
+    "name": "WPS Office",
+    "category": "办公",
+    "description": "WPS Office 官网与 Windows、Mac、Linux 产品入口的 4 个精确主机。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "四个主机全部路径受影响，官网也展示 WPS 365 / AI 等内容；不含其独立主机、金山文档、企业版、模板或共享 CDN。其他请求沿原策略，可能混合出口；不保证原生编辑、同步、云文档上传、AI、下载链路或资格。Windows/Mac 目标页本轮抓取超时，证据仅为官方入口声明。[来源与边界](../research/WPSOffice-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",
