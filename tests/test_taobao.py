@@ -178,7 +178,9 @@ class TaobaoValidatorMutations(unittest.TestCase):
                         block.replace('    type: select\n', '    type: select\n    type: select\n')):
             with self.subTest(block=changed):
                 path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                         if changed.count('type: select') > 1 else 'DIRECT-first select')):
                     validate.validate_taobao(self.root)
 
     def test_equivalent_duplicate_type_keys_are_rejected_by_both_gates(self):
@@ -204,7 +206,7 @@ class TaobaoValidatorMutations(unittest.TestCase):
                 self.assertNotEqual(group['type'], 'select')
                 for gate in (validate.validate_taobao, validate.validate_tree):
                     with self.subTest(gate=gate.__name__):
-                        with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                        with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                             gate(self.root)
 
     def test_known_select_formats_pass_helper_and_complete_tree(self):
@@ -235,7 +237,7 @@ class TaobaoValidatorMutations(unittest.TestCase):
                 group = next(group for group in groups if group['name'] == TARGET)
                 self.assertEqual(group['type'], 'select')
                 for gate in (validate.validate_taobao, validate.validate_tree):
-                    with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError, r'Public config/proxy-groups\.yaml.*duplicate group field: type'):
                         gate(self.root)
 
     def test_unseparated_or_nonselect_type_formats_fail_both_gates(self):
@@ -247,7 +249,9 @@ class TaobaoValidatorMutations(unittest.TestCase):
                 path.write_text(original.replace(marker, '  - name: "🛍️ 淘宝"\n    ' + declaration + '\n'),
                                 encoding='utf-8')
                 for gate in (validate.validate_taobao, validate.validate_tree):
-                    with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError,
+                            (r'Public config/proxy-groups\.yaml.*expected a literal mapping key'
+                             if declaration == 'type:select' else 'Taobao must be a DIRECT-first select')):
                         gate(self.root)
 
     def test_missing_policy_group_fails_helper_and_complete_tree(self):
@@ -262,6 +266,21 @@ class TaobaoValidatorMutations(unittest.TestCase):
             validate.validate_tree(self.root)
 
     def test_complex_type_and_proxy_overrides_fail_helper_and_complete_tree(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
         start = original.index('  - name: "🛍️ 淘宝"')
@@ -290,7 +309,7 @@ class TaobaoValidatorMutations(unittest.TestCase):
                 self.assertEqual(group[key], effective)
                 for gate in (validate.validate_taobao, validate.validate_tree):
                     with self.subTest(gate=gate.__name__):
-                        with self.assertRaisesRegex(ValueError, 'Taobao must be a DIRECT-first select'):
+                        with self.assertRaisesRegex(ValueError, structural_error(declaration)):
                             gate(self.root)
 
     def test_legal_security_updates_use_same_validator(self):

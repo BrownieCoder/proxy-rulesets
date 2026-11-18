@@ -186,6 +186,21 @@ class KuaishouContract(unittest.TestCase):
                     validate.validate_kuaishou(self.root)
 
     def test_duplicate_and_complex_keys_fail_helper_and_complete_tree(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         self.complete_fixture()
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
@@ -210,7 +225,7 @@ class KuaishouContract(unittest.TestCase):
             path.write_text(changed, encoding='utf-8')
             for gate in (validate.validate_kuaishou, validate.validate_tree):
                 with self.subTest(declaration=declaration, gate=gate.__name__):
-                    with self.assertRaisesRegex(ValueError, 'Kuaishou must be a DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError, (structural_error(declaration) if gate is validate.validate_tree else 'Kuaishou must be a DIRECT-first select')):
                         gate(self.root)
 
     def test_safe_select_formats_pass_helper_and_complete_tree(self):
