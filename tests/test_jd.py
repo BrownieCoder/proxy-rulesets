@@ -144,7 +144,9 @@ class JDValidatorMutations(unittest.TestCase):
                         block.replace('    type: select\n', '    type: select\n    type: select\n')):
             with self.subTest(block=changed):
                 path.write_text(original[:start] + changed + original[end:], encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'DIRECT-first select'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'Public config/proxy-groups\.yaml.*duplicate group field: type'
+                         if changed.count('type: select') > 1 else 'DIRECT-first select')):
                     validate.validate_jd(self.root)
 
     def test_legal_security_updates_use_same_validator(self):

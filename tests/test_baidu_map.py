@@ -253,7 +253,7 @@ class BaiduMapValidatorMutations(unittest.TestCase):
                 self.assertNotEqual(group['type'], 'select')
                 for gate in (validate.validate_baidu_map, validate.validate_tree):
                     with self.subTest(gate=gate.__name__):
-                        with self.assertRaisesRegex(ValueError, 'BaiduMap must be a DIRECT-first select'):
+                        with self.assertRaisesRegex(ValueError, (r'Public config/proxy-groups\.yaml.*duplicate group field: type' if gate is validate.validate_tree else 'BaiduMap must be a DIRECT-first select')):
                             gate(self.root)
 
     def test_known_select_formats_pass_helper_and_complete_tree(self):
@@ -284,7 +284,7 @@ class BaiduMapValidatorMutations(unittest.TestCase):
                 group = next(group for group in groups if group['name'] == TARGET)
                 self.assertEqual(group['type'], 'select')
                 for gate in (validate.validate_baidu_map, validate.validate_tree):
-                    with self.assertRaisesRegex(ValueError, 'BaiduMap must be a DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError, (r'Public config/proxy-groups\.yaml.*duplicate group field: type' if gate is validate.validate_tree else 'BaiduMap must be a DIRECT-first select')):
                         gate(self.root)
 
     def test_unseparated_or_nonselect_type_formats_fail_both_gates(self):
@@ -296,7 +296,9 @@ class BaiduMapValidatorMutations(unittest.TestCase):
                 path.write_text(original.replace(marker, '  - name: "🗺️ 百度地图"\n    ' + declaration + '\n'),
                                 encoding='utf-8')
                 for gate in (validate.validate_baidu_map, validate.validate_tree):
-                    with self.assertRaisesRegex(ValueError, 'BaiduMap must be a DIRECT-first select'):
+                    with self.assertRaisesRegex(ValueError,
+                            (r'Public config/proxy-groups\.yaml.*expected a literal mapping key'
+                             if declaration == 'type:select' and gate is validate.validate_tree else 'BaiduMap must be a DIRECT-first select')):
                         gate(self.root)
 
     def test_missing_policy_group_fails_helper_and_complete_tree(self):
@@ -311,6 +313,21 @@ class BaiduMapValidatorMutations(unittest.TestCase):
             validate.validate_tree(self.root)
 
     def test_complex_type_and_proxy_overrides_fail_helper_and_complete_tree(self):
+        def structural_error(declaration):
+            value = declaration.strip()
+            if value.startswith(('type:', 'type :', '"type":', "'type':")):
+                reason = 'duplicate group field: type'
+            elif value.startswith(('proxies:', '"proxies":', "'proxies':")):
+                reason = 'duplicate group field: proxies'
+            elif value.startswith('unsupported:'):
+                reason = 'unsupported group field: unsupported'
+            elif value.startswith('- '):
+                reason = ('expected an unescaped whole quoted literal'
+                          if chr(92) in value else 'unsupported scalar syntax')
+            else:
+                reason = 'expected a literal mapping key with a separated value'
+            return r'Public config/proxy-groups\.yaml.*' + reason
+
         path = self.root / 'config/proxy-groups.yaml'
         original = path.read_text(encoding='utf-8')
         start = original.index('  - name: "🗺️ 百度地图"')
@@ -339,7 +356,7 @@ class BaiduMapValidatorMutations(unittest.TestCase):
                 self.assertEqual(group[key], effective)
                 for gate in (validate.validate_baidu_map, validate.validate_tree):
                     with self.subTest(gate=gate.__name__):
-                        with self.assertRaisesRegex(ValueError, 'BaiduMap must be a DIRECT-first select'):
+                        with self.assertRaisesRegex(ValueError, (structural_error(declaration) if gate is validate.validate_tree else 'BaiduMap must be a DIRECT-first select')):
                             gate(self.root)
 
     def test_legal_security_updates_use_same_validator(self):
