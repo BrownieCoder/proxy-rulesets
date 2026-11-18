@@ -2195,6 +2195,260 @@ def validate_youku(root: Path = ROOT) -> None:
             raise ValueError("Youku changed non-target routing: " + host)
 
 
+WPS_OFFICE_CONTROLS = frozenset({
+    "wps.cn", "wpscdn.cn", "kdocs.cn", "365.wps.cn", "ai.wps.cn", "comate.wps.cn",
+    "docer.wps.cn", "www.kdocs.cn", "ep.wps.cn", "mo.wps.cn", "helpdesk.wps.cn",
+    "open.wps.cn", "bbs.wps.cn", "vip.wps.cn", "aippt.wps.cn", "rili.wps.cn",
+    "qn.cache.wpscdn.cn", "kdocs-om.wpscdn.cn", "volcengine-kdocs-cache.wpscdn.cn",
+    "www.iciba.com", "www.lingxi.cn", "www.kimxz.com", "www.wpspdf.cn",
+    "www.dingtalk.com", "www.feishu.cn", "www.youku.com", "www.iqiyi.com",
+    "www.goofish.com", "www.12306.cn", "www.taobao.com", "www.alipan.com",
+    "www.jd.com", "www.meituan.com", "www.ctrip.com", "www.pinduoduo.com",
+    "pan.baidu.com", "map.baidu.com", "www.zhihu.com", "www.douban.com",
+    "www.xiaohongshu.com", "www.kuaishou.com", "v.qq.com", "y.qq.com",
+    "music.163.com", "www.douyin.com", "guzzoni.apple.com", "fastcdn.hoyoverse.com",
+    "hoyoverse.com", "hmma.baidu.com", "app.datadoghq.com", "api.anthropic.com", "example.org",
+})
+
+
+def validate_wps_office(root: Path = ROOT) -> None:
+    """Enforce only four evidenced public WPS Office product entry hosts."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.wps.cn", "platform.wps.cn", "mac.wps.cn", "linux.wps.cn"}
+    rules = entries(root / "ruleset/WPSOffice.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("WPSOffice must contain only the four reviewed exact hosts without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "📝 WPS Office"
+    marker = "RULE-SET,WPSOffice," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "WPSOffice"]]
+    if references != [marker]:
+        raise ValueError("WPSOffice must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"WPSOffice requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+                    "RULE-SET,TencentVideo,📺 腾讯视频", "RULE-SET,AliPan,📁 阿里云盘",
+                    "RULE-SET,IQIYI,🎬 爱奇艺", "RULE-SET,Xianyu,🐟 闲鱼",
+                    "RULE-SET,Railway12306,🚄 铁路12306", "RULE-SET,Youku,🎞️ 优酷"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing app rules must precede WPSOffice")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix", "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("WPSOffice must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "📝 WPS Office"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "WPSOffice must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("WPSOffice manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in WPSOffice domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        valid_length = (len(fields) in {3, 4} and (len(fields) == 3 or fields[3] == "no-resolve")
+                        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} else len(fields) == required)
+        if not valid_length or any(not field.strip() for field in fields[:required]):
+            raise ValueError("WPSOffice domain-only model requires complete supported rules: " + kind)
+        if index < current and kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("WPSOffice domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET" and fields[1] not in manifests:
+            raise ValueError("WPSOffice routing references missing providers: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_wps_office: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_wps_office and fields[1] == "WPSOffice":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # Later IP/GeoIP conditions have no domain-only verdict.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("WPSOffice", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"WPSOffice is shadowed by an earlier rule: {host}: {result}")
+    controls = WPS_OFFICE_CONTROLS | {value for host in reviewed for value in
+                                   ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_wps_office=True):
+            raise ValueError("WPSOffice changed non-target routing: " + host)
+
+
+FEISHU_CONTROLS = frozenset({
+    "feishu.cn", "www.larksuite.com", "larksuite.com", "apps.apple.com",
+    "y.qq.com", "www.douyin.com", "restapi.amap.com", "www.zhihu.com",
+    "www.xiaohongshu.com", "music.163.com", "www.douban.com", "www.jd.com",
+    "www.meituan.com", "pan.baidu.com", "www.ctrip.com", "www.pinduoduo.com",
+    "www.taobao.com", "map.baidu.com", "www.kuaishou.com", "v.qq.com", "m.v.qq.com",
+    "www.alipan.com", "www.aliyundrive.com", "www.iqiyi.com", "goofish.com",
+    "www.goofish.com", "terms.goofish.com", "www.12306.cn", "kyfw.12306.cn",
+    "dynamic.12306.cn", "www.youku.com", "guzzoni.apple.com", "msg.qy.net",
+    "hmma.baidu.com", "fastcdn.hoyoverse.com", "hoyoverse.com", "game.qq.com",
+    "www.bilibili.com", "www.youtube.com", "www.tiktok.com", "www.netflix.com",
+    "www.disneyplus.com", "www.google.com", "www.microsoft.com", "www.datadoghq.com",
+    "example.org",
+})
+
+
+def validate_feishu(root: Path = ROOT) -> None:
+    """Enforce one Feishu entry without expanding international or tenant scope."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"www.feishu.cn"}
+    rules = entries(root / "ruleset/Feishu.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("Feishu must contain only the one reviewed exact host without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "💼 飞书"
+    marker = "RULE-SET,Feishu," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "Feishu"]]
+    if references != [marker]:
+        raise ValueError("Feishu must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"Feishu requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+                    "RULE-SET,TencentVideo,📺 腾讯视频", "RULE-SET,AliPan,📁 阿里云盘",
+                    "RULE-SET,IQIYI,🎬 爱奇艺", "RULE-SET,Xianyu,🐟 闲鱼",
+                    "RULE-SET,Railway12306,🚄 铁路12306", "RULE-SET,Youku,🎞️ 优酷"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing app rules must precede Feishu")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("Feishu must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "💼 飞书"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "Feishu must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("Feishu manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in Feishu domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        valid_length = (len(fields) in {3, 4} and (len(fields) == 3 or fields[3] == "no-resolve")
+                        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} else len(fields) == required)
+        if not valid_length or any(not field.strip() for field in fields[:required]):
+            raise ValueError("Feishu domain-only model requires complete supported rules: " + kind)
+        if index < current and kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Feishu domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if fields[1] not in manifests:
+                raise ValueError("Feishu routing references missing providers: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_feishu: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_feishu and fields[1] == "Feishu":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # IP/GeoIP is only allowed after this App and has no domain-only verdict.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Feishu", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Feishu is shadowed by an earlier rule: {host}: {result}")
+    controls = FEISHU_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_feishu=True):
+            raise ValueError("Feishu changed non-target routing: " + host)
+
+
 DINGTALK_CONTROLS = frozenset({
     "dingtalk.com", "gw.alicdn.com", "img.alicdn.com", "cloud.video.taobao.com",
     "alicdn.com", "taobao.com", "www.taobao.com", "www.alipan.com",
@@ -2362,6 +2616,8 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_xianyu(root)
     validate_railway_12306(root)
     validate_youku(root)
+    validate_wps_office(root)
+    validate_feishu(root)
     validate_dingtalk(root)
     from generate_catalog import generate
     generate(root)

@@ -259,6 +259,20 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "📝 WPS Office"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "💼 飞书"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "💬 钉钉"
     type: select
     proxies:

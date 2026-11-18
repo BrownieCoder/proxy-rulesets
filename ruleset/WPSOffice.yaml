@@ -1,0 +1,7 @@
+# Exact public WPS Office portal and desktop product entry hosts only.
+# Evidence and all-path limits: research/WPSOffice-routing.md
+payload:
+  - DOMAIN,www.wps.cn
+  - DOMAIN,platform.wps.cn
+  - DOMAIN,mac.wps.cn
+  - DOMAIN,linux.wps.cn

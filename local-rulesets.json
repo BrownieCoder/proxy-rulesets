@@ -95,12 +95,20 @@
     "path": "ruleset/Railway12306.yaml",
     "behavior": "classical"
   },
-  "DingTalk": {
-    "path": "ruleset/DingTalk.yaml",
-    "behavior": "classical"
-  },
   "Youku": {
     "path": "ruleset/Youku.yaml",
+    "behavior": "classical"
+  },
+  "WPSOffice": {
+    "path": "ruleset/WPSOffice.yaml",
+    "behavior": "classical"
+  },
+  "Feishu": {
+    "path": "ruleset/Feishu.yaml",
+    "behavior": "classical"
+  },
+  "DingTalk": {
+    "path": "ruleset/DingTalk.yaml",
     "behavior": "classical"
   }
 }
