@@ -91,6 +91,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [美团](services/meituan.md) | 官网、消费和外卖入口与部分资源的 7 个精确主机。 | [获取地址](services/meituan.md#规则地址) · [查看规则](ruleset/Meituan.yaml) |
+| [顺丰速运 / SF Express](services/sf-express.md) | 仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。 | [获取地址](services/sf-express.md#规则地址) · [查看规则](ruleset/SFExpress.yaml) |
 
 ### 支付与其他
 

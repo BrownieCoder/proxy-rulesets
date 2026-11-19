@@ -738,6 +738,21 @@
       "ruleCount": 2
     },
     {
+      "id": "sf-express",
+      "provider": "SFExpress",
+      "name": "顺丰速运 / SF Express",
+      "category": "生活服务",
+      "description": "仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。",
+      "policyLabel": "单个公开入口：默认直连，可选代理",
+      "warning": "同主机全部路径生效，包含国际产品、企业及集团介绍，无法仅按大陆 App 或路径隔离。独立国际、静态资源、科技和航空主机不纳入；其他请求沿原策略，可能混合出口。不保证登录、订单、寄查件、实时轨迹、付款、国际链路、时效或资格；未访问私人快件或实测客户端。[官方来源与边界](../research/SFExpress-routing.md)。",
+      "path": "ruleset/SFExpress.yaml",
+      "policy": "📦 顺丰速运",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SFExpress.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/SFExpress.yaml",
+      "page": "services/sf-express.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
