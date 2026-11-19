@@ -1,0 +1,5 @@
+# Two exact public entries; not complete App, visitor/auth or media coverage.
+# Official evidence and cached/region limits: research/Weibo-routing.md
+payload:
+  - DOMAIN,weibo.com
+  - DOMAIN,www.weibo.com

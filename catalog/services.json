@@ -468,6 +468,15 @@
     "warning": "同主机全部路径生效，包含国际产品、企业及集团介绍，无法仅按大陆 App 或路径隔离。独立国际、静态资源、科技和航空主机不纳入；其他请求沿原策略，可能混合出口。不保证登录、订单、寄查件、实时轨迹、付款、国际链路、时效或资格；未访问私人快件或实测客户端。[官方来源与边界](../research/SFExpress-routing.md)。"
   },
   {
+    "id": "weibo",
+    "provider": "Weibo",
+    "name": "微博 / Weibo",
+    "category": "社交",
+    "description": "仅 weibo.com 与 www.weibo.com 两个精确公开入口主机。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "同主机全部路径受影响。网页读取曾返回北美地区页，部分结果为缓存，不能保证稳定跳转或保持国内页面。不含 m.weibo.cn、访客验证、认证子域、共享新浪/CDN 或未核实 API；其他请求沿原策略，可能混合出口。不保证完整 App、登录、图片/视频、会员或地区资格；切换后会话/地区异常可恢复 DIRECT 排查，未实测风控。[官方依据与边界](../research/Weibo-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",
