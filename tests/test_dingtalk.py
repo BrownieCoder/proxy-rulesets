@@ -284,8 +284,7 @@ class DingTalkContract(unittest.TestCase):
                      'IP-CIDR, ,DIRECT', 'IP-CIDR6, ,DIRECT', 'RULE-SET, ,DIRECT'):
             with self.subTest(rule=rule):
                 self.write('config/rules.yaml', original + '  - ' + rule + '\n')
-                self.rejected('DingTalk domain-only model requires complete supported rules',
-                              'complete supported rules|undefined providers|missing providers')
+                self.rejected(r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$')
 
     def test_incomplete_rule_shapes_have_strict_helper_diagnostics(self):
         original = self.read('config/rules.yaml')

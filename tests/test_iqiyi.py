@@ -171,7 +171,9 @@ class IQIYIValidatorMutations(unittest.TestCase):
                      'IP-CIDR6,2001:db8::/32,DIRECT,no-resolve,extra'):
             with self.subTest(rule=rule):
                 path.write_text(original + '  - ' + rule + '\n', encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'IQIYI domain-only model requires complete supported rules'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$'
+                         if ', ,' in rule else 'IQIYI domain-only model requires complete supported rules')):
                     validate.validate_iqiyi(self.root)
 
     def test_complete_tree_accepts_supported_post_app_ip_shapes(self):

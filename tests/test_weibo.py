@@ -313,6 +313,9 @@ class WeiboContract(unittest.TestCase):
                 helper = 'Weibo domain-only model requires complete supported rules: ' + kind
                 tree = ('references undefined providers' if kind == 'RULE-SET'
                         else 'domain-only model requires complete supported rules: ' + kind)
+            if ', ,' in rule:
+                helper = r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$'
+                tree = helper
             with self.subTest(rule=rule):
                 self.write('config/rules.yaml', original + '  - ' + rule + '\n')
                 self.rejected(helper, tree)

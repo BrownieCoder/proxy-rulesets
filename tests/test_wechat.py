@@ -393,14 +393,8 @@ class WeChatValidator(unittest.TestCase):
             self.assertEqual(yaml.safe_load(changed)['rules'][-1], rule)
             for gate in (validate.validate_wechat, validate.validate_tree):
                 with self.subTest(rule=rule, gate=gate.__name__):
-                    kind = rule.split(',')[0]
-                    # The complete tree may reject malformed fields in an earlier gate.
-                    if gate is validate.validate_wechat:
-                        error = r'^WeChat domain-only model requires complete supported rules: ' + kind + r'\Z'
-                    elif kind == 'RULE-SET':
-                        error = r'^rules\.yaml references undefined providers:'
-                    else:
-                        error = r'domain-only model requires complete supported rules: ' + kind + r'\Z'
+                    # The shared reader rejects ASCII-only fields before App semantics.
+                    error = r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$'
                     with self.assertRaisesRegex(ValueError, error):
                         gate(self.root)
 

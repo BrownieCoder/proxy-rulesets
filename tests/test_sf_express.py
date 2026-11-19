@@ -299,10 +299,7 @@ class SFExpressContract(unittest.TestCase):
                      'IP-CIDR, ,DIRECT', 'IP-CIDR6, ,DIRECT', 'RULE-SET, ,DIRECT'):
             with self.subTest(rule=rule):
                 self.write('config/rules.yaml', original + '  - ' + rule + '\n')
-                kind = rule.split(',')[0]
-                reason = (r'^rules\.yaml references undefined providers:' if kind == 'RULE-SET'
-                          else 'domain-only model requires complete supported rules: ' + kind + r'\Z')
-                self.rejected('SFExpress domain-only model requires complete supported rules: ' + kind + r'\Z', reason)
+                self.rejected(r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$')
 
     def test_incomplete_rule_shapes_have_strict_helper_diagnostics(self):
         original = self.read('config/rules.yaml')

@@ -57,6 +57,8 @@ def parse_routing_rules(text: str) -> list[str]:
                     or any(char in value for char in "'\"\\#[]{}")
                     or re.search(r":(?: |$)", value)):
                 raise invalid(number, "expected a literal routing string, without inline YAML syntax")
+        if any(field != field.strip(" ") for field in value.split(",")):
+            raise invalid(number, "routing fields must not have leading or trailing ASCII spaces")
         rules.append(value)
     if not seen_header or not rules:
         raise ValueError("Public config/rules.yaml requires one rules key and a nonempty string list")

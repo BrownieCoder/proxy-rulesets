@@ -231,7 +231,7 @@ class BossZhipinContract(unittest.TestCase):
         text = self.read(path)
         for line, reason, tree_reason in (
             ('  - PROCESS-NAME,unknown,DIRECT\n', 'Unsupported top-level.*BossZhipin', 'Unsupported top-level'),
-            ('  - DOMAIN, ,DIRECT\n', 'complete supported rules', 'complete supported rules'),
+            ('  - DOMAIN, ,DIRECT\n', r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$', None),
             ('  - RULE-SET,MissingPublicProvider,DIRECT\n', 'routing references missing providers', 'undefined providers'),
             ('  - IP-CIDR,192.0.2.0/24,DIRECT,no-resolve\n', 'cannot validate preceding IP conditions', None),
         ):

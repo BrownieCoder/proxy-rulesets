@@ -59,6 +59,48 @@ class PublicRuleGrammar(unittest.TestCase):
             with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'Public config/rules.yaml'):
                 public_rules.parse_routing_rules(text)
 
+    def test_ascii_field_padding_is_rejected_without_normalizing(self):
+        values = (' DOMAIN,example.org,DIRECT', 'DOMAIN ,example.org,DIRECT',
+                  'DOMAIN, example.org,DIRECT', 'DOMAIN,example.org ,DIRECT',
+                  'DOMAIN,example.org, DIRECT', 'DOMAIN,example.org,DIRECT ',
+                  'RULE-SET, Privacy,REJECT', 'DOMAIN, ,DIRECT',
+                  'IP-CIDR,192.0.2.0/24,DIRECT, no-resolve',
+                  'IP-CIDR6,2001:db8::/32,DIRECT,no-resolve ', 'MATCH, DIRECT')
+        for value in values:
+            for quote in ("'", '"'):
+                text = 'rules:\n  - ' + quote + value + quote + '\n'
+                with self.subTest(value=value, quote=quote):
+                    self.assertEqual(yaml.safe_load(text)['rules'], [value])
+                    with self.assertRaisesRegex(ValueError, 'Public config/rules.yaml.*ASCII spaces'):
+                        public_rules.parse_routing_rules(text)
+
+    def test_outer_yaml_spaces_and_internal_policy_spaces_remain_literal(self):
+        values = ('DOMAIN,example.org,🧭 Final', 'RULE-SET,Apple,🍎 Apple',
+                  'DOMAIN,example.org,policy: literal', 'MATCH,🧭 Final')
+        for quote in ("'", '"'):
+            for newline in ('\n', '\r\n'):
+                text = ('rules:  \n' + ''.join('  - ' + quote + value + quote + '   \n' for value in values))
+                text = text.replace('\n', newline)
+                with self.subTest(quote=quote, newline=newline):
+                    self.assertEqual(public_rules.parse_routing_rules(text), list(values))
+                    self.assertEqual(yaml.safe_load(text)['rules'], list(values))
+        self.assertEqual(public_rules.parse_routing_rules('rules:\n  - MATCH,DIRECT   \n'), ['MATCH,DIRECT'])
+
+    def test_empty_fields_and_non_ascii_spaces_are_not_ascii_normalized(self):
+        values = ('DOMAIN,,DIRECT', 'DOMAIN,example.org,', 'RULE-SET,,DIRECT',
+                  'IP-CIDR,,DIRECT', 'MATCH,')
+        for value in values:
+            text = 'rules:\n  - ' + value + '\n'
+            with self.subTest(value=value):
+                self.assertEqual(public_rules.parse_routing_rules(text), [value])
+        for space in ('\u00a0', '\u3000'):
+            for target in (space + 'DIRECT', 'DIRECT' + space,
+                           space + '🧭 Final', '🧭 Final' + space):
+                text = 'rules:\n  - "DOMAIN,example.org,' + target + '"\n'
+                with self.subTest(target=target):
+                    self.assertEqual(public_rules.parse_routing_rules(text), yaml.safe_load(text)['rules'])
+                    self.assertEqual(validate.parse_rule_targets(text), {target})
+
     def test_complex_yaml_is_fail_closed(self):
         cases = ('"rules": []\n', "'rules': []\n", '!!str rules: []\n',
                  '"r\\u0075les": []\n', '&key rules: []\n', '? rules\n: []\n',
@@ -188,6 +230,53 @@ class PublicRuleConsumers(unittest.TestCase):
             self.path.write_text(text, encoding='utf-8')
             with self.assertRaises(ValueError):
                 validate.validate_tree(self.root)
+
+    def test_ascii_padding_reaches_every_public_consumer(self):
+        for rule in ('DOMAIN, example.org,DIRECT', 'DOMAIN,example.org ,DIRECT',
+                     'DOMAIN,example.org, DIRECT', 'DOMAIN,example.org,DIRECT ',
+                     'RULE-SET, Privacy,REJECT', 'IP-CIDR,192.0.2.0/24,DIRECT, no-resolve'):
+            self.path.write_text(self.original + '  - "' + rule + '"\n', encoding='utf-8')
+            for name, consumer in self.consumers().items():
+                with self.subTest(rule=rule, consumer=name), contextlib.redirect_stdout(io.StringIO()):
+                    with self.assertRaisesRegex(ValueError, 'Public config/rules.yaml.*ASCII spaces'):
+                        consumer()
+
+    def test_domain_padding_cannot_hide_a_preceding_override(self):
+        marker = '  - RULE-SET,AliPan,📁 阿里云盘\n'
+        self.assertEqual(self.original.count(marker), 1)
+        canonical = self.original.replace(marker, '  - DOMAIN,www.alipan.com,DIRECT\n' + marker)
+        self.path.write_text(canonical, encoding='utf-8')
+        for gate in (validate.validate_alipan, validate.validate_tree):
+            with self.subTest(canonical=True, gate=gate.__name__):
+                with self.assertRaisesRegex(ValueError, 'AliPan is shadowed by an earlier rule'):
+                    gate(self.root)
+        for host in (' www.alipan.com', 'www.alipan.com '):
+            text = self.original.replace(marker, '  - DOMAIN,' + host + ',DIRECT\n' + marker)
+            self.path.write_text(text, encoding='utf-8')
+            for gate in (validate.validate_alipan, validate.validate_tree):
+                with self.subTest(host=host, gate=gate.__name__):
+                    with self.assertRaisesRegex(ValueError, 'Public config/rules.yaml.*ASCII spaces'):
+                        gate(self.root)
+
+    def test_non_ascii_target_edges_are_exact_references_not_existing_aliases(self):
+        group_path = self.root / 'config/proxy-groups.yaml'
+        original_groups = group_path.read_text(encoding='utf-8')
+        for space in ('\u00a0', '\u3000'):
+            for existing in ('DIRECT', '🧭 Final'):
+                for target in (space + existing, existing + space):
+                    text = self.original + '  - "DOMAIN,example.org,' + target + '"\n'
+                    self.path.write_text(text, encoding='utf-8')
+                    with self.subTest(target=target):
+                        self.assertEqual(siri_ai.entries(self.path)[-1], 'DOMAIN,example.org,' + target)
+                        self.assertIn(target, validate.parse_rule_targets(text))
+                        with self.assertRaisesRegex(ValueError, 'undefined policy groups') as caught:
+                            validate.validate_config_references(self.providers, self.root)
+                        self.assertIn(repr(target), str(caught.exception))
+                        # A different explicitly declared literal name is not normalized either.
+                        group_path.write_text(original_groups + '\n  - name: "' + target +
+                                              '"\n    type: select\n    proxies:\n      - DIRECT\n', encoding='utf-8')
+                        validate.validate_config_references(self.providers, self.root)
+                        group_path.write_text(original_groups, encoding='utf-8')
 
     def test_plain_and_quoted_sequences_have_one_semantics_and_no_generated_changes(self):
         expected = yaml.safe_load(self.original)['rules']
