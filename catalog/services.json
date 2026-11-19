@@ -441,6 +441,24 @@
     "warning": "安全、游戏与既有服务优先；仅 www.quark.cn 和 pan.quark.cn 的全部路径跟随本组，不能按页面或产品隔离。不接管浏览器访问的任意网站，也不纳入共享 CDN、扫描王、招聘、历史入口或未核实的搜索、AI、鉴权及文件接口。其他请求沿原策略，可能混合出口；不保证原生 App、登录、网盘传输/同步/分享、播放或下载，不改变账号、会员、速度或地区资格。[官方依据与范围](../research/Quark-routing.md)。"
   },
   {
+    "id": "boss-zhipin",
+    "provider": "BossZhipin",
+    "name": "BOSS 直聘 / BOSS Zhipin",
+    "category": "生活服务",
+    "description": "BOSS 直聘官网与官网链接的 App 入口页，共两个精确公开主机。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "只控制 www.zhipin.com 与 app.zhipin.com 的全部路径，不能按功能或页面隔离。其他主机（如隐私政策、素材、投资者关系和关联业务）沿原策略，可能形成混合出口。不代表完整 App、登录、直聊、简历投递、文件或下载链路，不保证账号或地区可用性。[官方依据与范围](../research/BossZhipin-routing.md)。"
+  },
+  {
+    "id": "wechat",
+    "provider": "WeChat",
+    "name": "微信 / WeChat",
+    "category": "社交",
+    "description": "仅 weixin.qq.com 一个已核实的官方公开入口。",
+    "policyLabel": "单个公开入口：默认直连，可选代理",
+    "warning": "安全、游戏与既有服务优先；同主机全部路径均随本组，不能按产品、条款、潜在业务或统计路径隔离。其他微信子域、国际 WeChat、共享资源和跨主机跳转仍沿原策略，可能形成混合出口；不保证原生 App、聊天、通话、朋友圈、公众号、小程序、支付、登录或下载链路，不解锁账号或地区资格。若切代理后会话或地区异常，可恢复 DIRECT 排查；未实测风控。[官方来源与范围](../research/WeChat-routing.md)。"
+  },
+  {
     "id": "sf-express",
     "provider": "SFExpress",
     "name": "顺丰速运 / SF Express",

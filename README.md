@@ -85,12 +85,14 @@
 | [Telegram](services/telegram.md) | Telegram 网络连接与资源。 | [获取地址](services/telegram.md#规则地址) · [查看规则](ruleset/Telegram_No_Resolve.yaml) |
 | [X / Twitter](services/twitter.md) | X / Twitter 服务及媒体资源。 | [获取地址](services/twitter.md#规则地址) · [查看规则](ruleset/Twitter_No_Resolve.yaml) |
 | [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 | [获取地址](services/discord.md#规则地址) · [查看规则](ruleset/Discord_No_Resolve.yaml) |
+| [微信 / WeChat](services/wechat.md) | 仅 weixin.qq.com 一个已核实的官方公开入口。 | [获取地址](services/wechat.md#规则地址) · [查看规则](ruleset/WeChat.yaml) |
 
 ### 生活服务
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [美团](services/meituan.md) | 官网、消费和外卖入口与部分资源的 7 个精确主机。 | [获取地址](services/meituan.md#规则地址) · [查看规则](ruleset/Meituan.yaml) |
+| [BOSS 直聘 / BOSS Zhipin](services/boss-zhipin.md) | BOSS 直聘官网与官网链接的 App 入口页，共两个精确公开主机。 | [获取地址](services/boss-zhipin.md#规则地址) · [查看规则](ruleset/BossZhipin.yaml) |
 | [顺丰速运 / SF Express](services/sf-express.md) | 仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。 | [获取地址](services/sf-express.md#规则地址) · [查看规则](ruleset/SFExpress.yaml) |
 
 ### 支付与其他

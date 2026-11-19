@@ -115,6 +115,14 @@
     "path": "ruleset/Quark.yaml",
     "behavior": "classical"
   },
+  "BossZhipin": {
+    "path": "ruleset/BossZhipin.yaml",
+    "behavior": "classical"
+  },
+  "WeChat": {
+    "path": "ruleset/WeChat.yaml",
+    "behavior": "classical"
+  },
   "SFExpress": {
     "path": "ruleset/SFExpress.yaml",
     "behavior": "classical"

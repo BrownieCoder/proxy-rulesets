@@ -212,6 +212,14 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Quark.yaml
+  BossZhipin:
+    type: file
+    behavior: classical
+    path: ./ruleset/BossZhipin.yaml
+  WeChat:
+    type: file
+    behavior: classical
+    path: ./ruleset/WeChat.yaml
   SFExpress:
     type: file
     behavior: classical

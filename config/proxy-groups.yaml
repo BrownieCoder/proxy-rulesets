@@ -287,6 +287,20 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "💼 BOSS直聘"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "💬 微信"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "📦 顺丰速运"
     type: select
     proxies:
