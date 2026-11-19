@@ -26,9 +26,10 @@ git diff --check
 
 - 唯一顶层键必须是字面量 `rules:`，值为非空的 block 字符串列表。允许空行、整行注释、LF/CRLF，以及一致的空格缩进；不接受额外键、重复键（包括引号等价键）、嵌套层级、流式列表或非字符串项。
 - 列表项支持现有大写规则类型开头的单行字面量，以及整条单/双引号包裹的无转义字符串。裸值不允许会改变 YAML 含义的 `: `、行内 `#`、引号、反斜杠或 flow 符号；若这些字符位于已支持的引号内则按字面值保留。引号内不支持同类引号转义/重复或反斜杠转义。语义错误仍由既有规则类型、字段、引用与顺序门禁拒绝。
+- 规则解包后按字面逗号分字段，各字段不能带首尾 ASCII 空格（U+0020）；直接拒绝，不作 trim 或自动修复。策略名内部空格与 YAML 引号外的尾部分隔空格保留，quoted 规则内最后一字段的尾空格则会拒绝。真正空字段仍交给既有语义门禁；只有空格的字段属于上述结构错误。NBSP、全角空格等非 ASCII 字符不被转换或吞掉，引用按原始完整名字精确匹配，不能借此冒充既有策略。
 - 锚点、别名、tag、merge、复杂键、多文档、block scalar、tab 和 Unicode 控制/格式字符一律 fail closed；合法但不在上述子集的 YAML 也会被拒绝。独立 PyYAML 只在测试中核对每个接受样例的实际字符串与顺序，不是运行时依赖。
 
-English: the public ordered-rule template accepts one literal `rules` key with a nonempty, consistently indented block string sequence. Plain routing literals and unescaped whole quoted strings share one reader across validation, references, catalog and Siri/App routing. Complex YAML, duplicate/extra keys, ambiguous plain scalars and control characters are rejected. This is a deliberately restricted stdlib-only template contract, not a general YAML parser; rule content and first-match order remain unchanged.
+English: the public ordered-rule template accepts one literal `rules` key with a nonempty, consistently indented block string sequence. Plain routing literals and unescaped whole quoted strings share one reader across validation, references, catalog and Siri/App routing. Comma-field boundaries reject ASCII space padding without normalization; internal policy-name spaces and YAML separators outside quotes remain valid. Empty fields retain existing semantic checks, and non-ASCII target characters remain exact references rather than aliases. Complex YAML, duplicate/extra keys, ambiguous plain scalars and control characters are rejected. This is a deliberately restricted stdlib-only template contract, not a general YAML parser; rule content and first-match order remain unchanged.
 
 只有明确需要同步时才运行 `python3 scripts/sync.py`。同步先在候选目录执行与 `validate.py` 相同的完整验证（来源散列、配置引用、路由顺序、Siri 合同及生成目录），再替换现有资产；校验失败时保留旧文件。候选目录也检查遗留服务页；服务改名后须先审查旧页的移除。规则解析只接受单行字面量和一致缩进，不接受 YAML 转义、嵌入引号或映射值，避免生成结果与 YAML 语义不同。GitHub Actions 沿用已有权限，并一同保存更新后的目录文件。
 

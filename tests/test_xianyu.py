@@ -396,7 +396,9 @@ class XianyuValidator(unittest.TestCase):
                      'IP-CIDR6,2001:db8::/32,DIRECT,extra'):
             with self.subTest(rule=rule):
                 path.write_text(original + '  - ' + rule + '\n', encoding='utf-8')
-                with self.assertRaisesRegex(ValueError, 'Xianyu domain-only model requires complete supported rules'):
+                with self.assertRaisesRegex(ValueError,
+                        (r'^Public config/rules\.yaml line \d+: routing fields must not have leading or trailing ASCII spaces$'
+                         if ', ,' in rule else 'Xianyu domain-only model requires complete supported rules')):
                     validate.validate_xianyu(self.root)
 
 

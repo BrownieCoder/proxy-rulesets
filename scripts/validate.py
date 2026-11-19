@@ -74,7 +74,7 @@ def parse_policy_groups(root: Path = ROOT) -> tuple[set[str], dict[str, list[str
 def parse_rule_targets(text: str) -> set[str]:
     targets: set[str] = set()
     for rule in parse_routing_rules(text):
-        fields = [field.strip() for field in rule.split(",")]
+        fields = rule.split(",")
         if fields[0] == "MATCH" and len(fields) >= 2:
             targets.add(fields[1])
         elif len(fields) >= 3:
