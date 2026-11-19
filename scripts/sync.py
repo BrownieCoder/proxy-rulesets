@@ -14,6 +14,8 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+from yaml_characters import validate_yaml_characters
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES_FILE = ROOT / "sources.json"
 LOCAL_RULESETS_FILE = ROOT / "local-rulesets.json"
@@ -25,6 +27,7 @@ def validate(name: str, data: bytes) -> None:
     if len(data) < 10:
         raise ValueError(f"{name}: response is unexpectedly short")
     text = data.decode("utf-8")
+    validate_yaml_characters(text)
     meaningful = [line.strip() for line in text.splitlines() if line.strip() and not line.lstrip().startswith("#")]
     if not meaningful or meaningful[0] != "payload:":
         raise ValueError(f"{name}: expected a classical ruleset beginning with 'payload:'")

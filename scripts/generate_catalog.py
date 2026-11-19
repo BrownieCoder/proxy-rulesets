@@ -12,6 +12,7 @@ from pathlib import Path
 from public_rules import read_routing_rules
 from siri_ai import canonical as siri_canonical, render as siri_render
 from sync import render_provider_configs
+from yaml_characters import validate_yaml_characters
 
 ROOT = Path(__file__).resolve().parents[1]
 START = '<!-- SERVICE-CATALOG:START -->'
@@ -56,6 +57,7 @@ def check_rule(rule: str) -> None:
 
 def read_rules(text: str) -> list[str]:
     """Parse the repository's deliberately restricted classical YAML subset."""
+    validate_yaml_characters(text)
     rules = []
     payload = False
     indentation = None

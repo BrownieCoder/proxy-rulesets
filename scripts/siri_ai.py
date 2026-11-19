@@ -10,6 +10,7 @@ import re
 from pathlib import Path
 
 from public_rules import read_routing_rules
+from yaml_characters import validate_yaml_characters
 
 ROOT = Path(__file__).resolve().parents[1]
 DOMAIN = re.compile(r"(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?\Z")
@@ -67,7 +68,9 @@ def render(domains: list[str], digest: str) -> str:
 def entries(path: Path) -> list[str]:
     if path.name == "rules.yaml" and path.parent.name == "config":
         return read_routing_rules(path)
-    return [line.strip()[2:].strip("\"'") for line in path.read_text(encoding="utf-8").splitlines()
+    text = path.read_text(encoding="utf-8")
+    validate_yaml_characters(text)
+    return [line.strip()[2:].strip("\"'") for line in text.splitlines()
             if line.strip().startswith("- ")]
 
 
