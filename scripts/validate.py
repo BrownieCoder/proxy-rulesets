@@ -2816,7 +2816,7 @@ def validate_weibo(root: Path = ROOT) -> None:
         result = route(host)
         if result not in allowed:
             raise ValueError(f"Weibo is shadowed by an earlier rule: {host}: {result}")
-    controls = QUARK_CONTROLS | {value for host in reviewed for value in
+    controls = WEIBO_CONTROLS | {value for host in reviewed for value in
                                 ("child." + host, "not" + host, host + ".example.org")}
     for host in controls:
         if route(host) != route(host, skip_weibo=True):

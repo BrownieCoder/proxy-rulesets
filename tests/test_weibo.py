@@ -131,6 +131,20 @@ class WeiboContract(unittest.TestCase):
         validate.validate_weibo(self.root)
         self.assertEqual(validate.validate_tree(self.root), 0)
 
+    def test_complete_fixed_controls_reach_the_real_domain_model(self):
+        observed = set()
+        original = DomainRules.matches
+
+        def traced(model, host):
+            observed.add(host)
+            return original(model, host)
+
+        with patch.object(DomainRules, 'matches', traced):
+            validate.validate_weibo(self.root)
+        expected = CONTROLS | {value for h in HOSTS for value in
+                               ('child.' + h, 'not' + h, h + '.example.org')}
+        self.assertFalse(expected - observed, 'Fixed Weibo controls must reach the real domain model')
+
     def test_real_tree_calls_weibo_once(self):
         with patch.object(validate, 'validate_weibo', side_effect=ValueError('Weibo gate')) as gate:
             with self.assertRaisesRegex(ValueError, '^Weibo gate$'):
