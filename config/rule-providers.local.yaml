@@ -212,3 +212,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Quark.yaml
+  WeChat:
+    type: file
+    behavior: classical
+    path: ./ruleset/WeChat.yaml

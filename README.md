@@ -85,6 +85,7 @@
 | [Telegram](services/telegram.md) | Telegram 网络连接与资源。 | [获取地址](services/telegram.md#规则地址) · [查看规则](ruleset/Telegram_No_Resolve.yaml) |
 | [X / Twitter](services/twitter.md) | X / Twitter 服务及媒体资源。 | [获取地址](services/twitter.md#规则地址) · [查看规则](ruleset/Twitter_No_Resolve.yaml) |
 | [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 | [获取地址](services/discord.md#规则地址) · [查看规则](ruleset/Discord_No_Resolve.yaml) |
+| [微信 / WeChat](services/wechat.md) | 仅 weixin.qq.com 一个已核实的官方公开入口。 | [获取地址](services/wechat.md#规则地址) · [查看规则](ruleset/WeChat.yaml) |
 
 ### 生活服务
 
