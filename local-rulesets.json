@@ -114,5 +114,9 @@
   "Quark": {
     "path": "ruleset/Quark.yaml",
     "behavior": "classical"
+  },
+  "Weibo": {
+    "path": "ruleset/Weibo.yaml",
+    "behavior": "classical"
   }
 }

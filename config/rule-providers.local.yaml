@@ -212,3 +212,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Quark.yaml
+  Weibo:
+    type: file
+    behavior: classical
+    path: ./ruleset/Weibo.yaml
