@@ -459,6 +459,15 @@
     "warning": "安全、游戏与既有服务优先；同主机全部路径均随本组，不能按产品、条款、潜在业务或统计路径隔离。其他微信子域、国际 WeChat、共享资源和跨主机跳转仍沿原策略，可能形成混合出口；不保证原生 App、聊天、通话、朋友圈、公众号、小程序、支付、登录或下载链路，不解锁账号或地区资格。若切代理后会话或地区异常，可恢复 DIRECT 排查；未实测风控。[官方来源与范围](../research/WeChat-routing.md)。"
   },
   {
+    "id": "sf-express",
+    "provider": "SFExpress",
+    "name": "顺丰速运 / SF Express",
+    "category": "生活服务",
+    "description": "仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。",
+    "policyLabel": "单个公开入口：默认直连，可选代理",
+    "warning": "同主机全部路径生效，包含国际产品、企业及集团介绍，无法仅按大陆 App 或路径隔离。独立国际、静态资源、科技和航空主机不纳入；其他请求沿原策略，可能混合出口。不保证登录、订单、寄查件、实时轨迹、付款、国际链路、时效或资格；未访问私人快件或实测客户端。[官方来源与边界](../research/SFExpress-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

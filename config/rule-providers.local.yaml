@@ -220,3 +220,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/WeChat.yaml
+  SFExpress:
+    type: file
+    behavior: classical
+    path: ./ruleset/SFExpress.yaml

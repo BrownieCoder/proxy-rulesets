@@ -59,6 +59,8 @@ rules:
   - RULE-SET,BossZhipin,💼 BOSS直聘
   # 微信仅官网精确主机；其他子域、国际入口和共享资源仍按原策略。
   - RULE-SET,WeChat,💬 微信
+  # 顺丰仅公开官网；同主机国际/企业路径也受影响，不扩独立业务主机。
+  - RULE-SET,SFExpress,📦 顺丰速运
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
