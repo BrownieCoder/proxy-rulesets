@@ -1,0 +1,4 @@
+# Exact official public portal; all paths include international/enterprise pages.
+# Evidence and exclusions: research/SFExpress-routing.md
+payload:
+  - DOMAIN,www.sf-express.com
