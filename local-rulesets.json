@@ -114,5 +114,9 @@
   "Quark": {
     "path": "ruleset/Quark.yaml",
     "behavior": "classical"
+  },
+  "BossZhipin": {
+    "path": "ruleset/BossZhipin.yaml",
+    "behavior": "classical"
   }
 }

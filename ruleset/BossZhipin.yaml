@@ -1,0 +1,5 @@
+# 本地维护：BOSS 直聘精确公开入口；GPL-2.0-only。
+# 依据与范围：research/BossZhipin-routing.md；不代表完整客户端链路。
+payload:
+  - DOMAIN,www.zhipin.com
+  - DOMAIN,app.zhipin.com
