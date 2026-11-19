@@ -738,6 +738,21 @@
       "ruleCount": 2
     },
     {
+      "id": "boss-zhipin",
+      "provider": "BossZhipin",
+      "name": "BOSS 直聘 / BOSS Zhipin",
+      "category": "生活服务",
+      "description": "BOSS 直聘官网与官网链接的 App 入口页，共两个精确公开主机。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "只控制 www.zhipin.com 与 app.zhipin.com 的全部路径，不能按功能或页面隔离。其他主机（如隐私政策、素材、投资者关系和关联业务）沿原策略，可能形成混合出口。不代表完整 App、登录、直聊、简历投递、文件或下载链路，不保证账号或地区可用性。[官方依据与范围](../research/BossZhipin-routing.md)。",
+      "path": "ruleset/BossZhipin.yaml",
+      "policy": "💼 BOSS直聘",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/BossZhipin.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/BossZhipin.yaml",
+      "page": "services/boss-zhipin.md",
+      "ruleCount": 2
+    },
+    {
       "id": "wechat",
       "provider": "WeChat",
       "name": "微信 / WeChat",

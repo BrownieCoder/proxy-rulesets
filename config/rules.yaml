@@ -55,6 +55,8 @@ rules:
   - RULE-SET,DingTalk,💬 钉钉
   # 夸克官网与网盘公开门户；不代表完整浏览、AI 或文件传输链路。
   - RULE-SET,Quark,🔍 夸克
+  # BOSS 直聘官网与公开 App 入口；不扩展到其他同根域、资源或业务主机。
+  - RULE-SET,BossZhipin,💼 BOSS直聘
   # 微信仅官网精确主机；其他子域、国际入口和共享资源仍按原策略。
   - RULE-SET,WeChat,💬 微信
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。

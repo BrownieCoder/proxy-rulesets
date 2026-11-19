@@ -92,6 +92,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [美团](services/meituan.md) | 官网、消费和外卖入口与部分资源的 7 个精确主机。 | [获取地址](services/meituan.md#规则地址) · [查看规则](ruleset/Meituan.yaml) |
+| [BOSS 直聘 / BOSS Zhipin](services/boss-zhipin.md) | BOSS 直聘官网与官网链接的 App 入口页，共两个精确公开主机。 | [获取地址](services/boss-zhipin.md#规则地址) · [查看规则](ruleset/BossZhipin.yaml) |
 
 ### 支付与其他
 
