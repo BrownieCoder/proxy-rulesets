@@ -118,5 +118,9 @@
   "BossZhipin": {
     "path": "ruleset/BossZhipin.yaml",
     "behavior": "classical"
+  },
+  "WeChat": {
+    "path": "ruleset/WeChat.yaml",
+    "behavior": "classical"
   }
 }

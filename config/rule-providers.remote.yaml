@@ -324,3 +324,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/BossZhipin.yaml
     interval: 86400
     path: ./ruleset-cache/BossZhipin.yaml
+  WeChat:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/WeChat.yaml
+    interval: 86400
+    path: ./ruleset-cache/WeChat.yaml

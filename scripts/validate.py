@@ -2819,6 +2819,147 @@ def validate_boss_zhipin(root: Path = ROOT) -> None:
             raise ValueError("BossZhipin changed non-target routing: " + host)
 
 
+WECHAT_CONTROLS = frozenset({
+    "qq.com", "wx.qq.com", "wechat.com",
+    "www.wechat.com", "www.weixin.qq.com", "ad.weixin.qq.com",
+    "car.weixin.qq.com", "channels.weixin.qq.com", "cover.weixin.qq.com",
+    "developers.weixin.qq.com", "filehelper.weixin.qq.com", "fuwu.weixin.qq.com",
+    "game.weixin.qq.com", "iot.weixin.qq.com", "kids.weixin.qq.com",
+    "linux.weixin.qq.com", "mac.weixin.qq.com", "mp.weixin.qq.com",
+    "open.weixin.qq.com", "openai.weixin.qq.com", "pay.weixin.qq.com",
+    "pc.weixin.qq.com", "search.weixin.qq.com", "sticker.weixin.qq.com",
+    "store.weixin.qq.com", "work.weixin.qq.com", "z.weixin.qq.com",
+    "kf.qq.com", "weixin110.qq.com", "wechat.design",
+    "www.tencent.com", "res.wx.qq.com", "res.wxqcloud.qq.com.cn",
+    "y.qq.com", "v.qq.com", "beacon.qq.com",
+    "www.douyin.com", "restapi.amap.com", "www.zhihu.com",
+    "www.xiaohongshu.com", "music.163.com", "www.douban.com",
+    "www.jd.com", "www.meituan.com", "pan.baidu.com",
+    "www.ctrip.com", "www.pinduoduo.com", "www.taobao.com",
+    "map.baidu.com", "www.kuaishou.com", "www.alipan.com",
+    "www.iqiyi.com", "www.goofish.com", "www.12306.cn",
+    "www.youku.com", "www.wps.cn", "www.feishu.cn",
+    "www.dingtalk.com", "www.quark.cn", "guzzoni.apple.com",
+    "fastcdn.hoyoverse.com", "api.anthropic.com", "app.datadoghq.com",
+    "example.org"
+})
+
+def validate_wechat(root: Path = ROOT) -> None:
+    """Enforce the single official WeChat portal without absorbing other Tencent hosts."""
+    from app_policy import validate_select_group
+    from siri_ai import DomainRules
+
+    reviewed = {"weixin.qq.com"}
+    rules = entries(root / "ruleset/WeChat.yaml")
+    if len(rules) != len(reviewed) or set(rules) != {"DOMAIN," + host for host in reviewed}:
+        raise ValueError("WeChat must contain only the one reviewed exact host without duplicates")
+    ordered = entries(root / "config/rules.yaml")
+    target = "💬 微信"
+    marker = "RULE-SET,WeChat," + target
+    references = [rule for rule in ordered if rule.split(",")[:2] == ["RULE-SET", "WeChat"]]
+    if references != [marker]:
+        raise ValueError("WeChat must have exactly one dedicated policy reference")
+
+    def position(rule: str) -> int:
+        if ordered.count(rule) != 1:
+            raise ValueError(f"WeChat requires one active rule: {rule}")
+        return ordered.index(rule)
+
+    current = position(marker)
+    for earlier in ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                    "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT",
+                    "RULE-SET,QQMusic,🎧 QQ 音乐", "RULE-SET,Douyin,🎶 抖音",
+                    "RULE-SET,Amap,🗺️ 高德地图", "RULE-SET,Zhihu,💡 知乎",
+                    "RULE-SET,Xiaohongshu,📕 小红书 / REDnote", "RULE-SET,NetEaseMusic,🎵 网易云音乐",
+                    "RULE-SET,Douban,📚 豆瓣", "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+                    "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+                    "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+                    "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+                    "RULE-SET,TencentVideo,📺 腾讯视频", "RULE-SET,AliPan,📁 阿里云盘",
+                    "RULE-SET,IQIYI,🎬 爱奇艺", "RULE-SET,Xianyu,🐟 闲鱼",
+                    "RULE-SET,Railway12306,🚄 铁路12306", "RULE-SET,Youku,🎞️ 优酷",
+                    "RULE-SET,WPSOffice,📝 WPS Office", "RULE-SET,Feishu,💼 飞书",
+                    "RULE-SET,DingTalk,💬 钉钉", "RULE-SET,Quark,🔍 夸克"):
+        if position(earlier) >= current:
+            raise ValueError("Security, gaming and existing app rules must precede WeChat")
+    for later in ("RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+                  "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+                  "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+                  "RULE-SET,Netflix,🎞️ Netflix",
+                  "RULE-SET,Gemini,♊ Gemini", "RULE-SET,Google,🔎 Google",
+                  "RULE-SET,Microsoft,🪟 Microsoft",
+                  "RULE-SET,GlobalMedia,🛰️ International-Global",
+                  "GEOIP,CN,DIRECT,no-resolve", "RULE-SET,ChinaMax,🇨🇳 China-Global"):
+        if position(later) <= current:
+            raise ValueError("WeChat must precede broader providers")
+
+    text = (root / "config/proxy-groups.yaml").read_text(encoding="utf-8")
+    blocks = re.findall(r'^  - name: "💬 微信"\n(.*?)(?=^  - name: |\Z)',
+                        text, re.MULTILINE | re.DOTALL)
+    error = "WeChat must be a DIRECT-first select group with manual proxy and Final options"
+    if len(blocks) != 1:
+        raise ValueError(error)
+    validate_select_group(blocks[0], error)
+    _, members = parse_policy_groups(root)
+    options = members.get(target, [])
+    if (not options or options[0] != "DIRECT"
+            or "🚀 节点选择" not in options or "🧭 Final" not in options):
+        raise ValueError(error)
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        collisions = set(manifests) & set(loaded)
+        if collisions:
+            raise ValueError("WeChat manifests contain duplicate providers: " + ", ".join(sorted(collisions)))
+        manifests.update(loaded)
+    for index, rule in enumerate(ordered):
+        fields = rule.split(",")
+        kind = fields[0]
+        if kind not in {"RULE-SET", "MATCH", "DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD",
+                        "GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("Unsupported top-level rule in WeChat domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        valid_length = (len(fields) in {3, 4} and (len(fields) == 3 or fields[3] == "no-resolve")
+                        if kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"} else len(fields) == required)
+        if not valid_length or any(not field.strip() for field in fields[:required]):
+            raise ValueError("WeChat domain-only model requires complete supported rules: " + kind)
+        if index < current and kind in {"GEOIP", "IP-CIDR", "IP-CIDR6"}:
+            raise ValueError("WeChat domain-only model cannot validate preceding IP conditions: " + rule)
+        if kind == "RULE-SET":
+            if fields[1] not in manifests:
+                raise ValueError("WeChat routing references missing providers: " + fields[1])
+    providers = {name: DomainRules(entries(root / item["path"])) for name, item in manifests.items()}
+
+    def route(domain: str, skip_wechat: bool = False) -> tuple[str, str]:
+        for rule in ordered:
+            fields = rule.split(",")
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_wechat and fields[1] == "WeChat":
+                    continue
+                if providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
+                if DomainRules([rule]).matches(domain):
+                    return ",".join(fields[:2]), fields[2]
+            # IP/GeoIP is only allowed after this App and has no domain-only verdict.
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("WeChat", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in reviewed:
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"WeChat is shadowed by an earlier rule: {host}: {result}")
+    controls = WECHAT_CONTROLS | {value for host in reviewed for value in
+                                ("child." + host, "not" + host, host + ".example.org")}
+    for host in controls:
+        if route(host) != route(host, skip_wechat=True):
+            raise ValueError("WeChat changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -2872,6 +3013,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_dingtalk(root)
     validate_quark(root)
     validate_boss_zhipin(root)
+    validate_wechat(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

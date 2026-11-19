@@ -1,0 +1,4 @@
+# 微信单个官方公开入口；仅精确主机，不代表完整客户端链路。
+# 来源与限制：research/WeChat-routing.md；GPL-2.0-only。
+payload:
+  - DOMAIN,weixin.qq.com

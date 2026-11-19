@@ -216,3 +216,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/BossZhipin.yaml
+  WeChat:
+    type: file
+    behavior: classical
+    path: ./ruleset/WeChat.yaml
