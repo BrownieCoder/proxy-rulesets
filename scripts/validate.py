@@ -4763,6 +4763,20 @@ def validate_wechat_reading(root: Path = ROOT) -> None:
             raise ValueError(f"{provider} changed non-target routing: {host}")
 
 
+def validate_dingdong_maicai(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="DingdongMaicai", target="🥬 叮咚买菜",
+        host="www.100.me",
+        controls=(
+            "100.me", "maicai.api.ddxq.mobi", "www.freshippo.com",
+            "www.pupumall.com",
+        ),
+    )
+
+
 def validate_douyu(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -4847,6 +4861,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_netease_mail_master(root)
     validate_maoyan(root)
     validate_wechat_reading(root)
+    validate_dingdong_maicai(root)
     validate_douyu(root)
     from generate_catalog import generate
     generate(root)

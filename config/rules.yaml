@@ -91,6 +91,8 @@ rules:
   - RULE-SET,Maoyan,🎟️ 猫眼
   # 微信读书仅已核实的精确公开入口；不接管共享主机。
   - RULE-SET,WeChatReading,📚 微信读书
+  # 叮咚买菜仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,DingdongMaicai,🥬 叮咚买菜
   # 斗鱼仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,DouYu,🐟 斗鱼
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
