@@ -477,6 +477,15 @@
     "warning": "同主机全部路径受影响。网页读取曾返回北美地区页，部分结果为缓存，不能保证稳定跳转或保持国内页面。不含 m.weibo.cn、访客验证、认证子域、共享新浪/CDN 或未核实 API；其他请求沿原策略，可能混合出口。不保证完整 App、登录、图片/视频、会员或地区资格；切换后会话/地区异常可恢复 DIRECT 排查，未实测风控。[官方依据与边界](../research/Weibo-routing.md)。"
   },
   {
+    "id": "dewu",
+    "provider": "Dewu",
+    "name": "得物 / Dewu",
+    "category": "购物",
+    "description": "仅 dewu.com 与 www.dewu.com 两个精确公开官网入口。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "安全、游戏和既有服务优先。两主机全部路径都随本组，不能排除同主机的社区、卖家或条款页面。其他子域、商家与开放平台、CDN 和国际 POIZON 沿原策略，可能混合出口。不覆盖完整 App，不保证登录、下载、鉴别、交易、支付或地区资格。[官方来源与范围](../research/Dewu-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

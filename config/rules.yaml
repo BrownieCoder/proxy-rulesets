@@ -63,6 +63,8 @@ rules:
   - RULE-SET,SFExpress,📦 顺丰速运
   # 微博两个精确公开入口；不包含移动访客验证、其他子域或新浪共享资源。
   - RULE-SET,Weibo,🟠 微博
+  # 得物两个精确官网入口；不包含 CDN、商家后台或国际 POIZON。
+  - RULE-SET,Dewu,👟 得物
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

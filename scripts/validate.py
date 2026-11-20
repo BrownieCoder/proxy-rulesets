@@ -3216,6 +3216,133 @@ def validate_weibo(root: Path = ROOT) -> None:
             raise ValueError("Weibo changed non-target routing: " + host)
 
 
+DEWU_HOSTS = frozenset({"dewu.com", "www.dewu.com"})
+DEWU_CONTROLS = frozenset({
+    "agreement.dewu.com", "cdn.dewu.com", "cdn-fast.dewu.com", "dewucdn.com", "www.dewucdn.com",
+    "poizon.com", "www.poizon.com", "stark.dewu.com", "open.dewu.com", "creator.dewu.com",
+    "livemcn.dewu.com", "liveplatform.dewu.com", "mcn.dewu.com", "poizon.jobs.feishu.cn",
+    "www.weibo.com", "www.xiaohongshu.com", "www.taobao.com", "www.bilibili.com",
+    "www.google.com", "guzzoni.apple.com", "hmma.baidu.com", "fastcdn.hoyoverse.com",
+    "app.datadoghq.com", "example.org",
+})
+
+
+def validate_dewu(root: Path = ROOT) -> None:
+    """Check the two public Dewu portals and their domain-only first matches."""
+    from generate_catalog import check_rule, read_rules
+    from siri_ai import DomainRules
+
+    target = "👟 得物"
+    payload = read_rules((root / "ruleset/Dewu.yaml").read_text(encoding="utf-8"))
+    if set(payload) != {"DOMAIN," + host for host in DEWU_HOSTS}:
+        raise ValueError("Dewu must contain only the two reviewed exact hosts")
+
+    groups = read_policy_group_model(root / "config/proxy-groups.yaml")
+    group = next((row for row in groups if row["name"] == target), None)
+    if group != {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}:
+        raise ValueError("Dewu must be a DIRECT-first select group with manual proxy and Final options")
+
+    ordered = [rule.split(",") for rule in entries(root / "config/rules.yaml")]
+    refs = [index for index, fields in enumerate(ordered) if fields[:2] == ["RULE-SET", "Dewu"]]
+    if len(refs) != 1 or ordered[refs[0]] != ["RULE-SET", "Dewu", target]:
+        raise ValueError("Dewu must have exactly one dedicated policy reference")
+    current = refs[0]
+
+    security = ("RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+                "RULE-SET,InternationalGaming,🎮 国际游戏", "RULE-SET,ChinaGaming,DIRECT")
+    apps = ("QQMusic", "Douyin", "Amap", "Zhihu", "Xiaohongshu", "NetEaseMusic", "Douban", "JD",
+            "Meituan", "BaiduPan", "Ctrip", "Pinduoduo", "Taobao", "BaiduMap", "Kuaishou",
+            "TencentVideo", "AliPan", "IQIYI", "Xianyu", "Railway12306", "Youku", "WPSOffice",
+            "Feishu", "DingTalk", "Quark", "BossZhipin", "WeChat", "SFExpress", "Weibo")
+    broader = ("SiriAI", "Apple", "YouTube", "Bilibili", "TikTok", "Disney", "Netflix",
+               "Gemini", "Google", "Microsoft", "GlobalMedia", "ChinaMax")
+    for rule in security:
+        fields = rule.split(",")
+        if ordered.count(fields) != 1 or ordered.index(fields) >= current:
+            raise ValueError("Security and gaming rules must precede Dewu")
+    for names, must_precede in ((apps, True), (broader, False)):
+        for name in names:
+            positions = [index for index, fields in enumerate(ordered)
+                         if fields[:2] == ["RULE-SET", name]]
+            if len(positions) != 1 or (positions[0] < current) != must_precede:
+                raise ValueError(f"Dewu has an invalid routing position relative to {name}")
+    if ordered.count(["GEOIP", "CN", "DIRECT", "no-resolve"]) != 1 or not (
+        current < ordered.index(["GEOIP", "CN", "DIRECT", "no-resolve"])
+    ):
+        raise ValueError("Dewu must precede the CN GeoIP fallback")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        if manifests.keys() & loaded.keys():
+            raise ValueError("Dewu manifests contain duplicate providers")
+        manifests.update(loaded)
+    if manifests.get("Dewu") != {"path": "ruleset/Dewu.yaml", "behavior": "classical"}:
+        raise ValueError("Dewu is missing its dedicated local classical provider")
+
+    domain_kinds = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+    ip_kinds = {"GEOIP", "IP-CIDR", "IP-CIDR6"}
+
+    def domain_operand(rule: str) -> str:
+        kind, separator, value = rule.partition(",")
+        if kind in domain_kinds:
+            # Mihomo uses Go's simple lowercase. Keep valid non-ASCII operands
+            # (such as unrelated mirror keywords); dotted I maps to ASCII i.
+            return kind + separator + value.replace("\u0130", "i").lower()
+        return rule
+
+    providers = {}
+    model_rows: list[tuple[str, str, DomainRules | None]] = []
+    matches = 0
+    for index, fields in enumerate(ordered):
+        kind = fields[0]
+        if kind not in domain_kinds | ip_kinds | {"RULE-SET", "MATCH"}:
+            raise ValueError("Unsupported top-level rule in Dewu domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        if (not (len(fields) == required or
+                 (kind in ip_kinds and len(fields) == 4 and fields[3] == "no-resolve"))
+                or any(not part.strip() for part in fields[:required])):
+            raise ValueError("Dewu domain-only model requires complete supported rules: " + kind)
+        if kind in ip_kinds:
+            if index < current:
+                raise ValueError("Dewu domain-only model cannot validate preceding IP conditions")
+            continue
+        if kind == "RULE-SET":
+            name = fields[1]
+            if name not in manifests:
+                raise ValueError("Dewu routing references missing provider: " + name)
+            if name not in providers:
+                rules = entries(root / manifests[name]["path"])
+                providers[name] = DomainRules([domain_operand(rule) for rule in rules])
+            model_rows.append((name, fields[2], providers[name]))
+        elif kind == "MATCH":
+            matches += 1
+            model_rows.append((kind, fields[1], None))
+        else:
+            label = ",".join(fields[:2])
+            check_rule(label)
+            model_rows.append((label, fields[2], DomainRules([domain_operand(label)])))
+    if matches != 1 or ordered[-1][0] != "MATCH":
+        raise ValueError("Dewu requires exactly one final MATCH rule")
+
+    def route(host: str, include_dewu: bool = True) -> tuple[str, str]:
+        for label, policy, matcher in model_rows:
+            if (include_dewu or label != "Dewu") and (matcher is None or matcher.matches(host)):
+                return label, policy
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Dewu", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in DEWU_HOSTS:
+        verdict = route(host)
+        if verdict not in allowed:
+            raise ValueError(f"Dewu is shadowed by an earlier rule: {host}: {verdict}")
+    shape_controls = {value for host in DEWU_HOSTS for value in
+                      ("child." + host, "not" + host, host + ".example.org")}
+    for host in DEWU_CONTROLS | shape_controls:
+        if route(host) != route(host, include_dewu=False):
+            raise ValueError("Dewu changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -3272,6 +3399,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_wechat(root)
     validate_sf_express(root)
     validate_weibo(root)
+    validate_dewu(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

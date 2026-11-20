@@ -228,3 +228,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Weibo.yaml
+  Dewu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Dewu.yaml

@@ -65,6 +65,7 @@
 | [淘宝 / Taobao](services/taobao.md) | 淘宝官网、移动跳转、客户端下载与商品网页入口的 4 个精确主机。 | [获取地址](services/taobao.md#规则地址) · [查看规则](ruleset/Taobao.yaml) |
 | [闲鱼 / Xianyu](services/xianyu.md) | 闲鱼官网、根域跳转及公开条款入口的 3 个精确主机。 | [获取地址](services/xianyu.md#规则地址) · [查看规则](ruleset/Xianyu.yaml) |
 | [拼多多 / Pinduoduo](services/pinduoduo.md) | 拼多多公开官网、移动商城入口及图片资源的 5 个精确主机。 | [获取地址](services/pinduoduo.md#规则地址) · [查看规则](ruleset/Pinduoduo.yaml) |
+| [得物 / Dewu](services/dewu.md) | 仅 dewu.com 与 www.dewu.com 两个精确公开官网入口。 | [获取地址](services/dewu.md#规则地址) · [查看规则](ruleset/Dewu.yaml) |
 
 ### 出行
 
