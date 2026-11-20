@@ -130,5 +130,9 @@
   "Weibo": {
     "path": "ruleset/Weibo.yaml",
     "behavior": "classical"
+  },
+  "Didi": {
+    "path": "ruleset/Didi.yaml",
+    "behavior": "classical"
   }
 }

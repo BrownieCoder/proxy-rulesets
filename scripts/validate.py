@@ -3216,6 +3216,135 @@ def validate_weibo(root: Path = ROOT) -> None:
             raise ValueError("Weibo changed non-target routing: " + host)
 
 
+DIDI_CONTROLS = frozenset({
+    "didichuxing.com", "didiglobal.com", "diditaxi.com", "didiglobal.com.cn",
+    "hk.didiglobal.com", "mexico.didiglobal.com", "ir.didiglobal.com",
+    "page.udache.com", "s.didi.cn", "img0.didiglobal.com", "www6.didiglobal.com",
+    "www.weibo.com", "www.sf-express.com", "www.quark.cn", "www.amap.com",
+    "guzzoni.apple.com", "hmma.baidu.com", "hoyoverse.com", "fastcdn.hoyoverse.com",
+    "example.org",
+})
+
+
+def validate_didi(root: Path = ROOT) -> None:
+    """Limit DiDi's selectable policy to its two attributed public website entries."""
+    from siri_ai import DomainRules
+
+    hosts = {"www.didichuxing.com", "www.didiglobal.com"}
+    path = "ruleset/Didi.yaml"
+    reviewed = entries(root / path)
+    if len(reviewed) != len(hosts) or set(reviewed) != {"DOMAIN," + host for host in hosts}:
+        raise ValueError("Didi must contain only the two reviewed exact hosts without duplicates")
+
+    target = "🚕 滴滴出行"
+    groups = read_policy_group_model(root / "config" / "proxy-groups.yaml")
+    expected = {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}
+    if next((group for group in groups if group["name"] == target), None) != expected:
+        raise ValueError("Didi must be a DIRECT-first select group with manual proxy and Final options")
+
+    ordered = [rule.split(",") for rule in entries(root / "config" / "rules.yaml")]
+    priority = {"Privacy": "REJECT", "Hijacking": "🚫 Hijacking",
+                "InternationalGaming": "🎮 国际游戏", "ChinaGaming": "DIRECT"}
+    earlier_apps = (
+        "QQMusic", "Douyin", "Amap", "Zhihu", "Xiaohongshu", "NetEaseMusic", "Douban",
+        "JD", "Meituan", "BaiduPan", "Ctrip", "Pinduoduo", "Taobao", "BaiduMap",
+        "Kuaishou", "TencentVideo", "AliPan", "IQIYI", "Xianyu", "Railway12306",
+        "Youku", "WPSOffice", "Feishu", "DingTalk", "Quark", "BossZhipin",
+        "WeChat", "SFExpress", "Weibo",
+    )
+    later_providers = (
+        "SiriAI", "Apple", "YouTube", "Bilibili", "TikTok", "Disney", "Netflix",
+        "Gemini", "Google", "Microsoft", "GlobalMedia", "ChinaMax",
+    )
+
+    def provider_position(provider: str, policy: str | None = None) -> int:
+        found = [idx for idx, fields in enumerate(ordered)
+                 if fields[:2] == ["RULE-SET", provider]]
+        if len(found) != 1 or (policy is not None and ordered[found[0]] != ["RULE-SET", provider, policy]):
+            raise ValueError(f"Didi requires exactly one valid {provider} policy reference")
+        return found[0]
+
+    current = provider_position("Didi", target)
+    if (any(provider_position(name, policy) >= current for name, policy in priority.items())
+            or any(provider_position(name) >= current for name in earlier_apps)):
+        raise ValueError("Security, gaming and existing app rules must precede Didi")
+    if any(provider_position(name) <= current for name in later_providers):
+        raise ValueError("Didi must precede broader providers")
+
+    manifests = {}
+    for filename in ("sources.json", "local-rulesets.json"):
+        loaded = json.loads((root / filename).read_text(encoding="utf-8"))
+        duplicates = set(manifests) & set(loaded)
+        if duplicates:
+            raise ValueError("Didi manifests contain duplicate providers: " + ", ".join(sorted(duplicates)))
+        manifests.update(loaded)
+    if (manifests.get("Didi", {}).get("path") != path
+            or manifests["Didi"].get("behavior") != "classical"):
+        raise ValueError("Didi must reference its dedicated classical payload")
+
+    domain_rules = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+    network_rules = {"GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for idx, fields in enumerate(ordered):
+        kind = fields[0]
+        if kind not in domain_rules | network_rules | {"RULE-SET", "MATCH"}:
+            raise ValueError("Unsupported top-level rule in Didi domain-only model: " + kind)
+        required = 2 if kind == "MATCH" else 3
+        valid_length = len(fields) == required or (
+            kind in network_rules and len(fields) == 4 and fields[3] == "no-resolve"
+        )
+        if not valid_length or any(not field.strip() for field in fields[:required]):
+            raise ValueError("Didi domain-only model requires complete supported rules: " + kind)
+        if idx < current and kind in network_rules | {"MATCH"}:
+            raise ValueError("Didi domain-only model cannot validate preceding IP conditions or MATCH")
+        if kind == "RULE-SET" and fields[1] not in manifests:
+            raise ValueError("Didi routing references missing providers: " + fields[1])
+    if sum(fields[0] == "MATCH" for fields in ordered) != 1:
+        raise ValueError("Didi domain-only model requires exactly one MATCH")
+
+    def normalize_domain_rule(rule: str) -> str:
+        fields = rule.split(",")
+        if len(fields) < 2 or fields[0] not in domain_rules:
+            return rule
+        # Mihomo's strings.ToLower uses simple per-rune lowercase. Python's
+        # full lowercase expands U+0130 to i + combining dot; Go maps it to i.
+        operand = fields[1]
+        fields[1] = operand.lower() if operand.isascii() else "".join(
+            "i" if char == "\u0130" else char.lower() for char in operand
+        )
+        return ",".join(fields)
+
+    providers = {
+        name: DomainRules([normalize_domain_rule(rule) for rule in entries(root / item["path"])])
+        for name, item in manifests.items()
+    }
+    inline_domains = {idx: DomainRules([normalize_domain_rule(",".join(fields))])
+                      for idx, fields in enumerate(ordered) if fields[0] in domain_rules}
+
+    def route(host: str, include_didi: bool = True) -> tuple[str, str]:
+        for idx, fields in enumerate(ordered):
+            kind = fields[0]
+            if kind == "RULE-SET":
+                name = fields[1]
+                if (include_didi or name != "Didi") and providers[name].matches(host):
+                    return name, fields[2]
+            elif kind in domain_rules and inline_domains[idx].matches(host):
+                return ",".join(fields[:2]), fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+        raise ValueError("Missing MATCH rule")
+
+    allowed = {("Didi", target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in sorted(hosts):
+        result = route(host)
+        if result not in allowed:
+            raise ValueError(f"Didi is shadowed by an earlier rule: {host}: {result}")
+    controls = DIDI_CONTROLS | {candidate for host in hosts
+                               for candidate in ("child." + host, "not" + host, host + ".example.org")}
+    for host in sorted(controls):
+        if route(host) != route(host, False):
+            raise ValueError("Didi changed non-target routing: " + host)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -3272,6 +3401,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_wechat(root)
     validate_sf_express(root)
     validate_weibo(root)
+    validate_didi(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

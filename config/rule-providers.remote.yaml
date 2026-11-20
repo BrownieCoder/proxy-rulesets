@@ -342,3 +342,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Weibo.yaml
     interval: 86400
     path: ./ruleset-cache/Weibo.yaml
+  Didi:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Didi.yaml
+    interval: 86400
+    path: ./ruleset-cache/Didi.yaml

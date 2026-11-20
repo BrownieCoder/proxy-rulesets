@@ -798,6 +798,21 @@
       "ruleCount": 2
     },
     {
+      "id": "didi",
+      "provider": "Didi",
+      "name": "滴滴出行 / DiDi",
+      "category": "出行",
+      "description": "仅 www.didichuxing.com 与 www.didiglobal.com 两个精确公开官网入口。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "同主机全部路径生效，包含官网上的司机、企业、集团及海外服务内容；不按地区或路径隔离。独立地区站、隐私页、共享素材及未核实 API 不纳入；其他请求沿原策略，可能混合出口。不保证登录、地图定位、叫车、订单、支付或完整 App；未实测客户端或风控。[官方来源与边界](../research/Didi-routing.md)。",
+      "path": "ruleset/Didi.yaml",
+      "policy": "🚕 滴滴出行",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Didi.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Didi.yaml",
+      "page": "services/didi.md",
+      "ruleCount": 2
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
