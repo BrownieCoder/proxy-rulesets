@@ -248,3 +248,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/WeCom.yaml
+  TencentMeeting:
+    type: file
+    behavior: classical
+    path: ./ruleset/TencentMeeting.yaml
