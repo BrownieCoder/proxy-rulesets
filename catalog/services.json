@@ -477,6 +477,15 @@
     "warning": "同主机全部路径受影响。网页读取曾返回北美地区页，部分结果为缓存，不能保证稳定跳转或保持国内页面。不含 m.weibo.cn、访客验证、认证子域、共享新浪/CDN 或未核实 API；其他请求沿原策略，可能混合出口。不保证完整 App、登录、图片/视频、会员或地区资格；切换后会话/地区异常可恢复 DIRECT 排查，未实测风控。[官方依据与边界](../research/Weibo-routing.md)。"
   },
   {
+    "id": "mango-tv",
+    "provider": "MangoTV",
+    "name": "芒果TV / Mango TV",
+    "category": "影音",
+    "description": "仅 www.mgtv.com 一个精确公开入口，包含同主机客户端介绍页。",
+    "policyLabel": "单个公开入口：默认直连，可选代理",
+    "warning": "www.mgtv.com 全部路径（包括同主机国际条款）随本组；国际门户 w.mgtv.com、独立下载、图片、媒体 CDN 及未核实客户端接口不纳入。其他请求保留原策略，可能混合出口。不保证完整 App、登录、会员、安装或播放，不改变版权或地区资格。[官方来源与边界](../research/MangoTV-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",
