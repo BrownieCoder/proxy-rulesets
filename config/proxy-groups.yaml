@@ -315,6 +315,13 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "🐧 腾讯 QQ"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "🥭 芒果TV"
     type: select
     proxies:
