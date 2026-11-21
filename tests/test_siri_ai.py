@@ -13,6 +13,32 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import siri_ai
 
 
+class SharedDomainRules(unittest.TestCase):
+    def test_case_normalization_keeps_exact_suffix_and_keyword_boundaries(self):
+        cases = (
+            ("DOMAIN,EXACT.Example.org", "exact.example.org", "child.exact.example.org"),
+            ("DOMAIN-SUFFIX,Suffix.EXAMPLE.org", "child.suffix.example.org", "notsuffix.example.org"),
+            ("DOMAIN-KEYWORD,MiXeD", "prefix.mixed.example.org", "mix.example.org"),
+        )
+        for rule, positive, negative in cases:
+            with self.subTest(rule=rule):
+                matcher = siri_ai.DomainRules([rule])
+                self.assertTrue(matcher.matches(positive))
+                self.assertFalse(matcher.matches(negative))
+
+    def test_keyword_uses_simple_lowercase_not_full_casefold_or_contextual_lowercase(self):
+        # Mihomo uses Go's simple lowercase rather than casefolding words.
+        for keyword, positive, negative in (
+            ("\u0130D", "id.example.org", "i\u0307d.example.org"),
+            ("\u039f\u03a3", "\u03bf\u03c3.example.org", "\u03bf\u03c2.example.org"),
+            ("STRA\u1e9eE", "stra\u00dfe.example.org", "strasse.example.org"),
+        ):
+            with self.subTest(keyword=keyword):
+                matcher = siri_ai.DomainRules(["DOMAIN-KEYWORD," + keyword])
+                self.assertTrue(matcher.matches(positive))
+                self.assertFalse(matcher.matches(negative))
+
+
 class SiriAIContract(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

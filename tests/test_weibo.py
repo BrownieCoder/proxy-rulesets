@@ -46,6 +46,16 @@ PREDECESSORS = (
 class WeiboContract(unittest.TestCase):
     MARKER = '  - RULE-SET,Weibo,' + TARGET + '\n'
 
+    def test_uppercase_earlier_exact_rule_shadows_weibo(self):
+        original = self.read('config/rules.yaml')
+        entry = '  - DOMAIN,WWW.WEIBO.COM,DIRECT\n'
+        self.assertEqual(original.count(self.MARKER), 1)
+        self.write('config/rules.yaml', original.replace(self.MARKER, entry + self.MARKER))
+        self.rejected('Weibo is shadowed by an earlier rule', 'Weibo is shadowed by an earlier rule')
+        self.write('config/rules.yaml', original.replace(self.MARKER, self.MARKER + entry))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(validate.validate_tree(self.root), 0)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
