@@ -166,5 +166,9 @@
   "Freshippo": {
     "path": "ruleset/Freshippo.yaml",
     "behavior": "classical"
+  },
+  "Huolala": {
+    "path": "ruleset/Huolala.yaml",
+    "behavior": "classical"
   }
 }

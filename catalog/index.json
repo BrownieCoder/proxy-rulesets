@@ -933,6 +933,21 @@
       "ruleCount": 2
     },
     {
+      "id": "huolala",
+      "provider": "Huolala",
+      "name": "货拉拉 / Huolala",
+      "category": "生活服务",
+      "description": "仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "只纳入这个官网主机；另域开放平台、下载、平行物流站和国际 Lalamove 保持原路由，不保证下单、司机端、支付或定位。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Huolala-routing.md)。",
+      "path": "ruleset/Huolala.yaml",
+      "policy": "🚚 货拉拉",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Huolala.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Huolala.yaml",
+      "page": "services/huolala.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

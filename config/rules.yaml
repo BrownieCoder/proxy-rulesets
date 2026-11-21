@@ -81,6 +81,8 @@ rules:
   - RULE-SET,MeituXiuXiu,🎨 美图秀秀
   # 盒马仅已核实的精确公开入口；不接管共享主机。
   - RULE-SET,Freshippo,🛒 盒马
+  # 货拉拉仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,Huolala,🚚 货拉拉
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
