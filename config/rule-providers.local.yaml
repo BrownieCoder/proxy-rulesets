@@ -284,3 +284,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/WeChatReading.yaml
+  TongchengTravel:
+    type: file
+    behavior: classical
+    path: ./ruleset/TongchengTravel.yaml

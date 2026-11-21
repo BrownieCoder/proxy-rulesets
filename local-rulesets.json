@@ -186,5 +186,9 @@
   "WeChatReading": {
     "path": "ruleset/WeChatReading.yaml",
     "behavior": "classical"
+  },
+  "TongchengTravel": {
+    "path": "ruleset/TongchengTravel.yaml",
+    "behavior": "classical"
   }
 }

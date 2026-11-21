@@ -4763,6 +4763,20 @@ def validate_wechat_reading(root: Path = ROOT) -> None:
             raise ValueError(f"{provider} changed non-target routing: {host}")
 
 
+def validate_tongcheng_travel(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="TongchengTravel", target="🧳 同程旅行",
+        host="m.ly.com",
+        controls=(
+            "ly.com", "www.ly.com", "m.17u.cn",
+            "tmc.ly.com", "passport.ly.com", "pic5.40017.cn", "www.12306.cn", "m.ctrip.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4833,6 +4847,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_netease_mail_master(root)
     validate_maoyan(root)
     validate_wechat_reading(root)
+    validate_tongcheng_travel(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

@@ -81,6 +81,7 @@
 | [滴滴出行 / DiDi](services/didi.md) | 仅 www.didichuxing.com 与 www.didiglobal.com 两个精确公开官网入口。 | [获取地址](services/didi.md#规则地址) · [查看规则](ruleset/Didi.yaml) |
 | [腾讯地图 / Tencent Map](services/tencent-map.md) | 仅 map.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/tencent-map.md#规则地址) · [查看规则](ruleset/TencentMap.yaml) |
 | [飞猪 / Fliggy](services/fliggy.md) | 仅 www.fliggy.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/fliggy.md#规则地址) · [查看规则](ruleset/Fliggy.yaml) |
+| [同程旅行 / Tongcheng Travel](services/tongcheng-travel.md) | 仅 m.ly.com 的移动旅行网页及 App 导流入口，不代表完整 App 流量。 | [获取地址](services/tongcheng-travel.md#规则地址) · [查看规则](ruleset/TongchengTravel.yaml) |
 
 ### 社交
 
