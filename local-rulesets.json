@@ -130,5 +130,9 @@
   "Weibo": {
     "path": "ruleset/Weibo.yaml",
     "behavior": "classical"
+  },
+  "TencentQQ": {
+    "path": "ruleset/TencentQQ.yaml",
+    "behavior": "classical"
   }
 }

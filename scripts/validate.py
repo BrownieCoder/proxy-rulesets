@@ -3216,6 +3216,116 @@ def validate_weibo(root: Path = ROOT) -> None:
             raise ValueError("Weibo changed non-target routing: " + host)
 
 
+TENCENT_QQ_CONTROLS = frozenset({
+    "qq.com", "www.qq.com", "child.im.qq.com", "notim.qq.com", "im.qq.com.example.org",
+    "v.qq.com", "y.qq.com", "music.qq.com", "weixin.qq.com", "game.qq.com",
+    "mail.qq.com", "qzone.qq.com", "qun.qq.com", "connect.qq.com", "ssl.ptlogin2.qq.com",
+    "dldir1.qq.com", "imgcache.qq.com", "gtimg.com", "gtimg.cn", "www.tencent.com",
+    "weibo.com", "www.bilibili.com", "guzzoni.apple.com", "hmma.baidu.com",
+    "fastcdn.hoyoverse.com", "example.org",
+})
+
+
+def validate_tencent_qq(root: Path = ROOT) -> None:
+    """Protect the QQ public site without taking over the shared Tencent namespace."""
+    from siri_ai import DomainRules
+
+    provider = "TencentQQ"
+    host = "im.qq.com"
+    target = "🐧 腾讯 QQ"
+    if entries(root / "ruleset/TencentQQ.yaml") != ["DOMAIN," + host]:
+        raise ValueError("TencentQQ requires only the reviewed exact host im.qq.com")
+
+    ordered = [rule.split(",") for rule in entries(root / "config/rules.yaml")]
+    marker = ["RULE-SET", provider, target]
+    if [f for f in ordered if f[:2] == ["RULE-SET", provider]] != [marker]:
+        raise ValueError("TencentQQ requires exactly one dedicated policy reference")
+    current = ordered.index(marker)
+    if ordered[-1] != ["MATCH", "🧭 Final"] or sum(f[0] == "MATCH" for f in ordered) != 1:
+        raise ValueError("TencentQQ domain-only model requires a single terminal MATCH")
+
+    # Keep all existing App, security and gaming providers before this entry.
+    earlier = (
+        "Privacy", "Hijacking", "InternationalGaming", "ChinaGaming", "QQMusic", "Douyin",
+        "Amap", "Zhihu", "Xiaohongshu", "NetEaseMusic", "Douban", "JD", "Meituan", "BaiduPan",
+        "Ctrip", "Pinduoduo", "Taobao", "BaiduMap", "Kuaishou", "TencentVideo", "AliPan",
+        "IQIYI", "Xianyu", "Railway12306", "Youku", "WPSOffice", "Feishu", "DingTalk",
+        "Quark", "BossZhipin", "WeChat", "SFExpress", "Weibo",
+    )
+    later = (
+        "SiriAI", "Apple", "Bilibili", "YouTube", "TikTok", "Disney", "Netflix",
+        "OpenAI", "Gemini", "Claude", "Google", "Microsoft", "GlobalMedia", "ChinaMax",
+    )
+    for names, before in ((earlier, True), (later, False)):
+        for name in names:
+            indices = [i for i, f in enumerate(ordered) if f[:2] == ["RULE-SET", name]]
+            if len(indices) != 1 or (indices[0] < current) != before:
+                raise ValueError("TencentQQ rule order relative to " + name + " is unsafe")
+
+    groups = read_policy_group_model(root / "config/proxy-groups.yaml")
+    expected = {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}
+    if [group for group in groups if group["name"] == target] != [expected]:
+        raise ValueError("TencentQQ requires a DIRECT-first select with manual proxy and Final")
+    parse_policy_groups(root)
+
+    manifests = {}
+    for name in ("sources.json", "local-rulesets.json"):
+        records = json.loads((root / name).read_text(encoding="utf-8"))
+        if set(manifests) & set(records):
+            raise ValueError("TencentQQ domain-only model found duplicate providers")
+        manifests.update(records)
+    if manifests.get(provider) != {"path": "ruleset/TencentQQ.yaml", "behavior": "classical"}:
+        raise ValueError("TencentQQ requires its reviewed classical provider path")
+
+    domain_kinds = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+    ip_kinds = {"IP-CIDR", "IP-CIDR6", "GEOIP"}
+
+    def domain_rule(fields: list[str]) -> str:
+        # Mihomo uses Go's simple lowercase. Python's Unicode lowercase expands
+        # dotted capital I instead of mapping it to ASCII i; handle that here.
+        return fields[0] + "," + fields[1].replace("\u0130", "i").lower()
+
+    for index, fields in enumerate(ordered):
+        kind = fields[0]
+        required = 2 if kind == "MATCH" else 3
+        if kind not in domain_kinds | ip_kinds | {"RULE-SET", "MATCH"}:
+            raise ValueError("Unsupported rule in TencentQQ domain-only model: " + kind)
+        if not (len(fields) == required or
+                (kind in ip_kinds and len(fields) == 4 and fields[3] == "no-resolve")) or any(
+                    not value.strip() for value in fields[:required]):
+            raise ValueError("TencentQQ domain-only model requires complete rules: " + kind)
+        if index < current and kind in ip_kinds:
+            raise ValueError("TencentQQ domain-only model cannot verify preceding IP conditions")
+        if kind == "RULE-SET" and fields[1] not in manifests:
+            raise ValueError("TencentQQ domain-only model found missing provider: " + fields[1])
+
+    def provider_model(path: Path) -> DomainRules:
+        rules = entries(path)
+        return DomainRules([
+            domain_rule(rule.split(",")) if rule.split(",", 1)[0] in domain_kinds else rule
+            for rule in rules
+        ])
+
+    providers = {name: provider_model(root / item["path"]) for name, item in manifests.items()}
+    def route(domain: str, skip_qq: bool = False) -> tuple[str, str]:
+        for fields in ordered:
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if not (skip_qq and fields[1] == provider) and providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind in domain_kinds and DomainRules([domain_rule(fields)]).matches(domain):
+                return ",".join(fields[:2]), fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+        raise ValueError("TencentQQ domain-only model did not reach MATCH")
+
+    if route(host) not in {(provider, target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}:
+        raise ValueError("TencentQQ is shadowed by an earlier rule: " + host)
+    for control in TENCENT_QQ_CONTROLS:
+        if route(control) != route(control, skip_qq=True):
+            raise ValueError("TencentQQ changed non-target routing: " + control)
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -3272,6 +3382,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_wechat(root)
     validate_sf_express(root)
     validate_weibo(root)
+    validate_tencent_qq(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

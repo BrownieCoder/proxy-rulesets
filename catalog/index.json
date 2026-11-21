@@ -798,6 +798,21 @@
       "ruleCount": 2
     },
     {
+      "id": "tencent-qq",
+      "provider": "TencentQQ",
+      "name": "腾讯 QQ / Tencent QQ",
+      "category": "社交",
+      "description": "仅 im.qq.com 一个精确公开入口主机，不是完整 QQ 客户端分流。",
+      "policyLabel": "单个公开入口：默认直连，可选代理",
+      "warning": "同主机全部路径随策略，包括公开客户端介绍和下载导航；另域安装包、登录、QQ 空间、邮件、QQ 音乐、腾讯视频、微信、腾讯游戏及共享资源走原策略，可能混合出口。不保证完整网站、聊天、登录、传输、下载或原生 App。[官方依据与边界](../research/TencentQQ-routing.md)。",
+      "path": "ruleset/TencentQQ.yaml",
+      "policy": "🐧 腾讯 QQ",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentQQ.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/TencentQQ.yaml",
+      "page": "services/tencent-qq.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
