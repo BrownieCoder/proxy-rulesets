@@ -240,3 +240,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Didi.yaml
+  Dewu:
+    type: file
+    behavior: classical
+    path: ./ruleset/Dewu.yaml

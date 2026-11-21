@@ -142,5 +142,9 @@
   "Didi": {
     "path": "ruleset/Didi.yaml",
     "behavior": "classical"
+  },
+  "Dewu": {
+    "path": "ruleset/Dewu.yaml",
+    "behavior": "classical"
   }
 }

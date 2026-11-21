@@ -843,6 +843,21 @@
       "ruleCount": 2
     },
     {
+      "id": "dewu",
+      "provider": "Dewu",
+      "name": "得物 / Dewu",
+      "category": "购物",
+      "description": "仅 dewu.com 与 www.dewu.com 两个精确公开官网入口。",
+      "policyLabel": "部分公开入口：默认直连，可选代理",
+      "warning": "安全、游戏和既有服务优先。两主机全部路径都随本组，不能排除同主机的社区、卖家或条款页面。其他子域、商家与开放平台、CDN 和国际 POIZON 沿原策略，可能混合出口。不覆盖完整 App，不保证登录、下载、鉴别、交易、支付或地区资格。[官方来源与范围](../research/Dewu-routing.md)。",
+      "path": "ruleset/Dewu.yaml",
+      "policy": "👟 得物",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Dewu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Dewu.yaml",
+      "page": "services/dewu.md",
+      "ruleCount": 2
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

@@ -1,0 +1,5 @@
+# Exact public Dewu portals only; not native App or transaction coverage.
+# Official sources and scope: research/Dewu-routing.md
+payload:
+  - DOMAIN,dewu.com
+  - DOMAIN,www.dewu.com
