@@ -4737,7 +4737,10 @@ def validate_wechat_reading(root: Path = ROOT) -> None:
             if name not in manifests:
                 raise ValueError(f"{provider} routing references missing provider: {name}")
             if name not in providers:
-                rules = entries(root / manifests[name]["path"])
+                try:
+                    rules = read_rules((root / manifests[name]["path"]).read_text(encoding="utf-8"))
+                except ValueError as exc:
+                    raise ValueError(f"{provider}: invalid rules in {name}: {exc}") from exc
                 providers[name] = DomainRules([domain_rule(rule) for rule in rules])
             model.append((name, row[2], providers[name]))
         elif kind == "MATCH":
