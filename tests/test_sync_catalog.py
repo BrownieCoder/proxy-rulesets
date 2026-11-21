@@ -24,7 +24,8 @@ class Response(io.BytesIO):
 
 
 class SyncCatalog(unittest.TestCase):
-    def run_sync(self, invalid=False, payload=None, rename_service=False, shadow_siri=False, invalid_group=False, rednote_security=None):
+    def run_sync(self, invalid=False, payload=None, rename_service=False, shadow_siri=False,
+                 invalid_group=False, rednote_security=None, expected_error=None):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             for directory in ('ruleset', 'catalog', 'docs', 'rules', 'research', 'config', 'services'):
@@ -61,6 +62,8 @@ class SyncCatalog(unittest.TestCase):
             after = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
             if invalid or payload is not None or rename_service or shadow_siri or invalid_group:
                 self.assertEqual(result, 1)
+                if expected_error:
+                    self.assertIn(expected_error, errors.getvalue())
                 if shadow_siri:
                     self.assertIn('更早规则抢先匹配', errors.getvalue())
                 if invalid_group:
@@ -86,6 +89,12 @@ class SyncCatalog(unittest.TestCase):
         ):
             with self.subTest(payload=payload):
                 self.run_sync(payload=payload)
+
+    def test_yaml_mapping_entry_cannot_publish_a_provider(self):
+        privacy = json.loads((ROOT / 'sources.json').read_text())['Privacy']
+        original = (ROOT / privacy['path']).read_bytes()
+        self.run_sync(payload=original + b'  - DOMAIN-KEYWORD,review-example:\n',
+                      expected_error='mapping, not a string')
 
     def test_renamed_service_preserves_all_existing_assets(self):
         self.run_sync(rename_service=True)

@@ -89,6 +89,20 @@ class ServiceCatalog(unittest.TestCase):
                 with self.subTest(indent=indent, quote=quote):
                     self.assertEqual(gen.read_rules(text), yaml.safe_load(text)['payload'])
 
+    def test_plain_trailing_colon_is_mapping_but_quoted_colon_is_a_string(self):
+        for kind in ('DOMAIN-KEYWORD', 'PROCESS-NAME'):
+            rule = kind + ',example:'
+            text = f'payload:\n  - {rule}\n'
+            with self.subTest(kind=kind):
+                self.assertEqual(yaml.safe_load(text)['payload'], [{rule[:-1]: None}])
+                with self.assertRaisesRegex(ValueError, 'mapping, not a string'):
+                    gen.read_rules(text)
+                for quote in ("'", '"'):
+                    literal = f'payload:\n  - {quote}{rule}{quote}\n'
+                    self.assertEqual(gen.read_rules(literal), yaml.safe_load(literal)['payload'])
+                embedded = f'payload:\n  - {rule}value\n'
+                self.assertEqual(gen.read_rules(embedded), yaml.safe_load(embedded)['payload'])
+
     def test_missing_provider_and_duplicate_metadata_rejected(self):
         original = gen.load
         for mutate in (lambda x: x[0].update(provider='Missing'), lambda x: x.append(x[0])):
