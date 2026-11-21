@@ -187,6 +187,14 @@
     "path": "ruleset/WeChatReading.yaml",
     "behavior": "classical"
   },
+  "DingdongMaicai": {
+    "path": "ruleset/DingdongMaicai.yaml",
+    "behavior": "classical"
+  },
+  "DouYu": {
+    "path": "ruleset/DouYu.yaml",
+    "behavior": "classical"
+  },
   "TongchengTravel": {
     "path": "ruleset/TongchengTravel.yaml",
     "behavior": "classical"

@@ -335,6 +335,16 @@
       "rulesSha256": "0083e74a05ba56e7a91285ab1cef1565bf746c3892ee895a2cbb2e60391d872f",
       "ruleCount": 1
     },
+    "ruleset/DingdongMaicai.yaml": {
+      "sha256": "571978a2154c02f8d54d40529fce0e92b0de97051886801aae151230c4b9aaec",
+      "rulesSha256": "3ad51a1d06541eedbb1ded52082b247812f1c576f11cfb167c9d3c3cb5c6aab0",
+      "ruleCount": 1
+    },
+    "ruleset/DouYu.yaml": {
+      "sha256": "547d55d1604ed298f7ec4f653546203cc9158e2443f2e6d8fae52826f90cec13",
+      "rulesSha256": "f24bd4c2e5a26ae857f328d2ed02910176af6b316aead3d1ff15a9e12e836e87",
+      "ruleCount": 1
+    },
     "ruleset/TongchengTravel.yaml": {
       "sha256": "a0b455b768cec8bac0c7ace451f7dd19f0e9345648e6064be3676d1d1ccdf68d",
       "rulesSha256": "237cad1b53b690e16f0db029c7540b85e7dbdd60526ac8d0480fea9fea7b172e",
@@ -361,10 +371,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "cc53d25db90d5163b8c3a6464d64b966df3936fd0af3d153d39480a8eac8f1bf",
+  "readmeCatalogSha256": "3d88f9c786ccc4e4091900700e646128dafc189845fceef843f5bdeb6da7ee65",
   "artifacts": {
-    "config/rule-providers.local.yaml": "e7437117ea7208e03b69bb9dec1f087d9beca9748f196ad3ff034fb5b5864b64",
-    "config/rule-providers.remote.yaml": "c6db57da4822522a8edc53b4c65cd5659bb248760f5b5cb845c06f4b9a671a45",
+    "config/rule-providers.local.yaml": "10710d55973726c29a656ca906e6b439b5d79b4c6deb5a68ed82b4e2ec2e9671",
+    "config/rule-providers.remote.yaml": "94db4d918365cd42a1473a705ad3d5c0b7802ad8f2c9021e3faf55c87f5c29ea",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "a09a8ef15d9028416b219c549bce86557eed0eaa2edf1d4e8679766306a46867",
@@ -432,11 +442,13 @@
     "services/netease-mail-master.md": "de44f300274dd38411e72d9af5e41fae51c985e1934f94ff3ac0b3d6c8c53f7d",
     "services/maoyan.md": "201f05d8d7df25a9ecee55a7ab81e86d802165706a46fbca464cc0de7509c0ee",
     "services/wechat-reading.md": "185e85b7cf010fdef5c73db8be6b4627a0fad509e3d9b20de6b9c690da059dd0",
+    "services/dingdong-maicai.md": "15b0d4ea9af54e6b780950d807b0f70573581b2bef424ab570b619a451797011",
+    "services/douyu.md": "6a0ea1e5875a3abaf52be2297186c121d18455dfce931b34b84745f1de041e30",
     "services/tongcheng-travel.md": "367e8243ddd8b2f340f0b4022c5a55ac0c1a0a8ea44ee5fa8a4872d0605dce84",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "7fd4cee8b7ac00baf9699ce7575622cb0b49c763497c92e615149b2840b776de"
+    "catalog/index.json": "caff58a5f409dcd5378c422c48ff814dd497609377af5b497c9300d62cc51054"
   }
 }

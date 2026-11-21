@@ -1,0 +1,3 @@
+# 斗鱼已核实的精确公开入口；依据见 research/DouYu-routing.md。
+payload:
+  - DOMAIN,m.douyu.com
