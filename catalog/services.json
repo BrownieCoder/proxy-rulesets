@@ -495,6 +495,15 @@
     "warning": "www.mgtv.com 全部路径（包括同主机国际条款）随本组；国际门户 w.mgtv.com、独立下载、图片、媒体 CDN 及未核实客户端接口不纳入。其他请求保留原策略，可能混合出口。不保证完整 App、登录、会员、安装或播放，不改变版权或地区资格。[官方来源与边界](../research/MangoTV-routing.md)。"
   },
   {
+    "id": "didi",
+    "provider": "Didi",
+    "name": "滴滴出行 / DiDi",
+    "category": "出行",
+    "description": "仅 www.didichuxing.com 与 www.didiglobal.com 两个精确公开官网入口。",
+    "policyLabel": "部分公开入口：默认直连，可选代理",
+    "warning": "同主机全部路径生效，包含官网上的司机、企业、集团及海外服务内容；不按地区或路径隔离。独立地区站、隐私页、共享素材及未核实 API 不纳入；其他请求沿原策略，可能混合出口。不保证登录、地图定位、叫车、订单、支付或完整 App；未实测客户端或风控。[官方来源与边界](../research/Didi-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

@@ -236,3 +236,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/MangoTV.yaml
+  Didi:
+    type: file
+    behavior: classical
+    path: ./ruleset/Didi.yaml

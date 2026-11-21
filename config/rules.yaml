@@ -67,6 +67,8 @@ rules:
   - RULE-SET,TencentQQ,🐧 腾讯 QQ
   # 芒果TV仅官网精确主机；国际门户、独立下载及媒体主机保持原策略。
   - RULE-SET,MangoTV,🥭 芒果TV
+  # 滴滴出行只含两个精确官网入口；不扩展地区、素材或推测的 App 主机。
+  - RULE-SET,Didi,🚕 滴滴出行
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

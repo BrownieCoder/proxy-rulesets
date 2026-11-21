@@ -138,5 +138,9 @@
   "MangoTV": {
     "path": "ruleset/MangoTV.yaml",
     "behavior": "classical"
+  },
+  "Didi": {
+    "path": "ruleset/Didi.yaml",
+    "behavior": "classical"
   }
 }
