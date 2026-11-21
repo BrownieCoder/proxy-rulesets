@@ -272,3 +272,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Fliggy.yaml
+  NetEaseMailMaster:
+    type: file
+    behavior: classical
+    path: ./ruleset/NetEaseMailMaster.yaml

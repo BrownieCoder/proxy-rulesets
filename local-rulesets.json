@@ -174,5 +174,9 @@
   "Fliggy": {
     "path": "ruleset/Fliggy.yaml",
     "behavior": "classical"
+  },
+  "NetEaseMailMaster": {
+    "path": "ruleset/NetEaseMailMaster.yaml",
+    "behavior": "classical"
   }
 }

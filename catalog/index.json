@@ -963,6 +963,21 @@
       "ruleCount": 1
     },
     {
+      "id": "netease-mail-master",
+      "provider": "NetEaseMailMaster",
+      "name": "网易邮箱大师 / NetEase Mail Master",
+      "category": "办公",
+      "description": "仅 dashi.163.com 的精确公开入口，不是完整 App 分流。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机网页登录路径也随组；不接 163/126 通用邮箱、企业邮、独立认证、邮件协议或共享网易资源。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/NetEaseMailMaster-routing.md)。",
+      "path": "ruleset/NetEaseMailMaster.yaml",
+      "policy": "📧 网易邮箱大师",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/NetEaseMailMaster.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/NetEaseMailMaster.yaml",
+      "page": "services/netease-mail-master.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
