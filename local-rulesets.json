@@ -202,5 +202,9 @@
   "TencentDocs": {
     "path": "ruleset/TencentDocs.yaml",
     "behavior": "classical"
+  },
+  "Ximalaya": {
+    "path": "ruleset/Ximalaya.yaml",
+    "behavior": "classical"
   }
 }
