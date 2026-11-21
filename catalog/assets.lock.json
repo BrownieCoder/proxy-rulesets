@@ -305,6 +305,11 @@
       "rulesSha256": "ab69ad1b1deade92117f011a0ba923d169919cc54530bf42e336d6fe33378f74",
       "ruleCount": 2
     },
+    "ruleset/Freshippo.yaml": {
+      "sha256": "4321c7af213905206e5a990ba9637d5e3ee4564d3a6b1d45755b5fe4d37db26b",
+      "rulesSha256": "b86828bba30d99e85eea2d46d82fee96912168138c505a907d0e3f2e70313bda",
+      "ruleCount": 2
+    },
     "ruleset/Privacy_No_Resolve.yaml": {
       "sha256": "a7f16ed12c37d472c0b35ae21948a970db5062ef211677178568259fbc947d49",
       "rulesSha256": "b7e04cea6efdfc33db3eb070599e7c4065f4c0c2662f7beccdf86eb7cebe0b3e",
@@ -326,10 +331,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "b81084fffe0f2187c8a3b7eac611dd01316b31c2e026e1d74bf6cfa43c0b79c3",
+  "readmeCatalogSha256": "cec9b0a1c4f4099f6c1563f14d4b1ec076bd14386f752254d02eec1ee308f5bb",
   "artifacts": {
-    "config/rule-providers.local.yaml": "14d90263b3524331e8d7d4f545f02b17fd0ebaf32466e975200f17a2a7510728",
-    "config/rule-providers.remote.yaml": "6fcb674e91fe4864d6170592efd09f54d71ff6928a45a86ef4667593960683d5",
+    "config/rule-providers.local.yaml": "856b60e99ab6484d8aa310ef8ca778544e3efc038acef2d442ccf3679f88670a",
+    "config/rule-providers.remote.yaml": "888cdddcd23e7115575af212aab4bfe554196f4a3986de004253c8f701ee19ac",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "a09a8ef15d9028416b219c549bce86557eed0eaa2edf1d4e8679766306a46867",
@@ -391,10 +396,11 @@
     "services/tencent-meeting.md": "9b5aa2afdda4935815e076bed363d1e981387d695f9c10d08ec4c8ea5b7f1adc",
     "services/tencent-map.md": "12b74c86d73ec406ad8352528be6049d8f0a643311667909156cbaae3eec6920",
     "services/meitu-xiuxiu.md": "d152191d3d7c6393568a1561e87859b3b42c6f861a71f34b0c3922655a02d16e",
+    "services/freshippo.md": "a88cd87c6b2e7683b0a5cff047f6e2b4f43eb0152e15755de5827b369e61040f",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "6af9f29d96efbb3795b0692848e2f07306eaee830ea13a6cb1f2a6d098813751"
+    "catalog/index.json": "26f90c25576f659501614e03509a8ac6466e459832dec994bf9e0b905f6d9e91"
   }
 }

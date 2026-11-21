@@ -371,6 +371,13 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "🛒 盒马"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "📺 Bilibili"
     type: select
     proxies:

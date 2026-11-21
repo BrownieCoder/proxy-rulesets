@@ -162,5 +162,9 @@
   "MeituXiuXiu": {
     "path": "ruleset/MeituXiuXiu.yaml",
     "behavior": "classical"
+  },
+  "Freshippo": {
+    "path": "ruleset/Freshippo.yaml",
+    "behavior": "classical"
   }
 }
