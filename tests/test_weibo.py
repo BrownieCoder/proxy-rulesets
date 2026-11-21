@@ -15,7 +15,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import validate
-from generate_catalog import generate
+from generate_catalog import generate, read_rules
 from siri_ai import DomainRules
 
 HOSTS = {'weibo.com', 'www.weibo.com'}
@@ -46,7 +46,30 @@ PREDECESSORS = (
 class WeiboContract(unittest.TestCase):
     MARKER = '  - RULE-SET,Weibo,' + TARGET + '\n'
 
+    def clear_security_matches_in_fixture(self, host):
+        # A real security win is valid, but would hide the synthetic DIRECT shadow.
+        # Strip only matching rules from this test's disposable snapshots.
+        sources = json.loads(self.read('sources.json'))
+        lock = json.loads(self.read('sources.lock.json'))
+        changed = False
+        for provider in ('Privacy', 'Hijacking'):
+            path = sources[provider]['path']
+            rules = read_rules(self.read(path))
+            retained = [rule for rule in rules if not DomainRules([rule]).matches(host)]
+            if retained == rules:
+                continue
+            text = yaml.safe_dump({'payload': retained}, allow_unicode=True, sort_keys=False)
+            self.write(path, text)
+            data = text.encode('utf-8')
+            digest = hashlib.sha256(data).hexdigest()
+            lock['rulesets'][provider].update(bytes=len(data), sha256=digest, upstream_sha256=digest)
+            changed = True
+        if changed:
+            self.write('sources.lock.json', json.dumps(lock, ensure_ascii=False))
+            generate(self.root, write=True)
+
     def test_uppercase_earlier_exact_rule_shadows_weibo(self):
+        self.clear_security_matches_in_fixture('www.weibo.com')
         original = self.read('config/rules.yaml')
         entry = '  - DOMAIN,WWW.WEIBO.COM,DIRECT\n'
         self.assertEqual(original.count(self.MARKER), 1)
