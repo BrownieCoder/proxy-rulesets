@@ -87,6 +87,7 @@
 | [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 | [获取地址](services/discord.md#规则地址) · [查看规则](ruleset/Discord_No_Resolve.yaml) |
 | [微信 / WeChat](services/wechat.md) | 仅 weixin.qq.com 一个已核实的官方公开入口。 | [获取地址](services/wechat.md#规则地址) · [查看规则](ruleset/WeChat.yaml) |
 | [微博 / Weibo](services/weibo.md) | 仅 weibo.com 与 www.weibo.com 两个精确公开入口主机。 | [获取地址](services/weibo.md#规则地址) · [查看规则](ruleset/Weibo.yaml) |
+| [腾讯 QQ / Tencent QQ](services/tencent-qq.md) | 仅 im.qq.com 一个精确公开入口主机，不是完整 QQ 客户端分流。 | [获取地址](services/tencent-qq.md#规则地址) · [查看规则](ruleset/TencentQQ.yaml) |
 
 ### 生活服务
 
