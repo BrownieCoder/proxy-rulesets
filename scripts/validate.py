@@ -4819,6 +4819,21 @@ def validate_tencent_docs(root: Path = ROOT) -> None:
     )
 
 
+def validate_ximalaya(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Ximalaya", target="🎧 喜马拉雅",
+        host="m.ximalaya.com",
+        controls=(
+            "ximalaya.com", "www.ximalaya.com", "passport.ximalaya.com",
+            "live.ximalaya.com", "studio.ximalaya.com", "open.ximalaya.com",
+            "everest-ai.ximalaya.com",
+        ),
+    )
+
+
 def validate_kfc_china(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -4907,6 +4922,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_douyu(root)
     validate_tongcheng_travel(root)
     validate_tencent_docs(root)
+    validate_ximalaya(root)
     validate_kfc_china(root)
     from generate_catalog import generate
     generate(root)
