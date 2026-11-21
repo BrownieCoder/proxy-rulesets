@@ -146,5 +146,9 @@
   "Dewu": {
     "path": "ruleset/Dewu.yaml",
     "behavior": "classical"
+  },
+  "TencentMeeting": {
+    "path": "ruleset/TencentMeeting.yaml",
+    "behavior": "classical"
   }
 }

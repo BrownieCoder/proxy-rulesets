@@ -858,6 +858,21 @@
       "ruleCount": 2
     },
     {
+      "id": "tencent-meeting",
+      "provider": "TencentMeeting",
+      "name": "腾讯会议 / Tencent Meeting",
+      "category": "办公",
+      "description": "仅 meeting.tencent.com、meeting.qq.com 的精确公开入口，不是完整 App 分流。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "两个主机的所有路径随组，可能含同主机的会议信息、登录或下载导航。另域音视频、登录、安装包、API/CDN 和 VooV Meeting 保持原路由。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentMeeting-routing.md)。",
+      "path": "ruleset/TencentMeeting.yaml",
+      "policy": "🎥 腾讯会议",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentMeeting.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/TencentMeeting.yaml",
+      "page": "services/tencent-meeting.md",
+      "ruleCount": 2
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
