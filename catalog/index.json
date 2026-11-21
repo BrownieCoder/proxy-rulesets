@@ -858,6 +858,21 @@
       "ruleCount": 2
     },
     {
+      "id": "tencent-map",
+      "provider": "TencentMap",
+      "name": "腾讯地图 / Tencent Map",
+      "category": "出行",
+      "description": "仅 map.qq.com 的精确公开入口，不是完整 App 分流。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "仅覆盖该官网主机。另域开发平台、SDK、地图瓦片、隐私站和定位接口保持原路由；不保证完整导航、定位或原生地图链路。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentMap-routing.md)。",
+      "path": "ruleset/TencentMap.yaml",
+      "policy": "🗺️ 腾讯地图",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentMap.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/TencentMap.yaml",
+      "page": "services/tencent-map.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
