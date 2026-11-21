@@ -612,6 +612,15 @@
     "warning": "同主机的公司介绍、公告与下载页等全部路径使用同一策略；不包含跨主机下载、客户端 API、下单、支付或物流。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DingdongMaicai-routing.md)。"
   },
   {
+    "id": "douyu",
+    "provider": "DouYu",
+    "name": "斗鱼 / DouYu",
+    "category": "影音",
+    "description": "仅 m.douyu.com 的移动直播网页及打开 App 入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机的全部路径（包括直播间页面）使用同一策略；桌面站、视频站、游戏、独立 CDN 和认证主机不纳入，不承诺原生直播流或弹幕走同一出口。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DouYu-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

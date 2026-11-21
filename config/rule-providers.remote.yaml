@@ -432,3 +432,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/DingdongMaicai.yaml
     interval: 86400
     path: ./ruleset-cache/DingdongMaicai.yaml
+  DouYu:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/DouYu.yaml
+    interval: 86400
+    path: ./ruleset-cache/DouYu.yaml

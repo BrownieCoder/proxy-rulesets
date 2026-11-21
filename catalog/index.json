@@ -1023,6 +1023,21 @@
       "ruleCount": 1
     },
     {
+      "id": "douyu",
+      "provider": "DouYu",
+      "name": "斗鱼 / DouYu",
+      "category": "影音",
+      "description": "仅 m.douyu.com 的移动直播网页及打开 App 入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机的全部路径（包括直播间页面）使用同一策略；桌面站、视频站、游戏、独立 CDN 和认证主机不纳入，不承诺原生直播流或弹幕走同一出口。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DouYu-routing.md)。",
+      "path": "ruleset/DouYu.yaml",
+      "policy": "🐟 斗鱼",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/DouYu.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/DouYu.yaml",
+      "page": "services/douyu.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

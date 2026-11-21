@@ -190,5 +190,9 @@
   "DingdongMaicai": {
     "path": "ruleset/DingdongMaicai.yaml",
     "behavior": "classical"
+  },
+  "DouYu": {
+    "path": "ruleset/DouYu.yaml",
+    "behavior": "classical"
   }
 }

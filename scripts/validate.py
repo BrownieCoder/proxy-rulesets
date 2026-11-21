@@ -4777,6 +4777,20 @@ def validate_dingdong_maicai(root: Path = ROOT) -> None:
     )
 
 
+def validate_douyu(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="DouYu", target="🐟 斗鱼",
+        host="m.douyu.com",
+        controls=(
+            "douyu.com", "www.douyu.com", "v.douyu.com",
+            "wan.douyu.com", "staticlive.douyucdn.cn",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4848,6 +4862,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_maoyan(root)
     validate_wechat_reading(root)
     validate_dingdong_maicai(root)
+    validate_douyu(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
