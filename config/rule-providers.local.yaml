@@ -304,3 +304,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Ximalaya.yaml
+  KFCChina:
+    type: file
+    behavior: classical
+    path: ./ruleset/KFCChina.yaml

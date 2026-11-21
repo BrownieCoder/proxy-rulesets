@@ -206,5 +206,9 @@
   "Ximalaya": {
     "path": "ruleset/Ximalaya.yaml",
     "behavior": "classical"
+  },
+  "KFCChina": {
+    "path": "ruleset/KFCChina.yaml",
+    "behavior": "classical"
   }
 }

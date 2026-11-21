@@ -456,3 +456,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Ximalaya.yaml
     interval: 86400
     path: ./ruleset-cache/Ximalaya.yaml
+  KFCChina:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KFCChina.yaml
+    interval: 86400
+    path: ./ruleset-cache/KFCChina.yaml
