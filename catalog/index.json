@@ -858,6 +858,21 @@
       "ruleCount": 2
     },
     {
+      "id": "freshippo",
+      "provider": "Freshippo",
+      "name": "盒马 / Freshippo",
+      "category": "购物",
+      "description": "仅 www.freshhema.com、www.freshippo.com 的精确公开入口，不是完整 App 分流。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "两个官网入口的所有路径同组。另域淘宝、阿里共享 CDN 和其他子域保持原路由；不保证原生下单、结算或配送链路。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Freshippo-routing.md)。",
+      "path": "ruleset/Freshippo.yaml",
+      "policy": "🛒 盒马",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Freshippo.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Freshippo.yaml",
+      "page": "services/freshippo.md",
+      "ruleCount": 2
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
