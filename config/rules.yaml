@@ -71,6 +71,8 @@ rules:
   - RULE-SET,Didi,🚕 滴滴出行
   # 得物两个精确官网入口；不包含 CDN、商家后台或国际 POIZON。
   - RULE-SET,Dewu,👟 得物
+  # 企业微信仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,WeCom,🏢 企业微信
   # 腾讯会议仅已核实的精确公开入口；不接管共享主机。
   - RULE-SET,TencentMeeting,🎥 腾讯会议
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。

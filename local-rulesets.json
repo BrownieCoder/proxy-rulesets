@@ -147,6 +147,10 @@
     "path": "ruleset/Dewu.yaml",
     "behavior": "classical"
   },
+  "WeCom": {
+    "path": "ruleset/WeCom.yaml",
+    "behavior": "classical"
+  },
   "TencentMeeting": {
     "path": "ruleset/TencentMeeting.yaml",
     "behavior": "classical"

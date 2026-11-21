@@ -118,6 +118,7 @@
 | [WPS Office](services/wps-office.md) | WPS Office 官网与 Windows、Mac、Linux 产品入口的 4 个精确主机。 | [获取地址](services/wps-office.md#规则地址) · [查看规则](ruleset/WPSOffice.yaml) |
 | [飞书 / Feishu](services/feishu.md) | 仅 www.feishu.cn 一个已核实的国内公开入口主机。 | [获取地址](services/feishu.md#规则地址) · [查看规则](ruleset/Feishu.yaml) |
 | [钉钉 / DingTalk](services/dingtalk.md) | 仅 www.dingtalk.com 一个已核实的官网公开入口。 | [获取地址](services/dingtalk.md#规则地址) · [查看规则](ruleset/DingTalk.yaml) |
+| [企业微信 / WeCom](services/wecom.md) | 仅 work.weixin.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wecom.md#规则地址) · [查看规则](ruleset/WeCom.yaml) |
 | [腾讯会议 / Tencent Meeting](services/tencent-meeting.md) | 仅 meeting.tencent.com、meeting.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/tencent-meeting.md#规则地址) · [查看规则](ruleset/TencentMeeting.yaml) |
 
 ### 工具

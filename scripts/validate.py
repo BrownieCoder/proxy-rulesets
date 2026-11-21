@@ -3717,6 +3717,110 @@ def validate_dewu(root: Path = ROOT) -> None:
             raise ValueError("Dewu changed non-target routing: " + host)
 
 
+WE_COM_CONTROLS = frozenset({
+    "example.org", "fastcdn.hoyoverse.com", "guzzoni.apple.com", "hmma.baidu.com",
+    "hoyoverse.com", "im.qq.com", "login.work.weixin.qq.com", "mp.weixin.qq.com",
+    "open.work.weixin.qq.com", "v.qq.com", "wecom.com", "weixin.qq.com",
+    "www.bilibili.com", "www.douyin.com", "www.google.com", "www.taobao.com",
+    "www.youku.com", "y.qq.com",
+})
+
+
+def validate_wecom(root: Path = ROOT) -> None:
+    """Maintain the exact public WeCom scope and its domain-only precedence."""
+    from generate_catalog import read_rules
+    from siri_ai import DomainRules
+
+    provider, target = "WeCom", "🏢 企业微信"
+    hosts = set(["work.weixin.qq.com"])
+    path = f"ruleset/{provider}.yaml"
+    payload = read_rules((root / path).read_text(encoding="utf-8"))
+    if set(payload) != {"DOMAIN," + host for host in hosts}:
+        raise ValueError(f"{provider} requires only its reviewed exact hosts")
+
+    ordered = [rule.split(",") for rule in entries(root / "config/rules.yaml")]
+    marker = ["RULE-SET", provider, target]
+    if [row for row in ordered if row[:2] == marker[:2]] != [marker]:
+        raise ValueError(f"{provider} requires exactly one dedicated policy reference")
+    current = ordered.index(marker)
+    before = ("Privacy", "Hijacking", "InternationalGaming", "ChinaGaming", "Weibo",
+              "TencentQQ", "MangoTV", "Didi", "Dewu")
+    after = ("SiriAI", "Apple", "Bilibili", "Gemini", "Google", "GlobalMedia", "ChinaMax")
+    for names, earlier in ((before, True), (after, False)):
+        for name in names:
+            positions = [i for i, row in enumerate(ordered) if row[:2] == ["RULE-SET", name]]
+            if len(positions) != 1 or (positions[0] < current) != earlier:
+                raise ValueError(f"{provider} has an invalid routing position relative to {name}")
+
+    groups = read_policy_group_model(root / "config/proxy-groups.yaml")
+    expected = {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}
+    if [group for group in groups if group["name"] == target] != [expected]:
+        raise ValueError(f"{provider} requires a DIRECT-first select with manual proxy and Final")
+    parse_policy_groups(root)
+
+    sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
+    local = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
+    if sources.keys() & local.keys() or local.get(provider) != {"path": path, "behavior": "classical"}:
+        raise ValueError(f"{provider} requires its own registered classical provider")
+    manifests = sources | local
+    domain_kinds = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+    ip_kinds = {"IP-CIDR", "IP-CIDR6", "GEOIP"}
+    if ordered[-1] != ["MATCH", "🧭 Final"] or sum(row[0] == "MATCH" for row in ordered) != 1:
+        raise ValueError(f"{provider} domain-only model requires a single terminal MATCH")
+
+    def domain_rule(rule: str) -> str:
+        kind, sep, operand = rule.partition(",")
+        if kind in domain_kinds:
+            # Mihomo lowercases domain operands. Go simple lowercase maps dotted I to i.
+            return kind + sep + operand.replace("\u0130", "i").lower()
+        return rule
+
+    providers = {}
+    model = []
+    for position, row in enumerate(ordered):
+        kind = row[0]
+        required = 2 if kind == "MATCH" else 3
+        if kind not in domain_kinds | ip_kinds | {"RULE-SET", "MATCH"}:
+            raise ValueError(f"{provider} domain-only model does not support {kind}")
+        if (not (len(row) == required or
+                 (kind in ip_kinds and len(row) == 4 and row[3] == "no-resolve"))
+                or any(not field.strip() for field in row[:required])):
+            raise ValueError(f"{provider} domain-only model requires complete rules: {kind}")
+        if kind in ip_kinds:
+            if position < current:
+                raise ValueError(f"{provider} domain-only model cannot verify preceding IP conditions")
+            continue
+        if kind == "RULE-SET":
+            name = row[1]
+            if name not in manifests:
+                raise ValueError(f"{provider} routing references missing provider: {name}")
+            if name not in providers:
+                rules = entries(root / manifests[name]["path"])
+                providers[name] = DomainRules([domain_rule(rule) for rule in rules])
+            model.append((name, row[2], providers[name]))
+        elif kind == "MATCH":
+            model.append((kind, row[1], None))
+        else:
+            label = ",".join(row[:2])
+            model.append((label, row[2], DomainRules([domain_rule(label)])))
+
+    def route(host: str, skip_app: bool = False) -> tuple[str, str]:
+        for name, policy, matcher in model:
+            if not (skip_app and name == provider) and (matcher is None or matcher.matches(host)):
+                return name, policy
+        raise ValueError(f"{provider} domain-only model did not reach MATCH")
+
+    allowed = {(provider, target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}
+    for host in sorted(hosts):
+        if route(host) not in allowed:
+            raise ValueError(f"{provider} is shadowed by an earlier rule: {host}")
+    shapes = {variant for host in hosts for variant in
+              ("child." + host, "not" + host, host + ".example.org")}
+    for host in WE_COM_CONTROLS | shapes:
+        if route(host) != route(host, skip_app=True):
+            raise ValueError(f"{provider} changed non-target routing: {host}")
+
+
 TENCENT_MEETING_CONTROLS = frozenset({
     "cdn.meeting.tencent.com", "example.org", "fastcdn.hoyoverse.com", "guzzoni.apple.com",
     "hmma.baidu.com", "hoyoverse.com", "im.qq.com", "qq.com",
@@ -3882,6 +3986,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_mango_tv(root)
     validate_didi(root)
     validate_dewu(root)
+    validate_wecom(root)
     validate_tencent_meeting(root)
     from generate_catalog import generate
     generate(root)
