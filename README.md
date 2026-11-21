@@ -104,6 +104,7 @@
 | [BOSS 直聘 / BOSS Zhipin](services/boss-zhipin.md) | BOSS 直聘官网与官网链接的 App 入口页，共两个精确公开主机。 | [获取地址](services/boss-zhipin.md#规则地址) · [查看规则](ruleset/BossZhipin.yaml) |
 | [顺丰速运 / SF Express](services/sf-express.md) | 仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。 | [获取地址](services/sf-express.md#规则地址) · [查看规则](ruleset/SFExpress.yaml) |
 | [货拉拉 / Huolala](services/huolala.md) | 仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。 | [获取地址](services/huolala.md#规则地址) · [查看规则](ruleset/Huolala.yaml) |
+| [微信读书 / WeRead](services/wechat-reading.md) | 仅 weread.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wechat-reading.md#规则地址) · [查看规则](ruleset/WeChatReading.yaml) |
 
 ### 支付与其他
 

@@ -280,3 +280,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Maoyan.yaml
+  WeChatReading:
+    type: file
+    behavior: classical
+    path: ./ruleset/WeChatReading.yaml

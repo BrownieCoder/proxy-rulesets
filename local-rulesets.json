@@ -182,5 +182,9 @@
   "Maoyan": {
     "path": "ruleset/Maoyan.yaml",
     "behavior": "classical"
+  },
+  "WeChatReading": {
+    "path": "ruleset/WeChatReading.yaml",
+    "behavior": "classical"
   }
 }
