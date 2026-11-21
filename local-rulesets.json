@@ -158,5 +158,9 @@
   "TencentMap": {
     "path": "ruleset/TencentMap.yaml",
     "behavior": "classical"
+  },
+  "MeituXiuXiu": {
+    "path": "ruleset/MeituXiuXiu.yaml",
+    "behavior": "classical"
   }
 }

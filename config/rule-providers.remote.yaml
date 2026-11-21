@@ -384,3 +384,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentMap.yaml
     interval: 86400
     path: ./ruleset-cache/TencentMap.yaml
+  MeituXiuXiu:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/MeituXiuXiu.yaml
+    interval: 86400
+    path: ./ruleset-cache/MeituXiuXiu.yaml

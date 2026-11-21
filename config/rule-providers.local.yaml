@@ -256,3 +256,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/TencentMap.yaml
+  MeituXiuXiu:
+    type: file
+    behavior: classical
+    path: ./ruleset/MeituXiuXiu.yaml
