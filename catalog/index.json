@@ -813,6 +813,21 @@
       "ruleCount": 1
     },
     {
+      "id": "mango-tv",
+      "provider": "MangoTV",
+      "name": "芒果TV / Mango TV",
+      "category": "影音",
+      "description": "仅 www.mgtv.com 一个精确公开入口，包含同主机客户端介绍页。",
+      "policyLabel": "单个公开入口：默认直连，可选代理",
+      "warning": "www.mgtv.com 全部路径（包括同主机国际条款）随本组；国际门户 w.mgtv.com、独立下载、图片、媒体 CDN 及未核实客户端接口不纳入。其他请求保留原策略，可能混合出口。不保证完整 App、登录、会员、安装或播放，不改变版权或地区资格。[官方来源与边界](../research/MangoTV-routing.md)。",
+      "path": "ruleset/MangoTV.yaml",
+      "policy": "🥭 芒果TV",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/MangoTV.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/MangoTV.yaml",
+      "page": "services/mango-tv.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

@@ -21,7 +21,8 @@ APPS = ('qq_music', 'douyin', 'amap', 'zhihu', 'xiaohongshu', 'netease_music',
         'douban', 'jd', 'meituan', 'baidu_pan', 'ctrip', 'pinduoduo', 'taobao',
         'baidu_map', 'kuaishou', 'tencent_video', 'alipan', 'iqiyi', 'xianyu',
         'railway_12306', 'youku', 'wps_office', 'feishu', 'dingtalk', 'quark', 'boss_zhipin',
-        'wechat', 'sf_express', 'weibo', 'tencent_qq')
+        'wechat', 'sf_express', 'weibo', 'tencent_qq',
+        'mango_tv')
 
 
 class PolicyGroupGrammar(unittest.TestCase):

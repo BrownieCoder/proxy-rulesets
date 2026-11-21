@@ -232,3 +232,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/TencentQQ.yaml
+  MangoTV:
+    type: file
+    behavior: classical
+    path: ./ruleset/MangoTV.yaml

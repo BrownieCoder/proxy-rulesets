@@ -134,5 +134,9 @@
   "TencentQQ": {
     "path": "ruleset/TencentQQ.yaml",
     "behavior": "classical"
+  },
+  "MangoTV": {
+    "path": "ruleset/MangoTV.yaml",
+    "behavior": "classical"
   }
 }
