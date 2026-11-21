@@ -3229,7 +3229,7 @@ DEWU_CONTROLS = frozenset({
 
 def validate_dewu(root: Path = ROOT) -> None:
     """Check the two public Dewu portals and their domain-only first matches."""
-    from generate_catalog import check_rule, read_rules
+    from generate_catalog import read_rules
     from siri_ai import DomainRules
 
     target = "👟 得物"
@@ -3321,7 +3321,8 @@ def validate_dewu(root: Path = ROOT) -> None:
             model_rows.append((kind, fields[1], None))
         else:
             label = ",".join(fields[:2])
-            check_rule(label)
+            # These are public inline routing fields, not catalog provider payloads.
+            # Model first match without imposing the catalog's narrower DNS grammar.
             model_rows.append((label, fields[2], DomainRules([domain_operand(label)])))
     if matches != 1 or ordered[-1][0] != "MATCH":
         raise ValueError("Dewu requires exactly one final MATCH rule")

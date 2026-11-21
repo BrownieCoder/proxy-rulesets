@@ -132,7 +132,7 @@ class DewuContract(unittest.TestCase):
     def test_unique_dedicated_reference(self):
         path = 'config/rules.yaml'
         original = self.read(path)
-        for changed in (original.replace(MARKER, ''), original + MARKER,
+        for changed in (original.replace(MARKER, ''), original.replace(MARKER, MARKER * 2, 1),
                         original.replace(MARKER, '  - RULE-SET,Dewu,DIRECT\n')):
             with self.subTest(changed=changed.count(MARKER)):
                 self.write(path, changed)
@@ -260,6 +260,14 @@ class DewuContract(unittest.TestCase):
                 self.write(path, original)
                 self.write('sources.lock.json', original_lock)
                 generate(self.root, write=True)
+
+    def test_unrelated_unicode_inline_domain_remains_valid(self):
+        path = 'config/rules.yaml'
+        original = self.read(path)
+        self.assertEqual(original.count(MARKER), 1)
+        self.write(path, original.replace(MARKER, '  - DOMAIN,WWW.D\u0130D\u0130GLOBAL.COM,DIRECT\n' + MARKER))
+        validate.validate_dewu(self.root)
+        self.validate_tree()
 
     def test_unrelated_unicode_keyword_in_valid_mirror_update(self):
         path = 'ruleset/Privacy_No_Resolve.yaml'
