@@ -238,7 +238,11 @@ class MangoTVContract(unittest.TestCase):
     def test_existing_provider_or_early_match_can_shadow_target(self):
         original = self.read(ROUTES)
         self.write(ROUTES, original.replace(MARKER, FINAL + MARKER).removesuffix(FINAL))
-        self.rejected("MangoTV is shadowed", "MangoTV is shadowed")
+        # An earlier App gate can enforce terminal MATCH before MangoTV runs.
+        providers = json.loads(self.read("local-rulesets.json"))
+        tree_reason = ("TencentQQ domain-only model requires a single terminal MATCH"
+                       if "TencentQQ" in providers else "MangoTV is shadowed")
+        self.rejected("MangoTV is shadowed", tree_reason)
         self.write(ROUTES, original)
         path = "ruleset/Weibo.yaml"
         self.write(path, self.read(path) + "  - DOMAIN,WWW.MGTV.COM\n")
