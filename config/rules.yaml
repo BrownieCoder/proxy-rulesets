@@ -63,6 +63,12 @@ rules:
   - RULE-SET,SFExpress,📦 顺丰速运
   # 微博两个精确公开入口；不包含移动访客验证、其他子域或新浪共享资源。
   - RULE-SET,Weibo,🟠 微博
+  # QQ 仅公开官网入口；QQ 音乐、腾讯视频、微信、游戏和共享资源独立保留。
+  - RULE-SET,TencentQQ,🐧 腾讯 QQ
+  # 芒果TV仅官网精确主机；国际门户、独立下载及媒体主机保持原策略。
+  - RULE-SET,MangoTV,🥭 芒果TV
+  # 滴滴出行只含两个精确官网入口；不扩展地区、素材或推测的 App 主机。
+  - RULE-SET,Didi,🚕 滴滴出行
   # 得物两个精确官网入口；不包含 CDN、商家后台或国际 POIZON。
   - RULE-SET,Dewu,👟 得物
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。

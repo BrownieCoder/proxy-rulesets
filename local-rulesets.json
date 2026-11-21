@@ -131,6 +131,18 @@
     "path": "ruleset/Weibo.yaml",
     "behavior": "classical"
   },
+  "TencentQQ": {
+    "path": "ruleset/TencentQQ.yaml",
+    "behavior": "classical"
+  },
+  "MangoTV": {
+    "path": "ruleset/MangoTV.yaml",
+    "behavior": "classical"
+  },
+  "Didi": {
+    "path": "ruleset/Didi.yaml",
+    "behavior": "classical"
+  },
   "Dewu": {
     "path": "ruleset/Dewu.yaml",
     "behavior": "classical"

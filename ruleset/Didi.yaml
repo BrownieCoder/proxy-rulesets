@@ -1,0 +1,5 @@
+# Two exact public DiDi website entries, not a complete app ruleset.
+# Official attribution and exclusions: research/Didi-routing.md
+payload:
+  - DOMAIN,www.didichuxing.com
+  - DOMAIN,www.didiglobal.com

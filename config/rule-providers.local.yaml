@@ -228,6 +228,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Weibo.yaml
+  TencentQQ:
+    type: file
+    behavior: classical
+    path: ./ruleset/TencentQQ.yaml
+  MangoTV:
+    type: file
+    behavior: classical
+    path: ./ruleset/MangoTV.yaml
+  Didi:
+    type: file
+    behavior: classical
+    path: ./ruleset/Didi.yaml
   Dewu:
     type: file
     behavior: classical

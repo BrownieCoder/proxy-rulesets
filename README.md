@@ -56,6 +56,7 @@
 | [Netflix](services/netflix.md) | Netflix 内容及相关资源。 | [获取地址](services/netflix.md#规则地址) · [查看规则](ruleset/Netflix_No_Resolve.yaml) |
 | [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 | [获取地址](services/global-media.md#规则地址) · [查看规则](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
 | [优酷 / Youku](services/youku.md) | 优酷官网一个已核实精确主机；不包含共享资源或完整播放链路。 | [获取地址](services/youku.md#规则地址) · [查看规则](ruleset/Youku.yaml) |
+| [芒果TV / Mango TV](services/mango-tv.md) | 仅 www.mgtv.com 一个精确公开入口，包含同主机客户端介绍页。 | [获取地址](services/mango-tv.md#规则地址) · [查看规则](ruleset/MangoTV.yaml) |
 
 ### 购物
 
@@ -75,6 +76,7 @@
 | [携程旅行 / Ctrip](services/ctrip.md) | 携程官网、移动、App 推广及机酒火车度假网页的 7 个精确入口主机。 | [获取地址](services/ctrip.md#规则地址) · [查看规则](ruleset/Ctrip.yaml) |
 | [百度地图 / Baidu Map](services/baidu-map.md) | 百度地图官网、JSAPI 入口与网页资源的 4 个精确主机。 | [获取地址](services/baidu-map.md#规则地址) · [查看规则](ruleset/BaiduMap.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
+| [滴滴出行 / DiDi](services/didi.md) | 仅 www.didichuxing.com 与 www.didiglobal.com 两个精确公开官网入口。 | [获取地址](services/didi.md#规则地址) · [查看规则](ruleset/Didi.yaml) |
 
 ### 社交
 
@@ -88,6 +90,7 @@
 | [Discord](services/discord.md) | Discord 语音、聊天及相关资源。 | [获取地址](services/discord.md#规则地址) · [查看规则](ruleset/Discord_No_Resolve.yaml) |
 | [微信 / WeChat](services/wechat.md) | 仅 weixin.qq.com 一个已核实的官方公开入口。 | [获取地址](services/wechat.md#规则地址) · [查看规则](ruleset/WeChat.yaml) |
 | [微博 / Weibo](services/weibo.md) | 仅 weibo.com 与 www.weibo.com 两个精确公开入口主机。 | [获取地址](services/weibo.md#规则地址) · [查看规则](ruleset/Weibo.yaml) |
+| [腾讯 QQ / Tencent QQ](services/tencent-qq.md) | 仅 im.qq.com 一个精确公开入口主机，不是完整 QQ 客户端分流。 | [获取地址](services/tencent-qq.md#规则地址) · [查看规则](ruleset/TencentQQ.yaml) |
 
 ### 生活服务
 
