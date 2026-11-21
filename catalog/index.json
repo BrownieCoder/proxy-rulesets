@@ -1038,6 +1038,21 @@
       "ruleCount": 1
     },
     {
+      "id": "tongcheng-travel",
+      "provider": "TongchengTravel",
+      "name": "同程旅行 / Tongcheng Travel",
+      "category": "出行",
+      "description": "仅 m.ly.com 的移动旅行网页及 App 导流入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机的全部路径使用同一策略（可能包括移动网页预订流程）。下载链接指向另域 m.17u.cn，不会随组；桌面站、企业商旅、独立登录、票务或支付不视为已验证。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TongchengTravel-routing.md)。",
+      "path": "ruleset/TongchengTravel.yaml",
+      "policy": "🧳 同程旅行",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TongchengTravel.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/TongchengTravel.yaml",
+      "page": "services/tongcheng-travel.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

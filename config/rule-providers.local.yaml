@@ -292,3 +292,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/DouYu.yaml
+  TongchengTravel:
+    type: file
+    behavior: classical
+    path: ./ruleset/TongchengTravel.yaml

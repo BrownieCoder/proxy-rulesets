@@ -621,6 +621,15 @@
     "warning": "同主机的全部路径（包括直播间页面）使用同一策略；桌面站、视频站、游戏、独立 CDN 和认证主机不纳入，不承诺原生直播流或弹幕走同一出口。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DouYu-routing.md)。"
   },
   {
+    "id": "tongcheng-travel",
+    "provider": "TongchengTravel",
+    "name": "同程旅行 / Tongcheng Travel",
+    "category": "出行",
+    "description": "仅 m.ly.com 的移动旅行网页及 App 导流入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机的全部路径使用同一策略（可能包括移动网页预订流程）。下载链接指向另域 m.17u.cn，不会随组；桌面站、企业商旅、独立登录、票务或支付不视为已验证。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TongchengTravel-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

@@ -194,5 +194,9 @@
   "DouYu": {
     "path": "ruleset/DouYu.yaml",
     "behavior": "classical"
+  },
+  "TongchengTravel": {
+    "path": "ruleset/TongchengTravel.yaml",
+    "behavior": "classical"
   }
 }
