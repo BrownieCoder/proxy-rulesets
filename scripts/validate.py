@@ -4862,6 +4862,21 @@ def validate_fanqie_novel(root: Path = ROOT) -> None:
     )
 
 
+def validate_sogou_mobile_ime(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="SogouMobileIME", target="⌨️ 搜狗输入法手机版",
+        host="shouji.sogou.com",
+        controls=(
+            "sogou.com", "pinyin.sogou.com", "shurufa.sogou.com",
+            "account.sogou.com", "indivi-cdn.shouji.sogou.com", "img.shouji.sogou.com",
+            "apkdl.sogouimecdn.com", "pb.i.sogou.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4939,6 +4954,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_ximalaya(root)
     validate_kfc_china(root)
     validate_fanqie_novel(root)
+    validate_sogou_mobile_ime(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

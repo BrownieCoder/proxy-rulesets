@@ -468,3 +468,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/FanqieNovel.yaml
     interval: 86400
     path: ./ruleset-cache/FanqieNovel.yaml
+  SogouMobileIME:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SogouMobileIME.yaml
+    interval: 86400
+    path: ./ruleset-cache/SogouMobileIME.yaml

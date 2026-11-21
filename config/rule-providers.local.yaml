@@ -312,3 +312,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/FanqieNovel.yaml
+  SogouMobileIME:
+    type: file
+    behavior: classical
+    path: ./ruleset/SogouMobileIME.yaml

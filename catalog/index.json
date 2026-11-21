@@ -1113,6 +1113,21 @@
       "ruleCount": 1
     },
     {
+      "id": "sogou-mobile-ime",
+      "provider": "SogouMobileIME",
+      "name": "搜狗输入法手机版 / Sogou Mobile IME",
+      "category": "工具",
+      "description": "仅 shouji.sogou.com 的手机产品官网、下载介绍与帮助入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径随组；不另纳入桌面版、独立账号、素材子域或跨主机安装文件；未验证原生输入、云候选与同步链路。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/SogouMobileIME-routing.md)。",
+      "path": "ruleset/SogouMobileIME.yaml",
+      "policy": "⌨️ 搜狗输入法手机版",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SogouMobileIME.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/SogouMobileIME.yaml",
+      "page": "services/sogou-mobile-ime.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

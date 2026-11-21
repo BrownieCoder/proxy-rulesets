@@ -214,5 +214,9 @@
   "FanqieNovel": {
     "path": "ruleset/FanqieNovel.yaml",
     "behavior": "classical"
+  },
+  "SogouMobileIME": {
+    "path": "ruleset/SogouMobileIME.yaml",
+    "behavior": "classical"
   }
 }
