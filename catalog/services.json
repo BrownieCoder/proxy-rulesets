@@ -513,6 +513,15 @@
     "warning": "安全、游戏和既有服务优先。两主机全部路径都随本组，不能排除同主机的社区、卖家或条款页面。其他子域、商家与开放平台、CDN 和国际 POIZON 沿原策略，可能混合出口。不覆盖完整 App，不保证登录、下载、鉴别、交易、支付或地区资格。[官方来源与范围](../research/Dewu-routing.md)。"
   },
   {
+    "id": "wechat-reading",
+    "provider": "WeChatReading",
+    "name": "微信读书 / WeRead",
+    "category": "生活服务",
+    "description": "仅 weread.qq.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机全部路径随组，可能含同主机登录及阅读内容。另域微信聊天、公众号、QQ 阅读、认证与素材 CDN 保持原路由，不保证客户端阅读、支付或会员。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/WeChatReading-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",
