@@ -71,6 +71,22 @@ rules:
   - RULE-SET,Didi,🚕 滴滴出行
   # 得物两个精确官网入口；不包含 CDN、商家后台或国际 POIZON。
   - RULE-SET,Dewu,👟 得物
+  # 企业微信仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,WeCom,🏢 企业微信
+  # 腾讯会议仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,TencentMeeting,🎥 腾讯会议
+  # 腾讯地图仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,TencentMap,🗺️ 腾讯地图
+  # 美图秀秀仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,MeituXiuXiu,🎨 美图秀秀
+  # 盒马仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,Freshippo,🛒 盒马
+  # 货拉拉仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,Huolala,🚚 货拉拉
+  # 飞猪仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,Fliggy,✈️ 飞猪
+  # 网易邮箱大师仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,NetEaseMailMaster,📧 网易邮箱大师
   # 猫眼仅已核实的精确公开入口；不接管共享主机。
   - RULE-SET,Maoyan,🎟️ 猫眼
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。

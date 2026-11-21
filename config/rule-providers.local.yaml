@@ -244,6 +244,38 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Dewu.yaml
+  WeCom:
+    type: file
+    behavior: classical
+    path: ./ruleset/WeCom.yaml
+  TencentMeeting:
+    type: file
+    behavior: classical
+    path: ./ruleset/TencentMeeting.yaml
+  TencentMap:
+    type: file
+    behavior: classical
+    path: ./ruleset/TencentMap.yaml
+  MeituXiuXiu:
+    type: file
+    behavior: classical
+    path: ./ruleset/MeituXiuXiu.yaml
+  Freshippo:
+    type: file
+    behavior: classical
+    path: ./ruleset/Freshippo.yaml
+  Huolala:
+    type: file
+    behavior: classical
+    path: ./ruleset/Huolala.yaml
+  Fliggy:
+    type: file
+    behavior: classical
+    path: ./ruleset/Fliggy.yaml
+  NetEaseMailMaster:
+    type: file
+    behavior: classical
+    path: ./ruleset/NetEaseMailMaster.yaml
   Maoyan:
     type: file
     behavior: classical
