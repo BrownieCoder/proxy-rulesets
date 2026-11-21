@@ -74,6 +74,14 @@ def entries(path: Path) -> list[str]:
             if line.strip().startswith("- ")]
 
 
+def _lower_domain_operand(value: str) -> str:
+    # Mihomo applies Go's simple lowercase per rune, not contextual lowercase
+    # or casefolding. Python expands capital dotted I by default.
+    if value.isascii():
+        return value.lower()
+    return "".join("i" if char == "\u0130" else char.lower() for char in value)
+
+
 class DomainRules:
     """只模拟有域名、无进程/IP元数据的请求；不伪造 DNS/GeoIP/UDP 实测。"""
     def __init__(self, rules: list[str]):
@@ -84,11 +92,11 @@ class DomainRules:
             fields = rule.split(",")
             kind = fields[0]
             if kind == "DOMAIN":
-                self.exact.add(fields[1])
+                self.exact.add(_lower_domain_operand(fields[1]))
             elif kind == "DOMAIN-SUFFIX":
-                self.suffix.add(fields[1])
+                self.suffix.add(_lower_domain_operand(fields[1]))
             elif kind == "DOMAIN-KEYWORD":
-                self.keywords.append(fields[1])
+                self.keywords.append(_lower_domain_operand(fields[1]))
             elif kind not in {"IP-CIDR", "IP-CIDR6", "IP-ASN", "PROCESS-NAME"}:
                 raise ValueError(f"离线域名模型不支持规则类型：{kind}")
 
