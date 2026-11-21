@@ -146,5 +146,9 @@
   "Dewu": {
     "path": "ruleset/Dewu.yaml",
     "behavior": "classical"
+  },
+  "Huolala": {
+    "path": "ruleset/Huolala.yaml",
+    "behavior": "classical"
   }
 }
