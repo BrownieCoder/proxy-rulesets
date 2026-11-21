@@ -450,3 +450,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentDocs.yaml
     interval: 86400
     path: ./ruleset-cache/TencentDocs.yaml
+  KFCChina:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KFCChina.yaml
+    interval: 86400
+    path: ./ruleset-cache/KFCChina.yaml
