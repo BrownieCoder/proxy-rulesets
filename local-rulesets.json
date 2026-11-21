@@ -186,5 +186,9 @@
   "WeChatReading": {
     "path": "ruleset/WeChatReading.yaml",
     "behavior": "classical"
+  },
+  "DouYu": {
+    "path": "ruleset/DouYu.yaml",
+    "behavior": "classical"
   }
 }
