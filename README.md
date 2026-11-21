@@ -59,6 +59,7 @@
 | [芒果TV / Mango TV](services/mango-tv.md) | 仅 www.mgtv.com 一个精确公开入口，包含同主机客户端介绍页。 | [获取地址](services/mango-tv.md#规则地址) · [查看规则](ruleset/MangoTV.yaml) |
 | [猫眼 / Maoyan](services/maoyan.md) | 仅 www.maoyan.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/maoyan.md#规则地址) · [查看规则](ruleset/Maoyan.yaml) |
 | [斗鱼 / DouYu](services/douyu.md) | 仅 m.douyu.com 的移动直播网页及打开 App 入口，不代表完整 App 流量。 | [获取地址](services/douyu.md#规则地址) · [查看规则](ruleset/DouYu.yaml) |
+| [喜马拉雅 / Ximalaya](services/ximalaya.md) | 仅 m.ximalaya.com 的移动网页、电台目录及 App 分享入口，不代表完整 App 流量。 | [获取地址](services/ximalaya.md#规则地址) · [查看规则](ruleset/Ximalaya.yaml) |
 
 ### 购物
 
@@ -108,6 +109,8 @@
 | [顺丰速运 / SF Express](services/sf-express.md) | 仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。 | [获取地址](services/sf-express.md#规则地址) · [查看规则](ruleset/SFExpress.yaml) |
 | [货拉拉 / Huolala](services/huolala.md) | 仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。 | [获取地址](services/huolala.md#规则地址) · [查看规则](ruleset/Huolala.yaml) |
 | [微信读书 / WeRead](services/wechat-reading.md) | 仅 weread.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wechat-reading.md#规则地址) · [查看规则](ruleset/WeChatReading.yaml) |
+| [肯德基中国 / KFC China](services/kfc-china.md) | 仅 www.kfc.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/kfc-china.md#规则地址) · [查看规则](ruleset/KFCChina.yaml) |
+| [番茄小说 / Fanqie Novel](services/fanqie-novel.md) | 仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。 | [获取地址](services/fanqie-novel.md#规则地址) · [查看规则](ruleset/FanqieNovel.yaml) |
 
 ### 支付与其他
 

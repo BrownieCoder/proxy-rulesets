@@ -203,6 +203,18 @@
     "path": "ruleset/TencentDocs.yaml",
     "behavior": "classical"
   },
+  "Ximalaya": {
+    "path": "ruleset/Ximalaya.yaml",
+    "behavior": "classical"
+  },
+  "KFCChina": {
+    "path": "ruleset/KFCChina.yaml",
+    "behavior": "classical"
+  },
+  "FanqieNovel": {
+    "path": "ruleset/FanqieNovel.yaml",
+    "behavior": "classical"
+  },
   "SogouMobileIME": {
     "path": "ruleset/SogouMobileIME.yaml",
     "behavior": "classical"

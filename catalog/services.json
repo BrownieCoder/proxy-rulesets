@@ -639,6 +639,33 @@
     "warning": "同主机所有路径（包括网页文档与编辑器）使用同一策略；不扩展到 QQ、微信、腾讯会议、认证、共享资源或原生同步主机。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentDocs-routing.md)。"
   },
   {
+    "id": "ximalaya",
+    "provider": "Ximalaya",
+    "name": "喜马拉雅 / Ximalaya",
+    "category": "影音",
+    "description": "仅 m.ximalaya.com 的移动网页、电台目录及 App 分享入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（含公开分享和会员介绍网页）随组；不同主机的音频、登录、主播工作台、开放平台与海外版不纳入。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Ximalaya-routing.md)。"
+  },
+  {
+    "id": "kfc-china",
+    "provider": "KFCChina",
+    "name": "肯德基中国 / KFC China",
+    "category": "生活服务",
+    "description": "仅 www.kfc.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（含品牌、活动及下载介绍网页）随组；不纳入独立订餐、登录、支付、素材或全球站主机。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/KFCChina-routing.md)。"
+  },
+  {
+    "id": "fanqie-novel",
+    "provider": "FanqieNovel",
+    "name": "番茄小说 / Fanqie Novel",
+    "category": "生活服务",
+    "description": "仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（含作家专区、帮助及该主机上的登录或注册网页）随组；不另纳入独立认证、其他阅读站、共享字节域名或 CDN，未验证完整登录、原生阅读或音频链路。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/FanqieNovel-routing.md)。"
+  },
+  {
     "id": "sogou-mobile-ime",
     "provider": "SogouMobileIME",
     "name": "搜狗输入法手机版 / Sogou Mobile IME",

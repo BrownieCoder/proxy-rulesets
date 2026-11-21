@@ -99,6 +99,12 @@ rules:
   - RULE-SET,TongchengTravel,🧳 同程旅行
   # 腾讯文档仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,TencentDocs,📝 腾讯文档
+  # 喜马拉雅仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,Ximalaya,🎧 喜马拉雅
+  # 肯德基中国仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,KFCChina,🍗 肯德基中国
+  # 番茄小说仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,FanqieNovel,🍅 番茄小说
   # 搜狗输入法手机版仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,SogouMobileIME,⌨️ 搜狗输入法手机版
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
