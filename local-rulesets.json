@@ -154,5 +154,9 @@
   "TencentMeeting": {
     "path": "ruleset/TencentMeeting.yaml",
     "behavior": "classical"
+  },
+  "TencentMap": {
+    "path": "ruleset/TencentMap.yaml",
+    "behavior": "classical"
   }
 }

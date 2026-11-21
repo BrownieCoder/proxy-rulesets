@@ -252,3 +252,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/TencentMeeting.yaml
+  TencentMap:
+    type: file
+    behavior: classical
+    path: ./ruleset/TencentMap.yaml

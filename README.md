@@ -77,6 +77,7 @@
 | [百度地图 / Baidu Map](services/baidu-map.md) | 百度地图官网、JSAPI 入口与网页资源的 4 个精确主机。 | [获取地址](services/baidu-map.md#规则地址) · [查看规则](ruleset/BaiduMap.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
 | [滴滴出行 / DiDi](services/didi.md) | 仅 www.didichuxing.com 与 www.didiglobal.com 两个精确公开官网入口。 | [获取地址](services/didi.md#规则地址) · [查看规则](ruleset/Didi.yaml) |
+| [腾讯地图 / Tencent Map](services/tencent-map.md) | 仅 map.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/tencent-map.md#规则地址) · [查看规则](ruleset/TencentMap.yaml) |
 
 ### 社交
 

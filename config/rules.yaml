@@ -75,6 +75,8 @@ rules:
   - RULE-SET,WeCom,🏢 企业微信
   # 腾讯会议仅已核实的精确公开入口；不接管共享主机。
   - RULE-SET,TencentMeeting,🎥 腾讯会议
+  # 腾讯地图仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,TencentMap,🗺️ 腾讯地图
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
