@@ -186,5 +186,9 @@
   "WeChatReading": {
     "path": "ruleset/WeChatReading.yaml",
     "behavior": "classical"
+  },
+  "TencentDocs": {
+    "path": "ruleset/TencentDocs.yaml",
+    "behavior": "classical"
   }
 }

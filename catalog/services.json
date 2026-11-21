@@ -603,6 +603,15 @@
     "warning": "同主机全部路径随组，可能含同主机登录及阅读内容。另域微信聊天、公众号、QQ 阅读、认证与素材 CDN 保持原路由，不保证客户端阅读、支付或会员。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/WeChatReading-routing.md)。"
   },
   {
+    "id": "tencent-docs",
+    "provider": "TencentDocs",
+    "name": "腾讯文档 / Tencent Docs",
+    "category": "办公",
+    "description": "仅 docs.qq.com 的官网及同主机在线文档网页，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（包括网页文档与编辑器）使用同一策略；不扩展到 QQ、微信、腾讯会议、认证、共享资源或原生同步主机。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentDocs-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

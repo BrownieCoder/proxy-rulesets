@@ -426,3 +426,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/WeChatReading.yaml
     interval: 86400
     path: ./ruleset-cache/WeChatReading.yaml
+  TencentDocs:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentDocs.yaml
+    interval: 86400
+    path: ./ruleset-cache/TencentDocs.yaml

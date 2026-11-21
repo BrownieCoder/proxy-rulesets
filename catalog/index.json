@@ -1008,6 +1008,21 @@
       "ruleCount": 1
     },
     {
+      "id": "tencent-docs",
+      "provider": "TencentDocs",
+      "name": "腾讯文档 / Tencent Docs",
+      "category": "办公",
+      "description": "仅 docs.qq.com 的官网及同主机在线文档网页，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（包括网页文档与编辑器）使用同一策略；不扩展到 QQ、微信、腾讯会议、认证、共享资源或原生同步主机。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentDocs-routing.md)。",
+      "path": "ruleset/TencentDocs.yaml",
+      "policy": "📝 腾讯文档",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentDocs.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/TencentDocs.yaml",
+      "page": "services/tencent-docs.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
