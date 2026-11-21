@@ -3285,6 +3285,7 @@ def validate_mango_tv(root: Path = ROOT) -> None:
     group = next((group for group in groups if group["name"] == target), None)
     if group != {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}:
         raise ValueError("MangoTV needs a DIRECT-first select group with manual proxy and Final")
+    parse_policy_groups(root)
 
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))

@@ -178,6 +178,19 @@ class MangoTVContract(unittest.TestCase):
                 self.rejected("DIRECT-first select group",
                               "DIRECT-first select group" if replacement else "undefined policy groups")
 
+    def test_final_cycle_and_missing_group_fail_both_validation_entries(self):
+        path = "config/proxy-groups.yaml"
+        original = self.read(path)
+        final = '  - name: "🧭 Final"\n    type: select\n    proxies:\n'
+        self.assertEqual(original.count(final), 1)
+        for member, reason in (("🥭 芒果TV", "contains a group cycle"),
+                               ("MissingPublicGroup", "references undefined groups")):
+            with self.subTest(member=member):
+                self.write(path, original.replace(final, final + f'      - "{member}"\n', 1))
+                for gate in (validate.validate_mango_tv, validate.validate_tree):
+                    with self.subTest(gate=gate.__name__), self.assertRaisesRegex(ValueError, reason):
+                        gate(self.root)
+
     def test_invalid_public_root_or_policy_group_syntax(self):
         original_rules = self.read(ROUTES)
         self.write(ROUTES, original_rules + "\nrules: []\n")
