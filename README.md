@@ -57,6 +57,7 @@
 | [其他国际媒体](services/global-media.md) | 现有上游国际媒体集合。 | [获取地址](services/global-media.md#规则地址) · [查看规则](ruleset/GlobalMedia_Classical_No_Resolve.yaml) |
 | [优酷 / Youku](services/youku.md) | 优酷官网一个已核实精确主机；不包含共享资源或完整播放链路。 | [获取地址](services/youku.md#规则地址) · [查看规则](ruleset/Youku.yaml) |
 | [芒果TV / Mango TV](services/mango-tv.md) | 仅 www.mgtv.com 一个精确公开入口，包含同主机客户端介绍页。 | [获取地址](services/mango-tv.md#规则地址) · [查看规则](ruleset/MangoTV.yaml) |
+| [猫眼 / Maoyan](services/maoyan.md) | 仅 www.maoyan.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/maoyan.md#规则地址) · [查看规则](ruleset/Maoyan.yaml) |
 
 ### 购物
 
