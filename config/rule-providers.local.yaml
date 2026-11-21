@@ -276,3 +276,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/NetEaseMailMaster.yaml
+  Maoyan:
+    type: file
+    behavior: classical
+    path: ./ruleset/Maoyan.yaml

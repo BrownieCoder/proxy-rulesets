@@ -178,5 +178,9 @@
   "NetEaseMailMaster": {
     "path": "ruleset/NetEaseMailMaster.yaml",
     "behavior": "classical"
+  },
+  "Maoyan": {
+    "path": "ruleset/Maoyan.yaml",
+    "behavior": "classical"
   }
 }

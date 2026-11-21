@@ -414,3 +414,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/NetEaseMailMaster.yaml
     interval: 86400
     path: ./ruleset-cache/NetEaseMailMaster.yaml
+  Maoyan:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Maoyan.yaml
+    interval: 86400
+    path: ./ruleset-cache/Maoyan.yaml

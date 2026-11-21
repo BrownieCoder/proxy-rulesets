@@ -978,6 +978,21 @@
       "ruleCount": 1
     },
     {
+      "id": "maoyan",
+      "provider": "Maoyan",
+      "name": "猫眼 / Maoyan",
+      "category": "影音",
+      "description": "仅 www.maoyan.com 的精确公开入口，不是完整 App 分流。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "官网同主机的选座等路径也随组；独立移动、专业票房、投资者、美团和点评仍走原策略。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Maoyan-routing.md)。",
+      "path": "ruleset/Maoyan.yaml",
+      "policy": "🎟️ 猫眼",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Maoyan.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Maoyan.yaml",
+      "page": "services/maoyan.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

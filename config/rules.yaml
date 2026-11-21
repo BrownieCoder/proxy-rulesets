@@ -87,6 +87,8 @@ rules:
   - RULE-SET,Fliggy,✈️ 飞猪
   # 网易邮箱大师仅已核实的精确公开入口；不接管共享主机。
   - RULE-SET,NetEaseMailMaster,📧 网易邮箱大师
+  # 猫眼仅已核实的精确公开入口；不接管共享主机。
+  - RULE-SET,Maoyan,🎟️ 猫眼
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple
