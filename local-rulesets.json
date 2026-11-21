@@ -198,5 +198,9 @@
   "TongchengTravel": {
     "path": "ruleset/TongchengTravel.yaml",
     "behavior": "classical"
+  },
+  "TencentDocs": {
+    "path": "ruleset/TencentDocs.yaml",
+    "behavior": "classical"
   }
 }

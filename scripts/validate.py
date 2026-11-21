@@ -4805,6 +4805,20 @@ def validate_tongcheng_travel(root: Path = ROOT) -> None:
     )
 
 
+def validate_tencent_docs(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="TencentDocs", target="📝 腾讯文档",
+        host="docs.qq.com",
+        controls=(
+            "qq.com", "im.qq.com", "meeting.tencent.com",
+            "work.weixin.qq.com", "beacon.qq.com", "weread.qq.com", "gtimg.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4878,6 +4892,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_dingdong_maicai(root)
     validate_douyu(root)
     validate_tongcheng_travel(root)
+    validate_tencent_docs(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

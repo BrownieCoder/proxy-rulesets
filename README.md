@@ -130,6 +130,7 @@
 | [企业微信 / WeCom](services/wecom.md) | 仅 work.weixin.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wecom.md#规则地址) · [查看规则](ruleset/WeCom.yaml) |
 | [腾讯会议 / Tencent Meeting](services/tencent-meeting.md) | 仅 meeting.tencent.com、meeting.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/tencent-meeting.md#规则地址) · [查看规则](ruleset/TencentMeeting.yaml) |
 | [网易邮箱大师 / NetEase Mail Master](services/netease-mail-master.md) | 仅 dashi.163.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/netease-mail-master.md#规则地址) · [查看规则](ruleset/NetEaseMailMaster.yaml) |
+| [腾讯文档 / Tencent Docs](services/tencent-docs.md) | 仅 docs.qq.com 的官网及同主机在线文档网页，不代表完整 App 流量。 | [获取地址](services/tencent-docs.md#规则地址) · [查看规则](ruleset/TencentDocs.yaml) |
 
 ### 工具
 
