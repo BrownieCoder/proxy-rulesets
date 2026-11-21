@@ -1,0 +1,4 @@
+# 盒马已核实的精确公开入口；依据见 research/Freshippo-routing.md。
+payload:
+  - DOMAIN,www.freshhema.com
+  - DOMAIN,www.freshippo.com

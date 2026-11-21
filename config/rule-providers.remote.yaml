@@ -366,6 +366,36 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Dewu.yaml
     interval: 86400
     path: ./ruleset-cache/Dewu.yaml
+  WeCom:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/WeCom.yaml
+    interval: 86400
+    path: ./ruleset-cache/WeCom.yaml
+  TencentMeeting:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentMeeting.yaml
+    interval: 86400
+    path: ./ruleset-cache/TencentMeeting.yaml
+  TencentMap:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentMap.yaml
+    interval: 86400
+    path: ./ruleset-cache/TencentMap.yaml
+  MeituXiuXiu:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/MeituXiuXiu.yaml
+    interval: 86400
+    path: ./ruleset-cache/MeituXiuXiu.yaml
+  Freshippo:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Freshippo.yaml
+    interval: 86400
+    path: ./ruleset-cache/Freshippo.yaml
   Huolala:
     type: http
     behavior: classical
