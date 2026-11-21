@@ -441,6 +441,34 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "🎧 喜马拉雅"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🍗 肯德基中国"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🍅 番茄小说"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "⌨️ 搜狗输入法手机版"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "📺 Bilibili"
     type: select
     proxies:

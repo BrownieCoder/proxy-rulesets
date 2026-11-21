@@ -4822,6 +4822,64 @@ def validate_tencent_docs(root: Path = ROOT) -> None:
     )
 
 
+def validate_ximalaya(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Ximalaya", target="🎧 喜马拉雅",
+        host="m.ximalaya.com",
+        controls=(
+            "ximalaya.com", "www.ximalaya.com", "passport.ximalaya.com",
+            "live.ximalaya.com", "studio.ximalaya.com", "open.ximalaya.com",
+            "everest-ai.ximalaya.com",
+        ),
+    )
+
+
+def validate_kfc_china(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="KFCChina", target="🍗 肯德基中国",
+        host="www.kfc.com.cn",
+        controls=(
+            "kfc.com.cn", "www.kfc.com", "www.yumchina.com",
+            "www.4008823823.com.cn", "www.mcdonalds.com.cn", "appcommon.kfc.com.cn",
+        ),
+    )
+
+
+def validate_fanqie_novel(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="FanqieNovel", target="🍅 番茄小说",
+        host="fanqienovel.com",
+        controls=(
+            "www.fanqienovel.com", "www.changdunovel.com", "reading.snssdk.com",
+            "lf-organic-growth.bytecdn.cn", "www.douyin.com",
+        ),
+    )
+
+
+def validate_sogou_mobile_ime(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="SogouMobileIME", target="⌨️ 搜狗输入法手机版",
+        host="shouji.sogou.com",
+        controls=(
+            "sogou.com", "pinyin.sogou.com", "shurufa.sogou.com",
+            "account.sogou.com", "indivi-cdn.shouji.sogou.com", "img.shouji.sogou.com",
+            "apkdl.sogouimecdn.com", "pb.i.sogou.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4896,6 +4954,10 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_douyu(root)
     validate_tongcheng_travel(root)
     validate_tencent_docs(root)
+    validate_ximalaya(root)
+    validate_kfc_china(root)
+    validate_fanqie_novel(root)
+    validate_sogou_mobile_ime(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
