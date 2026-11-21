@@ -202,5 +202,9 @@
   "TencentDocs": {
     "path": "ruleset/TencentDocs.yaml",
     "behavior": "classical"
+  },
+  "FanqieNovel": {
+    "path": "ruleset/FanqieNovel.yaml",
+    "behavior": "classical"
   }
 }

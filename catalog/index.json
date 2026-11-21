@@ -1068,6 +1068,21 @@
       "ruleCount": 1
     },
     {
+      "id": "fanqie-novel",
+      "provider": "FanqieNovel",
+      "name": "番茄小说 / Fanqie Novel",
+      "category": "生活服务",
+      "description": "仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（含作家专区、帮助及该主机上的登录或注册网页）随组；不另纳入独立认证、其他阅读站、共享字节域名或 CDN，未验证完整登录、原生阅读或音频链路。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/FanqieNovel-routing.md)。",
+      "path": "ruleset/FanqieNovel.yaml",
+      "policy": "🍅 番茄小说",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/FanqieNovel.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/FanqieNovel.yaml",
+      "page": "services/fanqie-novel.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

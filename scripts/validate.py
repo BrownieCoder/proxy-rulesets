@@ -4819,6 +4819,20 @@ def validate_tencent_docs(root: Path = ROOT) -> None:
     )
 
 
+def validate_fanqie_novel(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="FanqieNovel", target="🍅 番茄小说",
+        host="fanqienovel.com",
+        controls=(
+            "www.fanqienovel.com", "www.changdunovel.com", "reading.snssdk.com",
+            "lf-organic-growth.bytecdn.cn", "www.douyin.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4893,6 +4907,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_douyu(root)
     validate_tongcheng_travel(root)
     validate_tencent_docs(root)
+    validate_fanqie_novel(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

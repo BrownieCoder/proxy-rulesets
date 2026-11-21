@@ -450,3 +450,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentDocs.yaml
     interval: 86400
     path: ./ruleset-cache/TencentDocs.yaml
+  FanqieNovel:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/FanqieNovel.yaml
+    interval: 86400
+    path: ./ruleset-cache/FanqieNovel.yaml
