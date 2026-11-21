@@ -3241,6 +3241,7 @@ def validate_didi(root: Path = ROOT) -> None:
     expected = {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}
     if next((group for group in groups if group["name"] == target), None) != expected:
         raise ValueError("Didi must be a DIRECT-first select group with manual proxy and Final options")
+    parse_policy_groups(root)
 
     ordered = [rule.split(",") for rule in entries(root / "config" / "rules.yaml")]
     priority = {"Privacy": "REJECT", "Hijacking": "🚫 Hijacking",

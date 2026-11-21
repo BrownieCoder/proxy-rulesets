@@ -195,6 +195,19 @@ class DidiContract(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, error):
                     validate.validate_didi(self.root)
 
+    def test_final_cycle_and_missing_group_fail_both_validation_entries(self):
+        path = "config/proxy-groups.yaml"
+        original = self.read(path)
+        final = '  - name: "🧭 Final"\n    type: select\n    proxies:\n'
+        self.assertEqual(original.count(final), 1)
+        for member, reason in ((TARGET, "contains a group cycle"),
+                               ("MissingPublicGroup", "references undefined groups")):
+            with self.subTest(member=member):
+                self.write(path, original.replace(final, final + f'      - "{member}"\n', 1))
+                for gate in (validate.validate_didi, validate.validate_tree):
+                    with self.subTest(gate=gate.__name__), self.assertRaisesRegex(ValueError, reason):
+                        gate(self.root)
+
     def test_group_structure_and_literal_values_are_enforced(self):
         path = "config/proxy-groups.yaml"
         original = self.read(path)
