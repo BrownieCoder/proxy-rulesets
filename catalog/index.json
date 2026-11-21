@@ -1068,6 +1068,21 @@
       "ruleCount": 1
     },
     {
+      "id": "kfc-china",
+      "provider": "KFCChina",
+      "name": "肯德基中国 / KFC China",
+      "category": "生活服务",
+      "description": "仅 www.kfc.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（含品牌、活动及下载介绍网页）随组；不纳入独立订餐、登录、支付、素材或全球站主机。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/KFCChina-routing.md)。",
+      "path": "ruleset/KFCChina.yaml",
+      "policy": "🍗 肯德基中国",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KFCChina.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/KFCChina.yaml",
+      "page": "services/kfc-china.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
