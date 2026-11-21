@@ -1008,6 +1008,21 @@
       "ruleCount": 1
     },
     {
+      "id": "dingdong-maicai",
+      "provider": "DingdongMaicai",
+      "name": "叮咚买菜 / Dingdong Maicai",
+      "category": "购物",
+      "description": "仅 www.100.me 的官网及同主机 App 下载入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机的公司介绍、公告与下载页等全部路径使用同一策略；不包含跨主机下载、客户端 API、下单、支付或物流。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DingdongMaicai-routing.md)。",
+      "path": "ruleset/DingdongMaicai.yaml",
+      "policy": "🥬 叮咚买菜",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/DingdongMaicai.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/DingdongMaicai.yaml",
+      "page": "services/dingdong-maicai.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

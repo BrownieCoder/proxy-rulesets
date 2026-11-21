@@ -186,5 +186,9 @@
   "WeChatReading": {
     "path": "ruleset/WeChatReading.yaml",
     "behavior": "classical"
+  },
+  "DingdongMaicai": {
+    "path": "ruleset/DingdongMaicai.yaml",
+    "behavior": "classical"
   }
 }
