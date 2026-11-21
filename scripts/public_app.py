@@ -8,7 +8,7 @@ from pathlib import Path
 from generate_catalog import read_rules
 from public_policy_groups import read_policy_group_model
 from public_rules import read_routing_rules
-from siri_ai import DomainRules, entries
+from siri_ai import DomainRules
 
 _DOMAIN = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
 _IP = {"IP-CIDR", "IP-CIDR6", "GEOIP"}
@@ -75,7 +75,10 @@ def validate_public_app(
             if name not in manifests:
                 raise ValueError(f"{provider} routing references missing provider: {name}")
             if name not in providers:
-                rules = entries(root / manifests[name]["path"])
+                try:
+                    rules = read_rules((root / manifests[name]["path"]).read_text(encoding="utf-8"))
+                except ValueError as exc:
+                    raise ValueError(f"{provider}: invalid rules in {name}: {exc}") from exc
                 providers[name] = DomainRules([_normalize(rule) for rule in rules])
             model.append((name, row[2], providers[name]))
         elif kind == "MATCH":
