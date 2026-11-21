@@ -244,3 +244,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Dewu.yaml
+  NetEaseMailMaster:
+    type: file
+    behavior: classical
+    path: ./ruleset/NetEaseMailMaster.yaml
