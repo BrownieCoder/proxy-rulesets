@@ -210,5 +210,9 @@
   "KFCChina": {
     "path": "ruleset/KFCChina.yaml",
     "behavior": "classical"
+  },
+  "FanqieNovel": {
+    "path": "ruleset/FanqieNovel.yaml",
+    "behavior": "classical"
   }
 }

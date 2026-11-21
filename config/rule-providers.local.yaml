@@ -308,3 +308,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/KFCChina.yaml
+  FanqieNovel:
+    type: file
+    behavior: classical
+    path: ./ruleset/FanqieNovel.yaml

@@ -462,3 +462,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KFCChina.yaml
     interval: 86400
     path: ./ruleset-cache/KFCChina.yaml
+  FanqieNovel:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/FanqieNovel.yaml
+    interval: 86400
+    path: ./ruleset-cache/FanqieNovel.yaml

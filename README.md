@@ -110,6 +110,7 @@
 | [货拉拉 / Huolala](services/huolala.md) | 仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。 | [获取地址](services/huolala.md#规则地址) · [查看规则](ruleset/Huolala.yaml) |
 | [微信读书 / WeRead](services/wechat-reading.md) | 仅 weread.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wechat-reading.md#规则地址) · [查看规则](ruleset/WeChatReading.yaml) |
 | [肯德基中国 / KFC China](services/kfc-china.md) | 仅 www.kfc.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/kfc-china.md#规则地址) · [查看规则](ruleset/KFCChina.yaml) |
+| [番茄小说 / Fanqie Novel](services/fanqie-novel.md) | 仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。 | [获取地址](services/fanqie-novel.md#规则地址) · [查看规则](ruleset/FanqieNovel.yaml) |
 
 ### 支付与其他
 
