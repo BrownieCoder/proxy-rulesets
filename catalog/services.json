@@ -513,6 +513,60 @@
     "warning": "安全、游戏和既有服务优先。两主机全部路径都随本组，不能排除同主机的社区、卖家或条款页面。其他子域、商家与开放平台、CDN 和国际 POIZON 沿原策略，可能混合出口。不覆盖完整 App，不保证登录、下载、鉴别、交易、支付或地区资格。[官方来源与范围](../research/Dewu-routing.md)。"
   },
   {
+    "id": "wecom",
+    "provider": "WeCom",
+    "name": "企业微信 / WeCom",
+    "category": "办公",
+    "description": "仅 work.weixin.qq.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机的公开登录或管理页面也受影响；不接独立认证、开放平台、API、企业内部部署或个人微信。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/WeCom-routing.md)。"
+  },
+  {
+    "id": "tencent-meeting",
+    "provider": "TencentMeeting",
+    "name": "腾讯会议 / Tencent Meeting",
+    "category": "办公",
+    "description": "仅 meeting.tencent.com、meeting.qq.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "两个主机的所有路径随组，可能含同主机的会议信息、登录或下载导航。另域音视频、登录、安装包、API/CDN 和 VooV Meeting 保持原路由。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentMeeting-routing.md)。"
+  },
+  {
+    "id": "tencent-map",
+    "provider": "TencentMap",
+    "name": "腾讯地图 / Tencent Map",
+    "category": "出行",
+    "description": "仅 map.qq.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "仅覆盖该官网主机。另域开发平台、SDK、地图瓦片、隐私站和定位接口保持原路由；不保证完整导航、定位或原生地图链路。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TencentMap-routing.md)。"
+  },
+  {
+    "id": "meitu-xiuxiu",
+    "provider": "MeituXiuXiu",
+    "name": "美图秀秀 / Meitu Xiuxiu",
+    "category": "工具",
+    "description": "仅 xiuxiu.meitu.com、www.meituxiuxiu.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "两个精确主机的全部路径随组。另域美颜相机、Wink、美图设计室和共享 CDN 保持原路由；不保证原生上传、编辑或下载。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/MeituXiuXiu-routing.md)。"
+  },
+  {
+    "id": "freshippo",
+    "provider": "Freshippo",
+    "name": "盒马 / Freshippo",
+    "category": "购物",
+    "description": "仅 www.freshhema.com、www.freshippo.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "两个官网入口的所有路径同组。另域淘宝、阿里共享 CDN 和其他子域保持原路由；不保证原生下单、结算或配送链路。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Freshippo-routing.md)。"
+  },
+  {
+    "id": "huolala",
+    "provider": "Huolala",
+    "name": "货拉拉 / Huolala",
+    "category": "生活服务",
+    "description": "仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "只纳入这个官网主机；另域开放平台、下载、平行物流站和国际 Lalamove 保持原路由，不保证下单、司机端、支付或定位。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Huolala-routing.md)。"
+  },
+  {
     "id": "fliggy",
     "provider": "Fliggy",
     "name": "飞猪 / Fliggy",

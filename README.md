@@ -67,6 +67,7 @@
 | [闲鱼 / Xianyu](services/xianyu.md) | 闲鱼官网、根域跳转及公开条款入口的 3 个精确主机。 | [获取地址](services/xianyu.md#规则地址) · [查看规则](ruleset/Xianyu.yaml) |
 | [拼多多 / Pinduoduo](services/pinduoduo.md) | 拼多多公开官网、移动商城入口及图片资源的 5 个精确主机。 | [获取地址](services/pinduoduo.md#规则地址) · [查看规则](ruleset/Pinduoduo.yaml) |
 | [得物 / Dewu](services/dewu.md) | 仅 dewu.com 与 www.dewu.com 两个精确公开官网入口。 | [获取地址](services/dewu.md#规则地址) · [查看规则](ruleset/Dewu.yaml) |
+| [盒马 / Freshippo](services/freshippo.md) | 仅 www.freshhema.com、www.freshippo.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/freshippo.md#规则地址) · [查看规则](ruleset/Freshippo.yaml) |
 
 ### 出行
 
@@ -77,6 +78,7 @@
 | [百度地图 / Baidu Map](services/baidu-map.md) | 百度地图官网、JSAPI 入口与网页资源的 4 个精确主机。 | [获取地址](services/baidu-map.md#规则地址) · [查看规则](ruleset/BaiduMap.yaml) |
 | [高德地图 / AMap](services/amap.md) | 高德官网、移动入口与公开地图接口的六个精确主机。 | [获取地址](services/amap.md#规则地址) · [查看规则](ruleset/Amap.yaml) |
 | [滴滴出行 / DiDi](services/didi.md) | 仅 www.didichuxing.com 与 www.didiglobal.com 两个精确公开官网入口。 | [获取地址](services/didi.md#规则地址) · [查看规则](ruleset/Didi.yaml) |
+| [腾讯地图 / Tencent Map](services/tencent-map.md) | 仅 map.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/tencent-map.md#规则地址) · [查看规则](ruleset/TencentMap.yaml) |
 | [飞猪 / Fliggy](services/fliggy.md) | 仅 www.fliggy.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/fliggy.md#规则地址) · [查看规则](ruleset/Fliggy.yaml) |
 
 ### 社交
@@ -100,6 +102,7 @@
 | [美团](services/meituan.md) | 官网、消费和外卖入口与部分资源的 7 个精确主机。 | [获取地址](services/meituan.md#规则地址) · [查看规则](ruleset/Meituan.yaml) |
 | [BOSS 直聘 / BOSS Zhipin](services/boss-zhipin.md) | BOSS 直聘官网与官网链接的 App 入口页，共两个精确公开主机。 | [获取地址](services/boss-zhipin.md#规则地址) · [查看规则](ruleset/BossZhipin.yaml) |
 | [顺丰速运 / SF Express](services/sf-express.md) | 仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。 | [获取地址](services/sf-express.md#规则地址) · [查看规则](ruleset/SFExpress.yaml) |
+| [货拉拉 / Huolala](services/huolala.md) | 仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。 | [获取地址](services/huolala.md#规则地址) · [查看规则](ruleset/Huolala.yaml) |
 
 ### 支付与其他
 
@@ -119,12 +122,15 @@
 | [WPS Office](services/wps-office.md) | WPS Office 官网与 Windows、Mac、Linux 产品入口的 4 个精确主机。 | [获取地址](services/wps-office.md#规则地址) · [查看规则](ruleset/WPSOffice.yaml) |
 | [飞书 / Feishu](services/feishu.md) | 仅 www.feishu.cn 一个已核实的国内公开入口主机。 | [获取地址](services/feishu.md#规则地址) · [查看规则](ruleset/Feishu.yaml) |
 | [钉钉 / DingTalk](services/dingtalk.md) | 仅 www.dingtalk.com 一个已核实的官网公开入口。 | [获取地址](services/dingtalk.md#规则地址) · [查看规则](ruleset/DingTalk.yaml) |
+| [企业微信 / WeCom](services/wecom.md) | 仅 work.weixin.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wecom.md#规则地址) · [查看规则](ruleset/WeCom.yaml) |
+| [腾讯会议 / Tencent Meeting](services/tencent-meeting.md) | 仅 meeting.tencent.com、meeting.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/tencent-meeting.md#规则地址) · [查看规则](ruleset/TencentMeeting.yaml) |
 
 ### 工具
 
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [夸克 / Quark](services/quark.md) | 夸克官网与官网声明的网盘门户，共 2 个精确公开入口。 | [获取地址](services/quark.md#规则地址) · [查看规则](ruleset/Quark.yaml) |
+| [美图秀秀 / Meitu Xiuxiu](services/meitu-xiuxiu.md) | 仅 xiuxiu.meitu.com、www.meituxiuxiu.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/meitu-xiuxiu.md#规则地址) · [查看规则](ruleset/MeituXiuXiu.yaml) |
 
 ### 安全与基础
 

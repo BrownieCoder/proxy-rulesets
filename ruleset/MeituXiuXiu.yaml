@@ -1,0 +1,4 @@
+# 美图秀秀已核实的精确公开入口；依据见 research/MeituXiuXiu-routing.md。
+payload:
+  - DOMAIN,xiuxiu.meitu.com
+  - DOMAIN,www.meituxiuxiu.com
