@@ -343,6 +343,55 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "🏢 企业微信"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🎥 腾讯会议"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🗺️ 腾讯地图"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🎨 美图秀秀"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🛒 盒马"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "🚚 货拉拉"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
+  - name: "✈️ 飞猪"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "📧 网易邮箱大师"
     type: select
     proxies:
