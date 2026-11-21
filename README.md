@@ -138,6 +138,7 @@
 | --- | --- | --- |
 | [夸克 / Quark](services/quark.md) | 夸克官网与官网声明的网盘门户，共 2 个精确公开入口。 | [获取地址](services/quark.md#规则地址) · [查看规则](ruleset/Quark.yaml) |
 | [美图秀秀 / Meitu Xiuxiu](services/meitu-xiuxiu.md) | 仅 xiuxiu.meitu.com、www.meituxiuxiu.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/meitu-xiuxiu.md#规则地址) · [查看规则](ruleset/MeituXiuXiu.yaml) |
+| [搜狗输入法手机版 / Sogou Mobile IME](services/sogou-mobile-ime.md) | 仅 shouji.sogou.com 的手机产品官网、下载介绍与帮助入口，不代表完整 App 流量。 | [获取地址](services/sogou-mobile-ime.md#规则地址) · [查看规则](ruleset/SogouMobileIME.yaml) |
 
 ### 安全与基础
 

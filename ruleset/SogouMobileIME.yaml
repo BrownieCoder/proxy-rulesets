@@ -1,0 +1,3 @@
+# 搜狗输入法手机版已核实的精确公开入口；依据见 research/SogouMobileIME-routing.md。
+payload:
+  - DOMAIN,shouji.sogou.com
