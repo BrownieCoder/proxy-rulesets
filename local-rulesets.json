@@ -202,5 +202,9 @@
   "TencentDocs": {
     "path": "ruleset/TencentDocs.yaml",
     "behavior": "classical"
+  },
+  "SogouMobileIME": {
+    "path": "ruleset/SogouMobileIME.yaml",
+    "behavior": "classical"
   }
 }
