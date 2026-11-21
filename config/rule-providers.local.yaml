@@ -268,3 +268,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Huolala.yaml
+  Fliggy:
+    type: file
+    behavior: classical
+    path: ./ruleset/Fliggy.yaml

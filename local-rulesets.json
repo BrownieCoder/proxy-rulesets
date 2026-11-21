@@ -170,5 +170,9 @@
   "Huolala": {
     "path": "ruleset/Huolala.yaml",
     "behavior": "classical"
+  },
+  "Fliggy": {
+    "path": "ruleset/Fliggy.yaml",
+    "behavior": "classical"
   }
 }

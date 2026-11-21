@@ -402,3 +402,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Huolala.yaml
     interval: 86400
     path: ./ruleset-cache/Huolala.yaml
+  Fliggy:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Fliggy.yaml
+    interval: 86400
+    path: ./ruleset-cache/Fliggy.yaml

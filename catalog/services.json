@@ -567,6 +567,15 @@
     "warning": "只纳入这个官网主机；另域开放平台、下载、平行物流站和国际 Lalamove 保持原路由，不保证下单、司机端、支付或定位。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Huolala-routing.md)。"
   },
   {
+    "id": "fliggy",
+    "provider": "Fliggy",
+    "name": "飞猪 / Fliggy",
+    "category": "出行",
+    "description": "仅 www.fliggy.com 的精确公开入口，不是完整 App 分流。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径生效。另域地区站、移动子域、共享阿里 CDN 和淘宝认证保持原路由；不保证完整预订或支付链路。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Fliggy-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",
