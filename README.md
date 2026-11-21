@@ -108,6 +108,7 @@
 | [顺丰速运 / SF Express](services/sf-express.md) | 仅 www.sf-express.com 一个公开官网入口，不是完整寄查件 App 分流。 | [获取地址](services/sf-express.md#规则地址) · [查看规则](ruleset/SFExpress.yaml) |
 | [货拉拉 / Huolala](services/huolala.md) | 仅 www.huolala.cn 的精确公开入口，不是完整 App 分流。 | [获取地址](services/huolala.md#规则地址) · [查看规则](ruleset/Huolala.yaml) |
 | [微信读书 / WeRead](services/wechat-reading.md) | 仅 weread.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wechat-reading.md#规则地址) · [查看规则](ruleset/WeChatReading.yaml) |
+| [番茄小说 / Fanqie Novel](services/fanqie-novel.md) | 仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。 | [获取地址](services/fanqie-novel.md#规则地址) · [查看规则](ruleset/FanqieNovel.yaml) |
 
 ### 支付与其他
 
