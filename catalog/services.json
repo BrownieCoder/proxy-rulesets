@@ -603,6 +603,33 @@
     "warning": "同主机全部路径随组，可能含同主机登录及阅读内容。另域微信聊天、公众号、QQ 阅读、认证与素材 CDN 保持原路由，不保证客户端阅读、支付或会员。 同主机全部路径随组，其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/WeChatReading-routing.md)。"
   },
   {
+    "id": "dingdong-maicai",
+    "provider": "DingdongMaicai",
+    "name": "叮咚买菜 / Dingdong Maicai",
+    "category": "购物",
+    "description": "仅 www.100.me 的官网及同主机 App 下载入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机的公司介绍、公告与下载页等全部路径使用同一策略；不包含跨主机下载、客户端 API、下单、支付或物流。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DingdongMaicai-routing.md)。"
+  },
+  {
+    "id": "douyu",
+    "provider": "DouYu",
+    "name": "斗鱼 / DouYu",
+    "category": "影音",
+    "description": "仅 m.douyu.com 的移动直播网页及打开 App 入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机的全部路径（包括直播间页面）使用同一策略；桌面站、视频站、游戏、独立 CDN 和认证主机不纳入，不承诺原生直播流或弹幕走同一出口。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/DouYu-routing.md)。"
+  },
+  {
+    "id": "tongcheng-travel",
+    "provider": "TongchengTravel",
+    "name": "同程旅行 / Tongcheng Travel",
+    "category": "出行",
+    "description": "仅 m.ly.com 的移动旅行网页及 App 导流入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机的全部路径使用同一策略（可能包括移动网页预订流程）。下载链接指向另域 m.17u.cn，不会随组；桌面站、企业商旅、独立登录、票务或支付不视为已验证。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/TongchengTravel-routing.md)。"
+  },
+  {
     "id": "tencent-docs",
     "provider": "TencentDocs",
     "name": "腾讯文档 / Tencent Docs",

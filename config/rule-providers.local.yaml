@@ -284,6 +284,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/WeChatReading.yaml
+  DingdongMaicai:
+    type: file
+    behavior: classical
+    path: ./ruleset/DingdongMaicai.yaml
+  DouYu:
+    type: file
+    behavior: classical
+    path: ./ruleset/DouYu.yaml
+  TongchengTravel:
+    type: file
+    behavior: classical
+    path: ./ruleset/TongchengTravel.yaml
   TencentDocs:
     type: file
     behavior: classical
