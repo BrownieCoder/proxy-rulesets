@@ -3241,6 +3241,7 @@ def validate_dewu(root: Path = ROOT) -> None:
     group = next((row for row in groups if row["name"] == target), None)
     if group != {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}:
         raise ValueError("Dewu must be a DIRECT-first select group with manual proxy and Final options")
+    parse_policy_groups(root)
 
     ordered = [rule.split(",") for rule in entries(root / "config/rules.yaml")]
     refs = [index for index, fields in enumerate(ordered) if fields[:2] == ["RULE-SET", "Dewu"]]

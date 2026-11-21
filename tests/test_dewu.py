@@ -175,6 +175,19 @@ class DewuContract(unittest.TestCase):
         self.write(path, original.replace(GROUP, ''))
         self.rejected('Dewu must be a DIRECT-first select', 'references undefined policy groups')
 
+    def test_final_cycle_and_missing_group_fail_both_validation_entries(self):
+        path = "config/proxy-groups.yaml"
+        original = self.read(path)
+        final = '  - name: "🧭 Final"\n    type: select\n    proxies:\n'
+        self.assertEqual(original.count(final), 1)
+        for member, reason in ((TARGET, "contains a group cycle"),
+                               ("MissingPublicGroup", "references undefined groups")):
+            with self.subTest(member=member):
+                self.write(path, original.replace(final, final + f'      - "{member}"\n', 1))
+                for gate in (validate.validate_dewu, validate.validate_tree):
+                    with self.subTest(gate=gate.__name__), self.assertRaisesRegex(ValueError, reason):
+                        gate(self.root)
+
     def test_legal_literal_group_forms_use_public_model(self):
         path = 'config/proxy-groups.yaml'
         original = self.read(path)
