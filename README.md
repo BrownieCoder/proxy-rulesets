@@ -124,6 +124,7 @@
 | 服务 | 作用 | 获取 |
 | --- | --- | --- |
 | [夸克 / Quark](services/quark.md) | 夸克官网与官网声明的网盘门户，共 2 个精确公开入口。 | [获取地址](services/quark.md#规则地址) · [查看规则](ruleset/Quark.yaml) |
+| [美图秀秀 / Meitu Xiuxiu](services/meitu-xiuxiu.md) | 仅 xiuxiu.meitu.com、www.meituxiuxiu.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/meitu-xiuxiu.md#规则地址) · [查看规则](ruleset/MeituXiuXiu.yaml) |
 
 ### 安全与基础
 
