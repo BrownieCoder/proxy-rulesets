@@ -80,6 +80,10 @@ def read_rules(text: str) -> list[str]:
             if len(rule) < 2 or rule[-1] != rule[0]:
                 raise ValueError('Unbalanced YAML quotes')
             rule = rule[1:-1]
+        elif rule.endswith(':'):
+            # In a block sequence, a plain entry ending in ':' is a compact
+            # mapping with a null value, not the literal text of a rule.
+            raise ValueError("Unquoted YAML rule ending in ':' is a mapping, not a string")
         # Quotes only wrap literal scalars in this subset. Reject YAML escapes,
         # embedded quotes, mapping separators and whitespace instead of silently
         # interpreting them differently from a full YAML parser.

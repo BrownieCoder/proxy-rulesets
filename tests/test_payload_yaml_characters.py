@@ -139,6 +139,19 @@ class PayloadCharacterIntegration(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, f'forbidden raw character U\\+{code:04X}'):
                     validate.validate_tree(self.root)
 
+    def test_complete_tree_rejects_mapping_with_current_mirror_checksum(self):
+        sources = json.loads((self.root / 'sources.json').read_text(encoding='utf-8'))
+        path = self.root / sources['Privacy']['path']
+        data = path.read_bytes() + b'  - DOMAIN-KEYWORD,review-example:\n'
+        path.write_bytes(data)
+        digest = hashlib.sha256(data).hexdigest()
+        lock_path = self.root / 'sources.lock.json'
+        lock = json.loads(lock_path.read_text(encoding='utf-8'))
+        lock['rulesets']['Privacy'].update(bytes=len(data), sha256=digest, upstream_sha256=digest)
+        lock_path.write_text(json.dumps(lock, ensure_ascii=False), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'mapping, not a string'):
+            validate.validate_tree(self.root)
+
     def test_valid_unicode_lf_crlf_generate_and_complete_tree(self):
         path = self.root / 'ruleset/Quark.yaml'
         original = path.read_text(encoding='utf-8')
