@@ -314,8 +314,8 @@ class PublicRuleConsumers(unittest.TestCase):
         self.path.write_text(self.original + '\nrules: []\n', encoding='utf-8')
         names = ('xiaohongshu', 'douban', 'baidu_pan', 'zhihu', 'amap', 'netease_music',
                  'douyin', 'qq_music', 'jd', 'meituan', 'ctrip', 'pinduoduo', 'taobao',
-                 'baidu_map', 'kuaishou', 'tencent_video', 'alipan')
-        self.assertEqual(len(names), 17)
+                 'baidu_map', 'kuaishou', 'tencent_video', 'alipan', 'mango_tv')
+        self.assertEqual(len(names), 18)
         for name in names:
             with self.subTest(app=name), self.assertRaisesRegex(ValueError, 'Public config/rules.yaml'):
                 getattr(validate, 'validate_' + name)(self.root)

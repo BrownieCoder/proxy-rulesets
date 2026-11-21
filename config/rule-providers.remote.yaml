@@ -342,6 +342,18 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Weibo.yaml
     interval: 86400
     path: ./ruleset-cache/Weibo.yaml
+  TencentQQ:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/TencentQQ.yaml
+    interval: 86400
+    path: ./ruleset-cache/TencentQQ.yaml
+  MangoTV:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/MangoTV.yaml
+    interval: 86400
+    path: ./ruleset-cache/MangoTV.yaml
   Didi:
     type: http
     behavior: classical

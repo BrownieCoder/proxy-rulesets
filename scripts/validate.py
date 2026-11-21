@@ -3216,6 +3216,248 @@ def validate_weibo(root: Path = ROOT) -> None:
             raise ValueError("Weibo changed non-target routing: " + host)
 
 
+TENCENT_QQ_CONTROLS = frozenset({
+    "qq.com", "www.qq.com", "child.im.qq.com", "notim.qq.com", "im.qq.com.example.org",
+    "v.qq.com", "y.qq.com", "music.qq.com", "weixin.qq.com", "game.qq.com",
+    "mail.qq.com", "qzone.qq.com", "qun.qq.com", "connect.qq.com", "ssl.ptlogin2.qq.com",
+    "dldir1.qq.com", "imgcache.qq.com", "gtimg.com", "gtimg.cn", "www.tencent.com",
+    "weibo.com", "www.bilibili.com", "guzzoni.apple.com", "hmma.baidu.com",
+    "fastcdn.hoyoverse.com", "example.org",
+})
+
+
+def validate_tencent_qq(root: Path = ROOT) -> None:
+    """Protect the QQ public site without taking over the shared Tencent namespace."""
+    from siri_ai import DomainRules
+
+    provider = "TencentQQ"
+    host = "im.qq.com"
+    target = "🐧 腾讯 QQ"
+    if entries(root / "ruleset/TencentQQ.yaml") != ["DOMAIN," + host]:
+        raise ValueError("TencentQQ requires only the reviewed exact host im.qq.com")
+
+    ordered = [rule.split(",") for rule in entries(root / "config/rules.yaml")]
+    marker = ["RULE-SET", provider, target]
+    if [f for f in ordered if f[:2] == ["RULE-SET", provider]] != [marker]:
+        raise ValueError("TencentQQ requires exactly one dedicated policy reference")
+    current = ordered.index(marker)
+    if ordered[-1] != ["MATCH", "🧭 Final"] or sum(f[0] == "MATCH" for f in ordered) != 1:
+        raise ValueError("TencentQQ domain-only model requires a single terminal MATCH")
+
+    # Keep all existing App, security and gaming providers before this entry.
+    earlier = (
+        "Privacy", "Hijacking", "InternationalGaming", "ChinaGaming", "QQMusic", "Douyin",
+        "Amap", "Zhihu", "Xiaohongshu", "NetEaseMusic", "Douban", "JD", "Meituan", "BaiduPan",
+        "Ctrip", "Pinduoduo", "Taobao", "BaiduMap", "Kuaishou", "TencentVideo", "AliPan",
+        "IQIYI", "Xianyu", "Railway12306", "Youku", "WPSOffice", "Feishu", "DingTalk",
+        "Quark", "BossZhipin", "WeChat", "SFExpress", "Weibo",
+    )
+    later = (
+        "SiriAI", "Apple", "Bilibili", "YouTube", "TikTok", "Disney", "Netflix",
+        "OpenAI", "Gemini", "Claude", "Google", "Microsoft", "GlobalMedia", "ChinaMax",
+    )
+    for names, before in ((earlier, True), (later, False)):
+        for name in names:
+            indices = [i for i, f in enumerate(ordered) if f[:2] == ["RULE-SET", name]]
+            if len(indices) != 1 or (indices[0] < current) != before:
+                raise ValueError("TencentQQ rule order relative to " + name + " is unsafe")
+
+    groups = read_policy_group_model(root / "config/proxy-groups.yaml")
+    expected = {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}
+    if [group for group in groups if group["name"] == target] != [expected]:
+        raise ValueError("TencentQQ requires a DIRECT-first select with manual proxy and Final")
+    parse_policy_groups(root)
+
+    manifests = {}
+    for name in ("sources.json", "local-rulesets.json"):
+        records = json.loads((root / name).read_text(encoding="utf-8"))
+        if set(manifests) & set(records):
+            raise ValueError("TencentQQ domain-only model found duplicate providers")
+        manifests.update(records)
+    if manifests.get(provider) != {"path": "ruleset/TencentQQ.yaml", "behavior": "classical"}:
+        raise ValueError("TencentQQ requires its reviewed classical provider path")
+
+    domain_kinds = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+    ip_kinds = {"IP-CIDR", "IP-CIDR6", "GEOIP"}
+
+    def domain_rule(fields: list[str]) -> str:
+        # Mihomo uses Go's simple lowercase. Python's Unicode lowercase expands
+        # dotted capital I instead of mapping it to ASCII i; handle that here.
+        return fields[0] + "," + fields[1].replace("\u0130", "i").lower()
+
+    for index, fields in enumerate(ordered):
+        kind = fields[0]
+        required = 2 if kind == "MATCH" else 3
+        if kind not in domain_kinds | ip_kinds | {"RULE-SET", "MATCH"}:
+            raise ValueError("Unsupported rule in TencentQQ domain-only model: " + kind)
+        if not (len(fields) == required or
+                (kind in ip_kinds and len(fields) == 4 and fields[3] == "no-resolve")) or any(
+                    not value.strip() for value in fields[:required]):
+            raise ValueError("TencentQQ domain-only model requires complete rules: " + kind)
+        if index < current and kind in ip_kinds:
+            raise ValueError("TencentQQ domain-only model cannot verify preceding IP conditions")
+        if kind == "RULE-SET" and fields[1] not in manifests:
+            raise ValueError("TencentQQ domain-only model found missing provider: " + fields[1])
+
+    def provider_model(path: Path) -> DomainRules:
+        rules = entries(path)
+        return DomainRules([
+            domain_rule(rule.split(",")) if rule.split(",", 1)[0] in domain_kinds else rule
+            for rule in rules
+        ])
+
+    providers = {name: provider_model(root / item["path"]) for name, item in manifests.items()}
+    def route(domain: str, skip_qq: bool = False) -> tuple[str, str]:
+        for fields in ordered:
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if not (skip_qq and fields[1] == provider) and providers[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind in domain_kinds and DomainRules([domain_rule(fields)]).matches(domain):
+                return ",".join(fields[:2]), fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+        raise ValueError("TencentQQ domain-only model did not reach MATCH")
+
+    if route(host) not in {(provider, target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}:
+        raise ValueError("TencentQQ is shadowed by an earlier rule: " + host)
+    for control in TENCENT_QQ_CONTROLS:
+        if route(control) != route(control, skip_qq=True):
+            raise ValueError("TencentQQ changed non-target routing: " + control)
+
+
+MANGO_TV_CONTROLS = frozenset({
+    "mgtv.com", "w.mgtv.com", "corp.mgtv.com", "app.mgtv.com", "img.mgtv.com",
+    "i.mgtv.com", "7.mgtv.com", "club.mgtv.com", "order.mgtv.com", "log.mgtv.com",
+    "download.hitv.com", "download.imgo.tv", "download.hunantv.com",
+    "ugc.hitv.com", "ossimg.hitv.com", "i2.hitv.com", "www.hunantv.com",
+    "www.iqiyi.com", "www.youku.com", "v.qq.com", "www.bilibili.com",
+    "weibo.com", "game.qq.com", "guzzoni.apple.com", "example.org",
+})
+
+
+def validate_mango_tv(root: Path = ROOT) -> None:
+    """Keep the one reviewed public Mango TV host within its dedicated policy."""
+    from generate_catalog import read_rules
+    from siri_ai import DomainRules
+
+    provider, target, host = "MangoTV", "🥭 芒果TV", "www.mgtv.com"
+    reviewed_path = "ruleset/MangoTV.yaml"
+    payload = read_rules((root / reviewed_path).read_text(encoding="utf-8"))
+    if payload != ["DOMAIN," + host]:
+        raise ValueError("MangoTV must contain only the reviewed exact host")
+
+    ordered = [line.split(",") for line in entries(root / "config/rules.yaml")]
+    reference = ["RULE-SET", provider, target]
+    if [fields for fields in ordered if fields[:2] == ["RULE-SET", provider]] != [reference]:
+        raise ValueError("MangoTV needs exactly one dedicated policy reference")
+    index = ordered.index(reference)
+
+    prior = (
+        "RULE-SET,Privacy,REJECT", "RULE-SET,Hijacking,🚫 Hijacking",
+        "DOMAIN,fastcdn.hoyoverse.com,DIRECT", "RULE-SET,InternationalGaming,🎮 国际游戏",
+        "RULE-SET,ChinaGaming,DIRECT", "RULE-SET,QQMusic,🎧 QQ 音乐",
+        "RULE-SET,Douyin,🎶 抖音", "RULE-SET,Amap,🗺️ 高德地图",
+        "RULE-SET,Zhihu,💡 知乎", "RULE-SET,Xiaohongshu,📕 小红书 / REDnote",
+        "RULE-SET,NetEaseMusic,🎵 网易云音乐", "RULE-SET,Douban,📚 豆瓣",
+        "RULE-SET,JD,🛒 京东", "RULE-SET,Meituan,🍜 美团",
+        "RULE-SET,BaiduPan,☁️ 百度网盘", "RULE-SET,Ctrip,🧳 携程",
+        "RULE-SET,Pinduoduo,🛍️ 拼多多", "RULE-SET,Taobao,🛍️ 淘宝",
+        "RULE-SET,BaiduMap,🗺️ 百度地图", "RULE-SET,Kuaishou,📹 快手",
+        "RULE-SET,TencentVideo,📺 腾讯视频", "RULE-SET,AliPan,📁 阿里云盘",
+        "RULE-SET,IQIYI,🎬 爱奇艺", "RULE-SET,Xianyu,🐟 闲鱼",
+        "RULE-SET,Railway12306,🚄 铁路12306", "RULE-SET,Youku,🎞️ 优酷",
+        "RULE-SET,WPSOffice,📝 WPS Office", "RULE-SET,Feishu,💼 飞书",
+        "RULE-SET,DingTalk,💬 钉钉", "RULE-SET,Quark,🔍 夸克",
+        "RULE-SET,BossZhipin,💼 BOSS直聘", "RULE-SET,WeChat,💬 微信",
+        "RULE-SET,SFExpress,📦 顺丰速运", "RULE-SET,Weibo,🟠 微博",
+    )
+    later = (
+        "RULE-SET,SiriAI,🤖 AI 服务", "RULE-SET,Apple,🍎 Apple",
+        "RULE-SET,YouTube,📼 YouTube", "RULE-SET,Bilibili,📺 Bilibili",
+        "RULE-SET,TikTok,🎵 Tiktok", "RULE-SET,Disney,🏰 Disney",
+        "RULE-SET,Netflix,🎞️ Netflix", "RULE-SET,Gemini,♊ Gemini",
+        "RULE-SET,Google,🔎 Google", "RULE-SET,Microsoft,🪟 Microsoft",
+        "RULE-SET,GlobalMedia,🛰️ International-Global", "GEOIP,CN,DIRECT,no-resolve",
+        "RULE-SET,ChinaMax,🇨🇳 China-Global",
+    )
+
+    def require(markers: tuple[str, ...], segment: list[list[str]], error: str) -> None:
+        for marker in markers:
+            fields = marker.split(",")
+            if ordered.count(fields) != 1 or fields not in segment:
+                raise ValueError(f"MangoTV {error}: {marker}")
+
+    require(prior, ordered[:index], "must follow security, gaming and existing app rules")
+    require(later, ordered[index + 1:], "must precede broader providers")
+
+    groups = read_policy_group_model(root / "config/proxy-groups.yaml")
+    group = next((group for group in groups if group["name"] == target), None)
+    if group != {"name": target, "type": "select", "proxies": ["DIRECT", "🚀 节点选择", "🧭 Final"]}:
+        raise ValueError("MangoTV needs a DIRECT-first select group with manual proxy and Final")
+    parse_policy_groups(root)
+
+    sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
+    local = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
+    if sources.keys() & local.keys():
+        raise ValueError("MangoTV manifests cannot contain duplicate providers")
+    if local.get(provider) != {"path": reviewed_path, "behavior": "classical"}:
+        raise ValueError("MangoTV needs the reviewed classical local provider")
+    manifests = sources | local
+    domain_kinds = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+    ip_kinds = {"GEOIP", "IP-CIDR", "IP-CIDR6"}
+    for position, fields in enumerate(ordered):
+        kind = fields[0]
+        if kind not in domain_kinds | ip_kinds | {"RULE-SET", "MATCH"}:
+            raise ValueError(f"Unsupported top-level rule in MangoTV domain-only model: {kind}")
+        width = 2 if kind == "MATCH" else 3
+        lengths = {width, width + 1} if kind in ip_kinds and fields[-1] == "no-resolve" else {width}
+        if len(fields) not in lengths or any(not value.strip() for value in fields[:width]):
+            raise ValueError(f"MangoTV domain-only model requires complete supported rules: {kind}")
+        if kind in ip_kinds and position < index:
+            raise ValueError(f"MangoTV domain-only model cannot validate preceding IP conditions: {kind}")
+        if kind == "RULE-SET" and fields[1] not in manifests:
+            raise ValueError(f"MangoTV routing references missing providers: {fields[1]}")
+
+    # Mihomo normalizes rule operands; apply the ASCII part here without changing shared models.
+    lower_ascii = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
+
+    def fold_operand(rule: str) -> str:
+        kind, sep, operand = rule.partition(",")
+        return kind + sep + operand.translate(lower_ascii) if kind in domain_kinds else rule
+
+    models = {
+        name: DomainRules([fold_operand(rule) for rule in entries(root / item["path"])])
+        for name, item in manifests.items()
+    }
+    literals = {
+        position: DomainRules([fold_operand(",".join(fields[:2]))])
+        for position, fields in enumerate(ordered) if fields[0] in domain_kinds
+    }
+
+    def route(domain: str, skip_mango: bool = False) -> tuple[str, str]:
+        for position, fields in enumerate(ordered):
+            kind = fields[0]
+            if kind == "RULE-SET":
+                if skip_mango and fields[1] == provider:
+                    continue
+                if models[fields[1]].matches(domain):
+                    return fields[1], fields[2]
+            elif kind == "MATCH":
+                return kind, fields[1]
+            elif kind in domain_kinds and literals[position].matches(domain):
+                return ",".join(fields[:2]), fields[2]
+        raise ValueError("MangoTV domain-only model needs a MATCH fallback")
+
+    result = route(host)
+    if result not in {(provider, target), ("Privacy", "REJECT"), ("Hijacking", "🚫 Hijacking")}:
+        raise ValueError(f"MangoTV is shadowed by an earlier rule: {host}: {result}")
+    controls = MANGO_TV_CONTROLS | {"child." + host, "not" + host, host + ".example.org"}
+    for domain in controls:
+        if route(domain) != route(domain, skip_mango=True):
+            raise ValueError(f"MangoTV changed non-target routing: {domain}")
+
+
 DIDI_CONTROLS = frozenset({
     "didichuxing.com", "didiglobal.com", "diditaxi.com", "didiglobal.com.cn",
     "hk.didiglobal.com", "mexico.didiglobal.com", "ir.didiglobal.com",
@@ -3402,6 +3644,8 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_wechat(root)
     validate_sf_express(root)
     validate_weibo(root)
+    validate_tencent_qq(root)
+    validate_mango_tv(root)
     validate_didi(root)
     from generate_catalog import generate
     generate(root)

@@ -1,0 +1,4 @@
+# 腾讯 QQ 官网精确主机；其他腾讯产品、认证与共享资源不纳入。
+# 官方来源与边界见 research/TencentQQ-routing.md。
+payload:
+  - DOMAIN,im.qq.com

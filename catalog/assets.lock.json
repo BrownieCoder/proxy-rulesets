@@ -265,6 +265,16 @@
       "rulesSha256": "0a74fe397aaa87393eaf9373fd00b308b42873588605a4c21699dfeea4f1e216",
       "ruleCount": 2
     },
+    "ruleset/TencentQQ.yaml": {
+      "sha256": "efc159e1037638b66e8773816d8320bc26881c0e4aeaee449efae672379cf692",
+      "rulesSha256": "abb7ed8c5fd38c5f4b6211e1bd9736a23de305a7a951153862f16173792c9a6c",
+      "ruleCount": 1
+    },
+    "ruleset/MangoTV.yaml": {
+      "sha256": "2efb694f0edd38544bfc54618c16c4192e1e09d104d21f988ed498b404c42fed",
+      "rulesSha256": "bc6a161ecfd8dd87a9f258b1b49c92fbc7296882f83f5b79703351510b72f73f",
+      "ruleCount": 1
+    },
     "ruleset/Didi.yaml": {
       "sha256": "1e10aac6300f276e3649b8fb7e8c3e31d337e6df1c70eff410eb6730886f2010",
       "rulesSha256": "a07107efd1c19ee598b1e0bdf3537d4ac1860f0d2b5327c772d872f7ff5b14d2",
@@ -291,10 +301,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "53fbc1ac863e6e9a95707aaa69aadac463fbafc7de45fd84cd0bc330698102a6",
+  "readmeCatalogSha256": "cb09de924a6cccfe124e85452fbeaf401f73f2d26e7bab7d2d872797110998a7",
   "artifacts": {
-    "config/rule-providers.local.yaml": "9ff2c5bead3ef4d607e3fbe63cd1ab0916381e17c5238a77d8b10f08f55274a0",
-    "config/rule-providers.remote.yaml": "1d66ed08ace62a83a7df23cdc2f021ed5823c6af2299464173b8455582604de3",
+    "config/rule-providers.local.yaml": "d7a94554c20c4a8fcea482749bd5321af8ec675faaa001aed49b135cb3a85ed1",
+    "config/rule-providers.remote.yaml": "5fba381d5f471242212072ab40e938be856b8738746941c35555f812b7a3f45c",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "a09a8ef15d9028416b219c549bce86557eed0eaa2edf1d4e8679766306a46867",
@@ -348,11 +358,13 @@
     "services/wechat.md": "800f20215cc3602cc47fd27532b6d51ea593d92c497576bb3c456cd5a7873729",
     "services/sf-express.md": "d56d33c1423b0e4c1ccf11fff4a750a3d431b7bb6d3b313f7d41d3351d2d2031",
     "services/weibo.md": "986bd5e757d948ce4ee479e9f0c1b7c777b94ab41e1d37b5834529e59ee6b036",
+    "services/tencent-qq.md": "b6fad3744995e2953000157b7aa55588196c46b0521a8cacd93b92e4d5ea0e98",
+    "services/mango-tv.md": "5d9c299e9781bdd9c0ed2017bfc4b03b4cea71d527f281447702f7cbeac93c8e",
     "services/didi.md": "76a47a4bbd1b9ab44b8a92224f817196b7347f62dd118b0a94cba356f03d0b6b",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "e31b852ee77d2648bb52be178bd68e393c64c0720ca260e9c5684d5871891bbc"
+    "catalog/index.json": "1da655ec925a0862f8dd72f2a9adee2416bfe4cf052a323fcc5281ae91f82ac2"
   }
 }

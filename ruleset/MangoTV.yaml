@@ -1,0 +1,4 @@
+# Self-maintained exact Mango TV public portal; not native-app or streaming coverage.
+# Evidence and limits: research/MangoTV-routing.md
+payload:
+  - DOMAIN,www.mgtv.com
