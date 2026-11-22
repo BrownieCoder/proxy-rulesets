@@ -3,7 +3,7 @@
 
 [返回服务目录](../README.md#服务目录) · [查看规则文件](../ruleset/HuyaLive.yaml)
 
-仅 hd.huya.com 的官方 App 下载介绍和活动网页，不代表完整 App 流量。
+仅 hd.huya.com 的公开网页，含下载介绍、活动和开放平台文档，不代表完整 App 流量。
 
 ## 规则地址
 

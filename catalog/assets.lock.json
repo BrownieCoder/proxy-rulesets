@@ -401,7 +401,7 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "53b52effb2d64cf7be2e8594daf7d502f066d004c0e2fccf38d41f47e50fcb4e",
+  "readmeCatalogSha256": "4188c092b7ddecc63a4932fffac369828c329854d7d527ebdddfb1a615b90470",
   "artifacts": {
     "config/rule-providers.local.yaml": "e37db7050645579ed323d6b40f69dd181d0e511564ee0b46dc319661eb4aa2f5",
     "config/rule-providers.remote.yaml": "90766e73e355535f0f76ff5e5a9cd60f85d60f32c522dd7b5ba85cf2e01af779",
@@ -480,11 +480,11 @@
     "services/kfc-china.md": "527a529eddca6fd86489bfb79c35ff2e56d37819c7b4e6a51bd27a56a87b75c7",
     "services/fanqie-novel.md": "ae37fb9d1fe0258d5c4eaff72a9526adae17863a021d9c49c041f2760b54fdff",
     "services/sogou-mobile-ime.md": "56a5543134de87549300e1325172904f32e77b7c4dc6e2f00c581ae8b2d6dde6",
-    "services/huya-live.md": "3d6c9b5d3a21dd28895950ca73a50ae2e701abae8d21fea0c876127a28723785",
+    "services/huya-live.md": "e723305e47dccb14c18dc2195c4e03dbce4418dd115f5422de25fc32140fffad",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "d4b867549d1b3a8f4be6660820d06fa46ad2d257f3b7d6ccd05eba2bf92aed5e"
+    "catalog/index.json": "2808a3fd485469d694a4ea82bb9269456556721bebd2a1806b2169e04a121ad8"
   }
 }
