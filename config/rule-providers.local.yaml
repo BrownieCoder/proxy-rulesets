@@ -328,3 +328,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/HuyaLive.yaml
+  XiguaVideo:
+    type: file
+    behavior: classical
+    path: ./ruleset/XiguaVideo.yaml

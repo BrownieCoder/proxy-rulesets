@@ -4924,6 +4924,21 @@ def validate_huya_live(root: Path = ROOT) -> None:
     )
 
 
+def validate_xigua_video(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="XiguaVideo", target="🍉 西瓜视频",
+        host="m.ixigua.com",
+        controls=(
+            "ixigua.com", "www.ixigua.com", "studio.ixigua.com",
+            "live.ixigua.com", "p3.bdxiguaimg.com", "p3-sign.douyinpic.com", "www.douyin.com",
+            "reading.snssdk.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5005,6 +5020,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_vipshop(root)
     validate_mcdonalds_china(root)
     validate_huya_live(root)
+    validate_xigua_video(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

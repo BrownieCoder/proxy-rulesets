@@ -230,5 +230,9 @@
   "HuyaLive": {
     "path": "ruleset/HuyaLive.yaml",
     "behavior": "classical"
+  },
+  "XiguaVideo": {
+    "path": "ruleset/XiguaVideo.yaml",
+    "behavior": "classical"
   }
 }
