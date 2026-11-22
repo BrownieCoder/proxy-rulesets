@@ -111,6 +111,8 @@ rules:
   - RULE-SET,Vipshop,🛍️ 唯品会
   # 麦当劳中国仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,McDonaldsChina,🍔 麦当劳中国
+  # 虎牙直播仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,HuyaLive,🐯 虎牙直播
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

@@ -60,6 +60,7 @@
 | [猫眼 / Maoyan](services/maoyan.md) | 仅 www.maoyan.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/maoyan.md#规则地址) · [查看规则](ruleset/Maoyan.yaml) |
 | [斗鱼 / DouYu](services/douyu.md) | 仅 m.douyu.com 的移动直播网页及打开 App 入口，不代表完整 App 流量。 | [获取地址](services/douyu.md#规则地址) · [查看规则](ruleset/DouYu.yaml) |
 | [喜马拉雅 / Ximalaya](services/ximalaya.md) | 仅 m.ximalaya.com 的移动网页、电台目录及 App 分享入口，不代表完整 App 流量。 | [获取地址](services/ximalaya.md#规则地址) · [查看规则](ruleset/Ximalaya.yaml) |
+| [虎牙直播 / Huya Live](services/huya-live.md) | 仅 hd.huya.com 的公开网页，含下载介绍、活动和开放平台文档，不代表完整 App 流量。 | [获取地址](services/huya-live.md#规则地址) · [查看规则](ruleset/HuyaLive.yaml) |
 
 ### 购物
 

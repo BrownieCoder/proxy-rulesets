@@ -4909,6 +4909,21 @@ def validate_mcdonalds_china(root: Path = ROOT) -> None:
     )
 
 
+def validate_huya_live(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="HuyaLive", target="🐯 虎牙直播",
+        host="hd.huya.com",
+        controls=(
+            "huya.com", "www.huya.com", "m.huya.com",
+            "api.m.huya.com", "app-agreements.huya.com", "dev.huya.com",
+            "rel.huya.com", "metric.huya.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4989,6 +5004,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_sogou_mobile_ime(root)
     validate_vipshop(root)
     validate_mcdonalds_china(root)
+    validate_huya_live(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
