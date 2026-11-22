@@ -316,6 +316,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/SogouMobileIME.yaml
+  Vipshop:
+    type: file
+    behavior: classical
+    path: ./ruleset/Vipshop.yaml
+  McDonaldsChina:
+    type: file
+    behavior: classical
+    path: ./ruleset/McDonaldsChina.yaml
+  HuyaLive:
+    type: file
+    behavior: classical
+    path: ./ruleset/HuyaLive.yaml
   XiguaVideo:
     type: file
     behavior: classical

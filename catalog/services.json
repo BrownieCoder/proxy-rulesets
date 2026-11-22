@@ -675,6 +675,33 @@
     "warning": "同主机所有路径随组；不另纳入桌面版、独立账号、素材子域或跨主机安装文件；未验证原生输入、云候选与同步链路。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/SogouMobileIME-routing.md)。"
   },
   {
+    "id": "vipshop",
+    "provider": "Vipshop",
+    "name": "唯品会 / Vipshop",
+    "category": "购物",
+    "description": "仅 www.vip.com 的中国消费者公开主站，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径均随组；官网与 App 是同一消费服务的不同入口。未验证 App 会访问此主机，不另纳入移动站、独立帮助或登录、商家平台、唯品支付、国际站和 CDN。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/Vipshop-routing.md)。"
+  },
+  {
+    "id": "mcdonalds-china",
+    "provider": "McDonaldsChina",
+    "name": "麦当劳中国 / McDonald’s China",
+    "category": "生活服务",
+    "description": "仅 www.mcdonalds.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（包括菜单、营销活动和下载介绍网页）均随组；不另纳入全球站、独立点餐、登录、支付、隐私说明或媒体主机，未验证原生客户端业务链路。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/McDonaldsChina-routing.md)。"
+  },
+  {
+    "id": "huya-live",
+    "provider": "HuyaLive",
+    "name": "虎牙直播 / Huya Live",
+    "category": "影音",
+    "description": "仅 hd.huya.com 的公开网页，含下载介绍、活动和开放平台文档，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（包括营销活动、客户端下载介绍和开放平台网页）均随组；不另纳入直播主站、登录、原生接口、不同主机的安装包、媒体传输或 CDN。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/HuyaLive-routing.md)。"
+  },
+  {
     "id": "xigua-video",
     "provider": "XiguaVideo",
     "name": "西瓜视频 / Xigua Video",
