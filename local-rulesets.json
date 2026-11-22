@@ -218,5 +218,9 @@
   "SogouMobileIME": {
     "path": "ruleset/SogouMobileIME.yaml",
     "behavior": "classical"
+  },
+  "XiguaVideo": {
+    "path": "ruleset/XiguaVideo.yaml",
+    "behavior": "classical"
   }
 }
