@@ -218,5 +218,9 @@
   "SogouMobileIME": {
     "path": "ruleset/SogouMobileIME.yaml",
     "behavior": "classical"
+  },
+  "HuyaLive": {
+    "path": "ruleset/HuyaLive.yaml",
+    "behavior": "classical"
   }
 }

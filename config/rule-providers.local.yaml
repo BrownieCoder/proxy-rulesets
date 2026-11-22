@@ -316,3 +316,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/SogouMobileIME.yaml
+  HuyaLive:
+    type: file
+    behavior: classical
+    path: ./ruleset/HuyaLive.yaml

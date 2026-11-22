@@ -1128,6 +1128,21 @@
       "ruleCount": 1
     },
     {
+      "id": "huya-live",
+      "provider": "HuyaLive",
+      "name": "虎牙直播 / Huya Live",
+      "category": "影音",
+      "description": "仅 hd.huya.com 的官方 App 下载介绍和活动网页，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（包括营销活动、客户端下载介绍和开放平台网页）均随组；不另纳入直播主站、登录、原生接口、不同主机的安装包、媒体传输或 CDN。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/HuyaLive-routing.md)。",
+      "path": "ruleset/HuyaLive.yaml",
+      "policy": "🐯 虎牙直播",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/HuyaLive.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/HuyaLive.yaml",
+      "page": "services/huya-live.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
