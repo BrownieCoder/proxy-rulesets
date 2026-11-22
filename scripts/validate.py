@@ -4880,6 +4880,21 @@ def validate_sogou_mobile_ime(root: Path = ROOT) -> None:
     )
 
 
+def validate_vipshop(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Vipshop", target="🛍️ 唯品会",
+        host="www.vip.com",
+        controls=(
+            "vip.com", "m.vip.com", "help.vip.com",
+            "myi.vip.com", "vis.vip.com", "www.vipshop.com",
+            "www.vpal.com", "a.vpimg2.com", "mst.vip.com",
+        ),
+    )
+
+
 def validate_mcdonalds_china(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -4972,6 +4987,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_kfc_china(root)
     validate_fanqie_novel(root)
     validate_sogou_mobile_ime(root)
+    validate_vipshop(root)
     validate_mcdonalds_china(root)
     from generate_catalog import generate
     generate(root)
