@@ -316,3 +316,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/SogouMobileIME.yaml
+  McDonaldsChina:
+    type: file
+    behavior: classical
+    path: ./ruleset/McDonaldsChina.yaml

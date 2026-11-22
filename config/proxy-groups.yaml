@@ -469,6 +469,13 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "🍔 麦当劳中国"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+
   - name: "📺 Bilibili"
     type: select
     proxies:
