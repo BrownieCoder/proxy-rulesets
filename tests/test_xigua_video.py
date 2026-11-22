@@ -11,7 +11,7 @@ class XiguaVideoContract(contract.PublicAppContract):
     target = "🍉 西瓜视频"
     controls = (
         "ixigua.com", "www.ixigua.com", "studio.ixigua.com",
-        "live.ixigua.com", "p3.bdxiguaimg.com", "www.douyin.com",
+        "live.ixigua.com", "p3.bdxiguaimg.com", "p3-sign.douyinpic.com", "www.douyin.com",
         "reading.snssdk.com",
     )
     gate = staticmethod(validate_xigua_video)

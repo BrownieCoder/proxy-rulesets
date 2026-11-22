@@ -4889,7 +4889,7 @@ def validate_xigua_video(root: Path = ROOT) -> None:
         host="m.ixigua.com",
         controls=(
             "ixigua.com", "www.ixigua.com", "studio.ixigua.com",
-            "live.ixigua.com", "p3.bdxiguaimg.com", "www.douyin.com",
+            "live.ixigua.com", "p3.bdxiguaimg.com", "p3-sign.douyinpic.com", "www.douyin.com",
             "reading.snssdk.com",
         ),
     )

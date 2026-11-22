@@ -6,7 +6,7 @@
 
 - [西瓜视频官方下载页](https://m.ixigua.com/app_download)：同一主机介绍内容和客户端获取入口。
 - [西瓜视频移动官网](https://m.ixigua.com/)：公开移动页面提供打开西瓜视频客户端的入口。
-- [西瓜视频官方公开移动分享页](https://m.ixigua.com/dx/7678941464194272947)：同主机移动视频页面提供打开 App 的入口，图片来自不同主机。
+- [西瓜视频官方公开移动分享页](https://m.ixigua.com/dx/7678941464194272947)：同主机移动视频页面提供打开 App 的入口；头像来自 `p3.bdxiguaimg.com`，封面来自 `p3-sign.douyinpic.com`，两者都不随组。
 
 证据级别：第一方网页或开发者公开资料，支持主机归属与公开入口用途，不代表真实原生客户端覆盖。只核对公开内容，不登录、不安装客户端、不采集流量。
 
@@ -16,7 +16,7 @@
 
 基线离线域名模型中的原首匹配是 `ChinaMax → 🇨🇳 China-Global`。新增提供独立选择，不代表之前完全未覆盖。安全与游戏规则优先，新增项在已有 App 之后、SiriAI 及通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或实际 App 行为。
 
-对照：`ixigua.com`、`www.ixigua.com`、`studio.ixigua.com`、`live.ixigua.com`、`p3.bdxiguaimg.com`、`www.douyin.com`、`reading.snssdk.com` 一律保持原策略。另测子域、相似标签和伪装后缀。
+对照：`ixigua.com`、`www.ixigua.com`、`studio.ixigua.com`、`live.ixigua.com`、`p3.bdxiguaimg.com`、`p3-sign.douyinpic.com`、`www.douyin.com`、`reading.snssdk.com` 一律保持原策略。另测子域、相似标签和伪装后缀。
 
 ## English scope
 
