@@ -219,6 +219,14 @@
     "path": "ruleset/SogouMobileIME.yaml",
     "behavior": "classical"
   },
+  "Vipshop": {
+    "path": "ruleset/Vipshop.yaml",
+    "behavior": "classical"
+  },
+  "McDonaldsChina": {
+    "path": "ruleset/McDonaldsChina.yaml",
+    "behavior": "classical"
+  },
   "HuyaLive": {
     "path": "ruleset/HuyaLive.yaml",
     "behavior": "classical"

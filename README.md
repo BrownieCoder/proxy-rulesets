@@ -73,6 +73,7 @@
 | [得物 / Dewu](services/dewu.md) | 仅 dewu.com 与 www.dewu.com 两个精确公开官网入口。 | [获取地址](services/dewu.md#规则地址) · [查看规则](ruleset/Dewu.yaml) |
 | [盒马 / Freshippo](services/freshippo.md) | 仅 www.freshhema.com、www.freshippo.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/freshippo.md#规则地址) · [查看规则](ruleset/Freshippo.yaml) |
 | [叮咚买菜 / Dingdong Maicai](services/dingdong-maicai.md) | 仅 www.100.me 的官网及同主机 App 下载入口，不代表完整 App 流量。 | [获取地址](services/dingdong-maicai.md#规则地址) · [查看规则](ruleset/DingdongMaicai.yaml) |
+| [唯品会 / Vipshop](services/vipshop.md) | 仅 www.vip.com 的中国消费者公开主站，不代表完整 App 流量。 | [获取地址](services/vipshop.md#规则地址) · [查看规则](ruleset/Vipshop.yaml) |
 
 ### 出行
 
@@ -112,6 +113,7 @@
 | [微信读书 / WeRead](services/wechat-reading.md) | 仅 weread.qq.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/wechat-reading.md#规则地址) · [查看规则](ruleset/WeChatReading.yaml) |
 | [肯德基中国 / KFC China](services/kfc-china.md) | 仅 www.kfc.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/kfc-china.md#规则地址) · [查看规则](ruleset/KFCChina.yaml) |
 | [番茄小说 / Fanqie Novel](services/fanqie-novel.md) | 仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。 | [获取地址](services/fanqie-novel.md#规则地址) · [查看规则](ruleset/FanqieNovel.yaml) |
+| [麦当劳中国 / McDonald’s China](services/mcdonalds-china.md) | 仅 www.mcdonalds.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/mcdonalds-china.md#规则地址) · [查看规则](ruleset/McDonaldsChina.yaml) |
 
 ### 支付与其他
 
