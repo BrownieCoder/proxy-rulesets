@@ -191,6 +191,9 @@ class PublicAppContract(unittest.TestCase):
         lock["rulesets"][name].update(bytes=len(data), sha256=digest, upstream_sha256=digest)
         self.write("sources.lock.json", json.dumps(lock, ensure_ascii=False))
 
+    def _write_fixture_payload(self, name, path, rules):
+        self._write_fixture_mirror(name, path, yaml.safe_dump({"payload": rules}, allow_unicode=True))
+
     def _clear_fixture_security_matches(self):
         # Shadowing tests must not depend on whether an upstream snapshot now blocks the App.
         sources = json.loads(self.read("sources.json"))
@@ -202,13 +205,15 @@ class PublicAppContract(unittest.TestCase):
                          if not any(_domain_model([rule]).matches(host) for host in self.hosts)]
             if remaining != rules:
                 keep = remaining or ["DOMAIN,security-fixture.example.org"]
-                text = "payload:\n" + "".join(f"  - {rule}\n" for rule in keep)
-                self._write_fixture_mirror(name, path, text)
+                self._write_fixture_payload(name, path, keep)
                 changed = True
         if changed:
             generate(self.root, write=True)
 
     def test_legal_security_precedence_holds(self):
+        self._assert_legal_security_precedence_holds()
+
+    def _assert_legal_security_precedence_holds(self):
         self._clear_fixture_security_matches()
         manifests = json.loads(self.read("sources.json"))
         original_lock = self.read("sources.lock.json")
@@ -218,8 +223,8 @@ class PublicAppContract(unittest.TestCase):
                 path = manifests[provider]["path"]
                 original = self.read(path)
                 try:
-                    self._write_fixture_mirror(provider, path,
-                                               original + f"  - DOMAIN,{host.upper()}\n")
+                    rules = yaml.safe_load(original)["payload"]
+                    self._write_fixture_payload(provider, path, [*rules, f"DOMAIN,{host.upper()}"])
                     generate(self.root, write=True)
                     self.assertEqual(self._assert_current_routes(), {host: (provider, target)})
                     self.assertEqual(validate.validate_tree(self.root), 0)
