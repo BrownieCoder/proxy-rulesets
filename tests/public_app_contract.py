@@ -233,17 +233,21 @@ class PublicAppContract(unittest.TestCase):
                     self.write("sources.lock.json", original_lock)
 
     def test_preceding_provider_uses_catalog_payload_reader(self):
+        self._assert_preceding_provider_uses_catalog_payload_reader()
+
+    def _assert_preceding_provider_uses_catalog_payload_reader(self):
         self._clear_fixture_security_matches()
         sources = json.loads(self.read("local-rulesets.json"))
         path = sources["InternationalGaming"]["path"]
-        text = self.read(path)
         rule = "DOMAIN," + self.hosts[0]
-        self.write(path, text + f"  - {rule} # review fixture\n")
-        self.assertEqual(yaml.safe_load(self.read(path))["payload"][-1], rule)
+        entries = [*yaml.safe_load(self.read(path))["payload"], rule]
+        plain = yaml.safe_dump({"payload": entries}, allow_unicode=True)
+        self.write(path, plain.removesuffix("\n") + " # review fixture\n")
+        self.assertEqual(yaml.safe_load(self.read(path))["payload"], entries)
         with self.assertRaisesRegex(ValueError, "InternationalGaming: Unsupported YAML scalar"):
             self.gate(self.root)
         with self.assertRaisesRegex(ValueError, "Unsupported YAML scalar"):
             generate(self.root)
-        self.write(path, text + f"  - {rule}\n")
+        self.write(path, plain)
         with self.assertRaisesRegex(ValueError, f"{self.provider} is shadowed"):
             self.gate(self.root)

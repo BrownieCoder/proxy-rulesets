@@ -52,3 +52,15 @@ class VipshopContract(contract.PublicAppContract):
         self._assert_legal_security_precedence_holds()
 
         self.assertEqual(self.read(path), text)
+
+    def test_preceding_provider_accepts_unindented_fixture(self):
+        path = json.loads(self.read("local-rulesets.json"))["InternationalGaming"]["path"]
+        entries = read_rules(self.read(path))
+        text = yaml.safe_dump({"payload": entries}, allow_unicode=True)
+        self.assertTrue(text.startswith("payload:\n- "))
+        self.assertEqual(read_rules(text), entries)
+        self.write(path, text)
+        generate(self.root, write=True)
+        self.gate(self.root)
+
+        self._assert_preceding_provider_uses_catalog_payload_reader()
