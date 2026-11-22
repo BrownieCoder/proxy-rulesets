@@ -4895,6 +4895,20 @@ def validate_vipshop(root: Path = ROOT) -> None:
     )
 
 
+def validate_mcdonalds_china(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="McDonaldsChina", target="🍔 麦当劳中国",
+        host="www.mcdonalds.com.cn",
+        controls=(
+            "mcdonalds.com.cn", "www.mcdonalds.com", "www.mcd.cn",
+            "www.4008-517-517.cn", "www.kfc.com.cn",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -4974,6 +4988,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_fanqie_novel(root)
     validate_sogou_mobile_ime(root)
     validate_vipshop(root)
+    validate_mcdonalds_china(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
