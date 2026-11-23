@@ -4939,6 +4939,22 @@ def validate_xigua_video(root: Path = ROOT) -> None:
     )
 
 
+def validate_xiaoyuzhou(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="XiaoYuZhou", target="🎙️ 小宇宙",
+        host="www.xiaoyuzhoufm.com",
+        controls=(
+            "xiaoyuzhoufm.com", "blog.xiaoyuzhoufm.com", "studio.xiaoyuzhoufm.com",
+            "static.xiaoyuzhoufm.com", "post.xiaoyuzhoufm.com", "image.xyzcdn.net",
+            "post.jellow.club", "m.ximalaya.com", "www.lizhi.fm",
+            "accounts.xiaoyuzhoufm.com",
+        ),
+    )
+
+
 def validate_china_mobile(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -5036,6 +5052,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_mcdonalds_china(root)
     validate_huya_live(root)
     validate_xigua_video(root)
+    validate_xiaoyuzhou(root)
     validate_china_mobile(root)
     from generate_catalog import generate
     generate(root)

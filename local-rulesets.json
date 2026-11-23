@@ -235,6 +235,10 @@
     "path": "ruleset/XiguaVideo.yaml",
     "behavior": "classical"
   },
+  "XiaoYuZhou": {
+    "path": "ruleset/XiaoYuZhou.yaml",
+    "behavior": "classical"
+  },
   "ChinaMobile": {
     "path": "ruleset/ChinaMobile.yaml",
     "behavior": "classical"
