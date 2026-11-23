@@ -6,6 +6,7 @@
 
 - [小宇宙官网](https://www.xiaoyuzhoufm.com/)：列出听播客与体验入口。
 - [小宇宙公开单集页](https://www.xiaoyuzhoufm.com/episode/69ac329bc8cdeb38c25497d4)：单集页也在该主机，封面由另域提供。
+- [小宇宙统一身份认证](https://accounts.xiaoyuzhoufm.com/login)：登录入口使用另一主机，不随小宇宙策略组切换。
 - [中国 App Store](https://apps.apple.com/cn/app/id1488894313)：确认客户端和开发者，不证明客户端调用该主机。
 
 证据级别：第一方公开网页或开发者在应用商店提供的资料。证据支持主机归属及公开入口用途，不证明原生 App 使用此主机。未登录、安装客户端或采集流量。
@@ -16,7 +17,7 @@
 
 基线离线域名模型中的首匹配为 `ChinaMax → 🇨🇳 China-Global`。新增独立选择，不代表之前完全未覆盖。安全与游戏规则优先，此项在既有 App 之后、SiriAI 及通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或实际 App 行为。
 
-对照：`xiaoyuzhoufm.com`、`blog.xiaoyuzhoufm.com`、`studio.xiaoyuzhoufm.com`、`static.xiaoyuzhoufm.com`、`post.xiaoyuzhoufm.com`、`image.xyzcdn.net`、`post.jellow.club`、`m.ximalaya.com`、`www.lizhi.fm`保持原策略；另核对目标的子域、相似标签与伪装后缀。
+对照：`xiaoyuzhoufm.com`、`blog.xiaoyuzhoufm.com`、`studio.xiaoyuzhoufm.com`、`static.xiaoyuzhoufm.com`、`post.xiaoyuzhoufm.com`、`image.xyzcdn.net`、`post.jellow.club`、`m.ximalaya.com`、`www.lizhi.fm`、`accounts.xiaoyuzhoufm.com` 保持原策略；另核对目标的子域、相似标签与伪装后缀。
 
 ## English scope
 

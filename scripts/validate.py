@@ -4950,6 +4950,7 @@ def validate_xiaoyuzhou(root: Path = ROOT) -> None:
             "xiaoyuzhoufm.com", "blog.xiaoyuzhoufm.com", "studio.xiaoyuzhoufm.com",
             "static.xiaoyuzhoufm.com", "post.xiaoyuzhoufm.com", "image.xyzcdn.net",
             "post.jellow.club", "m.ximalaya.com", "www.lizhi.fm",
+            "accounts.xiaoyuzhoufm.com",
         ),
     )
 
