@@ -336,3 +336,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/XiaoYuZhou.yaml
+  ChinaMobile:
+    type: file
+    behavior: classical
+    path: ./ruleset/ChinaMobile.yaml

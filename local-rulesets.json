@@ -238,5 +238,9 @@
   "XiaoYuZhou": {
     "path": "ruleset/XiaoYuZhou.yaml",
     "behavior": "classical"
+  },
+  "ChinaMobile": {
+    "path": "ruleset/ChinaMobile.yaml",
+    "behavior": "classical"
   }
 }

@@ -504,3 +504,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/XiaoYuZhou.yaml
     interval: 86400
     path: ./ruleset-cache/XiaoYuZhou.yaml
+  ChinaMobile:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaMobile.yaml
+    interval: 86400
+    path: ./ruleset-cache/ChinaMobile.yaml
