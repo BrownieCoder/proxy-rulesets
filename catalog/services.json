@@ -711,6 +711,15 @@
     "warning": "同主机所有路径（含移动视频页面、分享与下载介绍）均随组；不另纳入桌面主站、创作平台、账号或共享字节素材主机，未验证原生接口和媒体传输。 其他主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/XiguaVideo-routing.md)。"
   },
   {
+    "id": "xiaoyuzhou",
+    "provider": "XiaoYuZhou",
+    "name": "小宇宙 / Xiaoyuzhou",
+    "category": "影音",
+    "description": "仅 www.xiaoyuzhoufm.com 的小宇宙官网、节目与单集网页，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "覆盖同主机的官网、节目和单集网页；不另纳入播客工作台、官方博客、条款子域、封面 CDN、音频传输或原生客户端接口。 规则按主机匹配，不按路径或发起进程匹配。不同主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/XiaoYuZhou-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",
