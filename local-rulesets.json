@@ -234,5 +234,9 @@
   "XiguaVideo": {
     "path": "ruleset/XiguaVideo.yaml",
     "behavior": "classical"
+  },
+  "YoudaoDictionary": {
+    "path": "ruleset/YoudaoDictionary.yaml",
+    "behavior": "classical"
   }
 }

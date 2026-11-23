@@ -1188,6 +1188,21 @@
       "ruleCount": 1
     },
     {
+      "id": "youdao-dictionary",
+      "provider": "YoudaoDictionary",
+      "name": "网易有道词典 / Youdao Dictionary",
+      "category": "工具",
+      "description": "仅 dict.youdao.com 的网易有道同主机的公开词典、查词与网页翻译入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "覆盖该主机所有路径（含主页、词条和同主机翻译入口）；不另纳入独立翻译和桌面版下载主机、登录、课程、云笔记、隐私跟踪、共享素材或网易邮箱。 规则按主机匹配，不按路径或发起进程匹配。不同主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/YoudaoDictionary-routing.md)。",
+      "path": "ruleset/YoudaoDictionary.yaml",
+      "policy": "📖 网易有道词典",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/YoudaoDictionary.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/YoudaoDictionary.yaml",
+      "page": "services/youdao-dictionary.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
