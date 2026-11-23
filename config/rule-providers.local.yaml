@@ -340,3 +340,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/ChinaMobile.yaml
+  YoudaoDictionary:
+    type: file
+    behavior: classical
+    path: ./ruleset/YoudaoDictionary.yaml

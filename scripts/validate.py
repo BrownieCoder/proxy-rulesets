@@ -4970,6 +4970,22 @@ def validate_china_mobile(root: Path = ROOT) -> None:
     )
 
 
+def validate_youdao_dictionary(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="YoudaoDictionary", target="📖 网易有道词典",
+        host="dict.youdao.com",
+        controls=(
+            "youdao.com", "www.youdao.com", "fanyi.youdao.com",
+            "cidian.youdao.com", "account.youdao.com", "ke.youdao.com",
+            "note.youdao.com", "ydlunacommon.nosdn.127.net", "rlogs.youdao.com",
+            "mail.163.com", "ydlunacommon-cdn.nosdn.127.net", "luna-dict-community.nosdn.127.net",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5054,6 +5070,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_xigua_video(root)
     validate_xiaoyuzhou(root)
     validate_china_mobile(root)
+    validate_youdao_dictionary(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

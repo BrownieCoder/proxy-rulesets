@@ -242,5 +242,9 @@
   "ChinaMobile": {
     "path": "ruleset/ChinaMobile.yaml",
     "behavior": "classical"
+  },
+  "YoudaoDictionary": {
+    "path": "ruleset/YoudaoDictionary.yaml",
+    "behavior": "classical"
   }
 }
