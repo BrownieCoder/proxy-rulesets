@@ -4950,7 +4950,7 @@ def validate_youdao_dictionary(root: Path = ROOT) -> None:
             "youdao.com", "www.youdao.com", "fanyi.youdao.com",
             "cidian.youdao.com", "account.youdao.com", "ke.youdao.com",
             "note.youdao.com", "ydlunacommon.nosdn.127.net", "rlogs.youdao.com",
-            "mail.163.com",
+            "mail.163.com", "ydlunacommon-cdn.nosdn.127.net", "luna-dict-community.nosdn.127.net",
         ),
     )
 
