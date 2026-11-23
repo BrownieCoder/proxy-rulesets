@@ -516,3 +516,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/YoudaoDictionary.yaml
     interval: 86400
     path: ./ruleset-cache/YoudaoDictionary.yaml
+  KeepFitness:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KeepFitness.yaml
+    interval: 86400
+    path: ./ruleset-cache/KeepFitness.yaml

@@ -4986,6 +4986,22 @@ def validate_youdao_dictionary(root: Path = ROOT) -> None:
     )
 
 
+def validate_keep_fitness(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="KeepFitness", target="🏃 Keep",
+        host="www.calorietech.com",
+        controls=(
+            "calorietech.com", "gotokeep.com", "www.gotokeep.com",
+            "show.gotokeep.com", "m.gotokeep.com", "mo.gotokeep.com",
+            "static1.keepcdn.com", "staticweb.keepcdn.com", "keep.com",
+            "ir.keep.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5071,6 +5087,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_xiaoyuzhou(root)
     validate_china_mobile(root)
     validate_youdao_dictionary(root)
+    validate_keep_fitness(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

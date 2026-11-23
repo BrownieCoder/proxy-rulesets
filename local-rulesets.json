@@ -246,5 +246,9 @@
   "YoudaoDictionary": {
     "path": "ruleset/YoudaoDictionary.yaml",
     "behavior": "classical"
+  },
+  "KeepFitness": {
+    "path": "ruleset/KeepFitness.yaml",
+    "behavior": "classical"
   }
 }

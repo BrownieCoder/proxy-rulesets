@@ -344,3 +344,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/YoudaoDictionary.yaml
+  KeepFitness:
+    type: file
+    behavior: classical
+    path: ./ruleset/KeepFitness.yaml
