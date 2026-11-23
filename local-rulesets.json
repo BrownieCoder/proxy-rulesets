@@ -234,5 +234,9 @@
   "XiguaVideo": {
     "path": "ruleset/XiguaVideo.yaml",
     "behavior": "classical"
+  },
+  "ChinaMobile": {
+    "path": "ruleset/ChinaMobile.yaml",
+    "behavior": "classical"
   }
 }
