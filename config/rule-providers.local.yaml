@@ -332,3 +332,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/XiguaVideo.yaml
+  XiaoYuZhou:
+    type: file
+    behavior: classical
+    path: ./ruleset/XiaoYuZhou.yaml
