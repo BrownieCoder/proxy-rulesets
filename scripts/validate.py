@@ -4939,6 +4939,53 @@ def validate_xigua_video(root: Path = ROOT) -> None:
     )
 
 
+def validate_xiaoyuzhou(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="XiaoYuZhou", target="🎙️ 小宇宙",
+        host="www.xiaoyuzhoufm.com",
+        controls=(
+            "xiaoyuzhoufm.com", "blog.xiaoyuzhoufm.com", "studio.xiaoyuzhoufm.com",
+            "static.xiaoyuzhoufm.com", "post.xiaoyuzhoufm.com", "image.xyzcdn.net",
+            "post.jellow.club", "m.ximalaya.com", "www.lizhi.fm",
+            "accounts.xiaoyuzhoufm.com",
+        ),
+    )
+
+
+def validate_china_mobile(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="ChinaMobile", target="📱 中国移动",
+        host="wap.10086.cn",
+        controls=(
+            "10086.cn", "www.10086.cn", "shop.10086.cn",
+            "login.10086.cn", "h.app.coc.10086.cn", "app.10086.cn",
+            "mail.10086.cn", "www.10010.com", "www.189.cn",
+        ),
+    )
+
+
+def validate_youdao_dictionary(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="YoudaoDictionary", target="📖 网易有道词典",
+        host="dict.youdao.com",
+        controls=(
+            "youdao.com", "www.youdao.com", "fanyi.youdao.com",
+            "cidian.youdao.com", "account.youdao.com", "ke.youdao.com",
+            "note.youdao.com", "ydlunacommon.nosdn.127.net", "rlogs.youdao.com",
+            "mail.163.com", "ydlunacommon-cdn.nosdn.127.net", "luna-dict-community.nosdn.127.net",
+        ),
+    )
+
+
 def validate_keep_fitness(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -5037,6 +5084,9 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_mcdonalds_china(root)
     validate_huya_live(root)
     validate_xigua_video(root)
+    validate_xiaoyuzhou(root)
+    validate_china_mobile(root)
+    validate_youdao_dictionary(root)
     validate_keep_fitness(root)
     from generate_catalog import generate
     generate(root)

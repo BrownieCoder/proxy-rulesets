@@ -115,6 +115,12 @@ rules:
   - RULE-SET,HuyaLive,🐯 虎牙直播
   # 西瓜视频仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,XiguaVideo,🍉 西瓜视频
+  # 小宇宙仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,XiaoYuZhou,🎙️ 小宇宙
+  # 中国移动仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,ChinaMobile,📱 中国移动
+  # 网易有道词典仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,YoudaoDictionary,📖 网易有道词典
   # Keep仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,KeepFitness,🏃 Keep
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
