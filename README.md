@@ -62,6 +62,7 @@
 | [喜马拉雅 / Ximalaya](services/ximalaya.md) | 仅 m.ximalaya.com 的移动网页、电台目录及 App 分享入口，不代表完整 App 流量。 | [获取地址](services/ximalaya.md#规则地址) · [查看规则](ruleset/Ximalaya.yaml) |
 | [虎牙直播 / Huya Live](services/huya-live.md) | 仅 hd.huya.com 的公开网页，含下载介绍、活动和开放平台文档，不代表完整 App 流量。 | [获取地址](services/huya-live.md#规则地址) · [查看规则](ruleset/HuyaLive.yaml) |
 | [西瓜视频 / Xigua Video](services/xigua-video.md) | 仅 m.ixigua.com 的公开移动网页与同主机 App 下载介绍，不代表完整 App 流量。 | [获取地址](services/xigua-video.md#规则地址) · [查看规则](ruleset/XiguaVideo.yaml) |
+| [小宇宙 / Xiaoyuzhou](services/xiaoyuzhou.md) | 仅 www.xiaoyuzhoufm.com 的小宇宙官网、节目与单集网页，不代表完整 App 流量。 | [获取地址](services/xiaoyuzhou.md#规则地址) · [查看规则](ruleset/XiaoYuZhou.yaml) |
 
 ### 购物
 
@@ -115,6 +116,7 @@
 | [肯德基中国 / KFC China](services/kfc-china.md) | 仅 www.kfc.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/kfc-china.md#规则地址) · [查看规则](ruleset/KFCChina.yaml) |
 | [番茄小说 / Fanqie Novel](services/fanqie-novel.md) | 仅 fanqienovel.com 的官网、网页阅读及 App 下载入口，不代表完整 App 流量。 | [获取地址](services/fanqie-novel.md#规则地址) · [查看规则](ruleset/FanqieNovel.yaml) |
 | [麦当劳中国 / McDonald’s China](services/mcdonalds-china.md) | 仅 www.mcdonalds.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/mcdonalds-china.md#规则地址) · [查看规则](ruleset/McDonaldsChina.yaml) |
+| [中国移动 / China Mobile](services/china-mobile.md) | 仅 wap.10086.cn 的中国移动 App 下载入口及 WAP 掌上营业厅，不代表完整 App 流量。 | [获取地址](services/china-mobile.md#规则地址) · [查看规则](ruleset/ChinaMobile.yaml) |
 
 ### 支付与其他
 
