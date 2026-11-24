@@ -348,6 +348,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/KeepFitness.yaml
+  Cainiao:
+    type: file
+    behavior: classical
+    path: ./ruleset/Cainiao.yaml
+  ChinaUnicom:
+    type: file
+    behavior: classical
+    path: ./ruleset/ChinaUnicom.yaml
+  PupuMall:
+    type: file
+    behavior: classical
+    path: ./ruleset/PupuMall.yaml
   HaokanVideo:
     type: file
     behavior: classical

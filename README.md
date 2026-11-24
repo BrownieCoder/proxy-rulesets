@@ -77,6 +77,7 @@
 | [盒马 / Freshippo](services/freshippo.md) | 仅 www.freshhema.com、www.freshippo.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/freshippo.md#规则地址) · [查看规则](ruleset/Freshippo.yaml) |
 | [叮咚买菜 / Dingdong Maicai](services/dingdong-maicai.md) | 仅 www.100.me 的官网及同主机 App 下载入口，不代表完整 App 流量。 | [获取地址](services/dingdong-maicai.md#规则地址) · [查看规则](ruleset/DingdongMaicai.yaml) |
 | [唯品会 / Vipshop](services/vipshop.md) | 仅 www.vip.com 的中国消费者公开主站，不代表完整 App 流量。 | [获取地址](services/vipshop.md#规则地址) · [查看规则](ruleset/Vipshop.yaml) |
+| [朴朴超市 / Pupu Mall](services/pupu-mall.md) | 仅 www.pupumall.com：朴朴超市公开官网、业务介绍及 App 下载展示，不代表完整 App 流量。 | [获取地址](services/pupu-mall.md#规则地址) · [查看规则](ruleset/PupuMall.yaml) |
 
 ### 出行
 
@@ -119,6 +120,8 @@
 | [麦当劳中国 / McDonald’s China](services/mcdonalds-china.md) | 仅 www.mcdonalds.com.cn 的中国官网和同主机 App 下载介绍页，不代表完整 App 流量。 | [获取地址](services/mcdonalds-china.md#规则地址) · [查看规则](ruleset/McDonaldsChina.yaml) |
 | [中国移动 / China Mobile](services/china-mobile.md) | 仅 wap.10086.cn 的中国移动 App 下载入口及 WAP 掌上营业厅，不代表完整 App 流量。 | [获取地址](services/china-mobile.md#规则地址) · [查看规则](ruleset/ChinaMobile.yaml) |
 | [Keep 运动健身 / Keep Fitness](services/keep-fitness.md) | 仅 www.calorietech.com 的Keep 中国官网、App 下载介绍和同主机产品页面，不代表完整 App 流量。 | [获取地址](services/keep-fitness.md#规则地址) · [查看规则](ruleset/KeepFitness.yaml) |
+| [菜鸟 / Cainiao](services/cainiao.md) | 仅 newconnection.cainiao.com：菜鸟消费者公开入口、App 下载介绍和活动页面，不代表完整 App 流量。 | [获取地址](services/cainiao.md#规则地址) · [查看规则](ruleset/Cainiao.yaml) |
+| [中国联通 / China Unicom](services/china-unicom.md) | 仅 wap.10010.com：中国联通移动营业厅及客户端入口，不代表完整 App 流量。 | [获取地址](services/china-unicom.md#规则地址) · [查看规则](ruleset/ChinaUnicom.yaml) |
 
 ### 支付与其他
 
