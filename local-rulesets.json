@@ -254,5 +254,9 @@
   "Cainiao": {
     "path": "ruleset/Cainiao.yaml",
     "behavior": "classical"
+  },
+  "ChinaUnicom": {
+    "path": "ruleset/ChinaUnicom.yaml",
+    "behavior": "classical"
   }
 }

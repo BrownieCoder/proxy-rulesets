@@ -5017,6 +5017,22 @@ def validate_cainiao(root: Path = ROOT) -> None:
     )
 
 
+def validate_china_unicom(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="ChinaUnicom", target="📶 中国联通",
+        host="wap.10010.com",
+        controls=(
+            "10010.com", "www.10010.com", "m.10010.com",
+            "mall.10010.com", "m.client.10010.com", "uac.10010.com",
+            "img.client.10010.com", "res.mall.10010.cn", "www.chinaunicom.com",
+            "wap.10086.cn", "www.189.cn", "m1.img.10010.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5104,6 +5120,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_youdao_dictionary(root)
     validate_keep_fitness(root)
     validate_cainiao(root)
+    validate_china_unicom(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
