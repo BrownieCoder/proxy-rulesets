@@ -5033,6 +5033,21 @@ def validate_china_unicom(root: Path = ROOT) -> None:
     )
 
 
+def validate_pupu_mall(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="PupuMall", target="🛒 朴朴超市",
+        host="www.pupumall.com",
+        controls=(
+            "pupumall.com", "pupumall.net", "www.pupumall.net",
+            "c.pupuapi.com", "ma.pupumall.com", "www.100.me",
+            "maicai.api.ddxq.mobi", "www.freshippo.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5121,6 +5136,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_keep_fitness(root)
     validate_cainiao(root)
     validate_china_unicom(root)
+    validate_pupu_mall(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

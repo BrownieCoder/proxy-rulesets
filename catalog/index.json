@@ -1278,6 +1278,21 @@
       "ruleCount": 1
     },
     {
+      "id": "pupu-mall",
+      "provider": "PupuMall",
+      "name": "朴朴超市 / Pupu Mall",
+      "category": "购物",
+      "description": "仅 www.pupumall.com：朴朴超市公开官网、业务介绍及 App 下载展示，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（含企业和平台介绍）均随组；独立隐私站、原生 API、订单和支付主机不另纳入，未实测下载、登录、下单或支付。叮咚和盒马的既有策略保留。 规则按主机匹配，不按路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/PupuMall-routing.md)。",
+      "path": "ruleset/PupuMall.yaml",
+      "policy": "🛒 朴朴超市",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/PupuMall.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/PupuMall.yaml",
+      "page": "services/pupu-mall.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

@@ -356,3 +356,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/ChinaUnicom.yaml
+  PupuMall:
+    type: file
+    behavior: classical
+    path: ./ruleset/PupuMall.yaml

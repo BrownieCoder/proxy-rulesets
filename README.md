@@ -76,6 +76,7 @@
 | [盒马 / Freshippo](services/freshippo.md) | 仅 www.freshhema.com、www.freshippo.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/freshippo.md#规则地址) · [查看规则](ruleset/Freshippo.yaml) |
 | [叮咚买菜 / Dingdong Maicai](services/dingdong-maicai.md) | 仅 www.100.me 的官网及同主机 App 下载入口，不代表完整 App 流量。 | [获取地址](services/dingdong-maicai.md#规则地址) · [查看规则](ruleset/DingdongMaicai.yaml) |
 | [唯品会 / Vipshop](services/vipshop.md) | 仅 www.vip.com 的中国消费者公开主站，不代表完整 App 流量。 | [获取地址](services/vipshop.md#规则地址) · [查看规则](ruleset/Vipshop.yaml) |
+| [朴朴超市 / Pupu Mall](services/pupu-mall.md) | 仅 www.pupumall.com：朴朴超市公开官网、业务介绍及 App 下载展示，不代表完整 App 流量。 | [获取地址](services/pupu-mall.md#规则地址) · [查看规则](ruleset/PupuMall.yaml) |
 
 ### 出行
 
