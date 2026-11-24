@@ -4,6 +4,7 @@
 
 ## 官方依据
 
+- [好看视频首页](https://haokan.baidu.com/)：页面引用 `mpics.bdstatic.com` 上的图片，并链接到另域 `live.baidu.com` 的百度直播；两者不随组。
 - [好看视频官方下载介绍](https://haokan.baidu.com/download)：好看视频的官方公开下载页，页面引用另域图片。
 - [好看视频官方协议](https://haokan.baidu.com/videoui/page/about)：明确区分网页端与移动等使用方式，不能据此认定原生客户端调用范围。
 - [中国区 App Store](https://apps.apple.com/cn/app/%E5%A5%BD%E7%9C%8B%E8%A7%86%E9%A2%91/id1092031003?platform=ipad)：确认好看视频客户端及百度发行方。
@@ -16,7 +17,7 @@
 
 基线离线域名模型的原首匹配为 `ChinaMax → 🇨🇳 China-Global`。安全与游戏仍优先，此项位于既有 App 之后、SiriAI 与通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或原生 App 行为。
 
-对照：`baidu.com`、`www.baidu.com`、`m.baidu.com`、`map.baidu.com`、`passport.baidu.com`、`baijiahao.baidu.com`、`imgsa.baidu.com`、`mobile.baidu.com`、`image.baidu.com` 保持原策略；另核对目标的子域、相似标签与伪装后缀。
+对照：`baidu.com`、`www.baidu.com`、`m.baidu.com`、`map.baidu.com`、`passport.baidu.com`、`baijiahao.baidu.com`、`imgsa.baidu.com`、`mpics.bdstatic.com`、`live.baidu.com`、`mobile.baidu.com`、`image.baidu.com` 保持原策略；另核对目标的子域、相似标签与伪装后缀。
 
 ## English scope
 
