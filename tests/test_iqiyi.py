@@ -182,7 +182,11 @@ class IQIYIValidatorMutations(unittest.TestCase):
         rules = ('GEOIP,US,DIRECT', 'GEOIP,US,DIRECT,no-resolve',
                  'IP-CIDR,192.0.2.0/24,DIRECT', 'IP-CIDR,192.0.2.0/24,DIRECT,no-resolve',
                  'IP-CIDR6,2001:db8::/32,DIRECT', 'IP-CIDR6,2001:db8::/32,DIRECT,no-resolve')
-        path.write_text(original + ''.join('  - ' + rule + '\n' for rule in rules), encoding='utf-8')
+        terminal = '  - MATCH,🧭 Final\n'
+        self.assertEqual(original.count(terminal), 1)
+        self.assertTrue(original.endswith(terminal))
+        added = ''.join('  - ' + rule + '\n' for rule in rules)
+        path.write_text(original.removesuffix(terminal) + added + terminal, encoding='utf-8')
         validate.validate_iqiyi(self.root)
         self.assertEqual(validate.validate_tree(self.root), 0)
 
