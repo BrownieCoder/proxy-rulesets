@@ -4,7 +4,7 @@
 
 ## 官方依据
 
-- [联通移动营业厅](https://wap.10010.com/mobileService/waphome.htm)：移动营业厅主页和客户端入口。
+- [联通移动营业厅](https://wap.10010.com/mobileService/waphome.htm)：移动营业厅主页和客户端入口；余量查询、电子发票等图标由另域 `m1.img.10010.com` 提供。
 - [联通渠道说明](https://wap.10010.com/t/query/queryTranster.htm?listType=aboutUs)：将移动电子渠道与电脑网上营业厅区分。
 - [中国区 App Store](https://apps.apple.com/cn/app/id416457422)：确认官方发行方。
 
@@ -16,7 +16,7 @@
 
 基线离线域名模型的原首匹配为 `ChinaMax → 🇨🇳 China-Global`。安全与游戏仍优先，此项位于既有 App 之后、SiriAI 与通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或原生 App 行为。
 
-对照：`10010.com`、`www.10010.com`、`m.10010.com`、`mall.10010.com`、`m.client.10010.com`、`uac.10010.com`、`img.client.10010.com`、`res.mall.10010.cn`、`www.chinaunicom.com`、`wap.10086.cn`、`www.189.cn` 保持原策略；另核对目标的子域、相似标签与伪装后缀。
+对照：`10010.com`、`www.10010.com`、`m.10010.com`、`mall.10010.com`、`m.client.10010.com`、`uac.10010.com`、`img.client.10010.com`、`m1.img.10010.com`、`res.mall.10010.cn`、`www.chinaunicom.com`、`wap.10086.cn`、`www.189.cn` 保持原策略；另核对目标的子域、相似标签与伪装后缀。
 
 ## English scope
 

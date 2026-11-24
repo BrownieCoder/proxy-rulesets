@@ -13,6 +13,6 @@ class ChinaUnicomContract(contract.PublicAppContract):
         "10010.com", "www.10010.com", "m.10010.com",
         "mall.10010.com", "m.client.10010.com", "uac.10010.com",
         "img.client.10010.com", "res.mall.10010.cn", "www.chinaunicom.com",
-        "wap.10086.cn", "www.189.cn",
+        "wap.10086.cn", "www.189.cn", "m1.img.10010.com",
     )
     gate = staticmethod(validate_china_unicom)
