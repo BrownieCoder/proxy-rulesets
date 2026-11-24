@@ -747,6 +747,15 @@
     "warning": "覆盖同主机所有路径（含 App 下载介绍、运动课程、消费品、硬件及企业公开网页）；下载跳转主机、国际商城、独立商城、政策或应用权限子域及 CDN 不另纳入。 规则按主机匹配，不按路径或发起进程匹配。不同主机保持原策略，可能混合出口；未实测客户端。[官方依据与范围](../research/KeepFitness-routing.md)。"
   },
   {
+    "id": "china-unicom",
+    "provider": "ChinaUnicom",
+    "name": "中国联通 / China Unicom",
+    "category": "生活服务",
+    "description": "仅 wap.10010.com：中国联通移动营业厅及客户端入口，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（含 WAP 营业厅及其业务页面）均随组；电脑版官网、独立认证、商城、介绍页、素材及其他运营商保持原策略，未实测登录、实际下载或业务办理。 规则按主机匹配，不按路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/ChinaUnicom-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

@@ -250,5 +250,9 @@
   "KeepFitness": {
     "path": "ruleset/KeepFitness.yaml",
     "behavior": "classical"
+  },
+  "ChinaUnicom": {
+    "path": "ruleset/ChinaUnicom.yaml",
+    "behavior": "classical"
   }
 }

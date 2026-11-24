@@ -348,3 +348,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/KeepFitness.yaml
+  ChinaUnicom:
+    type: file
+    behavior: classical
+    path: ./ruleset/ChinaUnicom.yaml
