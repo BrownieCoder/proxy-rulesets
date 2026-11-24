@@ -123,6 +123,8 @@ rules:
   - RULE-SET,YoudaoDictionary,📖 网易有道词典
   # Keep仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,KeepFitness,🏃 Keep
+  # 好看视频仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,HaokanVideo,🎬 好看视频
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

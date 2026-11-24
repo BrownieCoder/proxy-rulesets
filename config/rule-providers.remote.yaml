@@ -522,3 +522,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KeepFitness.yaml
     interval: 86400
     path: ./ruleset-cache/KeepFitness.yaml
+  HaokanVideo:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/HaokanVideo.yaml
+    interval: 86400
+    path: ./ruleset-cache/HaokanVideo.yaml
