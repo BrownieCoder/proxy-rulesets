@@ -5002,6 +5002,21 @@ def validate_keep_fitness(root: Path = ROOT) -> None:
     )
 
 
+def validate_cainiao(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Cainiao", target="📦 菜鸟",
+        host="newconnection.cainiao.com",
+        controls=(
+            "cainiao.com", "www.cainiao.com", "page.cainiao.com",
+            "img.alicdn.com", "cainiaoyizhan.com", "www.cainiao.com.cn",
+            "www.taobao.com", "www.sf-express.com", "www.zto.com",
+        ),
+    )
+
+
 def validate_china_unicom(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -5104,6 +5119,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_mobile(root)
     validate_youdao_dictionary(root)
     validate_keep_fitness(root)
+    validate_cainiao(root)
     validate_china_unicom(root)
     from generate_catalog import generate
     generate(root)

@@ -1248,6 +1248,21 @@
       "ruleCount": 1
     },
     {
+      "id": "cainiao",
+      "provider": "Cainiao",
+      "name": "菜鸟 / Cainiao",
+      "category": "生活服务",
+      "description": "仅 newconnection.cainiao.com：菜鸟消费者公开入口、App 下载介绍和活动页面，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（包括收寄介绍和活动页）均随组；集团站、独立隐私/商家页面、共享素材和其他快递服务不另纳入，未验证原生查件、登录和业务链路。 规则按主机匹配，不按路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/Cainiao-routing.md)。",
+      "path": "ruleset/Cainiao.yaml",
+      "policy": "📦 菜鸟",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Cainiao.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Cainiao.yaml",
+      "page": "services/cainiao.md",
+      "ruleCount": 1
+    },
+    {
       "id": "china-unicom",
       "provider": "ChinaUnicom",
       "name": "中国联通 / China Unicom",
