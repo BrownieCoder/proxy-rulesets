@@ -262,5 +262,9 @@
   "PupuMall": {
     "path": "ruleset/PupuMall.yaml",
     "behavior": "classical"
+  },
+  "HaokanVideo": {
+    "path": "ruleset/HaokanVideo.yaml",
+    "behavior": "classical"
   }
 }

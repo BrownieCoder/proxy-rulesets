@@ -63,6 +63,7 @@
 | [虎牙直播 / Huya Live](services/huya-live.md) | 仅 hd.huya.com 的公开网页，含下载介绍、活动和开放平台文档，不代表完整 App 流量。 | [获取地址](services/huya-live.md#规则地址) · [查看规则](ruleset/HuyaLive.yaml) |
 | [西瓜视频 / Xigua Video](services/xigua-video.md) | 仅 m.ixigua.com 的公开移动网页与同主机 App 下载介绍，不代表完整 App 流量。 | [获取地址](services/xigua-video.md#规则地址) · [查看规则](ruleset/XiguaVideo.yaml) |
 | [小宇宙 / Xiaoyuzhou](services/xiaoyuzhou.md) | 仅 www.xiaoyuzhoufm.com 的小宇宙官网、节目与单集网页，不代表完整 App 流量。 | [获取地址](services/xiaoyuzhou.md#规则地址) · [查看规则](ruleset/XiaoYuZhou.yaml) |
+| [好看视频 / Haokan Video](services/haokan-video.md) | 仅 haokan.baidu.com：好看视频公开网页、下载介绍与条款，不代表完整 App 流量。 | [获取地址](services/haokan-video.md#规则地址) · [查看规则](ruleset/HaokanVideo.yaml) |
 
 ### 购物
 

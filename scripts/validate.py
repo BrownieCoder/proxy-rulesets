@@ -5048,6 +5048,22 @@ def validate_pupu_mall(root: Path = ROOT) -> None:
     )
 
 
+def validate_haokan_video(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="HaokanVideo", target="🎬 好看视频",
+        host="haokan.baidu.com",
+        controls=(
+            "baidu.com", "www.baidu.com", "m.baidu.com",
+            "map.baidu.com", "passport.baidu.com", "baijiahao.baidu.com",
+            "imgsa.baidu.com", "mobile.baidu.com", "image.baidu.com",
+            "mpics.bdstatic.com", "live.baidu.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5137,6 +5153,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_cainiao(root)
     validate_china_unicom(root)
     validate_pupu_mall(root)
+    validate_haokan_video(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

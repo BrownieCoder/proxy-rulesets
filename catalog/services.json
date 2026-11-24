@@ -774,6 +774,15 @@
     "warning": "同主机所有路径（含企业和平台介绍）均随组；独立隐私站、原生 API、订单和支付主机不另纳入，未实测下载、登录、下单或支付。叮咚和盒马的既有策略保留。 规则按主机匹配，不按路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/PupuMall-routing.md)。"
   },
   {
+    "id": "haokan-video",
+    "provider": "HaokanVideo",
+    "name": "好看视频 / Haokan Video",
+    "category": "影音",
+    "description": "仅 haokan.baidu.com：好看视频公开网页、下载介绍与条款，不代表完整 App 流量。",
+    "policyLabel": "公开入口：默认直连，可选代理",
+    "warning": "同主机所有路径（含网页版、下载介绍和协议页）均随组；百度搜索、账号、地图、百家号、独立素材、播放 CDN 和原生接口不另纳入。 规则按主机匹配，不按路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/HaokanVideo-routing.md)。"
+  },
+  {
     "id": "privacy",
     "provider": "Privacy",
     "name": "隐私拦截",

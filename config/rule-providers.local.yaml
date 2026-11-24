@@ -360,3 +360,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/PupuMall.yaml
+  HaokanVideo:
+    type: file
+    behavior: classical
+    path: ./ruleset/HaokanVideo.yaml
