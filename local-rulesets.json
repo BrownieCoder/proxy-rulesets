@@ -250,5 +250,9 @@
   "KeepFitness": {
     "path": "ruleset/KeepFitness.yaml",
     "behavior": "classical"
+  },
+  "PupuMall": {
+    "path": "ruleset/PupuMall.yaml",
+    "behavior": "classical"
   }
 }
