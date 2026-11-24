@@ -11,6 +11,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
+from public_rules import read_routing_rules
 from siri_ai import DomainRules, entries
 import validate
 
@@ -179,16 +180,27 @@ class IQIYIValidatorMutations(unittest.TestCase):
     def test_complete_tree_accepts_supported_post_app_ip_shapes(self):
         path = self.root / 'config/rules.yaml'
         original = path.read_text(encoding='utf-8')
+        baseline = read_routing_rules(path)
+        terminal = 'MATCH,🧭 Final'
+        self.assertEqual(baseline[-1], terminal)
+        quoted = yaml.safe_dump({'rules': baseline[:-1]}, allow_unicode=True, width=sys.maxsize)
+        quoted += '- ' + json.dumps(terminal, ensure_ascii=False) + '\n'
         rules = ('GEOIP,US,DIRECT', 'GEOIP,US,DIRECT,no-resolve',
                  'IP-CIDR,192.0.2.0/24,DIRECT', 'IP-CIDR,192.0.2.0/24,DIRECT,no-resolve',
                  'IP-CIDR6,2001:db8::/32,DIRECT', 'IP-CIDR6,2001:db8::/32,DIRECT,no-resolve')
-        terminal = '  - MATCH,🧭 Final\n'
-        self.assertEqual(original.count(terminal), 1)
-        self.assertTrue(original.endswith(terminal))
-        added = ''.join('  - ' + rule + '\n' for rule in rules)
-        path.write_text(original.removesuffix(terminal) + added + terminal, encoding='utf-8')
-        validate.validate_iqiyi(self.root)
-        self.assertEqual(validate.validate_tree(self.root), 0)
+        for style, fixture in (('original', original), ('double-quoted terminal', quoted)):
+            with self.subTest(style=style):
+                path.write_text(fixture, encoding='utf-8')
+                ordered = read_routing_rules(path)
+                self.assertEqual(ordered, baseline)
+                matches = [i for i, rule in enumerate(ordered) if rule.split(',', 1)[0] == 'MATCH']
+                self.assertEqual(matches, [len(ordered) - 1])
+                updated = [*ordered[:-1], *rules, ordered[-1]]
+                path.write_text(yaml.safe_dump({'rules': updated}, allow_unicode=True,
+                                               width=sys.maxsize), encoding='utf-8')
+                self.assertEqual(read_routing_rules(path), updated)
+                validate.validate_iqiyi(self.root)
+                self.assertEqual(validate.validate_tree(self.root), 0)
 
     def test_all_seventeen_existing_apps_precede_iqiyi_in_complete_tree(self):
         self.assertEqual(validate.validate_tree(self.root), 0)
