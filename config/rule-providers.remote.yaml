@@ -522,6 +522,18 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/KeepFitness.yaml
     interval: 86400
     path: ./ruleset-cache/KeepFitness.yaml
+  Cainiao:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Cainiao.yaml
+    interval: 86400
+    path: ./ruleset-cache/Cainiao.yaml
+  ChinaUnicom:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaUnicom.yaml
+    interval: 86400
+    path: ./ruleset-cache/ChinaUnicom.yaml
   PupuMall:
     type: http
     behavior: classical

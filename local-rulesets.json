@@ -251,6 +251,14 @@
     "path": "ruleset/KeepFitness.yaml",
     "behavior": "classical"
   },
+  "Cainiao": {
+    "path": "ruleset/Cainiao.yaml",
+    "behavior": "classical"
+  },
+  "ChinaUnicom": {
+    "path": "ruleset/ChinaUnicom.yaml",
+    "behavior": "classical"
+  },
   "PupuMall": {
     "path": "ruleset/PupuMall.yaml",
     "behavior": "classical"
