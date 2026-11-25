@@ -266,5 +266,9 @@
   "HaokanVideo": {
     "path": "ruleset/HaokanVideo.yaml",
     "behavior": "classical"
+  },
+  "StateGridOnline": {
+    "path": "ruleset/StateGridOnline.yaml",
+    "behavior": "classical"
   }
 }

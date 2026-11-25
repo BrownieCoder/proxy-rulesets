@@ -553,6 +553,12 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "⚡ 网上国网"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
   - name: "📺 Bilibili"
     type: select
     proxies:

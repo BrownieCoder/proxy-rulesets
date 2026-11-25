@@ -5064,6 +5064,21 @@ def validate_haokan_video(root: Path = ROOT) -> None:
     )
 
 
+def validate_state_grid_online(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="StateGridOnline", target="⚡ 网上国网",
+        host="www.95598.cn",
+        controls=(
+            "95598.cn", "sgcc.com.cn", "www.sgcc.com.cn",
+            "csc-static.sgcc.com.cn", "www.189.cn", "www.10086.cn",
+            "www.10010.com", "guzzoni.apple.com", "example.org",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5154,6 +5169,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_unicom(root)
     validate_pupu_mall(root)
     validate_haokan_video(root)
+    validate_state_grid_online(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
