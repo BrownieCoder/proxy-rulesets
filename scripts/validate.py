@@ -5064,6 +5064,21 @@ def validate_haokan_video(root: Path = ROOT) -> None:
     )
 
 
+def validate_china_university_mooc(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="ChinaUniversityMOOC", target="🎓 中国大学 MOOC",
+        host="www.icourse163.org",
+        controls=(
+            "icourse163.org", "m.icourse163.org", "corp.163.com",
+            "study.163.com", "higher.smartedu.cn", "mooc-image.nosdn.127.net",
+            "dict.youdao.com", "music.163.com", "example.org",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5154,6 +5169,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_unicom(root)
     validate_pupu_mall(root)
     validate_haokan_video(root)
+    validate_china_university_mooc(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

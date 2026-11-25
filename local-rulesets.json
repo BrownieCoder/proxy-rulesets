@@ -266,5 +266,9 @@
   "HaokanVideo": {
     "path": "ruleset/HaokanVideo.yaml",
     "behavior": "classical"
+  },
+  "ChinaUniversityMOOC": {
+    "path": "ruleset/ChinaUniversityMOOC.yaml",
+    "behavior": "classical"
   }
 }
