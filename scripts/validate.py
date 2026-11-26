@@ -5074,6 +5074,7 @@ def validate_dongchedi(root: Path = ROOT) -> None:
         controls=(
             "dongchedi.com", "m.dongchedi.com", "dcdapp.com",
             "dongchediapp.com", "lf3-cdn-tos.draftstatic.com", "api.dcarapi.com",
+            "lf3-motor.dcarstatic.com",
             "www.autohome.com.cn", "www.yiche.com", "www.douyin.com",
             "example.org",
         ),
