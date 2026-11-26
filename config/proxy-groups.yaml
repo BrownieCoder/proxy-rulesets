@@ -571,6 +571,12 @@ proxy-groups:
       - DIRECT
       - "🚀 节点选择"
       - "🧭 Final"
+  - name: "🎞️ 央视频"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
   - name: "📺 Bilibili"
     type: select
     proxies:

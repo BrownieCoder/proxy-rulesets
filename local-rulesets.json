@@ -278,5 +278,9 @@
   "Dongchedi": {
     "path": "ruleset/Dongchedi.yaml",
     "behavior": "classical"
+  },
+  "Yangshipin": {
+    "path": "ruleset/Yangshipin.yaml",
+    "behavior": "classical"
   }
 }

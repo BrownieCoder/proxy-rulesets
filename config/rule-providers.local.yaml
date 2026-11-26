@@ -376,3 +376,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Dongchedi.yaml
+  Yangshipin:
+    type: file
+    behavior: classical
+    path: ./ruleset/Yangshipin.yaml

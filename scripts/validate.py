@@ -5111,6 +5111,22 @@ def validate_dongchedi(root: Path = ROOT) -> None:
     )
 
 
+def validate_yangshipin(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Yangshipin", target="🎞️ 央视频",
+        host="www.yangshipin.cn",
+        controls=(
+            "yangshipin.cn", "m.yangshipin.cn", "passport.yangshipin.cn",
+            "mp.yangshipin.cn", "mpstatic.ysp.cctv.cn",
+            "www.cctv.com", "tv.cctv.com", "news.cctv.com",
+            "www.cctv.cn", "www.bilibili.com", "example.org",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5204,6 +5220,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_state_grid_online(root)
     validate_china_university_mooc(root)
     validate_dongchedi(root)
+    validate_yangshipin(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
