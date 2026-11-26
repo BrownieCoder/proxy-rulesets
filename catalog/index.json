@@ -1323,6 +1323,21 @@
       "ruleCount": 1
     },
     {
+      "id": "china-university-mooc",
+      "provider": "ChinaUniversityMOOC",
+      "name": "中国大学 MOOC / China University MOOC",
+      "category": "教育",
+      "description": "仅 www.icourse163.org：中国大学 MOOC 官网，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径均随组；网易共享域、图片资源、独立账号和播放器接口不另纳入。未验证原生 App、课程播放、登录、作业或考试链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/ChinaUniversityMOOC-routing.md)。",
+      "path": "ruleset/ChinaUniversityMOOC.yaml",
+      "policy": "🎓 中国大学 MOOC",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaUniversityMOOC.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/ChinaUniversityMOOC.yaml",
+      "page": "services/china-university-mooc.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

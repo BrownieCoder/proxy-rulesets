@@ -270,5 +270,9 @@
   "StateGridOnline": {
     "path": "ruleset/StateGridOnline.yaml",
     "behavior": "classical"
+  },
+  "ChinaUniversityMOOC": {
+    "path": "ruleset/ChinaUniversityMOOC.yaml",
+    "behavior": "classical"
   }
 }

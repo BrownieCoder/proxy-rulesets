@@ -552,3 +552,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/StateGridOnline.yaml
     interval: 86400
     path: ./ruleset-cache/StateGridOnline.yaml
+  ChinaUniversityMOOC:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaUniversityMOOC.yaml
+    interval: 86400
+    path: ./ruleset-cache/ChinaUniversityMOOC.yaml

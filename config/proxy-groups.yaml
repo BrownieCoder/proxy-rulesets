@@ -559,6 +559,12 @@ proxy-groups:
       - DIRECT
       - "🚀 节点选择"
       - "🧭 Final"
+  - name: "🎓 中国大学 MOOC"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
   - name: "📺 Bilibili"
     type: select
     proxies:
