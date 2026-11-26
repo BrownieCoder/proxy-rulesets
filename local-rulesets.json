@@ -267,6 +267,14 @@
     "path": "ruleset/HaokanVideo.yaml",
     "behavior": "classical"
   },
+  "StateGridOnline": {
+    "path": "ruleset/StateGridOnline.yaml",
+    "behavior": "classical"
+  },
+  "ChinaUniversityMOOC": {
+    "path": "ruleset/ChinaUniversityMOOC.yaml",
+    "behavior": "classical"
+  },
   "Dongchedi": {
     "path": "ruleset/Dongchedi.yaml",
     "behavior": "classical"

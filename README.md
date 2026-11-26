@@ -11,7 +11,7 @@
 点击服务名称查看作用和影响范围；点击「获取地址」进入可复制的地址代码块，点击「查看规则」直接阅读文件。
 
 <!-- SERVICE-CATALOG:START -->
-[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [生活服务](#生活服务) · [支付与其他](#支付与其他) · [办公](#办公) · [工具](#工具) · [安全与基础](#安全与基础)
+[AI](#ai) · [游戏](#游戏) · [Apple 与网络](#apple-与网络) · [影音](#影音) · [购物](#购物) · [出行](#出行) · [社交](#社交) · [生活服务](#生活服务) · [支付与其他](#支付与其他) · [办公](#办公) · [工具](#工具) · [教育](#教育) · [安全与基础](#安全与基础)
 
 ### AI
 
@@ -122,6 +122,7 @@
 | [Keep 运动健身 / Keep Fitness](services/keep-fitness.md) | 仅 www.calorietech.com 的Keep 中国官网、App 下载介绍和同主机产品页面，不代表完整 App 流量。 | [获取地址](services/keep-fitness.md#规则地址) · [查看规则](ruleset/KeepFitness.yaml) |
 | [菜鸟 / Cainiao](services/cainiao.md) | 仅 newconnection.cainiao.com：菜鸟消费者公开入口、App 下载介绍和活动页面，不代表完整 App 流量。 | [获取地址](services/cainiao.md#规则地址) · [查看规则](ruleset/Cainiao.yaml) |
 | [中国联通 / China Unicom](services/china-unicom.md) | 仅 wap.10010.com：中国联通移动营业厅及客户端入口，不代表完整 App 流量。 | [获取地址](services/china-unicom.md#规则地址) · [查看规则](ruleset/ChinaUnicom.yaml) |
+| [网上国网 / State Grid Online](services/state-grid-online.md) | 仅 www.95598.cn：网上国网关联的 95598 公开门户，不代表完整 App 流量。 | [获取地址](services/state-grid-online.md#规则地址) · [查看规则](ruleset/StateGridOnline.yaml) |
 | [懂车帝 / Dongchedi](services/dongchedi.md) | 仅 www.dongchedi.com：懂车帝官网、汽车资讯和 App 下载介绍，不代表完整 App 流量。 | [获取地址](services/dongchedi.md#规则地址) · [查看规则](ruleset/Dongchedi.yaml) |
 
 ### 支付与其他
@@ -155,6 +156,12 @@
 | [美图秀秀 / Meitu Xiuxiu](services/meitu-xiuxiu.md) | 仅 xiuxiu.meitu.com、www.meituxiuxiu.com 的精确公开入口，不是完整 App 分流。 | [获取地址](services/meitu-xiuxiu.md#规则地址) · [查看规则](ruleset/MeituXiuXiu.yaml) |
 | [搜狗输入法手机版 / Sogou Mobile IME](services/sogou-mobile-ime.md) | 仅 shouji.sogou.com 的手机产品官网、下载介绍与帮助入口，不代表完整 App 流量。 | [获取地址](services/sogou-mobile-ime.md#规则地址) · [查看规则](ruleset/SogouMobileIME.yaml) |
 | [网易有道词典 / Youdao Dictionary](services/youdao-dictionary.md) | 仅 dict.youdao.com 的网易有道同主机的公开词典、查词与网页翻译入口，不代表完整 App 流量。 | [获取地址](services/youdao-dictionary.md#规则地址) · [查看规则](ruleset/YoudaoDictionary.yaml) |
+
+### 教育
+
+| 服务 | 作用 | 获取 |
+| --- | --- | --- |
+| [中国大学 MOOC / China University MOOC](services/china-university-mooc.md) | 仅 www.icourse163.org：中国大学 MOOC 官网，不代表完整 App 流量。 | [获取地址](services/china-university-mooc.md#规则地址) · [查看规则](ruleset/ChinaUniversityMOOC.yaml) |
 
 ### 安全与基础
 

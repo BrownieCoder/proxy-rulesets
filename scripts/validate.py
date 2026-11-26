@@ -5064,6 +5064,36 @@ def validate_haokan_video(root: Path = ROOT) -> None:
     )
 
 
+def validate_state_grid_online(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="StateGridOnline", target="⚡ 网上国网",
+        host="www.95598.cn",
+        controls=(
+            "95598.cn", "sgcc.com.cn", "www.sgcc.com.cn",
+            "csc-static.sgcc.com.cn", "www.189.cn", "www.10086.cn",
+            "www.10010.com", "guzzoni.apple.com", "example.org",
+        ),
+    )
+
+
+def validate_china_university_mooc(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="ChinaUniversityMOOC", target="🎓 中国大学 MOOC",
+        host="www.icourse163.org",
+        controls=(
+            "icourse163.org", "m.icourse163.org", "corp.163.com",
+            "study.163.com", "higher.smartedu.cn", "mooc-image.nosdn.127.net",
+            "dict.youdao.com", "music.163.com", "example.org",
+        ),
+    )
+
+
 def validate_dongchedi(root: Path = ROOT) -> None:
     from public_app import validate_public_app
 
@@ -5171,6 +5201,8 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_unicom(root)
     validate_pupu_mall(root)
     validate_haokan_video(root)
+    validate_state_grid_online(root)
+    validate_china_university_mooc(root)
     validate_dongchedi(root)
     from generate_catalog import generate
     generate(root)
