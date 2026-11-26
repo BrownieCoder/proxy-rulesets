@@ -364,3 +364,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/HaokanVideo.yaml
+  Dongchedi:
+    type: file
+    behavior: classical
+    path: ./ruleset/Dongchedi.yaml

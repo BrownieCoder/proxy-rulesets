@@ -266,5 +266,9 @@
   "HaokanVideo": {
     "path": "ruleset/HaokanVideo.yaml",
     "behavior": "classical"
+  },
+  "Dongchedi": {
+    "path": "ruleset/Dongchedi.yaml",
+    "behavior": "classical"
   }
 }

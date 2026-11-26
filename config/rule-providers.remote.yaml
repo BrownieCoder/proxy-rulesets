@@ -546,3 +546,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/HaokanVideo.yaml
     interval: 86400
     path: ./ruleset-cache/HaokanVideo.yaml
+  Dongchedi:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Dongchedi.yaml
+    interval: 86400
+    path: ./ruleset-cache/Dongchedi.yaml
