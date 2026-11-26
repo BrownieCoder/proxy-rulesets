@@ -11,7 +11,7 @@
 
 ## 作用与边界
 
-同主机所有路径均随组；网易共享域、图片资源、独立账号和播放器接口不另纳入。未验证原生 App、课程播放、登录、作业或考试链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。
+同主机所有路径均随组，包括[公开登录页 `/member/login.htm`](https://www.icourse163.org/member/login.htm)和[认证证书验证页 `/verify`](https://www.icourse163.org/verify)。这只说明网页主机的分流范围，另域认证接口、网易共享域、图片资源和独立播放器接口不另纳入。未登录、提交证书信息或验证实际认证流程，也未验证原生 App、课程播放、作业或考试链路。规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。
 
 基线离线域名模型的原首匹配为 `ChinaMax → 🇨🇳 China-Global`。新增项位于安全、游戏和既有 App 规则之后、SiriAI 与通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或原生 App 行为。
 
@@ -19,4 +19,4 @@
 
 ## English scope
 
-Only `www.icourse163.org` gets a dedicated DIRECT-first selector for China University MOOC. All paths on that hostname follow the selector; other hosts keep their existing routes. This is not full native-app coverage; live network and client behavior were not tested.
+Only `www.icourse163.org` gets a dedicated DIRECT-first selector for China University MOOC. All paths on that hostname follow the selector, including the public sign-in and certificate verification pages. Authentication endpoints on other hosts retain their existing routes. The sign-in and verification flows, live routing, and native-app behavior were not tested.
