@@ -131,6 +131,8 @@ rules:
   - RULE-SET,PupuMall,🛒 朴朴超市
   # 好看视频仅已核实的精确公开入口；安全与游戏仍优先。
   - RULE-SET,HaokanVideo,🎬 好看视频
+  # 央视频仅已核实的精确公开入口；安全与游戏仍优先。
+  - RULE-SET,Yangshipin,🎞️ 央视频
   # 精确 Siri/PCC/AI 扩展主机必须先于通用 Apple；复用已有 AI 策略。
   - RULE-SET,SiriAI,🤖 AI 服务
   - RULE-SET,Apple,🍎 Apple

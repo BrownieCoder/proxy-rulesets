@@ -1308,6 +1308,21 @@
       "ruleCount": 1
     },
     {
+      "id": "yangshipin",
+      "provider": "Yangshipin",
+      "name": "央视频 / Yangshipin",
+      "category": "影音",
+      "description": "仅 www.yangshipin.cn：央视频官网、节目入口与 App 下载展示，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径均随组；独立登录、会员协议、央视其他服务与播放 CDN 不另纳入。未验证原生 App、安装、登录、会员或播放链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/Yangshipin-routing.md)。",
+      "path": "ruleset/Yangshipin.yaml",
+      "policy": "🎞️ 央视频",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Yangshipin.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Yangshipin.yaml",
+      "page": "services/yangshipin.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

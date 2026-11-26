@@ -266,5 +266,9 @@
   "HaokanVideo": {
     "path": "ruleset/HaokanVideo.yaml",
     "behavior": "classical"
+  },
+  "Yangshipin": {
+    "path": "ruleset/Yangshipin.yaml",
+    "behavior": "classical"
   }
 }
