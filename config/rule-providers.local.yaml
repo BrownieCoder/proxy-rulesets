@@ -364,6 +364,18 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/HaokanVideo.yaml
+  StateGridOnline:
+    type: file
+    behavior: classical
+    path: ./ruleset/StateGridOnline.yaml
+  ChinaUniversityMOOC:
+    type: file
+    behavior: classical
+    path: ./ruleset/ChinaUniversityMOOC.yaml
+  Dongchedi:
+    type: file
+    behavior: classical
+    path: ./ruleset/Dongchedi.yaml
   Yangshipin:
     type: file
     behavior: classical

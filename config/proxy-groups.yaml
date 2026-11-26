@@ -553,6 +553,24 @@ proxy-groups:
       - "🚀 节点选择"
       - "🧭 Final"
 
+  - name: "⚡ 网上国网"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+  - name: "🎓 中国大学 MOOC"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
+  - name: "🚘 懂车帝"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
   - name: "🎞️ 央视频"
     type: select
     proxies:
