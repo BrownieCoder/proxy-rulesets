@@ -12,7 +12,7 @@
 
 ## 作用与边界
 
-同主机所有路径均随组；裸域、国网企业官网和独立隐私资源不另纳入。未验证原生 App、登录、办电、缴费、账单或充电链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。
+发往 `www.95598.cn` 的所有请求均随组，包括公开索引中的分布式光伏机制电价竞价操作手册（路径 `/omg-static/omg-static/99310311749014888233401083463870.pdf`）。本次未验证文件下载；若请求跳转到其他主机，则按目标主机重新匹配。裸域 `95598.cn` 上的隐私政策、国网企业官网和独立隐私资源不纳入，保留原路由。未验证原生 App、登录、办电、缴费、账单或充电链路。规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。
 
 基线离线域名模型的原首匹配为 `ChinaMax → 🇨🇳 China-Global`。新增项位于安全、游戏和既有 App 规则之后、SiriAI 与通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或原生 App 行为。
 
@@ -20,4 +20,4 @@
 
 ## English scope
 
-Only `www.95598.cn` gets a dedicated DIRECT-first selector for State Grid Online. All paths on that hostname follow the selector; other hosts keep their existing routes. This is not full native-app coverage; live network and client behavior were not tested.
+Only `www.95598.cn` gets a dedicated DIRECT-first selector for State Grid Online. Requests to any path on that hostname, including public PDF paths under `/omg-static/`, follow the selector. Redirects to another hostname are matched separately, and the privacy policy on bare `95598.cn` keeps its existing route. File downloads and native-app behavior were not tested.
