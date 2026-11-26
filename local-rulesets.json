@@ -274,5 +274,9 @@
   "ChinaUniversityMOOC": {
     "path": "ruleset/ChinaUniversityMOOC.yaml",
     "behavior": "classical"
+  },
+  "Dongchedi": {
+    "path": "ruleset/Dongchedi.yaml",
+    "behavior": "classical"
   }
 }

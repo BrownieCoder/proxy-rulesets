@@ -5094,6 +5094,23 @@ def validate_china_university_mooc(root: Path = ROOT) -> None:
     )
 
 
+def validate_dongchedi(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Dongchedi", target="🚘 懂车帝",
+        host="www.dongchedi.com",
+        controls=(
+            "dongchedi.com", "m.dongchedi.com", "dcdapp.com",
+            "dongchediapp.com", "lf3-cdn-tos.draftstatic.com", "api.dcarapi.com",
+            "lf3-motor.dcarstatic.com",
+            "www.autohome.com.cn", "www.yiche.com", "www.douyin.com",
+            "example.org",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5186,6 +5203,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_haokan_video(root)
     validate_state_grid_online(root)
     validate_china_university_mooc(root)
+    validate_dongchedi(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

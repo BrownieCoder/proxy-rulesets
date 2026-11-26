@@ -1338,6 +1338,21 @@
       "ruleCount": 1
     },
     {
+      "id": "dongchedi",
+      "provider": "Dongchedi",
+      "name": "懂车帝 / Dongchedi",
+      "category": "生活服务",
+      "description": "仅 www.dongchedi.com：懂车帝官网、汽车资讯和 App 下载介绍，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径均随组；独立 App 服务域、共享 CDN、登录、询价和交易接口不另纳入。未验证安装、登录或原生 App 链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；不同主机可能走不同出口。[官方依据与范围](../research/Dongchedi-routing.md)。",
+      "path": "ruleset/Dongchedi.yaml",
+      "policy": "🚘 懂车帝",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Dongchedi.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Dongchedi.yaml",
+      "page": "services/dongchedi.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
