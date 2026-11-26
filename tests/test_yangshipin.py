@@ -11,6 +11,7 @@ class YangshipinContract(contract.PublicAppContract):
     target = "🎞️ 央视频"
     controls = (
         "yangshipin.cn", "m.yangshipin.cn", "passport.yangshipin.cn",
+        "mp.yangshipin.cn", "mpstatic.ysp.cctv.cn",
         "www.cctv.com", "tv.cctv.com", "news.cctv.com",
         "www.cctv.cn", "www.bilibili.com", "example.org",
     )

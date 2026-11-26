@@ -5073,6 +5073,7 @@ def validate_yangshipin(root: Path = ROOT) -> None:
         host="www.yangshipin.cn",
         controls=(
             "yangshipin.cn", "m.yangshipin.cn", "passport.yangshipin.cn",
+            "mp.yangshipin.cn", "mpstatic.ysp.cctv.cn",
             "www.cctv.com", "tv.cctv.com", "news.cctv.com",
             "www.cctv.cn", "www.bilibili.com", "example.org",
         ),
