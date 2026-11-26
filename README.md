@@ -122,6 +122,7 @@
 | [Keep 运动健身 / Keep Fitness](services/keep-fitness.md) | 仅 www.calorietech.com 的Keep 中国官网、App 下载介绍和同主机产品页面，不代表完整 App 流量。 | [获取地址](services/keep-fitness.md#规则地址) · [查看规则](ruleset/KeepFitness.yaml) |
 | [菜鸟 / Cainiao](services/cainiao.md) | 仅 newconnection.cainiao.com：菜鸟消费者公开入口、App 下载介绍和活动页面，不代表完整 App 流量。 | [获取地址](services/cainiao.md#规则地址) · [查看规则](ruleset/Cainiao.yaml) |
 | [中国联通 / China Unicom](services/china-unicom.md) | 仅 wap.10010.com：中国联通移动营业厅及客户端入口，不代表完整 App 流量。 | [获取地址](services/china-unicom.md#规则地址) · [查看规则](ruleset/ChinaUnicom.yaml) |
+| [网上国网 / State Grid Online](services/state-grid-online.md) | 仅 www.95598.cn：网上国网关联的 95598 公开门户，不代表完整 App 流量。 | [获取地址](services/state-grid-online.md#规则地址) · [查看规则](ruleset/StateGridOnline.yaml) |
 
 ### 支付与其他
 
