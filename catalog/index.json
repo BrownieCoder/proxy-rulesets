@@ -1368,6 +1368,21 @@
       "ruleCount": 1
     },
     {
+      "id": "beike",
+      "provider": "Beike",
+      "name": "贝壳找房 / Beike",
+      "category": "生活服务",
+      "description": "仅 www.ke.com：贝壳官网与 App 下载介绍，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（含下载介绍和协议页）均随组。本轮官网根路径跳转到北京站；北京、上海等别域城市站、移动站、下载页的二维码或素材域不随组。未验证安装、登录、房源完整浏览、预约或交易链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；跳转到别的主机会按新主机重新匹配，不同主机可能走不同出口。[官方依据与范围](../research/Beike-routing.md)。",
+      "path": "ruleset/Beike.yaml",
+      "policy": "🏠 贝壳找房",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Beike.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Beike.yaml",
+      "page": "services/beike.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

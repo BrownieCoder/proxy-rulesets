@@ -5127,6 +5127,23 @@ def validate_yangshipin(root: Path = ROOT) -> None:
     )
 
 
+def validate_beike(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Beike", target="🏠 贝壳找房",
+        host="www.ke.com",
+        controls=(
+            "ke.com", "bj.ke.com", "sh.ke.com",
+            "m.ke.com", "wap.ke.com", "map.ke.com",
+            "ajax.api.ke.com", "file.ljcdn.com", "img.ljcdn.com",
+            "bkzhibo.com", "www.lianjia.com", "www.anjuke.com",
+            "www.fang.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5221,6 +5238,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_university_mooc(root)
     validate_dongchedi(root)
     validate_yangshipin(root)
+    validate_beike(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)
