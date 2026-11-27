@@ -125,6 +125,7 @@
 | [中国联通 / China Unicom](services/china-unicom.md) | 仅 wap.10010.com：中国联通移动营业厅及客户端入口，不代表完整 App 流量。 | [获取地址](services/china-unicom.md#规则地址) · [查看规则](ruleset/ChinaUnicom.yaml) |
 | [网上国网 / State Grid Online](services/state-grid-online.md) | 仅 www.95598.cn：网上国网关联的 95598 公开门户，不代表完整 App 流量。 | [获取地址](services/state-grid-online.md#规则地址) · [查看规则](ruleset/StateGridOnline.yaml) |
 | [懂车帝 / Dongchedi](services/dongchedi.md) | 仅 www.dongchedi.com：懂车帝官网、汽车资讯和 App 下载介绍，不代表完整 App 流量。 | [获取地址](services/dongchedi.md#规则地址) · [查看规则](ruleset/Dongchedi.yaml) |
+| [汽车之家 / Autohome](services/autohome.md) | 仅 www.autohome.com.cn：汽车之家官网、汽车资讯和选车页面的公开入口，不代表完整 App 流量。 | [获取地址](services/autohome.md#规则地址) · [查看规则](ruleset/Autohome.yaml) |
 
 ### 支付与其他
 

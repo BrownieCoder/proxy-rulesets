@@ -380,3 +380,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Yangshipin.yaml
+  Autohome:
+    type: file
+    behavior: classical
+    path: ./ruleset/Autohome.yaml
