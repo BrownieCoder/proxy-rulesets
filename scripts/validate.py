@@ -5127,6 +5127,22 @@ def validate_yangshipin(root: Path = ROOT) -> None:
     )
 
 
+def validate_autohome(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="Autohome", target="🚗 汽车之家",
+        host="www.autohome.com.cn",
+        controls=(
+            "autohome.com.cn", "m.autohome.com.cn", "www.athmapp.com",
+            "account.autohome.com.cn", "comm.app.autohome.com.cn", "sou.api.autohome.com.cn",
+            "z.autoimg.cn", "al.autohome.com.cn", "live.autohome.com.cn",
+            "www.dongchedi.com", "www.yiche.com", "www.che168.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5221,6 +5237,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_university_mooc(root)
     validate_dongchedi(root)
     validate_yangshipin(root)
+    validate_autohome(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

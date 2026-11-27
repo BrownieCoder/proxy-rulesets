@@ -1368,6 +1368,21 @@
       "ruleCount": 1
     },
     {
+      "id": "autohome",
+      "provider": "Autohome",
+      "name": "汽车之家 / Autohome",
+      "category": "生活服务",
+      "description": "仅 www.autohome.com.cn：汽车之家官网、汽车资讯和选车页面的公开入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径（含选车、资讯、图库和 App 介绍入口）均随组。跳转后的 App 下载站、独立账号与隐私页、报价接口、论坛或直播的另域以及共享图片域不另纳入。未验证安装、登录、询价、经销商或交易链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；跳转到别的主机会按新主机重新匹配，不同主机可能走不同出口。[官方依据与范围](../research/Autohome-routing.md)。",
+      "path": "ruleset/Autohome.yaml",
+      "policy": "🚗 汽车之家",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Autohome.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/Autohome.yaml",
+      "page": "services/autohome.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",

@@ -282,5 +282,9 @@
   "Yangshipin": {
     "path": "ruleset/Yangshipin.yaml",
     "behavior": "classical"
+  },
+  "Autohome": {
+    "path": "ruleset/Autohome.yaml",
+    "behavior": "classical"
   }
 }
