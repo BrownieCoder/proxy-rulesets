@@ -577,6 +577,12 @@ proxy-groups:
       - DIRECT
       - "🚀 节点选择"
       - "🧭 Final"
+  - name: "🏷️ 什么值得买"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+      - "🧭 Final"
   - name: "📺 Bilibili"
     type: select
     proxies:

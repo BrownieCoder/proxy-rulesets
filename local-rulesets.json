@@ -282,5 +282,9 @@
   "Yangshipin": {
     "path": "ruleset/Yangshipin.yaml",
     "behavior": "classical"
+  },
+  "SMZDM": {
+    "path": "ruleset/SMZDM.yaml",
+    "behavior": "classical"
   }
 }

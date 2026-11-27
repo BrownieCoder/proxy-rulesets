@@ -1368,6 +1368,21 @@
       "ruleCount": 1
     },
     {
+      "id": "smzdm",
+      "provider": "SMZDM",
+      "name": "什么值得买 / SMZDM",
+      "category": "购物",
+      "description": "仅 www.smzdm.com：消费指南、好价和产品内容的官网入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机所有路径均随组，包括官网的好价、内容及协议入口。独立的社区文章、用户主页、移动协议或隐私页、素材域、商业合作及外部电商不另纳入。未验证安装、登录、下单或支付链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；跳转到别的主机会按新主机重新匹配，不同主机可能走不同出口。[官方依据与范围](../research/SMZDM-routing.md)。",
+      "path": "ruleset/SMZDM.yaml",
+      "policy": "🏷️ 什么值得买",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SMZDM.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/SMZDM.yaml",
+      "page": "services/smzdm.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
