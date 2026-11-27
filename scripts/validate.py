@@ -5127,6 +5127,21 @@ def validate_yangshipin(root: Path = ROOT) -> None:
     )
 
 
+def validate_smzdm(root: Path = ROOT) -> None:
+    from public_app import validate_public_app
+
+    parse_policy_groups(root)
+    validate_public_app(
+        root, provider="SMZDM", target="🏷️ 什么值得买",
+        host="www.smzdm.com",
+        controls=(
+            "smzdm.com", "post.smzdm.com", "zhiyou.smzdm.com",
+            "zhiyou.m.smzdm.com", "res.smzdm.com", "static.smzdm.com",
+            "qny.smzdm.com", "y.zdmimg.com", "e.smzdm.com",
+        ),
+    )
+
+
 def validate_tree(root: Path = ROOT) -> int:
     sources = json.loads((root / "sources.json").read_text(encoding="utf-8"))
     local_sources = json.loads((root / "local-rulesets.json").read_text(encoding="utf-8"))
@@ -5221,6 +5236,7 @@ def validate_tree(root: Path = ROOT) -> int:
     validate_china_university_mooc(root)
     validate_dongchedi(root)
     validate_yangshipin(root)
+    validate_smzdm(root)
     from generate_catalog import generate
     generate(root)
     validate_siri_ai(root)

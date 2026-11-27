@@ -570,3 +570,9 @@ rule-providers:
     url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/Yangshipin.yaml
     interval: 86400
     path: ./ruleset-cache/Yangshipin.yaml
+  SMZDM:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/SMZDM.yaml
+    interval: 86400
+    path: ./ruleset-cache/SMZDM.yaml
