@@ -282,5 +282,9 @@
   "Yangshipin": {
     "path": "ruleset/Yangshipin.yaml",
     "behavior": "classical"
+  },
+  "Beike": {
+    "path": "ruleset/Beike.yaml",
+    "behavior": "classical"
   }
 }

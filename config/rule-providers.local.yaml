@@ -380,3 +380,7 @@ rule-providers:
     type: file
     behavior: classical
     path: ./ruleset/Yangshipin.yaml
+  Beike:
+    type: file
+    behavior: classical
+    path: ./ruleset/Beike.yaml
