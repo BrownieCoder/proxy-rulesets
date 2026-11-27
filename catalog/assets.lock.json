@@ -455,6 +455,11 @@
       "rulesSha256": "fc0c9e979a1c0dffe368db42192e054607bb40cc01e368ca5b01724cc366a386",
       "ruleCount": 1
     },
+    "ruleset/ChinaTelecom.yaml": {
+      "sha256": "ef0e50971126993b694de8fcf7472caa70ba0595c145d3b4f0804228168ace61",
+      "rulesSha256": "cad2ff304126d9e226038c2cb9f002ca2ff7a06d1d3f0dd65f18006c5b0f6b5f",
+      "ruleCount": 1
+    },
     "ruleset/Privacy_No_Resolve.yaml": {
       "sha256": "a7f16ed12c37d472c0b35ae21948a970db5062ef211677178568259fbc947d49",
       "rulesSha256": "b7e04cea6efdfc33db3eb070599e7c4065f4c0c2662f7beccdf86eb7cebe0b3e",
@@ -476,10 +481,10 @@
       "ruleCount": 142
     }
   },
-  "readmeCatalogSha256": "05513e1567b83955c0aa4d4e7d9fce1c84765d20f04ea4a6954174cb539c3061",
+  "readmeCatalogSha256": "d807f5a239dfef816072152bb33a3bb04920b96429c483819632e3d39f87fd43",
   "artifacts": {
-    "config/rule-providers.local.yaml": "8dbdd6c07aa681f0e2c3f029de1c256640daee41ac7b3261f981e5c77d7791db",
-    "config/rule-providers.remote.yaml": "d89309e67090d8b60cc35365742daa9668f99bed6d1e01253a6179e3bd45f97b",
+    "config/rule-providers.local.yaml": "94efee50812a6b99ca89f67c4f79b027df191f41b15408b3408427bcbfada09c",
+    "config/rule-providers.remote.yaml": "4ff74961a61b882c3c681279989f3353b24e2e01f0779a7c9f3fd93097df1a46",
     "services/siri-ai.md": "ce89c6c56fc80f0be2fbc42f4958f4350878118d2bd776178472411296e03f51",
     "services/openai.md": "8fdd689c9dd39faa2b2c666c2323c81ab711a8186b4441417d8a424f3e52f59f",
     "services/claude.md": "a09a8ef15d9028416b219c549bce86557eed0eaa2edf1d4e8679766306a46867",
@@ -571,10 +576,11 @@
     "services/china-university-mooc.md": "4f78b126e4af22d231bfa4877e45a32296b3eb7bd2f4f744c4e12c83db01769a",
     "services/dongchedi.md": "c43777882791bed40417834c37b2f0ee0f0a63f9d12a8064d7fba97b484acfc7",
     "services/yangshipin.md": "58543b65c83b05d2dd52f99da770a12971d781c459f42b1a347b6f66eeab8c9c",
+    "services/china-telecom.md": "4550b59e2bd18367e233a639f41821ea4474903d0cfb010288d78c7e51d44c72",
     "services/privacy.md": "677ec7910c10d5cb900992d78ba004f672d8f9479589da491ac8f8c7ad266d39",
     "services/hijacking.md": "294b35a9c87f5cc35f823b0e27f7a9d6b630ce89de2dd700c87f06fdc94a2c6b",
     "services/china-max.md": "6643add76f147982fc7eeb99de07c76ed94db354f765715c02ad8f8e099ecf9d",
     "services/lan.md": "d1f6618a4aff08dcbe661249968b8cc0468049a6dd378868570632dbcbb73653",
-    "catalog/index.json": "1d12c731f7bc50edefa90c269d04b054fcb63db5a1de7a4c396f8e87703ccedf"
+    "catalog/index.json": "19fa147084a657ad838b64e323f99326300a47c16a17c71c206f7cff9ef37cfb"
   }
 }

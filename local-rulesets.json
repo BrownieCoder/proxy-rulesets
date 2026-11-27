@@ -282,5 +282,9 @@
   "Yangshipin": {
     "path": "ruleset/Yangshipin.yaml",
     "behavior": "classical"
+  },
+  "ChinaTelecom": {
+    "path": "ruleset/ChinaTelecom.yaml",
+    "behavior": "classical"
   }
 }
