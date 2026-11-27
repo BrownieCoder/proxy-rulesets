@@ -14,5 +14,6 @@ class AutohomeContract(contract.PublicAppContract):
         "account.autohome.com.cn", "comm.app.autohome.com.cn", "sou.api.autohome.com.cn",
         "z.autoimg.cn", "al.autohome.com.cn", "live.autohome.com.cn",
         "www.dongchedi.com", "www.yiche.com", "www.che168.com",
+        "club.autohome.com.cn", "v.autohome.com.cn",
     )
     gate = staticmethod(validate_autohome)
