@@ -1368,6 +1368,21 @@
       "ruleCount": 1
     },
     {
+      "id": "china-telecom",
+      "provider": "ChinaTelecom",
+      "name": "中国电信 / China Telecom",
+      "category": "生活服务",
+      "description": "仅 www.189.cn：中国电信网上营业厅的公开入口，不代表完整 App 流量。",
+      "policyLabel": "公开入口：默认直连，可选代理",
+      "warning": "同主机的所有网页路径（含各省放在此主机上的专区和 App 商店列出的隐私页）均随组；另域的省级网厅、国际漫游服务、集团网站、认证、支付和原生接口不另纳入。未验证安装、登录、充值、订单或业务办理链路。 规则按主机匹配，不按 URL 路径或发起进程匹配；跳转到别的主机会按新主机重新匹配，不同主机可能走不同出口。[官方依据与范围](../research/ChinaTelecom-routing.md)。",
+      "path": "ruleset/ChinaTelecom.yaml",
+      "policy": "📱 中国电信",
+      "rawUrl": "https://raw.githubusercontent.com/BrownieCoder/proxy-rulesets/main/ruleset/ChinaTelecom.yaml",
+      "sourceUrl": "https://github.com/BrownieCoder/proxy-rulesets/blob/main/ruleset/ChinaTelecom.yaml",
+      "page": "services/china-telecom.md",
+      "ruleCount": 1
+    },
+    {
       "id": "privacy",
       "provider": "Privacy",
       "name": "隐私拦截",
