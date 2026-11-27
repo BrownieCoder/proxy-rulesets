@@ -5,6 +5,7 @@
 ## 官方依据
 
 - [什么值得买官网](https://www.smzdm.com/)：公开首页展示消费指南及推荐内容，并链接到 `post.smzdm.com` 的社区文章和其他服务；只纳入 `www.smzdm.com`。
+- 首页引用 `a.zdmimg.com` 的推荐卡片图片，页脚「商家开放平台」链接到 `shangjia.smzdm.com`；这两个另域以及已有对照 `y.zdmimg.com` 均不随组。
 - [什么值得买用户协议](https://www.smzdm.com/user/register/provisions/)：区分 `www.smzdm.com` 网页、客户端和小程序等产品入口。
 - [中国区 App Store](https://apps.apple.com/cn/app/id518213356)：确认什么值得买 App 和北京值得买科技；开发者网站栏目链接到官网，隐私政策链接在另域 `res.smzdm.com`。
 
@@ -16,8 +17,10 @@
 
 基线离线域名模型的原首匹配为 `ChinaMax → 🇨🇳 China-Global`。新增项位于安全、游戏和既有 App 规则之后、SiriAI 与通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或原生 App 行为。
 
-对照：`smzdm.com`、`post.smzdm.com`、`zhiyou.smzdm.com`、`zhiyou.m.smzdm.com`、`res.smzdm.com`、`static.smzdm.com`、`qny.smzdm.com`、`y.zdmimg.com`、`e.smzdm.com` 保持原有策略；另核对目标的子域、相似标签与伪装后缀。
+对照：`smzdm.com`、`post.smzdm.com`、`zhiyou.smzdm.com`、`zhiyou.m.smzdm.com`、`res.smzdm.com`、`static.smzdm.com`、`qny.smzdm.com`、`y.zdmimg.com`、`e.smzdm.com`、`a.zdmimg.com`、`shangjia.smzdm.com` 保持原有策略；另核对目标的子域、相似标签与伪装后缀。
 
 ## English scope
 
 Only `www.smzdm.com` gets a dedicated DIRECT-first selector. All paths on the hostname follow it. Separate community, profile, privacy, asset and merchant hosts are excluded and keep their existing routes. This does not validate native-app, sign-in, checkout, or payment flows.
+
+Homepage image requests to `a.zdmimg.com` and links to the merchant platform at `shangjia.smzdm.com` are matched on their own hostnames; both keep their existing routes.
