@@ -13,5 +13,6 @@ class ChinaTelecomContract(contract.PublicAppContract):
         "189.cn", "gd.189.cn", "m.gd.189.cn",
         "sh.189.cn", "manyou.189.cn", "www.chinatelecom.com.cn",
         "www.10086.cn", "www.10010.com", "www.95598.cn",
+        "chinatelecomtsdj.bestpay.com.cn",
     )
     gate = staticmethod(validate_china_telecom)
