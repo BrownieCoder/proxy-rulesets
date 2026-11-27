@@ -8,6 +8,7 @@
 - [贝壳内容创作用户服务协议](https://www.ke.com/zhuanti/commonProtocol?id=21)：明确平台包括 `www.ke.com` 网站、`m.ke.com` 和 `wap.ke.com` 等移动站及 App；此次只纳入前者。
 - [贝壳官网](https://www.ke.com/)：本轮匿名访问跳转至 `bj.ke.com`，本规则不改变该北京站的路由，不推断其他访问者的跳转目的地。
 - [中国区 App Store](https://apps.apple.com/cn/app/id1347663353)：确认贝壳 App 和发行方；隐私政策链接位于 `www.ke.com`，开发者网站栏目指向别域 `bkzhibo.com`，不另纳入。
+- [贝壳官方独立下载落地页](https://landingpage.ke.com/landing/newhouse/download/new)：页面及其「应用权限」链接分别位于 `landingpage.ke.com`、`marketing.ke.com`，均不随组；其「隐私协议」链接回到 `www.ke.com`，对该主机发出的请求仍随组。未触发下载。
 
 证据支持公开入口的主机归属，不证明原生客户端调用范围。未登录、安装客户端或采集流量。
 
@@ -17,8 +18,10 @@
 
 基线离线域名模型的原首匹配为 `ChinaMax → 🇨🇳 China-Global`。新增项位于安全、游戏和既有 App 规则之后、SiriAI 与通用规则之前，末尾 MATCH 不变。未实测 DNS、GeoIP、UDP 或原生 App 行为。
 
-对照：`ke.com`、`bj.ke.com`、`sh.ke.com`、`m.ke.com`、`wap.ke.com`、`map.ke.com`、`ajax.api.ke.com`、`file.ljcdn.com`、`img.ljcdn.com`、`bkzhibo.com`、`www.lianjia.com`、`www.anjuke.com`、`www.fang.com` 保持原有策略；另核对目标的子域、相似标签与伪装后缀。
+对照：`ke.com`、`bj.ke.com`、`sh.ke.com`、`m.ke.com`、`wap.ke.com`、`map.ke.com`、`ajax.api.ke.com`、`file.ljcdn.com`、`img.ljcdn.com`、`bkzhibo.com`、`www.lianjia.com`、`www.anjuke.com`、`www.fang.com`、`landingpage.ke.com`、`marketing.ke.com` 保持原有策略；另核对目标的子域、相似标签与伪装后缀。
 
 ## English scope
 
 Only `www.ke.com` gets a dedicated DIRECT-first selector. All requests to that hostname, including the download information and agreement pages, follow it. City-site redirects, mobile websites, QR-code and asset hosts are matched independently; no native-app, sign-in, reservations, or transaction coverage was validated.
+
+The separate download landing page (`landingpage.ke.com`) and app-permissions page (`marketing.ke.com`) retain their existing routes. The linked privacy agreement on `www.ke.com` follows the selector.

@@ -15,5 +15,6 @@ class BeikeContract(contract.PublicAppContract):
         "ajax.api.ke.com", "file.ljcdn.com", "img.ljcdn.com",
         "bkzhibo.com", "www.lianjia.com", "www.anjuke.com",
         "www.fang.com",
+        "landingpage.ke.com", "marketing.ke.com",
     )
     gate = staticmethod(validate_beike)

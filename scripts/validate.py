@@ -5140,6 +5140,7 @@ def validate_beike(root: Path = ROOT) -> None:
             "ajax.api.ke.com", "file.ljcdn.com", "img.ljcdn.com",
             "bkzhibo.com", "www.lianjia.com", "www.anjuke.com",
             "www.fang.com",
+            "landingpage.ke.com", "marketing.ke.com",
         ),
     )
 
